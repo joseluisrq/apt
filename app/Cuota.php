@@ -1,0 +1,22 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Cuota extends Model
+{
+    //
+    protected $table='cuotas';
+    protected $fillable =[
+        'idusuario',
+        'idcredito',
+        'fechapago',
+        'fechacancelacion',
+        'saldopendiente',
+        'monto',
+        'otroscostos',
+        'descripcion',
+         'estado',
+    ];
+}
