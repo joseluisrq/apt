@@ -9,30 +9,34 @@
                      </template>
 
                      <template v-if="menu==1">
-                            <user></user>
+                          
                      </template>
                      
                      <template v-if="menu==2">
-                            <rol></rol>
+                            
                      </template>
                      
                      <template v-if="menu==3">
-                          <cliente></cliente>
-                     </template>
-                     
-                     <template v-if="menu==4">
                             <credito></credito>
                      </template>
                      
+                     <template v-if="menu==4">
+                          
+                            <cliente></cliente>
+                     </template>
+                     
                      <template v-if="menu==5">
-                            <h1>Asiganar Credito</h1>       
+                            <user></user>   
                      </template>
 
                      <template v-if="menu==6">
-                            <h1>Reportes</h1>       
+                            <rol></rol>
                      </template>
 
                      <template v-if="menu==7">
+                            <h1>Ayuda de</h1>       
+                     </template>
+                     <template v-if="menu==8">
                             <h1>Acerca de</h1>       
                      </template>
                          

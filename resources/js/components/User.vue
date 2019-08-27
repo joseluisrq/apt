@@ -123,9 +123,9 @@
                     <div class="modal-content">
                     
                         <!-- Modal Header -->
-                        <div class="modal-header card">
-                        <h4 class="text-center" > 
-                             <button type="button" class="close"  @click="cerrarModal()" data-dismiss="modal">&times;</button>
+                        <div class="">
+                        <h4 class="text-center  mt-2" > 
+                             <button type="button" class="close"  @click="cerrarModal()" data-dismiss="modal">&times; </button>
                              {{tituloModal}} </h4>                         
                        
                     
@@ -134,82 +134,62 @@
                         <!-- Modal body -->
                         <div class="modal-body card">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="text-input">DNI (*)</label>
-                                        <div class="col-md-8">
-                                            <input type="text" v-model="dni" class="form-control" placeholder="DNI">                                        
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="text-input">Nombre (*)</label>
-                                        <div class="col-md-8">
-                                            <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">                                        
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="text-input">Apellido Paterno (*)</label>
-                                        <div class="col-md-8">
-                                            <input type="text" v-model="apellidopaterno" class="form-control" 
-                                            placeholder="Primer Apellido">                                        
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="text-input">Apellido Materno (*)</label>
-                                        <div class="col-md-8">
-                                            <input type="text" v-model="apellidomaterno" class="form-control" placeholder="Apellido Materno">                                        
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="text-input">Fecha de Nacimiento</label>
-                                        <div class="col-md-8">
-                                            <input type="date" v-model="fechanacimiento" class="form-control" >                                        
-                                        </div>
-                                    </div>
-                            
-                                
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="email-input">Dirección</label>
-                                        <div class="col-md-8">
-                                            <input type="text" v-model="direccion" class="form-control" placeholder="Dirección">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="email-input">Teléfono</label>
-                                        <div class="col-md-8">
-                                            <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="email-input">Email</label>
-                                        <div class="col-md-8">
-                                            <input type="email" v-model="email" class="form-control" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="email-input">Rol (*)</label>
-                                        <div class="col-md-8">
-                                            <select class="form-control" v-model="idrol">
-                                                <option value="0">Seleccione un rol</option>
-                                                <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre">
 
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="email-input">Usuario (*)</label>
-                                        <div class="col-md-8">
-                                            <input type="text" v-model="usuario" class="form-control" placeholder="Nombre de usuario">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 form-control-label" for="email-input">Password (*)</label>
-                                        <div class="col-md-8">
-                                            <input type="password" v-model="password" class="form-control" placeholder="Password de acceso">
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label class=" form-control-label" for="text-input">DNI (*)</label>
+                                    <input type="text" v-model="dni" class="form-control" placeholder="DNI">                                              
+                                </div>
+                                <div class="col-md-6  form-group">
+                                    <label class=" form-control-label" for="text-input">Nombres(*)</label>
+                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">                                        
+                                </div>
+                                <div class="col-md-6  form-group">
+                                     <label class="form-control-label" for="text-input">Apellido Paterno (*)</label>
+                                     <input type="text" v-model="apellidopaterno" class="form-control" 
+                                            placeholder="Primer Apellido">   
+                                </div>
+                                <div class="col-md-6  form-group">
+                                      <label class=" form-control-label" for="text-input">Apellido Materno (*)</label>               
+                                      <input type="text" v-model="apellidomaterno" class="form-control" placeholder="Apellido Materno">                                        
+                                </div>
+                                <div class="col-md-6 form-group ">
+                                        <label class="form-control-label" for="text-input">Fecha de Nacimiento</label>
+                                         <input type="date" v-model="fechanacimiento" class="form-control" >    
+                                </div>
+                                <div class="col-md-6 form-group ">
+                                        <label class=" form-control-label" for="email-input">Dirección</label>
+                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección"> 
+                                </div>
 
+                                <div class="col-md-6 form-group">
+                                     <label class=" form-control-label" for="email-input">Teléfono</label>
+                                    <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
+                                 </div>
+
+                                <div class="col-md-6 form-group ">
+                                    <label class=" form-control-label" for="email-input">Email</label>
+                                    <input type="email" v-model="email" class="form-control" placeholder="Email">
+                                </div>
+
+                                <div class="col-md-12 form-group ">
+                                    <label class="form-control-label" for="email-input">Rol (*)</label>
+                                     <select class="form-control" v-model="idrol">
+                                        <option value="0">Seleccione un rol</option>
+                                        <option v-for="rol in arrayRol" :key="rol.id" :value="rol.id" v-text="rol.nombre"></option>
+                                      </select>
+                                  </div>
+                                   <div class="col-md-6 form-group">
+                                        <label class="form-control-label" for="email-input">Usuario (*)</label>
+                                       <input type="text" v-model="usuario" class="form-control" placeholder="Nombre de usuario">
+                                       
+                                    </div>
+                                    <div class="col-md-6 form-group ">
+                                        <label class=" form-control-label" for="email-input">Password (*)</label>
+                                        <input type="password" v-model="password" class="form-control" placeholder="Password de acceso">
+                                    </div>
+                             
+                             </div>
                                     <div v-show="errorPersona" class="form-group row div-error">
                                         <div class="text-center text-error">
                                             <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
@@ -585,6 +565,7 @@
 }
 .modal-body{
     height: 500px;
+   
     overflow-y: auto;
 }
 
