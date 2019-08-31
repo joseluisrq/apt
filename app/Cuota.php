@@ -19,4 +19,8 @@ class Cuota extends Model
         'descripcion',
          'estado',
     ];
+
+    public function usuario(){
+        return  $this->belongsTo('App\User');
+    }
 }

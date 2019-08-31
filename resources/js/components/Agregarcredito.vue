@@ -3,12 +3,145 @@
 
     <main class="">
 
-        <!-- Button trigger modal -->
+<!--formulario ingreso de credito-->
+    <template v-if="listado"><!--me permite visualizar o cocultar el formulario-->
+        <div class="row  form-group">
+           <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="text-center">Nuevo Crédito</h4>
+                      <hr>
+                      <p class="card-description">
+                        Insertar la información requerida
+                      </p>
+                      <form class="forms-sample">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">Cliente(*)</label>
+                               <v-select
+                                  :on-search="selectCliente"
+                                        label="dni"
+                                        :options="arrayCliente"
+                                        placeholder="Ingrese DNI del cliente..."
+                                        :onChange="getDatosCliente"     
+                                   >
+                                </v-select>
+                                <div v-if="idcliente!=0">
+                                    <label class="badge badge-dark" v-text="nombrecliente+' '+apellidopaterno+' '+apellidomaterno">
+
+                                    </label>
+                                </div>
+                               
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="exampleInputEmail1">Identificador de prestamo:</label>
+                                <input type="text" class="form-control"  v-model="numeroprestamo"   placeholder="Ejemplo SMXXXXX">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="exampleInputPassword1">Identificador KIVA:</label>
+                                <input type="text" class="form-control"   v-model="idkiva"  placeholder="Identificador KIVA">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="exampleInputPassword1">Monto desembolsado:</label>
+                                <input type="number" class="form-control" step="any" v-model="montodesembolsado"  placeholder="">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="exampleInputPassword1">Fecha de desembolso:</label>
+                                <input type="date" class="form-control" v-model="fechadesembolso"  placeholder="">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="exampleInputPassword1">Número Cuotas:</label>
+                                <input type="number" class="form-control"  v-model="numerocuotas" placeholder="Número Cuotas">
+                            </div>
+                             <div class="form-group col-md-3">
+                                <label for="exampleInputPassword1">Tipo de Cambio</label>
+                                <input type="number" class="form-control"  v-model="tipocambio"   placeholder="Número Cuotas">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="exampleInputPassword1">Tasa de Interes</label>
+                                <input type="number" class="form-control"  v-model="tasa"   placeholder="Número Cuotas">
+                            </div>
+                             <div class="form-group col-md-3">
+                                <label for="exampleFormControlSelect1">Periodo</label>
+                                <select class="form-control form-control-lg" v-model="periodo">
+                                <option value="1">Mensual</option>
+                                <option value="2">Bimestral</option>
+                                <option value="3">Trimestral</option>
+                                <option value="6">Semestral</option>
+                                <option value="12">Anual</option>
+                                </select>
+                            </div>
+
+                             <div class="form-group col-12">
+                                <button type="button" class="btn btn-primary mr-2" @click="agregarCuotas()"> Generar Cuotas</button>
+                             
+                             </div>
+                            
+                            <hr>
+                            <div class="col-12 mt-4">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Cuota</th>
+                                            <th>Monto</th>
+                                            <th>Saldo Pendiente</th>
+                                            <th>Fecha de Pago</th>
+                                            <th>Otros Pagos</th>
+                                            <th>Descripcion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody v-if="arrayCuota.length">
+                                        <tr v-for="cuota in arrayCuota" :key="cuota.id">
+                                            <td> 
+                                               {{cuota.contador}}
+                                            </td>
+                                            <td> 
+                                                <input type="number" class="form-control"   v-model="cuota.monto"  placeholder="Número Cuotas">
+                                            </td>
+                                           <td> 
+                                                <input type="number" class="form-control"  v-model="cuota.saldopendiente"   placeholder="Número Cuotas">
+                                            </td>
+                                            <td> 
+                                                <input type="date" class="form-control"  v-model="cuota.fechapago"   placeholder="Número Cuotas">
+                                            </td>
+                                            <td> 
+                                                <input type="number" class="form-control"  v-model="cuota.otroscostos"   placeholder="Número Cuotas">
+                                            </td>
+                                            <td> 
+                                                <input type="text" class="form-control"  v-model="cuota.descripcion"   placeholder="Número Cuotas">
+                                            </td> 
+                                        </tr>
+                                        
+                                    </tbody>
+                                    <tbody v-else>
+                                        <tr>
+                                            <td colspan="6">
+                                                Indique la cantidad de cuotas
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
 
 
-<!-- Modal -->
+                        
+                         <div v-if="listacuotas==1" class="form-group col-4">
+                            <button type="button" class="btn btn-success mr-2" @click="registrarCredito()">Registrar Credito</button>
+                            <button class="btn btn-light">Limpiar Campos</button>
+                         </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+        </div>
+    </template>
+<!--fin formulario ingreso de credito-->
 
-
+    <!--listade creditos-->
+    <template v-else>
         <div class="row">
              <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
@@ -40,7 +173,7 @@
                             </div>
                             <div class="col-md-3 col-sm-11">
                                 
-                                     <button class="btn btn-outline-primary justify-content-end" @click="abrirModal('credito','registrar')">
+                                     <button class="btn btn-outline-primary justify-content-end" @click="ocultarCreditos()">
                                     <span class="fa fa-plus"></span> agregar credito</button>
 
                                     
@@ -112,7 +245,8 @@
                 </div>
             </div>
         </div>
-            <!-- Breadcrumb -->
+    </template> 
+    <!--finde lista de creditos-->
         
 
 
@@ -163,9 +297,11 @@
 </template>
 
 <script>
+import vSelect from 'vue-select'
     export default {
         data (){
             return {
+                //variables para credito
                 credito_id: 0,
                 numeroprestamo : '',
                 idkiva : '',
@@ -173,14 +309,35 @@
                 fechadesembolso : '',
                 numerocuotas : 0,
                 tipocambio : 0.0,
-
+                tasa : 0.0,
                 estado : '',
-                periodo : '1',
+                periodo : 1,
+
+//variables para clientes
+                idcliente:0,
+                nombrecliente:'',
+                apellidopaterno:'',
+                apellidomaterno:'',
+
+//variables para cuotas
+                monto:0,
+                fechapago:'',
+                saldopendiente:0.0,
+                otroscostos:0.0,
+                descripcion:'',
+
+                listacuotas:0,
 
 
-              
+//para mostrar oocultar dormulario
+                listado:1,
+
+                
+
                 arrayCredito : [], //alamacenar el credito
                 arrayCuota : [], //alamcenar todas las cuotas
+                arrayCliente:[],
+                
                 
                 modal : 0,
                 tituloModal : '',
@@ -199,6 +356,9 @@
                 criterio : 'numeroprestamo', //inicializamos el criterio de busqueda
                 buscar : ''
             }
+        },
+        components:{
+            vSelect
         },
         computed:{
             isActived: function(){
@@ -242,16 +402,28 @@
                     console.log(error);
                 });
             },
-            selectRol(){
-                let me=this;
-                var url= '/rol/selectRol';
+            selectCliente(search, loading){
+                 let me=this;
+                 loading(true)
+                var url= '/cliente/selectCliente?filtro='+search;
                 axios.get(url).then(function (response) {
-                    var respuesta= response.data;
-                    me.arrayRol = respuesta.roles;
+                    let respuesta= response.data;
+                    q:search;
+                    me.arrayCliente = respuesta.clientes;
+                    loading(false)
+                    
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+            },
+            getDatosCliente(val1){
+                let me=this;
+                me.loading=true;
+                me.idcliente=val1.id;
+                me.nombrecliente=val1.nombre;
+                me.apellidopaterno=val1.apellidopaterno;
+                me.apellidomaterno=val1.apellidomaterno
             },
             cambiarPagina(page,buscar,criterio){
                 let me = this;
@@ -260,6 +432,54 @@
                 //Envia la petición para visualizar la data de esa página
                 me.listarCredito(page,buscar,criterio);
             },
+
+            agregarCuotas(){
+                
+                this.arrayCuota.length=0;
+                let me=this;
+                var montotal=this.montodesembolsado;
+                
+                
+                let interes=(parseFloat(montotal)*parseFloat(this.tasa))/100;
+                let montoconinteres=(parseFloat(montotal) + parseFloat(interes)).toFixed(2);
+                
+                var montoxcuota=((montoconinteres)/this.numerocuotas).toFixed(2);
+                var sininteres=(parseFloat(this.montodesembolsado)/this.numerocuotas).toFixed(2);
+
+                var pendiente=this.montodesembolsado;
+                var fechapagoxcuota=this.fechadesembolso;
+                var contadoraux=1;
+               
+               var fecha = new Date(fechapagoxcuota);
+
+                for (let i = 0; i < this.numerocuotas; i++) { 
+                 
+                // pendiente=sininteres-montoxcuota;
+                 pendiente=(montotal-sininteres).toFixed(2);
+
+                 me.arrayCuota.push({
+                    //(monto total+tasa)/cantidadde cuotas
+                   
+                    monto:montoxcuota,
+                    fechapago:fecha,
+                    saldopendiente:pendiente,
+                    otroscostos:0.0,
+                    descripcion:'',
+                    contador:contadoraux,
+
+                  
+                })
+                  montotal=pendiente;
+                  contadoraux++;
+                  //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
+                }
+               
+
+
+                this.listacuotas=1;
+               
+            },
+
             registrarPersona(){
                 if (this.validarPersona()){
                     return;
@@ -286,6 +506,9 @@
                 }).catch(function (error) {
                     console.log(error);
                 });
+            },
+            registrarCredito(){
+             this.mostrarCreditos();
             },
             actualizarPersona(){
                if (this.validarPersona()){
@@ -326,6 +549,12 @@
                 if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
 
                 return this.errorPersona;
+            },
+            mostrarCreditos(){
+                this.listado=0;
+            },
+            ocultarCreditos(){
+                this.listado=1;
             },
             cerrarModal(){
                 this.modal=0;

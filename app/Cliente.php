@@ -9,7 +9,7 @@ class Cliente extends Model
      //
      protected $table = 'clientes';
      protected $fillable = [
-         'id', 'estado'
+         'id', 'estado','estadocredito'
      ];
   
      public $timestamps = false;

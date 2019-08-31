@@ -13,7 +13,7 @@
                      </template>
                      
                      <template v-if="menu==2">
-                            
+                            <agregarcredito></agregarcredito>
                      </template>
                      
                      <template v-if="menu==3">

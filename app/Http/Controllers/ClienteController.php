@@ -11,7 +11,7 @@ class ClienteController extends Controller
 {
     public function index(Request $request)
     {
-        //if (!$request->ajax()) return redirect('/');
+        if (!$request->ajax()) return redirect('/');
  
         $buscar = $request->buscar;
         $criterio = $request->criterio;
@@ -31,7 +31,7 @@ class ClienteController extends Controller
             'personas.estado as estado_per',
             'clientes.estado as estado_cli'
             )
-            ->orderBy('personas.id', 'desc')->paginate(3);
+            ->orderBy('personas.id', 'desc')->paginate(10);
         }
         else{
             $personas = Cliente::join('personas','clientes.id','=','personas.id')
@@ -49,7 +49,7 @@ class ClienteController extends Controller
                 'clientes.estado as estado_cli'
             )            
             ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('personas.id', 'desc')->paginate(3);
+            ->orderBy('personas.id', 'desc')->paginate(10);
         }
          
  
@@ -134,6 +134,49 @@ class ClienteController extends Controller
             DB::rollBack();
         }
  
+    }
+
+    public function selectCliente(Request $request){
+        //if (!$request->ajax()) return redirect('/');
+
+        $filtro = $request->filtro;
+
+        $clientes = Cliente::join('personas','clientes.id','=','personas.id')
+        //->where('clientes.estadocredito', '=', '1')
+        ->where('personas.dni', 'like', '%'. $filtro . '%')
+        ->orWhere('personas.nombre', 'like', '%'. $filtro . '%')
+       
+        ->select('personas.id','personas.nombre','personas.apellidopaterno','personas.apellidomaterno','personas.dni','clientes.estadocredito')
+        ->orderBy('personas.nombre', 'asc')->get();
+
+        return ['clientes' => $clientes];
+    }
+
+    public function listarArticuloVenta(Request $request)
+    {
+       // if (!$request->ajax()) return redirect('/');
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+        
+        if ($buscar==''){
+            $clientes = Cliente::join('personas','personas.id','=','clientes.id')
+            ->select('personas.id','personas.nombre','personas.apellidopaterno','personas.apellidomaterno'
+            )
+            //->where('personas.estado','=','0')
+            ->orderBy('personas.id', 'desc')->paginate(10);
+        }
+        else{
+            $clientes = Cliente::join('personas','personas.id','=','clientes.id')
+            ->select('personas.id','personas.nombre','personas.apellidopaterno','personas.apellidomaterno'
+            )
+            ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')
+           // ->where('articulos.stock','>','0')
+            ->orderBy('clientes.id', 'desc')->paginate(10);
+        }
+        
+
+        return ['clientes' => $clientes];
     }
 }
 

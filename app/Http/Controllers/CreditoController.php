@@ -33,7 +33,9 @@ class CreditoController extends Controller
                 'creditos.tasa',
                 'creditos.estado',
                 'creditos.periodo',
-                'personas.nombre','users.usuario')
+                'personas.nombre',
+                'personas.apellidopaterno',
+                'personas.apellidomaterno','users.usuario')
             ->orderBy('creditos.id', 'desc')->paginate(3);
         }
         else{
@@ -51,7 +53,9 @@ class CreditoController extends Controller
                 'creditos.tasa',
                 'creditos.estado',
                 'creditos.periodo',
-                'personas.nombre','users.usuario')
+                'personas.nombre',
+                'personas.apellidopaterno',
+                'personas.apellidomaterno','users.usuario')
             ->where('creditos.'.$criterio, 'like', '%'. $buscar . '%')
             ->orderBy('creditos.id', 'desc')->paginate(3);
         }
@@ -65,7 +69,7 @@ class CreditoController extends Controller
                 'from'         => $creditos->firstItem(),
                 'to'           => $creditos->lastItem(),
             ],
-            'ventas' => $creditos
+            'creditos' => $creditos
         ];
     }
     public function obtenerCabecera(Request $request){
@@ -120,7 +124,7 @@ class CreditoController extends Controller
         try{
             DB::beginTransaction();
  
-            //$mytime= Carbon::now('America/Lima');
+           
  
             $credito = new Credito();
             
@@ -129,31 +133,32 @@ class CreditoController extends Controller
             $credito->numeroprestamo = $request->numeroprestamo;
             $credito->idkiva = $request->idkiva;
             $credito->montodesembolsado = $request->montodesembolsado;
-            $credito->fechadesembolso = $request->fechadesembolso;
-            $credito->numerocuotas = $request->numerocuotas;
-            $credito->tipocambio = $request->tipocambio;
+            $credito->fechadesembolso = $request->fechadesembolso; 
+            $credito->numerocuotas = $request->numerocuotas; //cantidad de cuiotas
+            $credito->tipocambio = $request->tipocambio; //de dolares a soles
             $credito->tasa = $request->tasa;
-            $credito->estado = $request->estado;
-            $credito->periodo = $request->periodo;
+            $credito->estado = '1'; //Credito activo /2 credito inactivo //3 credito pagado completado
+            $credito->periodo = $request->periodo; //1mensual/2bimensual/3trimestral/6semmestral/12anual
           
             $credito->save();
  
             $cuotas = $request->data;//Array de cuotas
-            //Recorro todos los elementos
+            //Recorro todos los elementosq que me han enviado
  
             foreach($cuotas as $ep=>$cuot)
             {
                 $cuota = new Cuota();
-                
+                $mytime= Carbon::now('America/Lima');
+
                 $cuota->idcredito = $credito->id;
                 $cuota->idusuario=\Auth::user()->id;
-                $cuota->fechapago = '';
-                $cuota->fechacancelacion = ''; //$cuot['fechacancelacion'];
-                $cuota->saldopendiente = 0; //$cuot['fechacancelacion'];
-                $cuota->monto = 0; //$cuot['fechacancelacion'];   
-                $cuota->otroscostos = 0; //$cuot['fechacancelacion'];     
-                $cuota->descripcion = 'Registro Nuevo'; //$cuot['fechacancelacion']; 
-                $cuota->estado = '1'; //$cuot['fechacancelacion'];        
+                $cuota->fechapago = $cuot['fechapago'];
+                $cuota->fechacancelacion =$mytime->toDateString();
+                $cuota->saldopendiente =  $cuot['saldopendiente']; //$cuot['fechacancelacion'];
+                $cuota->monto = $cuot['monto']; //$cuot['fechacancelacion'];   
+                $cuota->otroscostos =  $cuot['otroscostos'];; //$cuot['fechacancelacion'];     
+                $cuota->descripcion =  $cuot['descripcion']; //$cuot['fechacancelacion']; 
+                $cuota->estado = '0'; //0 por pagar //1 pagado 
                              
                 $cuota->save();
             }          
