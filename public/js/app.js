@@ -3468,6 +3468,8 @@ __webpack_require__.r(__webpack_exports__);
           })["catch"](function () {
             console.log(error);
           });
+
+          _this.historialcredito(1, _this.buscar, _this.criterio);
         } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel) {// swalWithBootstrapButtons.fire(

@@ -606,10 +606,11 @@ import vSelect from 'vue-select'
                                     console.log(error);
                                 });
 
-                           
+                           this.historialcredito(1,this.buscar,this.criterio);
                         } else if (
                             /* Read more about handling dismissals below */
                             result.dismiss === Swal.DismissReason.cancel
+
                         ) {
                            // swalWithBootstrapButtons.fire(
                                 //mensaje cuando cancelamos

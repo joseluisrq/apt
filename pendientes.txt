@@ -1,0 +1,9 @@
+1. El historial creditos 
+1.1 cuando elimine enviar al historial de creditos
+1.2. fATAL LOS BOTONES DE GENERAR PDF, EDITAR
+
+
+2. eN ASIGNAR creditos
+2.1 Falta editar creditos
+
+En un credito falta guardar el historial del usuario que  actualiza, para tener un reporte de cambios y control
