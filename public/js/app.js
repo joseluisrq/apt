@@ -2157,19 +2157,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       //variables para credito
       credito_id: 0,
-      numeroprestamo: 'SM20150001',
+      numeroprestamo: '',
       idkiva: '',
       montodesembolsado: 0.0,
       fechadesembolso: '',
       numerocuotas: 0,
       tipocambio: 0.0,
-      tasa: 0.0,
+      tasa: 13,
       estado: '',
       periodo: 1,
       //variables para clientes
@@ -2186,12 +2189,14 @@ __webpack_require__.r(__webpack_exports__);
       descripcion: '',
       listacuotas: 0,
       //para mostrar oocultar dormulario
-      listado: 0,
+      listado: 1,
+      editarvar: 0,
       arrayCredito: [],
       //alamacenar el credito
       arrayCuota: [],
       //alamcenar todas las cuotas
       arrayCliente: [],
+      arrayCuotasnuevo: [],
       modal: 0,
       tituloModal: '',
       tipoAccion: 0,
@@ -2250,7 +2255,7 @@ __webpack_require__.r(__webpack_exports__);
     //lisar credito luego se aver sido insertado el credito
     listarCredito: function listarCredito() {
       var me = this;
-      var url = '/credito/creditosCliente?numeroprestamo=' + me.numeroprestamo;
+      var url = '/credito/creditosCliente?idkiva=' + me.idkiva;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayCredito = respuesta.creditos;
@@ -2262,14 +2267,81 @@ __webpack_require__.r(__webpack_exports__);
     //listar cuotas luego de ingresar el credito
     listarCuotas: function listarCuotas() {
       var me = this;
-      var url = '/credito/creditosCliente?numeroprestamo=' + me.numeroprestamo;
+      var url = '/credito/cuotasClientenuevo?idkiva=' + me.idkiva;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
-        me.arrayCredito = respuesta.creditos;
-        me.listarCuotas();
+        me.arrayCuotasnuevo = respuesta.cuotas;
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    //editar credito
+    editarCredito: function editarCredito() {
+      this.listado = 1;
+      var me = this;
+      me.editarvar = 1;
+    },
+    //editar credito
+    eliminarCredito: function eliminarCredito() {
+      var _this = this;
+
+      var swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      });
+      swalWithBootstrapButtons.fire({
+        title: '¿Esta seguro de eliminar este crédito?',
+        // text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true
+      }).then(function (result) {
+        if (result.value) {
+          //usamos axios para desactivar
+          var me = _this;
+          axios.put('/credito/desactivar', {
+            //hacemos referencia a la ruta que creamos
+            'id': me.arrayCredito[0].id
+          }).then(function (response) {
+            //de una ves que se ejecuto mostramos le mensaje de desactivado
+            me.nuevoCredito();
+            swalWithBootstrapButtons.fire('Eliminado!', 'El registro ha sido eliminado con éxito', 'success');
+          })["catch"](function () {
+            console.log(error);
+          });
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {// swalWithBootstrapButtons.fire(
+          //mensaje cuando cancelamos
+
+          /*'Cancelled',
+          /'Your imaginary file is safe :)',
+          'error'*/
+          //  )
+        }
+      });
+    },
+    nuevoCredito: function nuevoCredito() {
+      var me = this;
+      me.idkiva = '';
+      this.listado = 1;
+      me.idcliente = 0;
+      me.numeroprestamo = ''; //me.idkiva='';
+
+      me.montodesembolsado = 0.0;
+      me.fechadesembolso = '';
+      me.numerocuotas = 0;
+      me.tipocambio = 0.0;
+      me.tasa = 0.0;
+      me.periodo = '';
+      me.arrayCuota = [];
+      me.arrayCliente = [];
+      this.listacuotas = 0;
     },
     selectCliente: function selectCliente(search, loading) {
       var me = this;
@@ -2354,17 +2426,7 @@ __webpack_require__.r(__webpack_exports__);
         'idcliente': this.idcliente,
         'data': this.arrayCuota
       }).then(function (response) {
-        me.idcliente = 0; //me.numeroprestamo='';
-
-        me.idkiva = '';
-        me.montodesembolsado = 0.0;
-        me.fechadesembolso = '';
-        me.numerocuotas = 0;
-        me.tipocambio = 0.0;
-        me.tasa = 0.0;
-        me.periodo = '';
-        me.arrayCuota = [];
-        me.arrayCliente = [], me.listado = 0;
+        me.listado = 0;
         me.listarCredito();
         Swal.fire({
           position: 'top-end',
@@ -2393,8 +2455,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.errorCredito;
     }
   },
-  mounted: function mounted() {
-    this.listarCredito();
+  mounted: function mounted() {//this.listarCredito();
   }
 });
 
@@ -40899,7 +40960,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm.listacuotas == 1
+                      _vm.editarvar == 0
                         ? _c("div", { staticClass: "form-group col-4" }, [
                             _c(
                               "button",
@@ -40915,11 +40976,35 @@ var render = function() {
                               [_vm._v("Registrar Credito")]
                             ),
                             _vm._v(" "),
-                            _c("button", { staticClass: "btn btn-light" }, [
-                              _vm._v("Limpiar Campos")
-                            ])
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-light",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nuevoCredito()
+                                  }
+                                }
+                              },
+                              [_vm._v("Limpiar Campos")]
+                            )
                           ])
-                        : _vm._e()
+                        : _c("div", { staticClass: "form-group col-4" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success mr-2",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editarCredito()
+                                  }
+                                }
+                              },
+                              [_vm._v("ActualizarCredito")]
+                            )
+                          ])
                     ])
                   ])
                 ])
@@ -40936,7 +41021,37 @@ var render = function() {
                     return _c("div", { key: credito.id, staticClass: "row" }, [
                       _vm._m(2, true),
                       _vm._v(" "),
-                      _vm._m(3, true),
+                      _c("div", { staticClass: "col-md-2" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.editarCredito()
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-pencil" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.eliminarCredito()
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-trash-o" })]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(3, true)
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-1" }, [
                         _c(
@@ -40946,7 +41061,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                return _vm.ocultarCreditos()
+                                return _vm.nuevoCredito()
                               }
                             }
                           },
@@ -41210,9 +41325,53 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "tbody",
-                          _vm._l(_vm.arrayCredito, function(credito) {
-                            return _c("tr", { key: credito.id }, [
-                              _c("td", { staticClass: "py-1" })
+                          _vm._l(_vm.arrayCuotasnuevo, function(cuotanuevo) {
+                            return _c("tr", { key: cuotanuevo.id }, [
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.fechapago)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.monto)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.saldopendiente)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.otroscostos)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.descripcion)
+                                }
+                              }),
+                              _vm._v(" "),
+                              cuotanuevo.estado == 0
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-danger" },
+                                      [_vm._v("Pendiente")]
+                                    )
+                                  ])
+                                : _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-success" },
+                                      [_vm._v("Pagado")]
+                                    )
+                                  ])
                             ])
                           }),
                           0
@@ -41275,25 +41434,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-warning btn-sm", attrs: { type: "button" } },
-        [_c("i", { staticClass: "fa fa-pencil" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-danger btn-sm", attrs: { type: "button" } },
-        [_c("i", { staticClass: "fa fa-trash-o" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-info btn-sm", attrs: { type: "button" } },
-        [_c("i", { staticClass: "fa fa-file-pdf-o" })]
-      )
-    ])
+    return _c(
+      "button",
+      { staticClass: "btn btn-info btn-sm", attrs: { type: "button" } },
+      [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+    )
   },
   function() {
     var _vm = this
@@ -41301,29 +41446,21 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "table-bordered " }, [
       _c("tr", { staticClass: "font-weight-bold" }, [
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Opciones")]),
-        _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Numero de Prestamo")
+          _vm._v("Fecha de Pago")
         ]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("ID kiva")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cliente")]),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cuota")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Monto de Desembolso")
+          _vm._v("Saldo Pendiente")
         ]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Fecha de Desembolso")
-        ]),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Otros Costos")]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Numero de Cuotas")
-        ]),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Descripcion")]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Estado")])
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Pago")])
       ])
     ])
   }

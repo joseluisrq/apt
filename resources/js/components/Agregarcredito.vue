@@ -1,7 +1,5 @@
 <template>
-
-
-    <main class="">
+ <main class="">
 
 <!--formulario ingreso de credito-->
     <template v-if="listado"><!--me permite visualizar o cocultar el formulario-->
@@ -85,7 +83,7 @@
                             </div>
 
                              <div class="form-group col-12">
-                                <button type="button" class="btn btn-primary mr-2" @click="agregarCuotas()"> Generar Cuotas</button>
+                                <button type="button"  class="btn btn-primary mr-2" @click="agregarCuotas()"> Generar Cuotas</button>
                              
                              </div>
                             
@@ -147,9 +145,13 @@
                         </div>
 
                         
-                         <div v-if="listacuotas==1" class="form-group col-4">
+                         <div v-if="editarvar==0" class="form-group col-4">
                             <button type="button" class="btn btn-success mr-2" @click="registrarCredito()">Registrar Credito</button>
-                            <button class="btn btn-light">Limpiar Campos</button>
+                            <button type="button" class="btn btn-light"  @click="nuevoCredito()">Limpiar Campos</button>
+                         </div>
+                         <div v-else class="form-group col-4">
+                            <button type="button" class="btn btn-success mr-2" @click="editarCredito()">ActualizarCredito</button>
+                           
                          </div>
                       </form>
                     </div>
@@ -172,14 +174,14 @@
                       </div>
                     
                      <div class="col-md-2">
-                          <button type="button" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></button>
-                           <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                          <button type="button" class="btn btn-warning btn-sm"  @click="editarCredito()"><i class="fa fa-pencil"></i></button>
+                           <button type="button" class="btn btn-danger btn-sm" @click="eliminarCredito()"><i class="fa fa-trash-o"></i></button>
                             <button type="button" class="btn btn-info btn-sm"><i class="fa fa-file-pdf-o"></i></button>
                            
                      </div>
                     
                      <div class="col-md-1">
-                          <button type="button" class="btn btn-success btn-sm"  @click="ocultarCreditos()"><i class="fa fa-plus-circle"></i></button>
+                          <button type="button" class="btn btn-success btn-sm"  @click="nuevoCredito()"><i class="fa fa-plus-circle"></i></button>
                      </div>
                  
                     <div class="col-md-12">
@@ -273,21 +275,31 @@
                         <table class="table  table-bordered ">
                             <thead class="table-bordered ">
                                 <tr class="font-weight-bold">
-                                        <th class="font-weight-bold">Opciones</th>
-                                        <th class="font-weight-bold">Numero de Prestamo</th>
-                                        <th class="font-weight-bold">ID kiva</th>
-                                        <th class="font-weight-bold">Cliente</th>
-                                        <th class="font-weight-bold">Monto de Desembolso</th>
-                                        <th class="font-weight-bold">Fecha de Desembolso</th>
-                                        <th class="font-weight-bold">Numero de Cuotas</th>
-                                        <th class="font-weight-bold">Estado</th>
+                                    <th class="font-weight-bold">Fecha de Pago</th>
+                                    <th class="font-weight-bold">Cuota</th>
+                                    <th class="font-weight-bold">Saldo Pendiente</th>
+                                    <th class="font-weight-bold">Otros Costos</th>
+                                    <th class="font-weight-bold">Descripcion</th>
+                                    <th class="font-weight-bold">Pago</th>
+                                        
                                     
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="credito in arrayCredito" :key="credito.id">
-                                <td class="py-1">
-                                </td>
+                                <tr v-for="cuotanuevo in arrayCuotasnuevo" :key="cuotanuevo.id">
+                                     <td v-text="cuotanuevo.fechapago"></td>
+                                     <td v-text="cuotanuevo.monto"></td>
+                                    <td v-text="cuotanuevo.saldopendiente"></td>
+                                    <td v-text="cuotanuevo.otroscostos"></td>
+                                    <td v-text="cuotanuevo.descripcion"></td>
+                                    <td v-if="cuotanuevo.estado==0">
+                                        <label class="badge badge-danger">Pendiente</label>
+                                    </td>
+                                     <td v-else>
+                                         <label class="badge badge-success">Pagado</label>
+                                     </td>
+                                  
+                                   
                                          
                                     
                                 </tr>                 
@@ -302,17 +314,8 @@
         </div>
     </template> 
     <!--finde lista de creditos-->
-        
 
-
-
-            <!--Inicio del modal agregar/actualizar-->
-               <!--Inicio del modal agregar/actualizar-->
-          
-            <!--Fin del modal-->
-            <!--Fin del modal-->
-        </main>
-
+   </main>
 </template>
 
 <script>
@@ -322,13 +325,13 @@ import vSelect from 'vue-select'
             return {
                 //variables para credito
                 credito_id: 0,
-                numeroprestamo : 'SM20150001',
+                numeroprestamo : '',
                 idkiva : '',
                 montodesembolsado : 0.0,
                 fechadesembolso : '',
                 numerocuotas : 0,
                 tipocambio : 0.0,
-                tasa : 0.0,
+                tasa : 13,
                 estado : '',
                 periodo : 1,
 
@@ -350,13 +353,15 @@ import vSelect from 'vue-select'
 
 
 //para mostrar oocultar dormulario
-                listado:0,
+                listado:1,
+                editarvar:0,
 
                 
 
                 arrayCredito : [], //alamacenar el credito
                 arrayCuota : [], //alamcenar todas las cuotas
                 arrayCliente:[],
+                arrayCuotasnuevo:[],
                 
                 
                 modal : 0,
@@ -414,7 +419,7 @@ import vSelect from 'vue-select'
             listarCredito (){
                  
                 let me=this;
-                var url= '/credito/creditosCliente?numeroprestamo='+me.numeroprestamo;
+                var url= '/credito/creditosCliente?idkiva='+me.idkiva;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCredito = respuesta.creditos;
@@ -428,17 +433,95 @@ import vSelect from 'vue-select'
             //listar cuotas luego de ingresar el credito
             listarCuotas(){
                   let me=this;
-                var url= '/credito/creditosCliente?numeroprestamo='+me.numeroprestamo;
+                var url= '/credito/cuotasClientenuevo?idkiva='+me.idkiva;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    me.arrayCredito = respuesta.creditos;
-                    me.listarCuotas()
+                    me.arrayCuotasnuevo = respuesta.cuotas;
+                  
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
             },
-            
+
+            //editar credito
+            editarCredito(){
+              this.listado=1;
+              let me=this;
+              me.editarvar=1;
+              
+            },
+             //editar credito
+            eliminarCredito(){
+              
+                 const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false
+                        })
+
+                        swalWithBootstrapButtons.fire({
+                        title: '¿Esta seguro de eliminar este crédito?',
+                       // text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true
+                        }).then((result) => {
+                        if (result.value) {
+                            //usamos axios para desactivar
+                              let me=this;
+                                axios.put('/credito/desactivar',{ //hacemos referencia a la ruta que creamos
+                                    'id':me.arrayCredito[0].id
+                                }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
+                                    me.nuevoCredito();
+                                      swalWithBootstrapButtons.fire(
+                                    'Eliminado!',
+                                    'El registro ha sido eliminado con éxito',
+                                    'success'
+                                    )
+                                }).catch(function(){
+                                    console.log(error);
+                                });
+
+                           
+                        } else if (
+                            /* Read more about handling dismissals below */
+                            result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                           // swalWithBootstrapButtons.fire(
+                                //mensaje cuando cancelamos
+                            /*'Cancelled',
+                            /'Your imaginary file is safe :)',
+                            'error'*/
+                          //  )
+                        }
+                        })
+
+            },
+            nuevoCredito(){
+                let me=this;
+                    me.idkiva='';
+                    this.listado=1;
+                    me.idcliente=0;
+                    me.numeroprestamo='';
+                    //me.idkiva='';
+                    me.montodesembolsado=0.0;
+                    me.fechadesembolso='';
+                    me.numerocuotas=0;
+                    me.tipocambio=0.0;
+                    me.tasa=0.0;
+                    me.periodo='';
+
+                    me.arrayCuota=[];
+                    me.arrayCliente=[];
+
+                      this.listacuotas=0;
+            },
+
             selectCliente(search, loading){
                  let me=this;
                  loading(true)
@@ -518,7 +601,7 @@ import vSelect from 'vue-select'
                
             },
 
-         mostrarCreditos(){
+            mostrarCreditos(){
                 this.listado=0;
             },
             ocultarCreditos(){
@@ -549,18 +632,7 @@ import vSelect from 'vue-select'
                 }).then(function (response) {
 
                    
-                    me.idcliente=0;
-                    //me.numeroprestamo='';
-                    me.idkiva='';
-                    me.montodesembolsado=0.0;
-                    me.fechadesembolso='';
-                    me.numerocuotas=0;
-                    me.tipocambio=0.0;
-                    me.tasa=0.0;
-                    me.periodo='';
-
-                    me.arrayCuota=[];
-                    me.arrayCliente=[],
+                   
                  
                     me.listado=0;
                     me.listarCredito();
@@ -601,7 +673,7 @@ import vSelect from 'vue-select'
          
         },
         mounted() {
-            this.listarCredito();
+            //this.listarCredito();
         }
     }
 </script>

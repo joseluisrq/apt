@@ -38,6 +38,7 @@ class CreditoController extends Controller
                 'personas.nombre',
                 'personas.apellidopaterno',
                 'personas.apellidomaterno','users.usuario')
+            ->where('creditos.estado', '<>', '0')
             ->orderBy('creditos.id', 'desc')->paginate(3);
         }
         else{
@@ -59,6 +60,7 @@ class CreditoController extends Controller
                 'personas.apellidopaterno',
                 'personas.apellidomaterno','users.usuario')
             ->where('creditos.'.$criterio, 'like', '%'. $buscar . '%')
+            ->where('creditos.estado', '<>', '0')
             ->orderBy('creditos.id', 'desc')->paginate(3);
         }
          
@@ -75,12 +77,13 @@ class CreditoController extends Controller
         ];
     }
 
+    //mostrar el credito ingresado
     public function creditosCliente(Request $request)
     {
         //if (!$request->ajax()) return redirect('/');
        // if (!$request->ajax()) return redirect('/');
  
-        $numeroprestamo = $request->numeroprestamo;
+        $idkiva = $request->idkiva;
          $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
         ->join('personas','clientes.id','=','personas.id')
         ->select(
@@ -97,10 +100,33 @@ class CreditoController extends Controller
             'personas.nombre',
             'personas.apellidopaterno',
             'personas.apellidomaterno')
-        ->where('creditos.numeroprestamo','=',$numeroprestamo)
+        ->where('creditos.idkiva','=',$idkiva)
         ->orderBy('creditos.id', 'desc')->get();
          
         return ['creditos' => $creditos];
+
+    }
+    //selecionar las cuotas de un credito determinado //cambiar luego po rl id de credito
+    public function cuotasClientenuevo(Request $request)
+    {
+        //if (!$request->ajax()) return redirect('/');
+ 
+        $idkiva = $request->idkiva;
+         $cuotas = Cuota::join('creditos','cuotas.idcredito','=','creditos.id')
+        ->select(
+            'cuotas.id', 
+            'cuotas.monto',
+            'cuotas.fechapago',
+            'cuotas.saldopendiente',
+            'cuotas.otroscostos',
+            'cuotas.descripcion',
+            'cuotas.estado',
+            
+            )
+        ->where('creditos.idkiva','=',$idkiva)
+        ->orderBy('cuotas.id', 'asc')->get();
+         
+        return ['cuotas' => $cuotas];
 
     }
     
@@ -220,7 +246,7 @@ class CreditoController extends Controller
     {
         if (!$request->ajax()) return redirect('/');
         $cuota = Credito::findOrFail($request->id);
-        $cuota->estado = '2'; //anulado
+        $cuota->estado = '0'; //anulado
         $cuota->save();
     }
 }
