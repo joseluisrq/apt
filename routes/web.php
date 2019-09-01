@@ -50,7 +50,8 @@ Route::group(['middleware'=>['auth']],function(){
             Route::post('/cliente/registrar', 'ClienteController@store');
             Route::put('/cliente/actualizar', 'ClienteController@update');
             Route::get('/cliente/selectCliente', 'ClienteController@selectCliente');
-            Route::get('/cliente/listarArticuloVenta', 'ClienteController@listarArticuloVenta');
+            
+            
 
 
             //usuarios
@@ -69,9 +70,11 @@ Route::group(['middleware'=>['auth']],function(){
             Route::get('/credito', 'CreditoController@index');
             Route::put('/credito/desactivar', 'CreditoController@desactivar');
             Route::post('/credito/registrar', 'CreditoController@store');
+            Route::get('/credito/creditosCliente', 'CreditoController@creditosCliente');
             
             Route::get('/credito/obtenerCabecera', 'CreditoController@obtenerCabecera');
             Route::get('/credito/obtenerCuotas', 'CreditoController@obtenerCuotas');
+            
           
           
         });

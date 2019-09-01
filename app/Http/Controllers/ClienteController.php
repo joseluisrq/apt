@@ -142,9 +142,10 @@ class ClienteController extends Controller
         $filtro = $request->filtro;
 
         $clientes = Cliente::join('personas','clientes.id','=','personas.id')
-        //->where('clientes.estadocredito', '=', '1')
+        ->where('clientes.estadocredito', '=', '1') //cliente sin credito cambiar a 0
+        ->where('clientes.estado', '=', '1') //cliente activo
         ->where('personas.dni', 'like', '%'. $filtro . '%')
-        ->orWhere('personas.nombre', 'like', '%'. $filtro . '%')
+       //->orWhere('personas.nombre', 'like', '%'. $filtro . '%')
        
         ->select('personas.id','personas.nombre','personas.apellidopaterno','personas.apellidomaterno','personas.dni','clientes.estadocredito')
         ->orderBy('personas.nombre', 'asc')->get();

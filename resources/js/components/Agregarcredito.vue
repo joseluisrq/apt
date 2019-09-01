@@ -34,31 +34,43 @@
                                
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputEmail1">Identificador de prestamo:</label>
+                                <label for="exampleInputEmail1">Identificador de prestamo
+                                <span class="text-danger "   v-show="numeroprestamo==''">
+                                     (Obligatorio)</span></label>
                                 <input type="text" class="form-control"  v-model="numeroprestamo"   placeholder="Ejemplo SMXXXXX">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Identificador KIVA:</label>
+                                <label for="exampleInputPassword1">Identificador KIVA:
+                                    <span class="text-danger "   v-show="idkiva==0">
+                                     (Obligatorio)</span></label>
+                                
+
                                 <input type="text" class="form-control"   v-model="idkiva"  placeholder="Identificador KIVA">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Monto desembolsado:</label>
+                                <label for="exampleInputPassword1">Monto desembolsado<span class="text-danger "   v-show="montodesembolsado==0">
+                                     (Obligatorio)</span></label>
                                 <input type="number" class="form-control" step="any" v-model="montodesembolsado"  placeholder="">
+                                 
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Fecha de desembolso:</label>
+                                <label for="exampleInputPassword1">Fecha de desembolso<span class="text-danger "   v-show="fechadesembolso==''">
+                                     (Obligatorio)</span></label>
                                 <input type="date" class="form-control" v-model="fechadesembolso"  placeholder="">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Número Cuotas:</label>
+                                <label for="exampleInputPassword1">Número Cuotas:<span class="text-danger "   v-show="numerocuotas==0">
+                                     (Obligatorio)</span></label>
                                 <input type="number" class="form-control"  v-model="numerocuotas" placeholder="Número Cuotas">
                             </div>
                              <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Tipo de Cambio</label>
+                                <label for="exampleInputPassword1">Tipo de Cambio<span class="text-danger "   v-show="tipocambio==0">
+                                     (Obligatorio)</span></label>
                                 <input type="number" class="form-control"  v-model="tipocambio"   placeholder="Número Cuotas">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Tasa de Interes</label>
+                                <label for="exampleInputPassword1">Tasa de Interes<span class="text-danger "   v-show="tasa==0">
+                                     (Obligatorio)</span></label>
                                 <input type="number" class="form-control"  v-model="tasa"   placeholder="Número Cuotas">
                             </div>
                              <div class="form-group col-md-3">
@@ -126,6 +138,13 @@
                             </div>
                         </div>
 
+                        <div  v-show="errorCredito" class=" form-group col-md-12 mt-2 bg-danger">
+                            <div class="text-center">
+                                <div v-for="error in errorMostrarMsjCredito" :key="error">
+                                  <mark class="bg-danger text-white col-md-12" ><i class="fa fa-exclamation-triangle"></i> {{error}}</mark>
+                                </div>
+                            </div>
+                        </div>
 
                         
                          <div v-if="listacuotas==1" class="form-group col-4">
@@ -143,44 +162,111 @@
     <!--listade creditos-->
     <template v-else>
         <div class="row">
+            <div class="col-lg-12 grid-margin card">
+                <div class="card-body">
+                
+
+                  <div class="row" v-for="credito in arrayCredito" :key="credito.id">
+                      <div class="col-md-9">
+                            <h4 class="text-primary mb-5">Detalle de Credito Creado</h4>
+                      </div>
+                    
+                     <div class="col-md-2">
+                          <button type="button" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></button>
+                           <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-info btn-sm"><i class="fa fa-file-pdf-o"></i></button>
+                           
+                     </div>
+                    
+                     <div class="col-md-1">
+                          <button type="button" class="btn btn-success btn-sm"  @click="ocultarCreditos()"><i class="fa fa-plus-circle"></i></button>
+                     </div>
+                 
+                    <div class="col-md-12">
+                        
+                            <div class="wrapper d-flex justify-content-between">
+                                <div class="side-left">
+                                    <p class="mb-2 font-weight-bold">Cliente</p>
+                                    <h6 class="mb-4 font-weight-light" v-text="credito.nombre+' '+credito.apellidopaterno+' '+credito.apellidomaterno"></h6>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-md-3">
+                            <div class="wrapper d-flex justify-content-between">
+                                <div class="side-left">
+                                    <p class="mb-2 font-weight-bold">Número de Prestamo</p>
+                                    <h6 class="mb-4 font-weight-light" v-text="credito.numeroprestamo"></h6>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="wrapper d-flex justify-content-between">
+                            <div class="side-left">
+                                <p class="mb-2 font-weight-bold ">ID KIVA</p>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.idkiva"></h6>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-md-3">
+                        <div class="wrapper d-flex justify-content-between">
+                            <div class="side-left">
+                                <p class="mb-2 font-weight-bold">Monto Desembolsado</p>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.montodesembolsado"></h6>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-md-3">
+                        <div class="wrapper d-flex justify-content-between">
+                            <div class="side-left">
+                                <p class="mb-2 font-weight-bold">Fecha de Desembolso</p>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.fechadesembolso"></h6>
+                            </div>
+                        </div>
+                    </div>
+
+                      <div class="col-md-3">
+                        <div class="wrapper d-flex justify-content-between">
+                            <div class="side-left">
+                                <p class="mb-2 font-weight-bold">Número de Cuotas</p>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.numerocuotas"></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="wrapper d-flex justify-content-between">
+                            <div class="side-left">
+                                <p class="mb-2 font-weight-bold">Tipo de Cambio</p>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.tipocambio"></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="wrapper d-flex justify-content-between">
+                            <div class="side-left">
+                                <p class="mb-2 font-weight-bold">Tasa</p>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.tasa"></h6>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="col-md-3">
+                        <div class="wrapper d-flex justify-content-between">
+                            <div class="side-left">
+                                <p class="mb-2 font-weight-bold">Periodo</p>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.periodo"></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  
+                  
+                  
+                  
+                </div>
+              </div>
              <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                    <h4 class="text-center">Lista  de Creditos  
-                    </h4>
-                    <hr>
-                       
-                    
-                    <div class="form-group row">
-                            <div class="col-md-6 col-sm-12">
-                                <div class="input-group">
-                                    <select class="form-control col-md-4" v-model="criterio">
-                                      <option value="numeroprestamo">Número de prestamo</option>
-                                      <option value="idkiva">ID kiva</option>
-                                      <option value="fechadesembolso">Fecha de Desembolso </option>
-                                      
-                                    </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarCredito(1,buscar,criterio)" 
-                                    class="form-control form-control-lg" placeholder="Texto a buscar">
-                                     <button type="submit" @click="listarCredito(1,buscar,criterio)" 
-                                     class="btn btn-outline-dark btn-sm"><i class="fa fa-search"></i> Buscar</button>
-                                
-                                </div>
-                            </div>
-                             <div class="col-md-3 col-sm-1">
-                                
-                                 
-                            </div>
-                            <div class="col-md-3 col-sm-11">
-                                
-                                     <button class="btn btn-outline-primary justify-content-end" @click="ocultarCreditos()">
-                                    <span class="fa fa-plus"></span> agregar credito</button>
-
-                                    
-                            </div>
-                             
- 
-                        </div>
+                        <h6 class="font-weight-bold">Cuotas</h6>
 
                     <!--TABLA DE LA LISTA DE CREDITOS-->
                     <div class="table-responsive">
@@ -201,44 +287,13 @@
                             <tbody>
                                 <tr v-for="credito in arrayCredito" :key="credito.id">
                                 <td class="py-1">
-                                            <button type="button" @click="abrirModal('credito','actualizar',credito)" class="btn btn-success btn-sm">
-                                            <i class="fa fa-eye"></i>
-                                            </button>&nbsp;
-                                            <template v-if="credito.estado=='1'">
-                                                <button type="button" class="btn btn-danger btn-sm" @click="desactivarCredito(credito.id)">
-                                                <i class="fa fa-trash-o"></i>
-                                                </button>
-                                            </template>
-                                            <template v-else>
-                                                <button type="button" class="btn btn-info btn-sm" @click="activarCredito(credito.id)">
-                                                    <i class="icon-check"></i>
-                                                </button>
-                                            </template>
                                 </td>
-                                    <td v-text="credito.numeroprestamo"></td>
-                                        <td v-text="credito.idkiva"></td>
-                                        <td v-text="credito.nombre+' '+credito.apellidopaterno+' '+credito.apellidomaterno"></td>
-                                        <td v-text="credito.montodesembolsado"></td>
-                                        <td v-text="credito.fechadesembolso"></td>
-                                        <td v-text="credito.numerocuotas"></td>
-                                        <td v-text="credito.estado"></td>
+                                         
                                     
                                 </tr>                 
                             </tbody>
                         </table>
-                          <nav>
-                            <ul class="pagination">
-                                <li class="page-item" v-if="pagination.current_page > 1">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Anterior</a>
-                                </li>
-                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
-                                </li>
-                                <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Siguiente</a>
-                                </li>
-                            </ul>
-                         </nav>
+                        
                     </div>
                     <!--FIN  DE TABLA DE LA LISTA DE CREDITOS-->
                     </div>
@@ -251,42 +306,6 @@
 
 
 
-
-            <!-- The Modal -->
-            <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                    
-                        <!-- Modal Header -->
-                        <div class="">
-                        <h4 class="text-center  mt-2" > 
-                             <button type="button" class="close"  @click="cerrarModal()" data-dismiss="modal">&times; </button>
-                             {{tituloModal}} </h4>                         
-                       
-                    
-                        </div>
-                        
-                        <!-- Modal body -->
-                        <div class="modal-body card">
-                        
-                        
-                        <!-- Modal footer -->
-                      <div class="row">
-                          <div class="col-md-6">
-                               <button type="button" class="btn btn-secondary col-md-12" @click="cerrarModal()">Cerrar</button></div>
-                          <div class="col-md-6">
-                              <button type="button" v-if="tipoAccion==1" class="btn btn-primary col-md-12" @click="registrarPersona()">Guardar</button>
-                                <button type="button" v-if="tipoAccion==2" class="btn btn-primary col-md-12" @click="actualizarPersona()">Actualizar</button>
-                 
-                          </div>
-                           
-                                   </div>
-                       </div>
-                        
-                    </div>
-                </div>
-            </div>
-           
             <!--Inicio del modal agregar/actualizar-->
                <!--Inicio del modal agregar/actualizar-->
           
@@ -303,7 +322,7 @@ import vSelect from 'vue-select'
             return {
                 //variables para credito
                 credito_id: 0,
-                numeroprestamo : '',
+                numeroprestamo : 'SM20150001',
                 idkiva : '',
                 montodesembolsado : 0.0,
                 fechadesembolso : '',
@@ -316,6 +335,7 @@ import vSelect from 'vue-select'
 //variables para clientes
                 idcliente:0,
                 nombrecliente:'',
+                dni:'0',
                 apellidopaterno:'',
                 apellidomaterno:'',
 
@@ -330,7 +350,7 @@ import vSelect from 'vue-select'
 
 
 //para mostrar oocultar dormulario
-                listado:1,
+                listado:0,
 
                 
 
@@ -390,18 +410,35 @@ import vSelect from 'vue-select'
             }
         },
         methods : {
-            listarCredito (page,buscar,criterio){
+            //lisar credito luego se aver sido insertado el credito
+            listarCredito (){
+                 
                 let me=this;
-                var url= '/credito?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
+                var url= '/credito/creditosCliente?numeroprestamo='+me.numeroprestamo;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    me.arrayCredito = respuesta.creditos.data;
-                    me.pagination= respuesta.pagination;
+                    me.arrayCredito = respuesta.creditos;
+                    me.listarCuotas()
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+         
+            },
+            //listar cuotas luego de ingresar el credito
+            listarCuotas(){
+                  let me=this;
+                var url= '/credito/creditosCliente?numeroprestamo='+me.numeroprestamo;
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data;
+                    me.arrayCredito = respuesta.creditos;
+                    me.listarCuotas()
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
             },
+            
             selectCliente(search, loading){
                  let me=this;
                  loading(true)
@@ -421,307 +458,150 @@ import vSelect from 'vue-select'
                 let me=this;
                 me.loading=true;
                 me.idcliente=val1.id;
+                me.dni=val1.dni;
                 me.nombrecliente=val1.nombre;
                 me.apellidopaterno=val1.apellidopaterno;
                 me.apellidomaterno=val1.apellidomaterno
             },
-            cambiarPagina(page,buscar,criterio){
-                let me = this;
-                //Actualiza la página actual
-                me.pagination.current_page = page;
-                //Envia la petición para visualizar la data de esa página
-                me.listarCredito(page,buscar,criterio);
-            },
+          
 
             agregarCuotas(){
                 
                 this.arrayCuota.length=0;
                 let me=this;
-                var montotal=this.montodesembolsado;
-                
-                
-                let interes=(parseFloat(montotal)*parseFloat(this.tasa))/100;
-                let montoconinteres=(parseFloat(montotal) + parseFloat(interes)).toFixed(2);
-                
-                var montoxcuota=((montoconinteres)/this.numerocuotas).toFixed(2);
-                var sininteres=(parseFloat(this.montodesembolsado)/this.numerocuotas).toFixed(2);
 
-                var pendiente=this.montodesembolsado;
-                var fechapagoxcuota=this.fechadesembolso;
-                var contadoraux=1;
+                if(this.idkiva==0||this.numeroprestamo==''||this.montodesembolsado==0){
+
+                }else{
+
+                    var montotal=this.montodesembolsado;
+                                
+                    let interes=(parseFloat(montotal)*parseFloat(this.tasa))/100;
+                    let montoconinteres=(parseFloat(montotal) + parseFloat(interes)).toFixed(2);
+                    
+                    var montoxcuota=((montoconinteres)/this.numerocuotas).toFixed(2);
+                    var sininteres=(parseFloat(this.montodesembolsado)/this.numerocuotas).toFixed(2);
+
+                    var pendiente=this.montodesembolsado;
+                    var fechapagoxcuota=this.fechadesembolso;
+                    var contadoraux=1;
+                
+                var fecha = new Date(fechapagoxcuota);
+
+                    for (let i = 0; i < this.numerocuotas; i++) { 
+                    
+                    // pendiente=sininteres-montoxcuota;
+                    pendiente=(montotal-sininteres).toFixed(2);
+
+                    me.arrayCuota.push({
+                        //(monto total+tasa)/cantidadde cuotas
+                    
+                        monto:montoxcuota,
+                        fechapago:this.fechadesembolso,
+                        saldopendiente:pendiente,
+                        otroscostos:0.0,
+                        descripcion:'',
+                        contador:contadoraux,
+
+                    
+                    })
+                    montotal=pendiente;
+                    contadoraux++;
+                    //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
+                    }
+                
+
+
+                    this.listacuotas=1;
+
+                 }//fin del else
                
-               var fecha = new Date(fechapagoxcuota);
-
-                for (let i = 0; i < this.numerocuotas; i++) { 
-                 
-                // pendiente=sininteres-montoxcuota;
-                 pendiente=(montotal-sininteres).toFixed(2);
-
-                 me.arrayCuota.push({
-                    //(monto total+tasa)/cantidadde cuotas
-                   
-                    monto:montoxcuota,
-                    fechapago:fecha,
-                    saldopendiente:pendiente,
-                    otroscostos:0.0,
-                    descripcion:'',
-                    contador:contadoraux,
-
-                  
-                })
-                  montotal=pendiente;
-                  contadoraux++;
-                  //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
-                }
-               
-
-
-                this.listacuotas=1;
-               
             },
 
-            registrarPersona(){
-                if (this.validarPersona()){
-                    return;
-                }
-                
-                let me = this;
-
-                axios.post('/user/registrar',{
-                    'dni': this.dni,
-                    'nombre': this.nombre,
-                    'apellidopaterno': this.apellidopaterno,
-                    'apellidomaterno' : this.apellidomaterno,
-                    'fechanacimiento' : this.fechanacimiento,
-                    'direccion' : this.direccion,
-                    'telefono' : this.telefono,
-                    'email' : this.email,
-                    'usuario': this.usuario,
-                    'password': this.password,
-                    'idrol' : this.idrol
-
-                }).then(function (response) {
-                    me.cerrarModal();
-                    me.listarPersona(1,'','nombre');
-                }).catch(function (error) {
-                    console.log(error);
-                });
-            },
-            registrarCredito(){
-             this.mostrarCreditos();
-            },
-            actualizarPersona(){
-               if (this.validarPersona()){
-                    return;
-                }
-                
-                let me = this;
-
-                axios.put('/user/actualizar',{
-                    'dni': this.dni,
-                    'nombre': this.nombre,
-                    'apellidopaterno': this.apellidopaterno,
-                    'apellidomaterno' : this.apellidomaterno,
-                    'fechanacimiento' : this.fechanacimiento,
-                    'direccion' : this.direccion,
-                    'telefono' : this.telefono,
-                    'email' : this.email,
-                    'usuario': this.usuario,
-                    'password': this.password,
-                    'idrol' : this.idrol,
-                    'id': this.persona_id
-                }).then(function (response) {
-                    me.cerrarModal();
-                    me.listarPersona(1,'','nombre');
-                }).catch(function (error) {
-                    console.log(error);
-                }); 
-            },            
-            validarPersona(){
-                this.errorPersona=0;
-                this.errorMostrarMsjPersona =[];
-
-                if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
-                if (!this.usuario) this.errorMostrarMsjPersona.push("El nombre de usuario no puede estar vacío.");
-                if (!this.password) this.errorMostrarMsjPersona.push("El password no puede estar vacío.");
-                if (this.idrol==0) this.errorMostrarMsjPersona.push("Debes seleccionar un rol para el usuario.");
-
-                if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
-
-                return this.errorPersona;
-            },
-            mostrarCreditos(){
+         mostrarCreditos(){
                 this.listado=0;
             },
             ocultarCreditos(){
                 this.listado=1;
-            },
-            cerrarModal(){
-                this.modal=0;
-                this.tituloModal='';
-                this.dni='';
-                this.nombre='';
-                this.apellidopaterno='';
-                this.apellidomaterno='';
-                this.direccion='';
-                this.telefono='';
-                this.email='';
-                this.usuario='';
-                this.password='';
-                this.idrol=0;
-                this.errorPersona=0;
-
-            },
-            abrirModal(modelo, accion, data = []){
-                this.selectRol();
-                switch(modelo){
-                    case "persona":
-                    {
-                        switch(accion){
-                            case 'registrar':
-                            {
-                                this.modal = 1;
-                                this.tituloModal = 'Registrar Usuario';
-                                this.dni='';
-                                this.nombre='';
-                                this.apellidopaterno='';
-                                this.apellidomaterno='';
-                                this.direccion='';
-                                this.telefono='';
-                                this.email='';
-                                this.usuario='';
-                                this.password='';
-                                this.idrol=0;
-                                this.tipoAccion = 1;
-                                break;
-                            }
-                            case 'actualizar':
-                            {
-                                //console.log(data);
-                                this.modal=1;
-                                this.tituloModal='Actualizar Usuario';
-                                this.tipoAccion=2;
-                                this.persona_id=data['id'];
-                                this.dni = data['dni'];
-                                this.nombre = data['nombre'];
-                                this.apellidopaterno = data['apellidopaterno'];
-                                this.apellidomaterno = data['apellidomaterno'];
-                                 this.fechanacimiento = data['fechanacimiento'];
-                                this.direccion = data['direccion'];
-                                this.telefono = data['telefono'];
-                                this.email = data['email'];
-                                this.usuario = data['usuario'];
-                                this.password = data['password'];
-                                this.idrol = data['idrol'];
-                                break;
-                            }
-                        }
-                    }
+            },  
+            registrarCredito(){
+                if (this.validarCredito()){
+                    return;
                 }
+                
+                let me = this;
+
+                axios.post('/credito/registrar',{
+
+                    'numeroprestamo': this.numeroprestamo,
+                    'idkiva': this.idkiva,
+                    'montodesembolsado': this.montodesembolsado,
+                    'fechadesembolso' : this.fechadesembolso,
+                    'numerocuotas' : this.numerocuotas,
+                    'tipocambio' : this.tipocambio,
+                    'tasa' : this.tasa,
+                    'periodo' : this.periodo,
+                     'idcliente' : this.idcliente,
+
+                     'data':this.arrayCuota
+                   
+
+                }).then(function (response) {
+
+                   
+                    me.idcliente=0;
+                    //me.numeroprestamo='';
+                    me.idkiva='';
+                    me.montodesembolsado=0.0;
+                    me.fechadesembolso='';
+                    me.numerocuotas=0;
+                    me.tipocambio=0.0;
+                    me.tasa=0.0;
+                    me.periodo='';
+
+                    me.arrayCuota=[];
+                    me.arrayCliente=[],
+                 
+                    me.listado=0;
+                    me.listarCredito();
+
+                    Swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Credito Insertado',
+                    showConfirmButton: false,
+                    timer: 2000
+                    })
+                    
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
             },
-            desactivarUsuario(id){
+         
+                   
+            validarCredito(){
+                this.errorCredito=0;
+                this.errorMostrarMsjCredito =[];
 
+                if (this.idcliente==0) this.errorMostrarMsjCredito.push("Seleccione un Cliente");
+                if (!this.idkiva) this.errorMostrarMsjCredito.push("Ingrese el ID KIVA");
+                if (!this.numeroprestamo) this.errorMostrarMsjCredito.push("Ingrese el número de prestamo");
+                if (this.montodesembolsado==0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
+                if (!this.fechadesembolso) this.errorMostrarMsjCredito.push("Seleccione una fecha de desembolso");
+                if (this.numerocuotas==0) this.errorMostrarMsjCredito.push("Ingrese el número de cuotas");
+                if (this.tipocambio==0) this.errorMostrarMsjCredito.push("Ingrese el tipo de cambio");
+                if (this.tasa==0) this.errorMostrarMsjCredito.push("La tasa de interes no puede ser 0");
 
-                 const swalWithBootstrapButtons = Swal.mixin({
-                        customClass: {
-                            confirmButton: 'btn btn-success',
-                            cancelButton: 'btn btn-danger'
-                        },
-                        buttonsStyling: false
-                        })
+                //si al menos tenemosun error enotnces errorCredito=1
+                if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
 
-                        swalWithBootstrapButtons.fire({
-                        title: '¿Esta seguro de desactivar el usuario?',
-                       // text: "You won't be able to revert this!",
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                        }).then((result) => {
-                        if (result.value) {
-                            //usamos axios para desactivar
-                              let me=this;
-                                axios.put('/user/desactivar',{ //hacemos referencia a la ruta que creamos
-                                    'id':id
-                                }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
-                                    me.listarPersona(1,'','nombre');
-                                      swalWithBootstrapButtons.fire(
-                                    'Activado!',
-                                    'El registro ha sido desactivado con éxito',
-                                    'success'
-                                    )
-                                }).catch(function(){
-                                    console.log(error);
-                                });
-
-                           
-                        } else if (
-                            /* Read more about handling dismissals below */
-                            result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                           // swalWithBootstrapButtons.fire(
-                                //mensaje cuando cancelamos
-                            /*'Cancelled',
-                            /'Your imaginary file is safe :)',
-                            'error'*/
-                          //  )
-                        }
-                        })
-
-              
+                return this.errorCredito;
             },
-            activarUsuario(id){
-                const swalWithBootstrapButtons = Swal.mixin({
-                        customClass: {
-                            confirmButton: 'btn btn-success',
-                            cancelButton: 'btn btn-danger'
-                        },
-                        buttonsStyling: false
-                        })
-
-                        swalWithBootstrapButtons.fire({
-                        title: '¿Esta seguro de activar el usuario?',
-                       // text: "You won't be able to revert this!",
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                        }).then((result) => {
-                        if (result.value) {
-                            //usamos axios para desactivar
-                              let me=this;
-                                axios.put('/user/activar',{ //hacemos referencia a la ruta que creamos
-                                    'id':id
-                                }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
-                                    me.listarPersona(1,'','nombre');
-                                      swalWithBootstrapButtons.fire(
-                                    'Activado!',
-                                    'El registro ha sido activado con éxito',
-                                    'success'
-                                    )
-                                }).catch(function(){
-                                    console.log(error);
-                                });
-
-                           
-                        } else if (
-                            /* Read more about handling dismissals below */
-                            result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                           // swalWithBootstrapButtons.fire(
-                                //mensaje cuando cancelamos
-                            /*'Cancelled',
-                            /'Your imaginary file is safe :)',
-                            'error'*/
-                          //  )
-                        }
-                        })
-            }
+         
         },
         mounted() {
-            this.listarCredito(1,this.buscar,this.criterio);
+            this.listarCredito();
         }
     }
 </script>

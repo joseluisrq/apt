@@ -2138,13 +2138,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       //variables para credito
       credito_id: 0,
-      numeroprestamo: '',
+      numeroprestamo: 'SM20150001',
       idkiva: '',
       montodesembolsado: 0.0,
       fechadesembolso: '',
@@ -2156,6 +2175,7 @@ __webpack_require__.r(__webpack_exports__);
       //variables para clientes
       idcliente: 0,
       nombrecliente: '',
+      dni: '0',
       apellidopaterno: '',
       apellidomaterno: '',
       //variables para cuotas
@@ -2166,7 +2186,7 @@ __webpack_require__.r(__webpack_exports__);
       descripcion: '',
       listacuotas: 0,
       //para mostrar oocultar dormulario
-      listado: 1,
+      listado: 0,
       arrayCredito: [],
       //alamacenar el credito
       arrayCuota: [],
@@ -2227,13 +2247,26 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    listarCredito: function listarCredito(page, buscar, criterio) {
+    //lisar credito luego se aver sido insertado el credito
+    listarCredito: function listarCredito() {
       var me = this;
-      var url = '/credito?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = '/credito/creditosCliente?numeroprestamo=' + me.numeroprestamo;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
-        me.arrayCredito = respuesta.creditos.data;
-        me.pagination = respuesta.pagination;
+        me.arrayCredito = respuesta.creditos;
+        me.listarCuotas();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    //listar cuotas luego de ingresar el credito
+    listarCuotas: function listarCuotas() {
+      var me = this;
+      var url = '/credito/creditosCliente?numeroprestamo=' + me.numeroprestamo;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayCredito = respuesta.creditos;
+        me.listarCuotas();
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2257,111 +2290,45 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       me.loading = true;
       me.idcliente = val1.id;
+      me.dni = val1.dni;
       me.nombrecliente = val1.nombre;
       me.apellidopaterno = val1.apellidopaterno;
       me.apellidomaterno = val1.apellidomaterno;
     },
-    cambiarPagina: function cambiarPagina(page, buscar, criterio) {
-      var me = this; //Actualiza la página actual
-
-      me.pagination.current_page = page; //Envia la petición para visualizar la data de esa página
-
-      me.listarCredito(page, buscar, criterio);
-    },
     agregarCuotas: function agregarCuotas() {
       this.arrayCuota.length = 0;
       var me = this;
-      var montotal = this.montodesembolsado;
-      var interes = parseFloat(montotal) * parseFloat(this.tasa) / 100;
-      var montoconinteres = (parseFloat(montotal) + parseFloat(interes)).toFixed(2);
-      var montoxcuota = (montoconinteres / this.numerocuotas).toFixed(2);
-      var sininteres = (parseFloat(this.montodesembolsado) / this.numerocuotas).toFixed(2);
-      var pendiente = this.montodesembolsado;
-      var fechapagoxcuota = this.fechadesembolso;
-      var contadoraux = 1;
-      var fecha = new Date(fechapagoxcuota);
 
-      for (var i = 0; i < this.numerocuotas; i++) {
-        // pendiente=sininteres-montoxcuota;
-        pendiente = (montotal - sininteres).toFixed(2);
-        me.arrayCuota.push({
-          //(monto total+tasa)/cantidadde cuotas
-          monto: montoxcuota,
-          fechapago: fecha,
-          saldopendiente: pendiente,
-          otroscostos: 0.0,
-          descripcion: '',
-          contador: contadoraux
-        });
-        montotal = pendiente;
-        contadoraux++; //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
-      }
+      if (this.idkiva == 0 || this.numeroprestamo == '' || this.montodesembolsado == 0) {} else {
+        var montotal = this.montodesembolsado;
+        var interes = parseFloat(montotal) * parseFloat(this.tasa) / 100;
+        var montoconinteres = (parseFloat(montotal) + parseFloat(interes)).toFixed(2);
+        var montoxcuota = (montoconinteres / this.numerocuotas).toFixed(2);
+        var sininteres = (parseFloat(this.montodesembolsado) / this.numerocuotas).toFixed(2);
+        var pendiente = this.montodesembolsado;
+        var fechapagoxcuota = this.fechadesembolso;
+        var contadoraux = 1;
+        var fecha = new Date(fechapagoxcuota);
 
-      this.listacuotas = 1;
-    },
-    registrarPersona: function registrarPersona() {
-      if (this.validarPersona()) {
-        return;
-      }
+        for (var i = 0; i < this.numerocuotas; i++) {
+          // pendiente=sininteres-montoxcuota;
+          pendiente = (montotal - sininteres).toFixed(2);
+          me.arrayCuota.push({
+            //(monto total+tasa)/cantidadde cuotas
+            monto: montoxcuota,
+            fechapago: this.fechadesembolso,
+            saldopendiente: pendiente,
+            otroscostos: 0.0,
+            descripcion: '',
+            contador: contadoraux
+          });
+          montotal = pendiente;
+          contadoraux++; //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
+        }
 
-      var me = this;
-      axios.post('/user/registrar', {
-        'dni': this.dni,
-        'nombre': this.nombre,
-        'apellidopaterno': this.apellidopaterno,
-        'apellidomaterno': this.apellidomaterno,
-        'fechanacimiento': this.fechanacimiento,
-        'direccion': this.direccion,
-        'telefono': this.telefono,
-        'email': this.email,
-        'usuario': this.usuario,
-        'password': this.password,
-        'idrol': this.idrol
-      }).then(function (response) {
-        me.cerrarModal();
-        me.listarPersona(1, '', 'nombre');
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    registrarCredito: function registrarCredito() {
-      this.mostrarCreditos();
-    },
-    actualizarPersona: function actualizarPersona() {
-      if (this.validarPersona()) {
-        return;
-      }
+        this.listacuotas = 1;
+      } //fin del else
 
-      var me = this;
-      axios.put('/user/actualizar', {
-        'dni': this.dni,
-        'nombre': this.nombre,
-        'apellidopaterno': this.apellidopaterno,
-        'apellidomaterno': this.apellidomaterno,
-        'fechanacimiento': this.fechanacimiento,
-        'direccion': this.direccion,
-        'telefono': this.telefono,
-        'email': this.email,
-        'usuario': this.usuario,
-        'password': this.password,
-        'idrol': this.idrol,
-        'id': this.persona_id
-      }).then(function (response) {
-        me.cerrarModal();
-        me.listarPersona(1, '', 'nombre');
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    validarPersona: function validarPersona() {
-      this.errorPersona = 0;
-      this.errorMostrarMsjPersona = [];
-      if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
-      if (!this.usuario) this.errorMostrarMsjPersona.push("El nombre de usuario no puede estar vacío.");
-      if (!this.password) this.errorMostrarMsjPersona.push("El password no puede estar vacío.");
-      if (this.idrol == 0) this.errorMostrarMsjPersona.push("Debes seleccionar un rol para el usuario.");
-      if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
-      return this.errorPersona;
     },
     mostrarCreditos: function mostrarCreditos() {
       this.listado = 0;
@@ -2369,162 +2336,65 @@ __webpack_require__.r(__webpack_exports__);
     ocultarCreditos: function ocultarCreditos() {
       this.listado = 1;
     },
-    cerrarModal: function cerrarModal() {
-      this.modal = 0;
-      this.tituloModal = '';
-      this.dni = '';
-      this.nombre = '';
-      this.apellidopaterno = '';
-      this.apellidomaterno = '';
-      this.direccion = '';
-      this.telefono = '';
-      this.email = '';
-      this.usuario = '';
-      this.password = '';
-      this.idrol = 0;
-      this.errorPersona = 0;
-    },
-    abrirModal: function abrirModal(modelo, accion) {
-      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-      this.selectRol();
-
-      switch (modelo) {
-        case "persona":
-          {
-            switch (accion) {
-              case 'registrar':
-                {
-                  this.modal = 1;
-                  this.tituloModal = 'Registrar Usuario';
-                  this.dni = '';
-                  this.nombre = '';
-                  this.apellidopaterno = '';
-                  this.apellidomaterno = '';
-                  this.direccion = '';
-                  this.telefono = '';
-                  this.email = '';
-                  this.usuario = '';
-                  this.password = '';
-                  this.idrol = 0;
-                  this.tipoAccion = 1;
-                  break;
-                }
-
-              case 'actualizar':
-                {
-                  //console.log(data);
-                  this.modal = 1;
-                  this.tituloModal = 'Actualizar Usuario';
-                  this.tipoAccion = 2;
-                  this.persona_id = data['id'];
-                  this.dni = data['dni'];
-                  this.nombre = data['nombre'];
-                  this.apellidopaterno = data['apellidopaterno'];
-                  this.apellidomaterno = data['apellidomaterno'];
-                  this.fechanacimiento = data['fechanacimiento'];
-                  this.direccion = data['direccion'];
-                  this.telefono = data['telefono'];
-                  this.email = data['email'];
-                  this.usuario = data['usuario'];
-                  this.password = data['password'];
-                  this.idrol = data['idrol'];
-                  break;
-                }
-            }
-          }
+    registrarCredito: function registrarCredito() {
+      if (this.validarCredito()) {
+        return;
       }
-    },
-    desactivarUsuario: function desactivarUsuario(id) {
-      var _this = this;
 
-      var swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      });
-      swalWithBootstrapButtons.fire({
-        title: '¿Esta seguro de desactivar el usuario?',
-        // text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.value) {
-          //usamos axios para desactivar
-          var me = _this;
-          axios.put('/user/desactivar', {
-            //hacemos referencia a la ruta que creamos
-            'id': id
-          }).then(function (response) {
-            //de una ves que se ejecuto mostramos le mensaje de desactivado
-            me.listarPersona(1, '', 'nombre');
-            swalWithBootstrapButtons.fire('Activado!', 'El registro ha sido desactivado con éxito', 'success');
-          })["catch"](function () {
-            console.log(error);
-          });
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {// swalWithBootstrapButtons.fire(
-          //mensaje cuando cancelamos
+      var me = this;
+      axios.post('/credito/registrar', {
+        'numeroprestamo': this.numeroprestamo,
+        'idkiva': this.idkiva,
+        'montodesembolsado': this.montodesembolsado,
+        'fechadesembolso': this.fechadesembolso,
+        'numerocuotas': this.numerocuotas,
+        'tipocambio': this.tipocambio,
+        'tasa': this.tasa,
+        'periodo': this.periodo,
+        'idcliente': this.idcliente,
+        'data': this.arrayCuota
+      }).then(function (response) {
+        me.idcliente = 0; //me.numeroprestamo='';
 
-          /*'Cancelled',
-          /'Your imaginary file is safe :)',
-          'error'*/
-          //  )
-        }
+        me.idkiva = '';
+        me.montodesembolsado = 0.0;
+        me.fechadesembolso = '';
+        me.numerocuotas = 0;
+        me.tipocambio = 0.0;
+        me.tasa = 0.0;
+        me.periodo = '';
+        me.arrayCuota = [];
+        me.arrayCliente = [], me.listado = 0;
+        me.listarCredito();
+        Swal.fire({
+          position: 'top-end',
+          type: 'success',
+          title: 'Credito Insertado',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      })["catch"](function (error) {
+        console.log(error);
       });
     },
-    activarUsuario: function activarUsuario(id) {
-      var _this2 = this;
+    validarCredito: function validarCredito() {
+      this.errorCredito = 0;
+      this.errorMostrarMsjCredito = [];
+      if (this.idcliente == 0) this.errorMostrarMsjCredito.push("Seleccione un Cliente");
+      if (!this.idkiva) this.errorMostrarMsjCredito.push("Ingrese el ID KIVA");
+      if (!this.numeroprestamo) this.errorMostrarMsjCredito.push("Ingrese el número de prestamo");
+      if (this.montodesembolsado == 0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
+      if (!this.fechadesembolso) this.errorMostrarMsjCredito.push("Seleccione una fecha de desembolso");
+      if (this.numerocuotas == 0) this.errorMostrarMsjCredito.push("Ingrese el número de cuotas");
+      if (this.tipocambio == 0) this.errorMostrarMsjCredito.push("Ingrese el tipo de cambio");
+      if (this.tasa == 0) this.errorMostrarMsjCredito.push("La tasa de interes no puede ser 0"); //si al menos tenemosun error enotnces errorCredito=1
 
-      var swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      });
-      swalWithBootstrapButtons.fire({
-        title: '¿Esta seguro de activar el usuario?',
-        // text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.value) {
-          //usamos axios para desactivar
-          var me = _this2;
-          axios.put('/user/activar', {
-            //hacemos referencia a la ruta que creamos
-            'id': id
-          }).then(function (response) {
-            //de una ves que se ejecuto mostramos le mensaje de desactivado
-            me.listarPersona(1, '', 'nombre');
-            swalWithBootstrapButtons.fire('Activado!', 'El registro ha sido activado con éxito', 'success');
-          })["catch"](function () {
-            console.log(error);
-          });
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {// swalWithBootstrapButtons.fire(
-          //mensaje cuando cancelamos
-
-          /*'Cancelled',
-          /'Your imaginary file is safe :)',
-          'error'*/
-          //  )
-        }
-      });
+      if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
+      return this.errorCredito;
     }
   },
   mounted: function mounted() {
-    this.listarCredito(1, this.buscar, this.criterio);
+    this.listarCredito();
   }
 });
 
@@ -40345,7 +40215,30 @@ var render = function() {
                           _c(
                             "label",
                             { attrs: { for: "exampleInputEmail1" } },
-                            [_vm._v("Identificador de prestamo:")]
+                            [
+                              _vm._v(
+                                "Identificador de prestamo\n                                "
+                              ),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.numeroprestamo == "",
+                                      expression: "numeroprestamo==''"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -40378,7 +40271,30 @@ var render = function() {
                           _c(
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
-                            [_vm._v("Identificador KIVA:")]
+                            [
+                              _vm._v(
+                                "Identificador KIVA:\n                                    "
+                              ),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.idkiva == 0,
+                                      expression: "idkiva==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -40411,7 +40327,28 @@ var render = function() {
                           _c(
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
-                            [_vm._v("Monto desembolsado:")]
+                            [
+                              _vm._v("Monto desembolsado"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.montodesembolsado == 0,
+                                      expression: "montodesembolsado==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -40445,7 +40382,28 @@ var render = function() {
                           _c(
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
-                            [_vm._v("Fecha de desembolso:")]
+                            [
+                              _vm._v("Fecha de desembolso"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.fechadesembolso == "",
+                                      expression: "fechadesembolso==''"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -40475,7 +40433,28 @@ var render = function() {
                           _c(
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
-                            [_vm._v("Número Cuotas:")]
+                            [
+                              _vm._v("Número Cuotas:"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.numerocuotas == 0,
+                                      expression: "numerocuotas==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -40508,7 +40487,28 @@ var render = function() {
                           _c(
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
-                            [_vm._v("Tipo de Cambio")]
+                            [
+                              _vm._v("Tipo de Cambio"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.tipocambio == 0,
+                                      expression: "tipocambio==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -40541,7 +40541,28 @@ var render = function() {
                           _c(
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
-                            [_vm._v("Tasa de Interes")]
+                            [
+                              _vm._v("Tasa de Interes"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.tasa == 0,
+                                      expression: "tasa==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
                           ),
                           _vm._v(" "),
                           _c("input", {
@@ -40839,6 +40860,45 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.errorCredito,
+                              expression: "errorCredito"
+                            }
+                          ],
+                          staticClass: " form-group col-md-12 mt-2 bg-danger"
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "text-center" },
+                            _vm._l(_vm.errorMostrarMsjCredito, function(error) {
+                              return _c("div", { key: error }, [
+                                _c(
+                                  "mark",
+                                  {
+                                    staticClass:
+                                      "bg-danger text-white col-md-12"
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-exclamation-triangle"
+                                    }),
+                                    _vm._v(" " + _vm._s(error))
+                                  ]
+                                )
+                              ])
+                            }),
+                            0
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
                       _vm.listacuotas == 1
                         ? _c("div", { staticClass: "form-group col-4" }, [
                             _c(
@@ -40868,248 +40928,49 @@ var render = function() {
           ]
         : [
             _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
-                _c("div", { staticClass: "card" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("h4", { staticClass: "text-center" }, [
-                      _vm._v("Lista  de Creditos  \n                    ")
-                    ]),
-                    _vm._v(" "),
-                    _c("hr"),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "col-md-6 col-sm-12" }, [
-                        _c("div", { staticClass: "input-group" }, [
-                          _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.criterio,
-                                  expression: "criterio"
-                                }
-                              ],
-                              staticClass: "form-control col-md-4",
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.criterio = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                }
-                              }
-                            },
-                            [
-                              _c(
-                                "option",
-                                { attrs: { value: "numeroprestamo" } },
-                                [_vm._v("Número de prestamo")]
-                              ),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "idkiva" } }, [
-                                _vm._v("ID kiva")
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "option",
-                                { attrs: { value: "fechadesembolso" } },
-                                [_vm._v("Fecha de Desembolso ")]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.buscar,
-                                expression: "buscar"
-                              }
-                            ],
-                            staticClass: "form-control form-control-lg",
-                            attrs: {
-                              type: "text",
-                              placeholder: "Texto a buscar"
-                            },
-                            domProps: { value: _vm.buscar },
-                            on: {
-                              keyup: function($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
-                                  )
-                                ) {
-                                  return null
-                                }
-                                return _vm.listarCredito(
-                                  1,
-                                  _vm.buscar,
-                                  _vm.criterio
-                                )
-                              },
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.buscar = $event.target.value
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-outline-dark btn-sm",
-                              attrs: { type: "submit" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.listarCredito(
-                                    1,
-                                    _vm.buscar,
-                                    _vm.criterio
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("i", { staticClass: "fa fa-search" }),
-                              _vm._v(" Buscar")
-                            ]
-                          )
-                        ])
-                      ]),
+              _c("div", { staticClass: "col-lg-12 grid-margin card" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body" },
+                  _vm._l(_vm.arrayCredito, function(credito) {
+                    return _c("div", { key: credito.id, staticClass: "row" }, [
+                      _vm._m(2, true),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3 col-sm-1" }),
+                      _vm._m(3, true),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3 col-sm-11" }, [
+                      _c("div", { staticClass: "col-md-1" }, [
                         _c(
                           "button",
                           {
-                            staticClass:
-                              "btn btn-outline-primary justify-content-end",
+                            staticClass: "btn btn-success btn-sm",
+                            attrs: { type: "button" },
                             on: {
                               click: function($event) {
                                 return _vm.ocultarCreditos()
                               }
                             }
                           },
-                          [
-                            _c("span", { staticClass: "fa fa-plus" }),
-                            _vm._v(" agregar credito")
-                          ]
+                          [_c("i", { staticClass: "fa fa-plus-circle" })]
                         )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "table-responsive" }, [
-                      _c("table", { staticClass: "table  table-bordered " }, [
-                        _vm._m(2),
-                        _vm._v(" "),
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-12" }, [
                         _c(
-                          "tbody",
-                          _vm._l(_vm.arrayCredito, function(credito) {
-                            return _c("tr", { key: credito.id }, [
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
                               _c(
-                                "td",
-                                { staticClass: "py-1" },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-success btn-sm",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.abrirModal(
-                                            "credito",
-                                            "actualizar",
-                                            credito
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_c("i", { staticClass: "fa fa-eye" })]
-                                  ),
-                                  _vm._v(
-                                    " \n                                            "
-                                  ),
-                                  credito.estado == "1"
-                                    ? [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-danger btn-sm",
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.desactivarCredito(
-                                                  credito.id
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-trash-o"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    : [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass: "btn btn-info btn-sm",
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.activarCredito(
-                                                  credito.id
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "icon-check"
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                ],
-                                2
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Cliente")]
                               ),
                               _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(credito.numeroprestamo)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(credito.idkiva)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
                                 domProps: {
                                   textContent: _vm._s(
                                     credito.nombre +
@@ -41119,118 +40980,242 @@ var render = function() {
                                       credito.apellidomaterno
                                   )
                                 }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(credito.montodesembolsado)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(credito.fechadesembolso)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(credito.numerocuotas)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(credito.estado)
-                                }
                               })
                             ])
-                          }),
-                          0
+                          ]
                         )
                       ]),
                       _vm._v(" "),
-                      _c("nav", [
+                      _c("div", { staticClass: "col-md-3" }, [
                         _c(
-                          "ul",
-                          { staticClass: "pagination" },
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
                           [
-                            _vm.pagination.current_page > 1
-                              ? _c("li", { staticClass: "page-item" }, [
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "page-link",
-                                      attrs: { href: "#" },
-                                      on: {
-                                        click: function($event) {
-                                          $event.preventDefault()
-                                          return _vm.cambiarPagina(
-                                            _vm.pagination.current_page - 1,
-                                            _vm.buscar,
-                                            _vm.criterio
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Anterior")]
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm._l(_vm.pagesNumber, function(page) {
-                              return _c(
-                                "li",
-                                {
-                                  key: page,
-                                  staticClass: "page-item",
-                                  class: [page == _vm.isActived ? "active" : ""]
-                                },
-                                [
-                                  _c("a", {
-                                    staticClass: "page-link",
-                                    attrs: { href: "#" },
-                                    domProps: { textContent: _vm._s(page) },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.cambiarPagina(
-                                          page,
-                                          _vm.buscar,
-                                          _vm.criterio
-                                        )
-                                      }
-                                    }
-                                  })
-                                ]
-                              )
-                            }),
-                            _vm._v(" "),
-                            _vm.pagination.current_page <
-                            _vm.pagination.last_page
-                              ? _c("li", { staticClass: "page-item" }, [
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass: "page-link",
-                                      attrs: { href: "#" },
-                                      on: {
-                                        click: function($event) {
-                                          $event.preventDefault()
-                                          return _vm.cambiarPagina(
-                                            _vm.pagination.current_page + 1,
-                                            _vm.buscar,
-                                            _vm.criterio
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Siguiente")]
-                                  )
-                                ])
-                              : _vm._e()
-                          ],
-                          2
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Número de Prestamo")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.numeroprestamo)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold " },
+                                [_vm._v("ID KIVA")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.idkiva)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Monto Desembolsado")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.montodesembolsado)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Fecha de Desembolso")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.fechadesembolso)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Número de Cuotas")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.numerocuotas)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Tipo de Cambio")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.tipocambio)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Tasa")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: { textContent: _vm._s(credito.tasa) }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Periodo")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.periodo)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h6", { staticClass: "font-weight-bold" }, [
+                      _vm._v("Cuotas")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c("table", { staticClass: "table  table-bordered " }, [
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.arrayCredito, function(credito) {
+                            return _c("tr", { key: credito.id }, [
+                              _c("td", { staticClass: "py-1" })
+                            ])
+                          }),
+                          0
                         )
                       ])
                     ])
@@ -41238,98 +41223,7 @@ var render = function() {
                 ])
               ])
             ])
-          ],
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "modal ",
-          class: { mostrar: _vm.modal },
-          attrs: { "aria-hidden": "true" }
-        },
-        [
-          _c("div", { staticClass: "modal-dialog" }, [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", {}, [
-                _c("h4", { staticClass: "text-center  mt-2" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "close",
-                      attrs: { type: "button", "data-dismiss": "modal" },
-                      on: {
-                        click: function($event) {
-                          return _vm.cerrarModal()
-                        }
-                      }
-                    },
-                    [_vm._v("× ")]
-                  ),
-                  _vm._v(
-                    "\n                             " +
-                      _vm._s(_vm.tituloModal) +
-                      " "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body card" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-6" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-secondary col-md-12",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.cerrarModal()
-                          }
-                        }
-                      },
-                      [_vm._v("Cerrar")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6" }, [
-                    _vm.tipoAccion == 1
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-primary col-md-12",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.registrarPersona()
-                              }
-                            }
-                          },
-                          [_vm._v("Guardar")]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.tipoAccion == 2
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-primary col-md-12",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.actualizarPersona()
-                              }
-                            }
-                          },
-                          [_vm._v("Actualizar")]
-                        )
-                      : _vm._e()
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ]
-      )
+          ]
     ],
     2
   )
@@ -41365,6 +41259,40 @@ var staticRenderFns = [
           "\n                                                Indique la cantidad de cuotas\n                                            "
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-9" }, [
+      _c("h4", { staticClass: "text-primary mb-5" }, [
+        _vm._v("Detalle de Credito Creado")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-2" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-warning btn-sm", attrs: { type: "button" } },
+        [_c("i", { staticClass: "fa fa-pencil" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-danger btn-sm", attrs: { type: "button" } },
+        [_c("i", { staticClass: "fa fa-trash-o" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn btn-info btn-sm", attrs: { type: "button" } },
+        [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+      )
     ])
   },
   function() {

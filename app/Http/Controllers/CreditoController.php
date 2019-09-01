@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Credito;
 use App\Cuota;
+
 
 class CreditoController extends Controller
 {
@@ -72,6 +74,36 @@ class CreditoController extends Controller
             'creditos' => $creditos
         ];
     }
+
+    public function creditosCliente(Request $request)
+    {
+        //if (!$request->ajax()) return redirect('/');
+       // if (!$request->ajax()) return redirect('/');
+ 
+        $numeroprestamo = $request->numeroprestamo;
+         $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
+        ->join('personas','clientes.id','=','personas.id')
+        ->select(
+            'creditos.id', 
+            'creditos.numeroprestamo',
+            'creditos.idkiva',
+            'creditos.montodesembolsado',
+            'creditos.fechadesembolso',
+            'creditos.numerocuotas',
+            'creditos.tipocambio',
+            'creditos.tasa',
+            'creditos.estado',
+            'creditos.periodo',
+            'personas.nombre',
+            'personas.apellidopaterno',
+            'personas.apellidomaterno')
+        ->where('creditos.numeroprestamo','=',$numeroprestamo)
+        ->orderBy('creditos.id', 'desc')->get();
+         
+        return ['creditos' => $creditos];
+
+    }
+    
     public function obtenerCabecera(Request $request){
         if (!$request->ajax()) return redirect('/');
  
@@ -116,6 +148,10 @@ class CreditoController extends Controller
          
         return ['cuota' => $cuota];
     }
+
+    public function obtenerCredito(Request $request){
+      
+    }
  
     public function store(Request $request)
     {
@@ -141,6 +177,7 @@ class CreditoController extends Controller
             $credito->periodo = $request->periodo; //1mensual/2bimensual/3trimestral/6semmestral/12anual
           
             $credito->save();
+
  
             $cuotas = $request->data;//Array de cuotas
             //Recorro todos los elementosq que me han enviado
@@ -161,12 +198,22 @@ class CreditoController extends Controller
                 $cuota->estado = '0'; //0 por pagar //1 pagado 
                              
                 $cuota->save();
-            }          
+            }   
+            
+            $cliente = Cliente::findOrFail($request->idcliente);
+            $cliente->estadocredito = '1';
+            $cliente->save();
  
             DB::commit();
         } catch (Exception $e){
             DB::rollBack();
         }
+    }
+
+    public function activarclienteCredito($id)
+    {
+       
+       
     }
  
     public function desactivar(Request $request)
