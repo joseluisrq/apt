@@ -146,7 +146,7 @@
 
                         
                          <div v-if="editarvar==0" class="form-group col-4">
-                            <button type="button" class="btn btn-success mr-2" @click="registrarCredito()">Registrar Credito</button>
+                            <button type="button"  v-if="btnregistar==1" class="btn btn-success mr-2" @click="registrarCredito()">Registrar Credito</button>
                             <button type="button" class="btn btn-light"  @click="nuevoCredito()">Limpiar Campos</button>
                          </div>
                          <div v-else class="form-group col-4">
@@ -355,6 +355,7 @@ import vSelect from 'vue-select'
 //para mostrar oocultar dormulario
                 listado:1,
                 editarvar:0,
+                btnregistar:0,
 
                 
 
@@ -552,11 +553,12 @@ import vSelect from 'vue-select'
                 
                 this.arrayCuota.length=0;
                 let me=this;
+               
 
                 if(this.idkiva==0||this.numeroprestamo==''||this.montodesembolsado==0){
-
+                    
                 }else{
-
+                     me.btnregistar=1;
                     var montotal=this.montodesembolsado;
                                 
                     let interes=(parseFloat(montotal)*parseFloat(this.tasa))/100;

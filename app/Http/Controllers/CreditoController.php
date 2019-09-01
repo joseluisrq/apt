@@ -15,7 +15,7 @@ class CreditoController extends Controller
     //
     public function index(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
+      //  if (!$request->ajax()) return redirect('/');
  
         $buscar = $request->buscar;
         $criterio = $request->criterio;
@@ -39,7 +39,7 @@ class CreditoController extends Controller
                 'personas.apellidopaterno',
                 'personas.apellidomaterno','users.usuario')
             ->where('creditos.estado', '<>', '0')
-            ->orderBy('creditos.id', 'desc')->paginate(3);
+            ->orderBy('creditos.id', 'desc')->paginate(10);
         }
         else{
             $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
@@ -61,7 +61,7 @@ class CreditoController extends Controller
                 'personas.apellidomaterno','users.usuario')
             ->where('creditos.'.$criterio, 'like', '%'. $buscar . '%')
             ->where('creditos.estado', '<>', '0')
-            ->orderBy('creditos.id', 'desc')->paginate(3);
+            ->orderBy('creditos.id', 'desc')->paginate(10);
         }
          
         return [

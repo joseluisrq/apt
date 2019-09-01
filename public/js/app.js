@@ -2191,6 +2191,7 @@ __webpack_require__.r(__webpack_exports__);
       //para mostrar oocultar dormulario
       listado: 1,
       editarvar: 0,
+      btnregistar: 0,
       arrayCredito: [],
       //alamacenar el credito
       arrayCuota: [],
@@ -2372,6 +2373,7 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
 
       if (this.idkiva == 0 || this.numeroprestamo == '' || this.montodesembolsado == 0) {} else {
+        me.btnregistar = 1;
         var montotal = this.montodesembolsado;
         var interes = parseFloat(montotal) * parseFloat(this.tasa) / 100;
         var montoconinteres = (parseFloat(montotal) + parseFloat(interes)).toFixed(2);
@@ -2874,6 +2876,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -3038,9 +3042,263 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      //variables para credito
       credito_id: 0,
       numeroprestamo: '',
       idkiva: '',
@@ -3048,12 +3306,31 @@ __webpack_require__.r(__webpack_exports__);
       fechadesembolso: '',
       numerocuotas: 0,
       tipocambio: 0.0,
+      tasa: 13,
       estado: '',
-      periodo: '1',
+      periodo: 1,
+      //variables para clientes
+      idcliente: 0,
+      nombrecliente: '',
+      dni: '0',
+      apellidopaterno: '',
+      apellidomaterno: '',
+      //variables para cuotas
+      monto: 0,
+      fechapago: '',
+      saldopendiente: 0.0,
+      otroscostos: 0.0,
+      descripcion: '',
+      listacuotas: 0,
+      //para mostrar oocultar dormulario
+      listado: 2,
+      editarvar: 0,
       arrayCredito: [],
       //alamacenar el credito
       arrayCuota: [],
       //alamcenar todas las cuotas
+      arrayCliente: [],
+      arrayCuotasnuevo: [],
       modal: 0,
       tituloModal: '',
       tipoAccion: 0,
@@ -3072,6 +3349,9 @@ __webpack_require__.r(__webpack_exports__);
       //inicializamos el criterio de busqueda
       buscar: ''
     };
+  },
+  components: {
+    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   computed: {
     isActived: function isActived() {
@@ -3106,8 +3386,16 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    listarCredito: function listarCredito(page, buscar, criterio) {
+    cambiarPagina: function cambiarPagina(page, buscar, criterio) {
+      var me = this; //Actualiza la página actual
+
+      me.pagination.current_page = page; //Envia la petición para visualizar la data de esa página
+
+      me.historialcredito(page, buscar, criterio);
+    },
+    historialcredito: function historialcredito(page, buscar, criterio) {
       var me = this;
+      me.listado = 2;
       var url = '/credito?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
@@ -3117,150 +3405,38 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    selectRol: function selectRol() {
+    //lisar credito luego se aver sido insertado el credito
+    listarCredito: function listarCredito(idkiva) {
       var me = this;
-      var url = '/rol/selectRol';
+      var url = '/credito/creditosCliente?idkiva=' + idkiva;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
-        me.arrayRol = respuesta.roles;
+        me.arrayCredito = respuesta.creditos;
+        me.listarCuotas(idkiva);
       })["catch"](function (error) {
         console.log(error);
       });
     },
-    cambiarPagina: function cambiarPagina(page, buscar, criterio) {
-      var me = this; //Actualiza la página actual
-
-      me.pagination.current_page = page; //Envia la petición para visualizar la data de esa página
-
-      me.listarCredito(page, buscar, criterio);
-    },
-    registrarPersona: function registrarPersona() {
-      if (this.validarPersona()) {
-        return;
-      }
-
+    //listar cuotas luego de ingresar el credito
+    listarCuotas: function listarCuotas(idkiva) {
+      this.listado = 0;
       var me = this;
-      axios.post('/user/registrar', {
-        'dni': this.dni,
-        'nombre': this.nombre,
-        'apellidopaterno': this.apellidopaterno,
-        'apellidomaterno': this.apellidomaterno,
-        'fechanacimiento': this.fechanacimiento,
-        'direccion': this.direccion,
-        'telefono': this.telefono,
-        'email': this.email,
-        'usuario': this.usuario,
-        'password': this.password,
-        'idrol': this.idrol
-      }).then(function (response) {
-        me.cerrarModal();
-        me.listarPersona(1, '', 'nombre');
+      var url = '/credito/cuotasClientenuevo?idkiva=' + idkiva;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayCuotasnuevo = respuesta.cuotas;
       })["catch"](function (error) {
         console.log(error);
       });
     },
-    actualizarPersona: function actualizarPersona() {
-      if (this.validarPersona()) {
-        return;
-      }
-
+    //editar credito
+    editarCredito: function editarCredito() {
+      this.listado = 1;
       var me = this;
-      axios.put('/user/actualizar', {
-        'dni': this.dni,
-        'nombre': this.nombre,
-        'apellidopaterno': this.apellidopaterno,
-        'apellidomaterno': this.apellidomaterno,
-        'fechanacimiento': this.fechanacimiento,
-        'direccion': this.direccion,
-        'telefono': this.telefono,
-        'email': this.email,
-        'usuario': this.usuario,
-        'password': this.password,
-        'idrol': this.idrol,
-        'id': this.persona_id
-      }).then(function (response) {
-        me.cerrarModal();
-        me.listarPersona(1, '', 'nombre');
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      me.editarvar = 1;
     },
-    validarPersona: function validarPersona() {
-      this.errorPersona = 0;
-      this.errorMostrarMsjPersona = [];
-      if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
-      if (!this.usuario) this.errorMostrarMsjPersona.push("El nombre de usuario no puede estar vacío.");
-      if (!this.password) this.errorMostrarMsjPersona.push("El password no puede estar vacío.");
-      if (this.idrol == 0) this.errorMostrarMsjPersona.push("Debes seleccionar un rol para el usuario.");
-      if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
-      return this.errorPersona;
-    },
-    cerrarModal: function cerrarModal() {
-      this.modal = 0;
-      this.tituloModal = '';
-      this.dni = '';
-      this.nombre = '';
-      this.apellidopaterno = '';
-      this.apellidomaterno = '';
-      this.direccion = '';
-      this.telefono = '';
-      this.email = '';
-      this.usuario = '';
-      this.password = '';
-      this.idrol = 0;
-      this.errorPersona = 0;
-    },
-    abrirModal: function abrirModal(modelo, accion) {
-      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-      this.selectRol();
-
-      switch (modelo) {
-        case "persona":
-          {
-            switch (accion) {
-              case 'registrar':
-                {
-                  this.modal = 1;
-                  this.tituloModal = 'Registrar Usuario';
-                  this.dni = '';
-                  this.nombre = '';
-                  this.apellidopaterno = '';
-                  this.apellidomaterno = '';
-                  this.direccion = '';
-                  this.telefono = '';
-                  this.email = '';
-                  this.usuario = '';
-                  this.password = '';
-                  this.idrol = 0;
-                  this.tipoAccion = 1;
-                  break;
-                }
-
-              case 'actualizar':
-                {
-                  //console.log(data);
-                  this.modal = 1;
-                  this.tituloModal = 'Actualizar Usuario';
-                  this.tipoAccion = 2;
-                  this.persona_id = data['id'];
-                  this.dni = data['dni'];
-                  this.nombre = data['nombre'];
-                  this.apellidopaterno = data['apellidopaterno'];
-                  this.apellidomaterno = data['apellidomaterno'];
-                  this.fechanacimiento = data['fechanacimiento'];
-                  this.direccion = data['direccion'];
-                  this.telefono = data['telefono'];
-                  this.email = data['email'];
-                  this.usuario = data['usuario'];
-                  this.password = data['password'];
-                  this.idrol = data['idrol'];
-                  break;
-                }
-            }
-          }
-      }
-    },
-    desactivarUsuario: function desactivarUsuario(id) {
+    //editar credito
+    eliminarCredito: function eliminarCredito() {
       var _this = this;
 
       var swalWithBootstrapButtons = Swal.mixin({
@@ -3271,7 +3447,7 @@ __webpack_require__.r(__webpack_exports__);
         buttonsStyling: false
       });
       swalWithBootstrapButtons.fire({
-        title: '¿Esta seguro de desactivar el usuario?',
+        title: '¿Esta seguro de eliminar este crédito?',
         // text: "You won't be able to revert this!",
         type: 'warning',
         showCancelButton: true,
@@ -3282,13 +3458,13 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           //usamos axios para desactivar
           var me = _this;
-          axios.put('/user/desactivar', {
+          axios.put('/credito/desactivar', {
             //hacemos referencia a la ruta que creamos
-            'id': id
+            'id': me.arrayCredito[0].id
           }).then(function (response) {
             //de una ves que se ejecuto mostramos le mensaje de desactivado
-            me.listarPersona(1, '', 'nombre');
-            swalWithBootstrapButtons.fire('Activado!', 'El registro ha sido desactivado con éxito', 'success');
+            me.nuevoCredito();
+            swalWithBootstrapButtons.fire('Eliminado!', 'El registro ha sido eliminado con éxito', 'success');
           })["catch"](function () {
             console.log(error);
           });
@@ -3304,53 +3480,137 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    activarUsuario: function activarUsuario(id) {
-      var _this2 = this;
+    nuevoCredito: function nuevoCredito() {
+      var me = this;
+      me.idkiva = '';
+      this.listado = 1;
+      me.idcliente = 0;
+      me.numeroprestamo = ''; //me.idkiva='';
 
-      var swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
+      me.montodesembolsado = 0.0;
+      me.fechadesembolso = '';
+      me.numerocuotas = 0;
+      me.tipocambio = 0.0;
+      me.tasa = 0.0;
+      me.periodo = '';
+      me.arrayCuota = [];
+      me.arrayCliente = [];
+      this.listacuotas = 0;
+    },
+    selectCliente: function selectCliente(search, loading) {
+      var me = this;
+      loading(true);
+      var url = '/cliente/selectCliente?filtro=' + search;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+
+        q: search;
+
+        me.arrayCliente = respuesta.clientes;
+        loading(false);
+      })["catch"](function (error) {
+        console.log(error);
       });
-      swalWithBootstrapButtons.fire({
-        title: '¿Esta seguro de activar el usuario?',
-        // text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.value) {
-          //usamos axios para desactivar
-          var me = _this2;
-          axios.put('/user/activar', {
-            //hacemos referencia a la ruta que creamos
-            'id': id
-          }).then(function (response) {
-            //de una ves que se ejecuto mostramos le mensaje de desactivado
-            me.listarPersona(1, '', 'nombre');
-            swalWithBootstrapButtons.fire('Activado!', 'El registro ha sido activado con éxito', 'success');
-          })["catch"](function () {
-            console.log(error);
+    },
+    getDatosCliente: function getDatosCliente(val1) {
+      var me = this;
+      me.loading = true;
+      me.idcliente = val1.id;
+      me.dni = val1.dni;
+      me.nombrecliente = val1.nombre;
+      me.apellidopaterno = val1.apellidopaterno;
+      me.apellidomaterno = val1.apellidomaterno;
+    },
+    agregarCuotas: function agregarCuotas() {
+      this.arrayCuota.length = 0;
+      var me = this;
+
+      if (this.idkiva == 0 || this.numeroprestamo == '' || this.montodesembolsado == 0) {} else {
+        var montotal = this.montodesembolsado;
+        var interes = parseFloat(montotal) * parseFloat(this.tasa) / 100;
+        var montoconinteres = (parseFloat(montotal) + parseFloat(interes)).toFixed(2);
+        var montoxcuota = (montoconinteres / this.numerocuotas).toFixed(2);
+        var sininteres = (parseFloat(this.montodesembolsado) / this.numerocuotas).toFixed(2);
+        var pendiente = this.montodesembolsado;
+        var fechapagoxcuota = this.fechadesembolso;
+        var contadoraux = 1;
+        var fecha = new Date(fechapagoxcuota);
+
+        for (var i = 0; i < this.numerocuotas; i++) {
+          // pendiente=sininteres-montoxcuota;
+          pendiente = (montotal - sininteres).toFixed(2);
+          me.arrayCuota.push({
+            //(monto total+tasa)/cantidadde cuotas
+            monto: montoxcuota,
+            fechapago: this.fechadesembolso,
+            saldopendiente: pendiente,
+            otroscostos: 0.0,
+            descripcion: '',
+            contador: contadoraux
           });
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {// swalWithBootstrapButtons.fire(
-          //mensaje cuando cancelamos
-
-          /*'Cancelled',
-          /'Your imaginary file is safe :)',
-          'error'*/
-          //  )
+          montotal = pendiente;
+          contadoraux++; //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
         }
+
+        this.listacuotas = 1;
+      } //fin del else
+
+    },
+    mostrarCreditos: function mostrarCreditos() {
+      this.listado = 0;
+    },
+    ocultarCreditos: function ocultarCreditos() {
+      this.listado = 1;
+    },
+    registrarCredito: function registrarCredito() {
+      if (this.validarCredito()) {
+        return;
+      }
+
+      var me = this;
+      axios.post('/credito/registrar', {
+        'numeroprestamo': this.numeroprestamo,
+        'idkiva': this.idkiva,
+        'montodesembolsado': this.montodesembolsado,
+        'fechadesembolso': this.fechadesembolso,
+        'numerocuotas': this.numerocuotas,
+        'tipocambio': this.tipocambio,
+        'tasa': this.tasa,
+        'periodo': this.periodo,
+        'idcliente': this.idcliente,
+        'data': this.arrayCuota
+      }).then(function (response) {
+        me.listado = 0;
+        me.listarCredito();
+        Swal.fire({
+          position: 'top-end',
+          type: 'success',
+          title: 'Credito Insertado',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      })["catch"](function (error) {
+        console.log(error);
       });
+    },
+    validarCredito: function validarCredito() {
+      this.errorCredito = 0;
+      this.errorMostrarMsjCredito = [];
+      if (this.idcliente == 0) this.errorMostrarMsjCredito.push("Seleccione un Cliente");
+      if (!this.idkiva) this.errorMostrarMsjCredito.push("Ingrese el ID KIVA");
+      if (!this.numeroprestamo) this.errorMostrarMsjCredito.push("Ingrese el número de prestamo");
+      if (this.montodesembolsado == 0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
+      if (!this.fechadesembolso) this.errorMostrarMsjCredito.push("Seleccione una fecha de desembolso");
+      if (this.numerocuotas == 0) this.errorMostrarMsjCredito.push("Ingrese el número de cuotas");
+      if (this.tipocambio == 0) this.errorMostrarMsjCredito.push("Ingrese el tipo de cambio");
+      if (this.tasa == 0) this.errorMostrarMsjCredito.push("La tasa de interes no puede ser 0"); //si al menos tenemosun error enotnces errorCredito=1
+
+      if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
+      return this.errorCredito;
     }
   },
   mounted: function mounted() {
-    this.listarCredito(1, this.buscar, this.criterio);
+    this.historialcredito(1, this.buscar, this.criterio);
   }
 });
 
@@ -40962,19 +41222,21 @@ var render = function() {
                       _vm._v(" "),
                       _vm.editarvar == 0
                         ? _c("div", { staticClass: "form-group col-4" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-success mr-2",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.registrarCredito()
-                                  }
-                                }
-                              },
-                              [_vm._v("Registrar Credito")]
-                            ),
+                            _vm.btnregistar == 1
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success mr-2",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.registrarCredito()
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Registrar Credito")]
+                                )
+                              : _vm._e(),
                             _vm._v(" "),
                             _c(
                               "button",
@@ -42338,435 +42600,1599 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("main", {}, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("h4", { staticClass: "text-center" }, [
-              _vm._v("Lista  de Creditos  \n                    ")
-            ]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group row" }, [
-              _c("div", { staticClass: "col-md-6 col-sm-12" }, [
-                _c("div", { staticClass: "input-group" }, [
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.criterio,
-                          expression: "criterio"
-                        }
-                      ],
-                      staticClass: "form-control col-md-4",
-                      on: {
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.criterio = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        }
-                      }
-                    },
-                    [
-                      _c("option", { attrs: { value: "numeroprestamo" } }, [
-                        _vm._v("Número de prestamo")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "idkiva" } }, [
-                        _vm._v("ID kiva")
-                      ]),
-                      _vm._v(" "),
-                      _c("option", { attrs: { value: "fechadesembolso" } }, [
-                        _vm._v("Fecha de Desembolso ")
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.buscar,
-                        expression: "buscar"
-                      }
-                    ],
-                    staticClass: "form-control form-control-lg",
-                    attrs: { type: "text", placeholder: "Texto a buscar" },
-                    domProps: { value: _vm.buscar },
-                    on: {
-                      keyup: function($event) {
-                        if (
-                          !$event.type.indexOf("key") &&
-                          _vm._k(
-                            $event.keyCode,
-                            "enter",
-                            13,
-                            $event.key,
-                            "Enter"
-                          )
-                        ) {
-                          return null
-                        }
-                        return _vm.listarCredito(1, _vm.buscar, _vm.criterio)
-                      },
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.buscar = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-outline-dark btn-sm",
-                      attrs: { type: "submit" },
-                      on: {
-                        click: function($event) {
-                          return _vm.listarCredito(1, _vm.buscar, _vm.criterio)
-                        }
-                      }
-                    },
-                    [
-                      _c("i", { staticClass: "fa fa-search" }),
-                      _vm._v(" Buscar")
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-3 col-sm-1" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-3 col-sm-11" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-outline-primary justify-content-end",
-                    on: {
-                      click: function($event) {
-                        return _vm.abrirModal("credito", "registrar")
-                      }
-                    }
-                  },
-                  [
-                    _c("span", { staticClass: "fa fa-plus" }),
-                    _vm._v(" agregar credito")
-                  ]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "table-responsive" }, [
-              _c("table", { staticClass: "table  table-bordered " }, [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.arrayCredito, function(credito) {
-                    return _c("tr", { key: credito.id }, [
-                      _c(
-                        "td",
-                        { staticClass: "py-1" },
-                        [
+  return _c(
+    "main",
+    {},
+    [
+      _vm.listado == 1
+        ? [
+            _c("div", { staticClass: "row  form-group" }, [
+              _c("div", { staticClass: "col-12" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h4", { staticClass: "text-center" }, [
+                      _vm._v("Nuevo Crédito")
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "card-description" }, [
+                      _vm._v(
+                        "\n                        Insertar la información requerida\n                      "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("form", { staticClass: "forms-sample" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          { staticClass: "form-group col-md-6" },
+                          [
+                            _c(
+                              "label",
+                              { attrs: { for: "exampleInputEmail1" } },
+                              [_vm._v("Cliente(*)")]
+                            ),
+                            _vm._v(" "),
+                            _c("v-select", {
+                              attrs: {
+                                "on-search": _vm.selectCliente,
+                                label: "dni",
+                                options: _vm.arrayCliente,
+                                placeholder: "Ingrese DNI del cliente...",
+                                onChange: _vm.getDatosCliente
+                              }
+                            }),
+                            _vm._v(" "),
+                            _vm.idcliente != 0
+                              ? _c("div", [
+                                  _c("label", {
+                                    staticClass: "badge badge-dark",
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        _vm.nombrecliente +
+                                          " " +
+                                          _vm.apellidopaterno +
+                                          " " +
+                                          _vm.apellidomaterno
+                                      )
+                                    }
+                                  })
+                                ])
+                              : _vm._e()
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-3" }, [
                           _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success btn-sm",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.abrirModal(
-                                    "credito",
-                                    "actualizar",
-                                    credito
+                            "label",
+                            { attrs: { for: "exampleInputEmail1" } },
+                            [
+                              _vm._v(
+                                "Identificador de prestamo\n                                "
+                              ),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.numeroprestamo == "",
+                                      expression: "numeroprestamo==''"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
                                   )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.numeroprestamo,
+                                expression: "numeroprestamo"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Ejemplo SMXXXXX"
+                            },
+                            domProps: { value: _vm.numeroprestamo },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.numeroprestamo = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-3" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputPassword1" } },
+                            [
+                              _vm._v(
+                                "Identificador KIVA:\n                                    "
+                              ),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.idkiva == 0,
+                                      expression: "idkiva==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.idkiva,
+                                expression: "idkiva"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Identificador KIVA"
+                            },
+                            domProps: { value: _vm.idkiva },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.idkiva = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-3" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputPassword1" } },
+                            [
+                              _vm._v("Monto desembolsado"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.montodesembolsado == 0,
+                                      expression: "montodesembolsado==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.montodesembolsado,
+                                expression: "montodesembolsado"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              step: "any",
+                              placeholder: ""
+                            },
+                            domProps: { value: _vm.montodesembolsado },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.montodesembolsado = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-3" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputPassword1" } },
+                            [
+                              _vm._v("Fecha de desembolso"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.fechadesembolso == "",
+                                      expression: "fechadesembolso==''"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.fechadesembolso,
+                                expression: "fechadesembolso"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { type: "date", placeholder: "" },
+                            domProps: { value: _vm.fechadesembolso },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.fechadesembolso = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-3" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputPassword1" } },
+                            [
+                              _vm._v("Número Cuotas:"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.numerocuotas == 0,
+                                      expression: "numerocuotas==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.numerocuotas,
+                                expression: "numerocuotas"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              placeholder: "Número Cuotas"
+                            },
+                            domProps: { value: _vm.numerocuotas },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.numerocuotas = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-3" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputPassword1" } },
+                            [
+                              _vm._v("Tipo de Cambio"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.tipocambio == 0,
+                                      expression: "tipocambio==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.tipocambio,
+                                expression: "tipocambio"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              placeholder: "Número Cuotas"
+                            },
+                            domProps: { value: _vm.tipocambio },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.tipocambio = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-3" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleInputPassword1" } },
+                            [
+                              _vm._v("Tasa de Interes"),
+                              _c(
+                                "span",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.tasa == 0,
+                                      expression: "tasa==0"
+                                    }
+                                  ],
+                                  staticClass: "text-danger "
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                     (Obligatorio)"
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.tasa,
+                                expression: "tasa"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "number",
+                              placeholder: "Número Cuotas"
+                            },
+                            domProps: { value: _vm.tasa },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.tasa = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-md-3" }, [
+                          _c(
+                            "label",
+                            { attrs: { for: "exampleFormControlSelect1" } },
+                            [_vm._v("Periodo")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.periodo,
+                                  expression: "periodo"
+                                }
+                              ],
+                              staticClass: "form-control form-control-lg",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.periodo = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
                                 }
                               }
                             },
-                            [_c("i", { staticClass: "fa fa-eye" })]
-                          ),
-                          _vm._v(
-                            " \n                                            "
-                          ),
-                          credito.estado == "1"
-                            ? [
+                            [
+                              _c("option", { attrs: { value: "1" } }, [
+                                _vm._v("Mensual")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "2" } }, [
+                                _vm._v("Bimestral")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "3" } }, [
+                                _vm._v("Trimestral")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "6" } }, [
+                                _vm._v("Semestral")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "12" } }, [
+                                _vm._v("Anual")
+                              ])
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group col-12" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary mr-2",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.agregarCuotas()
+                                }
+                              }
+                            },
+                            [_vm._v(" Generar Cuotas")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("hr"),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-12 mt-4" }, [
+                          _c("div", { staticClass: "table-responsive" }, [
+                            _c("table", { staticClass: "table" }, [
+                              _vm._m(0),
+                              _vm._v(" "),
+                              _vm.arrayCuota.length
+                                ? _c(
+                                    "tbody",
+                                    _vm._l(_vm.arrayCuota, function(cuota) {
+                                      return _c("tr", { key: cuota.id }, [
+                                        _c("td", [
+                                          _vm._v(
+                                            " \n                                               " +
+                                              _vm._s(cuota.contador) +
+                                              "\n                                            "
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: cuota.monto,
+                                                expression: "cuota.monto"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: {
+                                              type: "number",
+                                              placeholder: "Número Cuotas"
+                                            },
+                                            domProps: { value: cuota.monto },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.$set(
+                                                  cuota,
+                                                  "monto",
+                                                  $event.target.value
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: cuota.saldopendiente,
+                                                expression:
+                                                  "cuota.saldopendiente"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: {
+                                              type: "number",
+                                              placeholder: "Número Cuotas"
+                                            },
+                                            domProps: {
+                                              value: cuota.saldopendiente
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.$set(
+                                                  cuota,
+                                                  "saldopendiente",
+                                                  $event.target.value
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: cuota.fechapago,
+                                                expression: "cuota.fechapago"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: {
+                                              type: "date",
+                                              placeholder: "Número Cuotas"
+                                            },
+                                            domProps: {
+                                              value: cuota.fechapago
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.$set(
+                                                  cuota,
+                                                  "fechapago",
+                                                  $event.target.value
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: cuota.otroscostos,
+                                                expression: "cuota.otroscostos"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: {
+                                              type: "number",
+                                              placeholder: "Número Cuotas"
+                                            },
+                                            domProps: {
+                                              value: cuota.otroscostos
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.$set(
+                                                  cuota,
+                                                  "otroscostos",
+                                                  $event.target.value
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c("input", {
+                                            directives: [
+                                              {
+                                                name: "model",
+                                                rawName: "v-model",
+                                                value: cuota.descripcion,
+                                                expression: "cuota.descripcion"
+                                              }
+                                            ],
+                                            staticClass: "form-control",
+                                            attrs: {
+                                              type: "text",
+                                              placeholder: "Número Cuotas"
+                                            },
+                                            domProps: {
+                                              value: cuota.descripcion
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                if ($event.target.composing) {
+                                                  return
+                                                }
+                                                _vm.$set(
+                                                  cuota,
+                                                  "descripcion",
+                                                  $event.target.value
+                                                )
+                                              }
+                                            }
+                                          })
+                                        ])
+                                      ])
+                                    }),
+                                    0
+                                  )
+                                : _c("tbody", [_vm._m(1)])
+                            ])
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.errorCredito,
+                              expression: "errorCredito"
+                            }
+                          ],
+                          staticClass: " form-group col-md-12 mt-2 bg-danger"
+                        },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "text-center" },
+                            _vm._l(_vm.errorMostrarMsjCredito, function(error) {
+                              return _c("div", { key: error }, [
                                 _c(
-                                  "button",
+                                  "mark",
                                   {
-                                    staticClass: "btn btn-danger btn-sm",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.desactivarCredito(credito.id)
-                                      }
-                                    }
+                                    staticClass:
+                                      "bg-danger text-white col-md-12"
                                   },
-                                  [_c("i", { staticClass: "fa fa-trash-o" })]
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-exclamation-triangle"
+                                    }),
+                                    _vm._v(" " + _vm._s(error))
+                                  ]
                                 )
-                              ]
-                            : [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-info btn-sm",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.activarCredito(credito.id)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "icon-check" })]
-                                )
-                              ]
-                        ],
-                        2
+                              ])
+                            }),
+                            0
+                          )
+                        ]
                       ),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          textContent: _vm._s(credito.numeroprestamo)
-                        }
-                      }),
+                      _vm.editarvar == 0
+                        ? _c("div", { staticClass: "form-group col-4" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success mr-2",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.registrarCredito()
+                                  }
+                                }
+                              },
+                              [_vm._v("Registrar Credito")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-light",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.nuevoCredito()
+                                  }
+                                }
+                              },
+                              [_vm._v("Limpiar Campos")]
+                            )
+                          ])
+                        : _c("div", { staticClass: "form-group col-4" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success mr-2",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editarCredito()
+                                  }
+                                }
+                              },
+                              [_vm._v("ActualizarCredito")]
+                            )
+                          ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.listado == 0
+        ? [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-12 grid-margin card" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body" },
+                  _vm._l(_vm.arrayCredito, function(credito) {
+                    return _c("div", { key: credito.id, staticClass: "row" }, [
+                      _vm._m(2, true),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(credito.idkiva) }
-                      }),
+                      _c("div", { staticClass: "col-md-2" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.editarCredito()
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-pencil" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.eliminarCredito()
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-trash-o" })]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(3, true)
+                      ]),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          textContent: _vm._s(
-                            credito.nombre +
-                              " " +
-                              credito.apellidopaterno +
-                              " " +
-                              credito.apellidomaterno
-                          )
-                        }
-                      }),
+                      _c("div", { staticClass: "col-md-1" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.historialcredito(
+                                  1,
+                                  _vm.buscar,
+                                  _vm.criterio
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-mail-reply" }),
+                            _vm._v("Historial ")
+                          ]
+                        )
+                      ]),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          textContent: _vm._s(credito.montodesembolsado)
-                        }
-                      }),
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Cliente")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(
+                                    credito.nombre +
+                                      " " +
+                                      credito.apellidopaterno +
+                                      " " +
+                                      credito.apellidomaterno
+                                  )
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          textContent: _vm._s(credito.fechadesembolso)
-                        }
-                      }),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Número de Prestamo")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.numeroprestamo)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(credito.numerocuotas) }
-                      }),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold " },
+                                [_vm._v("ID KIVA")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.idkiva)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(credito.estado) }
-                      })
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Monto Desembolsado")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.montodesembolsado)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Fecha de Desembolso")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.fechadesembolso)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Número de Cuotas")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.numerocuotas)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Tipo de Cambio")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.tipocambio)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Tasa")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: { textContent: _vm._s(credito.tasa) }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Periodo")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.periodo)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ])
                     ])
                   }),
                   0
                 )
               ]),
               _vm._v(" "),
-              _c("nav", [
-                _c(
-                  "ul",
-                  { staticClass: "pagination" },
-                  [
-                    _vm.pagination.current_page > 1
-                      ? _c("li", { staticClass: "page-item" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "page-link",
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.cambiarPagina(
-                                    _vm.pagination.current_page - 1,
-                                    _vm.buscar,
-                                    _vm.criterio
-                                  )
-                                }
-                              }
-                            },
-                            [_vm._v("Anterior")]
-                          )
-                        ])
-                      : _vm._e(),
+              _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h6", { staticClass: "font-weight-bold" }, [
+                      _vm._v("Cuotas")
+                    ]),
                     _vm._v(" "),
-                    _vm._l(_vm.pagesNumber, function(page) {
-                      return _c(
-                        "li",
-                        {
-                          key: page,
-                          staticClass: "page-item",
-                          class: [page == _vm.isActived ? "active" : ""]
-                        },
-                        [
-                          _c("a", {
-                            staticClass: "page-link",
-                            attrs: { href: "#" },
-                            domProps: { textContent: _vm._s(page) },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.cambiarPagina(
-                                  page,
-                                  _vm.buscar,
-                                  _vm.criterio
-                                )
-                              }
-                            }
-                          })
-                        ]
-                      )
-                    }),
-                    _vm._v(" "),
-                    _vm.pagination.current_page < _vm.pagination.last_page
-                      ? _c("li", { staticClass: "page-item" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "page-link",
-                              attrs: { href: "#" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.cambiarPagina(
-                                    _vm.pagination.current_page + 1,
-                                    _vm.buscar,
-                                    _vm.criterio
-                                  )
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c("table", { staticClass: "table  table-bordered " }, [
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.arrayCuotasnuevo, function(cuotanuevo) {
+                            return _c("tr", { key: cuotanuevo.id }, [
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.fechapago)
                                 }
-                              }
-                            },
-                            [_vm._v("Siguiente")]
-                          )
-                        ])
-                      : _vm._e()
-                  ],
-                  2
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal ",
-        class: { mostrar: _vm.modal },
-        attrs: { "aria-hidden": "true" }
-      },
-      [
-        _c("div", { staticClass: "modal-dialog" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _c("div", {}, [
-              _c("h4", { staticClass: "text-center  mt-2" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: { type: "button", "data-dismiss": "modal" },
-                    on: {
-                      click: function($event) {
-                        return _vm.cerrarModal()
-                      }
-                    }
-                  },
-                  [_vm._v("× ")]
-                ),
-                _vm._v(
-                  "\n                             " +
-                    _vm._s(_vm.tituloModal) +
-                    " "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body card" }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-6" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary col-md-12",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.cerrarModal()
-                        }
-                      }
-                    },
-                    [_vm._v("Cerrar")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-6" }, [
-                  _vm.tipoAccion == 1
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary col-md-12",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.registrarPersona()
-                            }
-                          }
-                        },
-                        [_vm._v("Guardar")]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.tipoAccion == 2
-                    ? _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary col-md-12",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.actualizarPersona()
-                            }
-                          }
-                        },
-                        [_vm._v("Actualizar")]
-                      )
-                    : _vm._e()
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.monto)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.saldopendiente)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.otroscostos)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.descripcion)
+                                }
+                              }),
+                              _vm._v(" "),
+                              cuotanuevo.estado == 0
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-danger" },
+                                      [_vm._v("Pendiente")]
+                                    )
+                                  ])
+                                : _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-success" },
+                                      [_vm._v("Pagado")]
+                                    )
+                                  ])
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ])
+                  ])
                 ])
               ])
             ])
-          ])
-        ])
-      ]
-    )
-  ])
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.listado == 2
+        ? [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h4", { staticClass: "text-center" }, [
+                      _vm._v("Lista  de Creditos  \n                        ")
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "col-md-6 col-sm-12" }, [
+                        _c("div", { staticClass: "input-group" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.criterio,
+                                  expression: "criterio"
+                                }
+                              ],
+                              staticClass: "form-control col-md-4",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.criterio = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { value: "numeroprestamo" } },
+                                [_vm._v("Número de prestamo")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "idkiva" } }, [
+                                _vm._v("ID kiva")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "fechadesembolso" } },
+                                [_vm._v("Fecha de Desembolso ")]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.buscar,
+                                expression: "buscar"
+                              }
+                            ],
+                            staticClass: "form-control form-control-lg",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Texto a buscar"
+                            },
+                            domProps: { value: _vm.buscar },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.historialcredito(
+                                  1,
+                                  _vm.buscar,
+                                  _vm.criterio
+                                )
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.buscar = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-dark btn-sm",
+                              attrs: { type: "submit" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.historialcredito(
+                                    1,
+                                    _vm.buscar,
+                                    _vm.criterio
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fa fa-search" }),
+                              _vm._v(" Buscar")
+                            ]
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c("table", { staticClass: "table  table-bordered " }, [
+                        _vm._m(5),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.arrayCredito, function(credito) {
+                            return _c("tr", { key: credito.id }, [
+                              _c("td", { staticClass: "py-1" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.listarCredito(credito.idkiva)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-eye" })]
+                                ),
+                                _vm._v(
+                                  " \n                                               \n                                    "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.numeroprestamo)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.idkiva)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(
+                                    credito.nombre +
+                                      " " +
+                                      credito.apellidopaterno +
+                                      " " +
+                                      credito.apellidomaterno
+                                  )
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.montodesembolsado)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.fechadesembolso)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.numerocuotas)
+                                }
+                              }),
+                              _vm._v(" "),
+                              credito.estado == 1
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-warning" },
+                                      [_vm._v("En proceso")]
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              credito.estado == 0
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-danger" },
+                                      [_vm._v("Desactivador")]
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              credito.estado == 2
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-success" },
+                                      [_vm._v("Completado")]
+                                    )
+                                  ])
+                                : _vm._e()
+                            ])
+                          }),
+                          0
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("nav", [
+                        _c(
+                          "ul",
+                          { staticClass: "pagination" },
+                          [
+                            _vm.pagination.current_page > 1
+                              ? _c("li", { staticClass: "page-item" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "page-link",
+                                      attrs: { href: "#" },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.cambiarPagina(
+                                            _vm.pagination.current_page - 1,
+                                            _vm.buscar,
+                                            _vm.criterio
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Anterior")]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm._l(_vm.pagesNumber, function(page) {
+                              return _c(
+                                "li",
+                                {
+                                  key: page,
+                                  staticClass: "page-item",
+                                  class: [page == _vm.isActived ? "active" : ""]
+                                },
+                                [
+                                  _c("a", {
+                                    staticClass: "page-link",
+                                    attrs: { href: "#" },
+                                    domProps: { textContent: _vm._s(page) },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.cambiarPagina(
+                                          page,
+                                          _vm.buscar,
+                                          _vm.criterio
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            }),
+                            _vm._v(" "),
+                            _vm.pagination.current_page <
+                            _vm.pagination.last_page
+                              ? _c("li", { staticClass: "page-item" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "page-link",
+                                      attrs: { href: "#" },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.cambiarPagina(
+                                            _vm.pagination.current_page + 1,
+                                            _vm.buscar,
+                                            _vm.criterio
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Siguiente")]
+                                  )
+                                ])
+                              : _vm._e()
+                          ],
+                          2
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]
+        : _vm._e()
+    ],
+    2
+  )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Cuota")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Monto")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Saldo Pendiente")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fecha de Pago")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Otros Pagos")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Descripcion")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { attrs: { colspan: "6" } }, [
+        _vm._v(
+          "\n                                                Indique la cantidad de cuotas\n                                            "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-9" }, [
+      _c("h4", { staticClass: "text-primary mb-5" }, [
+        _vm._v("Detalle de Credito Creado")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-info btn-sm", attrs: { type: "button" } },
+      [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "table-bordered " }, [
+      _c("tr", { staticClass: "font-weight-bold" }, [
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Fecha de Pago")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cuota")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Saldo Pendiente")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Otros Costos")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Descripcion")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Pago")])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
