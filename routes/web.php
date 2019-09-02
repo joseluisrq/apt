@@ -72,7 +72,7 @@ Route::group(['middleware'=>['auth']],function(){
             Route::post('/credito/registrar', 'CreditoController@store');
             Route::get('/credito/creditosCliente', 'CreditoController@creditosCliente');
             Route::get('/credito/cuotasClientenuevo', 'CreditoController@cuotasClientenuevo');
-           
+            Route::get('/credito/listarpdf', 'CreditoController@listarPdf')->name('creditos_pdf');
             
             Route::get('/credito/obtenerCabecera', 'CreditoController@obtenerCabecera');
             Route::get('/credito/obtenerCuotas', 'CreditoController@obtenerCuotas');

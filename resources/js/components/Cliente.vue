@@ -49,12 +49,12 @@
                                 <tr v-for="persona in arrayPersona" :key="persona.id">
                                     <td>
                                         <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
-                                         <span class="text-white"><i class="fa fa-pencil-square-o"></i>s </span>
+                                         <span class="text-white"><i class="fa fa-pencil-square-o"></i> </span>
                                         </button>
                                     </td>
                                       <td v-text="persona.dni"></td>
                                     <td v-text="persona.nombre"></td>
-                                    <td v-text="persona.apellidopaterno+persona.apellidomaterno"></td>
+                                    <td v-text="persona.apellidopaterno+' '+persona.apellidomaterno"></td>
                                     <td v-text="persona.fechanacimiento"></td>
                                     <td v-text="persona.direccion"></td>
                                     <td v-text="persona.telefono"></td>

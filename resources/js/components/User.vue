@@ -112,13 +112,8 @@
             </div>
         </div>
             <!-- Breadcrumb -->
-        
-
-
-
-
-            <!-- The Modal -->
-            <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
+                <!-- The Modal -->
+        <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                     
@@ -216,14 +211,14 @@
                         
                     </div>
                 </div>
-            </div>
+        </div>
            
             <!--Inicio del modal agregar/actualizar-->
                <!--Inicio del modal agregar/actualizar-->
           
             <!--Fin del modal-->
             <!--Fin del modal-->
-        </main>
+    </main>
 
 </template>
 
@@ -345,6 +340,13 @@
 
                 }).then(function (response) {
                     me.cerrarModal();
+                    Swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Usuario Registrado',
+                    showConfirmButton: false,
+                    timer: 1500
+                    })
                     me.listarPersona(1,'','nombre');
                 }).catch(function (error) {
                     console.log(error);

@@ -1,71 +1,81 @@
 <template>
-            <main class="main">
-            <!-- Breadcrumb -->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
-            </ol>
-            <div class="container-fluid">
-                <!-- Ejemplo de tabla Listado -->
+   <main class="">  
+
+
+           <div class="row">
+             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Roles
-                    </div>
                     <div class="card-body">
-                        <div class="form-group row">
-                            <div class="col-md-6">
+                    <h4 class="text-center">Roles  
+                    </h4>
+                    <hr>
+                       
+                    
+                    <div class="form-group row">
+                            <div class="col-md-6 col-sm-12">
                                 <div class="input-group">
-                                    <select class="form-control col-md-3" v-model="criterio">
+                                    
+                                     <select class="form-control col-md-3" v-model="criterio">
                                       <option value="nombre">Nombre</option>
                                       <option value="descripcion">Descripción</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarRol(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarRol(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+
+                                    <input type="text"  v-model="buscar" @keyup.enter="listarRol(1,buscar,criterio)"
+                                    class="form-control form-control-lg" placeholder="Texto a buscar">
+                                     <button type="submit" @click="listarRol(1,buscar,criterio)" 
+                                     class="btn btn-outline-dark btn-sm"><i class="fa fa-search"></i> Buscar</button>
+                                
                                 </div>
                             </div>
+                        
+                             
+ 
                         </div>
-                        <table class="table table-bordered table-striped table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
+                    <div class="table-responsive">
+                        <table class="table  table-bordered ">
+                        <thead class="table-bordered ">
+                            <tr class="font-weight-bold">
+                                    <th>#</th>
+                                     <th>Nombre</th>
                                     <th>Descripción</th>
                                     <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="rol in arrayRol" :key="rol.id">
-                                    
-                                    <td v-text="rol.nombre"></td>
-                                    <td v-text="rol.descripcion"></td>
-                                    <td>
-                                        <div v-if="rol.condicion">
-                                            <span class="badge badge-success">Activo</span>
-                                        </div>
-                                        <div v-else>
-                                            <span class="badge badge-danger">Desactivado</span>
-                                        </div>
-                                        
-                                    </td>
-                                </tr>                                
-                            </tbody>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="rol in arrayRol" :key="rol.id">
+                                <td class="py-1" v-text="rol.id"></td>
+                                <td v-text="rol.nombre"></td>
+                                <td v-text="rol.descripcion"></td>
+                                <td>
+                                    <div v-if="rol.condicion">
+                                        <span class="badge badge-success">Activo</span>
+                                    </div>
+                                    <div v-else>
+                                        <span class="badge badge-danger">Desactivado</span>
+                                     </div>
+                                 </td>
+                            </tr>                 
+                        </tbody>
                         </table>
-                        <nav>
+                          <nav>
                             <ul class="pagination">
                                 <li class="page-item" v-if="pagination.current_page > 1">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Anterior</a>
                                 </li>
                                 <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
                                     <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
                                 </li>
                                 <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Sig</a>
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Siguiente</a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
+                    </div>
                 </div>
-                <!-- Fin ejemplo de tabla Listado -->
             </div>
-        </main>
+        </div>
+    </main>
 </template>
 
 <script>

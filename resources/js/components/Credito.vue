@@ -323,6 +323,9 @@
                         <h4 class="text-center">Lista  de Creditos  
                         </h4>
                         <hr>
+                        <button type="button" @click="cargarPdf()" class="btn btn-warning">
+                            Pdf
+                        </button>
                         
                         
                         <div class="form-group row">
@@ -511,7 +514,9 @@ import vSelect from 'vue-select'
             }
         },
         methods : {
-
+            cargarPdf(){
+                window.open('http://localhost:8000/credito/listarpdf','_blank');
+            },
               cambiarPagina(page,buscar,criterio){
                 let me = this;
                 //Actualiza la página actual

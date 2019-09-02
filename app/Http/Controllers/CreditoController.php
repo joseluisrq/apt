@@ -15,7 +15,7 @@ class CreditoController extends Controller
     //
     public function index(Request $request)
     {
-      //  if (!$request->ajax()) return redirect('/');
+       if (!$request->ajax()) return redirect('/');
  
         $buscar = $request->buscar;
         $criterio = $request->criterio;
@@ -248,5 +248,31 @@ class CreditoController extends Controller
         $cuota = Credito::findOrFail($request->id);
         $cuota->estado = '0'; //anulado
         $cuota->save();
+    }
+    public function listarPdf(){
+        $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
+        ->join('personas','clientes.id','=','personas.id')
+        ->join('users','creditos.idusuario','=','users.id')
+        ->select(
+            'creditos.id', 
+            'creditos.numeroprestamo',
+            'creditos.idkiva',
+             'creditos.montodesembolsado',
+            'creditos.fechadesembolso',
+            'creditos.numerocuotas',
+            'creditos.tipocambio',
+            'creditos.tasa',
+            'creditos.estado',
+            'creditos.periodo',
+            'personas.nombre',
+            'personas.apellidopaterno',
+            'personas.apellidomaterno','users.usuario')
+        ->orderBy('creditos.id', 'desc')->get();
+
+        $cont=Credito::count();
+        $pdf= \PDF::loadView('pdf.creditospdf',[
+            'creditos'=>$creditos,
+            'cont'=>$cont]);
+        return $pdf->download('creditos.pdf');
     }
 }
