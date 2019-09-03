@@ -46,18 +46,18 @@
                                 <input type="text" class="form-control"   v-model="idkiva"  placeholder="Identificador KIVA">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Monto desembolsado<span class="text-danger "   v-show="montodesembolsado==0">
+                                <label for="exampleInputPassword1">Monto<span class="text-danger "   v-show="montodesembolsado==0">
                                      (Obligatorio)</span></label>
                                 <input type="number" class="form-control" step="any" v-model="montodesembolsado"  placeholder="">
                                  
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Fecha de desembolso<span class="text-danger "   v-show="fechadesembolso==''">
+                                <label for="exampleInputPassword1">Fecha <span class="text-danger "   v-show="fechadesembolso==''">
                                      (Obligatorio)</span></label>
                                 <input type="date" class="form-control" v-model="fechadesembolso"  placeholder="">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Número Cuotas:<span class="text-danger "   v-show="numerocuotas==0">
+                                <label for="exampleInputPassword1">N° Cuotas:<span class="text-danger "   v-show="numerocuotas==0">
                                      (Obligatorio)</span></label>
                                 <input type="number" class="form-control"  v-model="numerocuotas" placeholder="Número Cuotas">
                             </div>
@@ -212,7 +212,7 @@
                      <div class="col-md-3">
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Monto Desembolsado</p>
+                                <p class="mb-2 font-weight-bold">Monto </p>
                                 <h6 class="mb-4 font-weight-light" v-text="credito.montodesembolsado"></h6>
                             </div>
                         </div>
@@ -220,7 +220,7 @@
                      <div class="col-md-3">
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Fecha de Desembolso</p>
+                                <p class="mb-2 font-weight-bold">Fecha</p>
                                 <h6 class="mb-4 font-weight-light" v-text="credito.fechadesembolso"></h6>
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                       <div class="col-md-3">
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Número de Cuotas</p>
+                                <p class="mb-2 font-weight-bold">N°  Cuotas</p>
                                 <h6 class="mb-4 font-weight-light" v-text="credito.numerocuotas"></h6>
                             </div>
                         </div>
@@ -323,9 +323,7 @@
                         <h4 class="text-center">Lista  de Creditos  
                         </h4>
                         <hr>
-                        <button type="button" @click="cargarPdf()" class="btn btn-warning">
-                            Pdf
-                        </button>
+                      
                         
                         
                         <div class="form-group row">
@@ -343,6 +341,14 @@
                                         class="btn btn-outline-dark btn-sm"><i class="fa fa-search"></i> Buscar</button>
                                     
                                     </div>
+
+                                </div>
+                                 <div class="col-md-4 col-sm-12">
+                                       </div>
+                                <div class="col-md-2 col-sm-12">
+                                      <button type="button" @click="cargarPdf()" class="btn btn-info"> <i class="fa fa-file-pdf-o"></i>
+                                Pdf
+                            </button>
                                 </div>
                              
                                 
@@ -355,12 +361,12 @@
                                 <thead class="table-bordered ">
                                     <tr class="font-weight-bold">
                                             <th class="font-weight-bold">Opciones</th>
-                                            <th class="font-weight-bold">Numero de Prestamo</th>
+                                            <th class="font-weight-bold">N° de Prestamo</th>
                                             <th class="font-weight-bold">ID kiva</th>
                                             <th class="font-weight-bold">Cliente</th>
-                                            <th class="font-weight-bold">Monto de Desembolso</th>
-                                            <th class="font-weight-bold">Fecha de Desembolso</th>
-                                            <th class="font-weight-bold">Numero de Cuotas</th>
+                                            <th class="font-weight-bold">Monto</th>
+                                            <th class="font-weight-bold">Fecha</th>
+                                            <th class="font-weight-bold">N° Cuotas</th>
                                             <th class="font-weight-bold">Estado</th>
                                         
                                     </tr>

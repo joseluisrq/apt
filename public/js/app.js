@@ -3297,6 +3297,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -42802,7 +42808,7 @@ var render = function() {
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
                             [
-                              _vm._v("Monto desembolsado"),
+                              _vm._v("Monto"),
                               _c(
                                 "span",
                                 {
@@ -42857,7 +42863,7 @@ var render = function() {
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
                             [
-                              _vm._v("Fecha de desembolso"),
+                              _vm._v("Fecha "),
                               _c(
                                 "span",
                                 {
@@ -42908,7 +42914,7 @@ var render = function() {
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
                             [
-                              _vm._v("Número Cuotas:"),
+                              _vm._v("N° Cuotas:"),
                               _c(
                                 "span",
                                 {
@@ -43588,7 +43594,7 @@ var render = function() {
                               _c(
                                 "p",
                                 { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Monto Desembolsado")]
+                                [_vm._v("Monto ")]
                               ),
                               _vm._v(" "),
                               _c("h6", {
@@ -43614,7 +43620,7 @@ var render = function() {
                               _c(
                                 "p",
                                 { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Fecha de Desembolso")]
+                                [_vm._v("Fecha")]
                               ),
                               _vm._v(" "),
                               _c("h6", {
@@ -43640,7 +43646,7 @@ var render = function() {
                               _c(
                                 "p",
                                 { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Número de Cuotas")]
+                                [_vm._v("N°  Cuotas")]
                               ),
                               _vm._v(" "),
                               _c("h6", {
@@ -43820,24 +43826,6 @@ var render = function() {
                     _vm._v(" "),
                     _c("hr"),
                     _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-warning",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.cargarPdf()
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                            Pdf\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
                     _c("div", { staticClass: "form-group row" }, [
                       _c("div", { staticClass: "col-md-6 col-sm-12" }, [
                         _c("div", { staticClass: "input-group" }, [
@@ -43954,6 +43942,29 @@ var render = function() {
                             ]
                           )
                         ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4 col-sm-12" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-2 col-sm-12" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.cargarPdf()
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-file-pdf-o" }),
+                            _vm._v(
+                              "\n                                Pdf\n                            "
+                            )
+                          ]
+                        )
                       ])
                     ]),
                     _vm._v(" "),
@@ -44241,24 +44252,18 @@ var staticRenderFns = [
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Opciones")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Numero de Prestamo")
+          _vm._v("N° de Prestamo")
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("ID kiva")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cliente")]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Monto de Desembolso")
-        ]),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Monto")]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Fecha de Desembolso")
-        ]),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Fecha")]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Numero de Cuotas")
-        ]),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("N° Cuotas")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Estado")])
       ])
