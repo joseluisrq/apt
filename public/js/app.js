@@ -3348,6 +3348,132 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3385,6 +3511,7 @@ __webpack_require__.r(__webpack_exports__);
       //alamcenar todas las cuotas
       arrayCliente: [],
       arrayCuotasnuevo: [],
+      arrayCuotaDetalle: [],
       modal: 0,
       tituloModal: '',
       tipoAccion: 0,
@@ -3667,6 +3794,15 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
       return this.errorCredito;
+    },
+    detalleCuota: function detalleCuota() {},
+    cerrarModal: function cerrarModal() {
+      this.modal = 0;
+    },
+    abrirModal: function abrirModal(index) {
+      var me = this;
+      me.modal = 1;
+      me.arrayCuotaDetalle = me.arrayCuotasnuevo[index];
     }
   },
   mounted: function mounted() {
@@ -8900,7 +9036,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-dialog{\r\n    overflow-y: initial !important\n}\n.modal-body{\r\n    height: 500px;\r\n   \r\n    overflow-y: auto;\n}\n.modal-content{\r\n        width: 100% !important;\r\n        position: absolute !important;\n}\n.mostrar{\r\n       \r\n        display: list-item !important;\r\n        opacity: 1 !important;\r\n        position: fixed !important;\r\n        background-color: #3c29297a !important;\n}\n.div-error{\r\n        display: flex;\r\n        justify-content: center;\n}\n.text-error{\r\n        color: red !important;\r\n        font-weight: bold;\n}\r\n", ""]);
+exports.push([module.i, "\n.modal-dialog{\r\n    overflow-y: initial !important\n}\n.modal-body{\r\n   height: 500px;\r\n   overflow-y: auto;\n}\n.modal-content{\r\n        width: 100% !important;\r\n        position: absolute !important;\n}\n.mostrar{\r\n       \r\n        display: list-item !important;\r\n    opacity: 1 !important;\r\n    position: fixed !important;\r\n    background-color: #3c29297a !important;\n}\n.div-error{\r\n        display: flex;\r\n        justify-content: center;\n}\n.text-error{\r\n        color: red !important;\r\n        font-weight: bold;\n}\r\n", ""]);
 
 // exports
 
@@ -43829,7 +43965,10 @@ var render = function() {
                         _vm._v(" "),
                         _c(
                           "tbody",
-                          _vm._l(_vm.arrayCuotasnuevo, function(cuotanuevo) {
+                          _vm._l(_vm.arrayCuotasnuevo, function(
+                            cuotanuevo,
+                            index
+                          ) {
                             return _c("tr", { key: cuotanuevo.id }, [
                               _c("td", {
                                 domProps: {
@@ -43845,14 +43984,14 @@ var render = function() {
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
-                                        return _vm.detalleCuota(cuotanuevo.id)
+                                        return _vm.abrirModal(index)
                                       }
                                     }
                                   },
                                   [_c("i", { staticClass: "fa fa-eye" })]
                                 ),
                                 _vm._v(
-                                  " \n                                               \n                                    "
+                                  " \n                                             \n                                                  "
                                 )
                               ]),
                               _vm._v(" "),
@@ -44297,7 +44436,294 @@ var render = function() {
               ])
             ])
           ]
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal ",
+          class: { mostrar: _vm.modal },
+          attrs: { "aria-hidden": "true" }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c("div", { staticClass: "modal-content bg bg-primary " }, [
+              _c("h4", { staticClass: "text-center  mt-2 text-white" }, [
+                _vm._v(
+                  "                           \n                            Cuota N° : " +
+                    _vm._s(_vm.arrayCuotaDetalle.numerocuota) +
+                    "     \n                            "
+                ),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary text-white float-rigth",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModal()
+                      }
+                    }
+                  },
+                  [_vm._v("× ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body card" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Cliente")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(
+                              _vm.arrayCuotaDetalle.nombre +
+                                " " +
+                                _vm.arrayCuotaDetalle.apellidopaterno +
+                                " " +
+                                _vm.apellidomaterno
+                            )
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4 mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Cuota en  Dolares)")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c(
+                          "h6",
+                          { staticClass: "font-weight-medium text-left mb-0" },
+                          [
+                            _vm._v(
+                              "\n                                            $ " +
+                                _vm._s(_vm.arrayCuotaDetalle.monto) +
+                                "   \n                                           "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4 mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Cuota en Soles)")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c(
+                          "h6",
+                          { staticClass: "font-weight-medium text-left mb-0" },
+                          [
+                            _vm._v(
+                              "\n                                          S/ " +
+                                _vm._s(
+                                  _vm.arrayCuotaDetalle.monto * _vm.tipocambio
+                                ) +
+                                " "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Otros Pagos")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(
+                              _vm.arrayCuotaDetalle.otroscostos
+                            )
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12   mt-2" }, [
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Pago Total")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(
+                              "S/" +
+                                (
+                                  parseFloat(
+                                    _vm.arrayCuotaDetalle.monto * _vm.tipocambio
+                                  ) +
+                                  parseFloat(_vm.arrayCuotaDetalle.otroscostos)
+                                ).toFixed(2)
+                            )
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Fecha de Pago")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(_vm.arrayCuotaDetalle.fechapago)
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Fecha de Cancelación")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _vm.arrayCuotaDetalle.estado == 0
+                          ? _c(
+                              "h6",
+                              {
+                                staticClass: "font-weight-medium text-left mb-0"
+                              },
+                              [_vm._v("Pendiente")]
+                            )
+                          : _c("h6", {
+                              staticClass: "font-weight-medium text-left mb-0",
+                              domProps: {
+                                textContent: _vm._s(
+                                  _vm.arrayCuotaDetalle.fechacancelacion
+                                )
+                              }
+                            })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Detalle")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _vm.arrayCuotaDetalle.descripcion == null
+                          ? _c(
+                              "h6",
+                              {
+                                staticClass: "font-weight-medium text-left mb-0"
+                              },
+                              [_vm._v("Sin detalle")]
+                            )
+                          : _c("h6", {
+                              staticClass: "font-weight-medium text-left mb-0",
+                              domProps: {
+                                textContent: _vm._s(
+                                  _vm.arrayCuotaDetalle.descripcion
+                                )
+                              }
+                            })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Cajero")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(
+                              _vm.arrayCuotaDetalle.usuarionombre +
+                                " " +
+                                _vm.arrayCuotaDetalle.usuariopaterno +
+                                " " +
+                                _vm.arrayCuotaDetalle.usuariomaterno
+                            )
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(6),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger col-md-12",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.cerrarModal()
+                          }
+                        }
+                      },
+                      [_vm._v("Cerrar")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-info col-md-12",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.generarboucher()
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-file-pdf-o" }),
+                        _vm._v(
+                          "\n                                        Boucher"
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]
+      )
     ],
     2
   )
@@ -44408,6 +44834,12 @@ var staticRenderFns = [
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Estado")])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [_c("hr")])
   }
 ]
 render._withStripped = true

@@ -294,16 +294,16 @@
                             </thead>
                             <tbody>
 
-                                <tr  v-for="cuotanuevo in arrayCuotasnuevo" :key="cuotanuevo.id" >
+                                <tr  v-for="(cuotanuevo,index) in arrayCuotasnuevo" :key="cuotanuevo.id" >
 
                                    
                                        <td v-text="cuotanuevo.numerocuota"></td>
                                      <td class="py-1">
-                                                <button type="button" @click="detalleCuota(cuotanuevo.id)" class="btn btn-success btn-sm">
+                                                <button type="button" @click="abrirModal(index)" class="btn btn-success btn-sm">
                                                 <i class="fa fa-eye"></i>
                                                 </button>&nbsp;
-                                               
-                                    </td>
+                                             
+                                                  </td>
                                  
                                     <td v-if="cuotanuevo.fechapago <'2018-05-05' && cuotanuevo.estado==0" >
                                         {{cuotanuevo.fechapago}} <span class="badge badge-warning"> Cuota atrasada</span>
@@ -451,6 +451,132 @@
     </template>
 <!--finde lista de creditos-->
 
+
+<!--modal detalle de cuota-->
+    <!-- Modal -->
+ 
+        <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg bg-primary ">
+                            <h4 class="text-center  mt-2 text-white" >                           
+                            Cuota N° : {{arrayCuotaDetalle.numerocuota}}  &nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary text-white float-rigth"  @click="cerrarModal()">&times; </button> </h4>
+                           
+                     
+                        <!-- Modal body -->
+                        <div class="modal-body card">
+                          
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="float-left">
+                                    <p class="mb-0 text-left">Cliente</p>
+                                        <div class="fluid-container">
+                                            <h6 class="font-weight-medium text-left mb-0" 
+                                            v-text="arrayCuotaDetalle.nombre+' '+arrayCuotaDetalle.apellidopaterno+' '+apellidomaterno"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <div class="float-left">
+                                    <p class="mb-0 text-left">Cuota en  Dolares)</p>
+                                        <div class="fluid-container">
+                                         
+                                            <h6  class="font-weight-medium text-left mb-0">
+                                            $ {{arrayCuotaDetalle.monto}}   
+                                           </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-md-4 mt-2">
+                                    <div class="float-left">
+                                    <p class="mb-0 text-left">Cuota en Soles)</p>
+                                        <div class="fluid-container">
+                                         
+                                            <h6  class="font-weight-medium text-left mb-0">
+                                          S/ {{arrayCuotaDetalle.monto*tipocambio}} </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                  <div class="col-md-4  mt-2">
+                                    <div class="float-left">
+                                    <p class="mb-0 text-left">Otros Pagos</p>
+                                        <div class="fluid-container">
+                                            <h6 class="font-weight-medium text-left mb-0" v-text="arrayCuotaDetalle.otroscostos"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-12   mt-2">
+                                      <hr>
+                                    <div class="float-left">
+                                       
+                                    <p class="mb-0 text-left">Pago Total</p>
+                                        <div class="fluid-container">
+                                            <h6 class="font-weight-medium text-left mb-0" 
+                                            v-text="'S/' +(parseFloat(arrayCuotaDetalle.monto*tipocambio)+ parseFloat(arrayCuotaDetalle.otroscostos)).toFixed(2)"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-md-6  mt-2">
+                                    <div class="float-left">
+                                    <p class="mb-0 text-left">Fecha de Pago</p>
+                                        <div class="fluid-container">
+                                            <h6 class="font-weight-medium text-left mb-0" v-text="arrayCuotaDetalle.fechapago"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6  mt-2">
+                                    <div class="float-left">
+                                    <p class="mb-0 text-left">Fecha de Cancelación</p>
+                                        <div class="fluid-container">
+                                            <h6 v-if="arrayCuotaDetalle.estado==0" class="font-weight-medium text-left mb-0" >Pendiente</h6>
+                                            <h6 v-else class="font-weight-medium text-left mb-0" v-text="arrayCuotaDetalle.fechacancelacion"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-md-6  mt-2">
+                                    <div class="float-left">
+                                    <p class="mb-0 text-left">Detalle</p>
+                                        <div class="fluid-container">
+                                            <h6 v-if="arrayCuotaDetalle.descripcion==null" class="font-weight-medium text-left mb-0" >Sin detalle</h6>
+                                            <h6 v-else class="font-weight-medium text-left mb-0" v-text="arrayCuotaDetalle.descripcion"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12  mt-2">
+                                    <div class="float-left">
+                                    <p class="mb-0 text-left">Cajero</p>
+                                        <div class="fluid-container">
+                                          
+                                            <h6  class="font-weight-medium text-left mb-0" 
+                                            v-text="arrayCuotaDetalle.usuarionombre+' '+
+                                            arrayCuotaDetalle.usuariopaterno+' '+
+                                            arrayCuotaDetalle.usuariomaterno"></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr>
+                                </div>
+                                <div class="col-md-6">
+                                        <button type="button" class="btn btn-danger col-md-12" @click="cerrarModal()">Cerrar</button>
+                                </div>
+                                <div class="col-md-6">
+                                        
+                                        <button type="button" class="btn btn-info col-md-12" @click="generarboucher()"><i class="fa fa-file-pdf-o"></i>
+                                        Boucher</button>
+                                </div>
+                            </div>
+                      
+                       
+                        </div>
+
+                        </div>
+                    
+                </div>
+        </div>
+<!-- fin de detalle de cuota-->
+
    </main>
 </template>
 
@@ -498,6 +624,7 @@ import vSelect from 'vue-select'
                 arrayCuota : [], //alamcenar todas las cuotas
                 arrayCliente:[],
                 arrayCuotasnuevo:[],
+                arrayCuotaDetalle:[],
                 
                 
                 modal : 0,
@@ -833,6 +960,22 @@ import vSelect from 'vue-select'
 
                 return this.errorCredito;
             },
+
+            detalleCuota(){
+
+            },
+             cerrarModal(){
+                this.modal=0;
+              
+            },
+            abrirModal(index){
+                let me= this;
+
+              me.modal=1;
+              me.arrayCuotaDetalle=me.arrayCuotasnuevo[index];
+              
+              
+              }
          
         },
         mounted() {
@@ -845,9 +988,8 @@ import vSelect from 'vue-select'
     overflow-y: initial !important
 }
 .modal-body{
-    height: 500px;
-   
-    overflow-y: auto;
+   height: 500px;
+   overflow-y: auto;
 }
 
     
@@ -858,9 +1000,9 @@ import vSelect from 'vue-select'
     .mostrar{
        
         display: list-item !important;
-        opacity: 1 !important;
-        position: fixed !important;
-        background-color: #3c29297a !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    background-color: #3c29297a !important;
   
 
     }   

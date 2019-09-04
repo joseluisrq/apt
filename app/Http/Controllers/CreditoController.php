@@ -113,15 +113,29 @@ class CreditoController extends Controller
  
         $idkiva = $request->idkiva;
          $cuotas = Cuota::join('creditos','cuotas.idcredito','=','creditos.id')
+         ->join('clientes','creditos.idcliente','=','clientes.id')
+         ->join('personas as cli','clientes.id','=','cli.id')
+        ->join('users','cuotas.idusuario','=','users.id')
+         ->join('personas as us','users.id','=','us.id')
         ->select(
             'cuotas.id', 
             'cuotas.monto',
             'cuotas.fechapago',
+            'cuotas.fechacancelacion',
             'cuotas.saldopendiente',
             'cuotas.otroscostos',
             'cuotas.descripcion',
             'cuotas.estado',
             'cuotas.numerocuota',
+            'cli.nombre',
+            'cli.apellidopaterno',
+            'cli.apellidomaterno',
+            'us.nombre as usuarionombre',
+            'us.apellidopaterno as usuariopaterno',
+            'us.apellidomaterno as usuariomaterno'
+            //'us.nombre'
+           // 'usuario.apellidopaterno',
+//'usuario.apellidomaterno'
             
             )
         ->where('creditos.idkiva','=',$idkiva)

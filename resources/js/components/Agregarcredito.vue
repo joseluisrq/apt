@@ -697,7 +697,8 @@ import vSelect from 'vue-select'
         }
     }
 </script>
-<style>    
+<style>  
+  
 .modal-dialog{
     overflow-y: initial !important
 }
