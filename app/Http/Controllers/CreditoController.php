@@ -291,7 +291,7 @@ class CreditoController extends Controller
         return $pdf->download('creditos.pdf');
     }
     public function pdfDetallecredito(Request $request, $id){
-        $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
+        $credito = Credito::join('clientes','creditos.idcliente','=','clientes.id')
         ->join('personas','clientes.id','=','personas.id')
         ->join('users','creditos.idusuario','=','users.id')
         ->select(
@@ -306,11 +306,17 @@ class CreditoController extends Controller
             'creditos.estado',
             'creditos.periodo',
             'personas.nombre',
+            'personas.dni',
+            'personas.direccion',
+            'personas.telefono',
+            'personas.email',
             'personas.apellidopaterno',
-            'personas.apellidomaterno','users.usuario')->take(1)->get();
+            'personas.apellidomaterno','users.usuario')
+            ->where('creditos.id','=',$id)->take(1)->get();
 
             $cuotas = Cuota::
             select(
+                'cuotas.numerocuota',
                 'cuotas.fechapago',
                 'cuotas.fechacancelacion',
                 'cuotas.saldopendiente',
@@ -319,14 +325,15 @@ class CreditoController extends Controller
                 'cuotas.descripcion',
                 'cuotas.estado')
             ->where('cuotas.idcredito','=',$id)
-            ->orderBy('cuotas.id', 'desc')->get();
+            ->orderBy('cuotas.id', 'asc')->get();
+
             $numerocredito=Credito::select('numeroprestamo')
             ->where('id',$id)->get();
 
             $pdf= \PDF::loadView('pdf.detallecredito',[
-                'creditos'=>$creditos,
+                'credito'=>$credito,
                 'cuotas'=>$cuotas]);
-            return $pdf->download('Credito-'.$numerocredito[0]->numeroprestamo.'pdf');
+            return $pdf->download('Credito-'.$numerocredito[0]->numeroprestamo.'.pdf');
         
     }
 }
