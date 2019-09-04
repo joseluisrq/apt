@@ -121,6 +121,7 @@ class CreditoController extends Controller
             'cuotas.otroscostos',
             'cuotas.descripcion',
             'cuotas.estado',
+            'cuotas.numerocuota',
             
             )
         ->where('creditos.idkiva','=',$idkiva)

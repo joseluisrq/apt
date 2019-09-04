@@ -170,7 +170,7 @@
 
                   <div class="row" v-for="credito in arrayCredito" :key="credito.id">
                       <div class="col-md-9">
-                            <h4 class="text-primary mb-5">Detalle de Credito Creado</h4>
+                            <h4 class="text-primary mb-5">Detalle de Credito</h4>
                       </div>
                     
                      <div class="col-md-2">
@@ -213,14 +213,14 @@
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
                                 <p class="mb-2 font-weight-bold">Monto </p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.montodesembolsado"></h6>
+                                <h6 class="mb-4 font-weight-light" v-text="'$'+credito.montodesembolsado"></h6>
                             </div>
                         </div>
                     </div>
                      <div class="col-md-3">
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Fecha</p>
+                                <p class="mb-2 font-weight-bold">Fecha de desembolso</p>
                                 <h6 class="mb-4 font-weight-light" v-text="credito.fechadesembolso"></h6>
                             </div>
                         </div>
@@ -245,8 +245,8 @@
                     <div class="col-md-3">
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Tasa</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.tasa"></h6>
+                                <p class="mb-2 font-weight-bold">Tasa de Interes</p>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.tasa+' %'"></h6>
                             </div>
                         </div>
                     </div>
@@ -254,7 +254,11 @@
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
                                 <p class="mb-2 font-weight-bold">Periodo</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.periodo"></h6>
+                                <h6 class="mb-4 font-weight-light" v-if="credito.periodo==1">Mensual</h6>
+                                  <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==2">Bimensual</h6>
+                                   <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==3">Trimestral</h6>
+                                    <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==6">Semestral</h6>
+                                     <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==12">Anual</h6>
                             </div>
                         </div>
                     </div>
@@ -275,28 +279,55 @@
                         <table class="table  table-bordered ">
                             <thead class="table-bordered ">
                                 <tr class="font-weight-bold">
+                                      <th class="font-weight-bold">#</th>
+                                    <th class="font-weight-bold">Opciones</th>
+                                   
                                     <th class="font-weight-bold">Fecha de Pago</th>
-                                    <th class="font-weight-bold">Cuota</th>
+                                    <th class="font-weight-bold">Cuota Dolares</th>
+                                    <th class="font-weight-bold">Cuota Soles</th>
                                     <th class="font-weight-bold">Saldo Pendiente</th>
-                                    <th class="font-weight-bold">Otros Costos</th>
-                                    <th class="font-weight-bold">Descripcion</th>
+                                    
                                     <th class="font-weight-bold">Pago</th>
                                         
                                     
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="cuotanuevo in arrayCuotasnuevo" :key="cuotanuevo.id">
-                                     <td v-text="cuotanuevo.fechapago"></td>
-                                     <td v-text="cuotanuevo.monto"></td>
+
+                                <tr  v-for="cuotanuevo in arrayCuotasnuevo" :key="cuotanuevo.id" >
+
+                                   
+                                       <td v-text="cuotanuevo.numerocuota"></td>
+                                     <td class="py-1">
+                                                <button type="button" @click="detalleCuota(cuotanuevo.id)" class="btn btn-success btn-sm">
+                                                <i class="fa fa-eye"></i>
+                                                </button>&nbsp;
+                                               
+                                    </td>
+                                 
+                                    <td v-if="cuotanuevo.fechapago <'2018-05-05' && cuotanuevo.estado==0" >
+                                        {{cuotanuevo.fechapago}} <span class="badge badge-warning"> Cuota atrasada</span>
+                                    </td>
+                                     <td v-else>
+                                        <span  v-text="cuotanuevo.fechapago"></span>
+                                    </td>
+                                     <td >
+                                        $ {{cuotanuevo.monto}} 
+                                     </td>
+                                     <td >
+                                         <span class="badge badge-primary" style="font-size:12px;"> S/ {{ parseFloat(cuotanuevo.monto * tipocambio).toFixed(2)	}}</span>
+                                     </td>
+                                     
                                     <td v-text="cuotanuevo.saldopendiente"></td>
-                                    <td v-text="cuotanuevo.otroscostos"></td>
-                                    <td v-text="cuotanuevo.descripcion"></td>
+                                   
                                     <td v-if="cuotanuevo.estado==0">
                                         <label class="badge badge-danger">Pendiente</label>
                                     </td>
+                                     <td v-else-if="cuotanuevo.estado==1">
+                                         <label class="badge badge-success">Pagada</label>
+                                     </td>
                                      <td v-else>
-                                         <label class="badge badge-success">Pagado</label>
+                                         <label class="badge badge-success">Pago con retraso</label>
                                      </td>
                                   
                                    
@@ -552,6 +583,7 @@ import vSelect from 'vue-select'
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCredito = respuesta.creditos;
+                    me.tipocambio=me.arrayCredito[0].tipocambio;
                     me.listarCuotas(idkiva)
                 })
                 .catch(function (error) {

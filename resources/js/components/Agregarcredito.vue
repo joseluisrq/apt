@@ -555,8 +555,14 @@ import vSelect from 'vue-select'
                 let me=this;
                
 
-                if(this.idkiva==0||this.numeroprestamo==''||this.montodesembolsado==0){
-                    
+                if(this.idkiva==0||this.numeroprestamo==''||this.montodesembolsado==0 ||this.numerocuotas==0 ||this.tipocambio==0 ||this.fechadesembolso==''){
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'error',
+                        title: 'Inserte información en los campos obligatorios',
+                        showConfirmButton: false,
+                        timer: 2000
+                        })
                 }else{
                      me.btnregistar=1;
                     var montotal=this.montodesembolsado;
