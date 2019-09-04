@@ -562,18 +562,23 @@ import vSelect from 'vue-select'
                     var montotal=this.montodesembolsado;
                                 
                     let interes=(parseFloat(montotal)*parseFloat(this.tasa))/100;
-                    let montoconinteres=(parseFloat(montotal) + parseFloat(interes)).toFixed(2);
+                    let montoconinteres=(parseFloat(montotal) + parseFloat(interes))
                     
                     var montoxcuota=((montoconinteres)/this.numerocuotas).toFixed(2);
-                    var sininteres=(parseFloat(this.montodesembolsado)/this.numerocuotas).toFixed(2);
+                    var sininteres=(parseFloat(this.montodesembolsado)/this.numerocuotas)
 
                     var pendiente=this.montodesembolsado;
-                    var fechapagoxcuota=this.fechadesembolso;
                     var contadoraux=1;
                 
-                var fecha = new Date(fechapagoxcuota);
+                    var e = new Date(this.fechadesembolso);
+                    var dia=e.getDate()+1;
+                    e.setMonth(e.getMonth() + 1);
+                    var unmesmas = e.getFullYear() + "-" + ('0'+(e.getMonth() + 1)).slice(-2) + "-" + ('0'+dia).slice(-2);
+                    
 
                     for (let i = 0; i < this.numerocuotas; i++) { 
+                    
+                   
                     
                     // pendiente=sininteres-montoxcuota;
                     pendiente=(montotal-sininteres).toFixed(2);
@@ -582,7 +587,7 @@ import vSelect from 'vue-select'
                         //(monto total+tasa)/cantidadde cuotas
                     
                         monto:montoxcuota,
-                        fechapago:this.fechadesembolso,
+                        fechapago:unmesmas,
                         saldopendiente:pendiente,
                         otroscostos:0.0,
                         descripcion:'',
@@ -592,6 +597,13 @@ import vSelect from 'vue-select'
                     })
                     montotal=pendiente;
                     contadoraux++;
+
+
+                     e = new Date(unmesmas);
+                    dia=e.getDate()+1;
+                     e.setMonth(e.getMonth() + 1);
+                      unmesmas = e.getFullYear() + "-" + ('0'+(e.getMonth()+1)).slice(-2) + "-" + ('0'+dia).slice(-2);
+                   
                     //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
                     }
                 

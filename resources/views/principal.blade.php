@@ -49,9 +49,9 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
               <a class="dropdown-item">
-                <p class="mb-0 font-weight-normal float-left">You have 4 new notifications
+                <p class="mb-0 font-weight-normal float-left">Tine 4 notificaciones
                 </p>
-                <span class="badge badge-pill badge-warning float-right">View all</span>
+                <span class="badge badge-pill badge-warning float-right">Ver todas</span>
               </a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item preview-item">
@@ -61,9 +61,9 @@
                   </div>
                 </div>
                 <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-medium text-dark">Application Error</h6>
+                  <h6 class="preview-subject font-weight-medium text-dark">Cuota atrasada</h6>
                   <p class="font-weight-light small-text">
-                    Just now
+                    SMM20170001
                   </p>
                 </div>
               </a>
@@ -75,9 +75,9 @@
                   </div>
                 </div>
                 <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-medium text-dark">Settings</h6>
+                  <h6 class="preview-subject font-weight-medium text-dark">Cuota atrasada</h6>
                   <p class="font-weight-light small-text">
-                    Private message
+                    SMM20170002
                   </p>
                 </div>
               </a>
@@ -89,9 +89,9 @@
                   </div>
                 </div>
                 <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-medium text-dark">New user registration</h6>
+                  <h6 class="preview-subject font-weight-medium text-dark">Cuota atrasada</h6>
                   <p class="font-weight-light small-text">
-                    2 days ago
+                    SMM20170003
                   </p>
                 </div>
               </a>

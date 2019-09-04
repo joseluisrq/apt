@@ -2376,13 +2376,15 @@ __webpack_require__.r(__webpack_exports__);
         me.btnregistar = 1;
         var montotal = this.montodesembolsado;
         var interes = parseFloat(montotal) * parseFloat(this.tasa) / 100;
-        var montoconinteres = (parseFloat(montotal) + parseFloat(interes)).toFixed(2);
+        var montoconinteres = parseFloat(montotal) + parseFloat(interes);
         var montoxcuota = (montoconinteres / this.numerocuotas).toFixed(2);
-        var sininteres = (parseFloat(this.montodesembolsado) / this.numerocuotas).toFixed(2);
+        var sininteres = parseFloat(this.montodesembolsado) / this.numerocuotas;
         var pendiente = this.montodesembolsado;
-        var fechapagoxcuota = this.fechadesembolso;
         var contadoraux = 1;
-        var fecha = new Date(fechapagoxcuota);
+        var e = new Date(this.fechadesembolso);
+        var dia = e.getDate() + 1;
+        e.setMonth(e.getMonth() + 1);
+        var unmesmas = e.getFullYear() + "-" + ('0' + (e.getMonth() + 1)).slice(-2) + "-" + ('0' + dia).slice(-2);
 
         for (var i = 0; i < this.numerocuotas; i++) {
           // pendiente=sininteres-montoxcuota;
@@ -2390,14 +2392,18 @@ __webpack_require__.r(__webpack_exports__);
           me.arrayCuota.push({
             //(monto total+tasa)/cantidadde cuotas
             monto: montoxcuota,
-            fechapago: this.fechadesembolso,
+            fechapago: unmesmas,
             saldopendiente: pendiente,
             otroscostos: 0.0,
             descripcion: '',
             contador: contadoraux
           });
           montotal = pendiente;
-          contadoraux++; //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
+          contadoraux++;
+          e = new Date(unmesmas);
+          dia = e.getDate() + 1;
+          e.setMonth(e.getMonth() + 1);
+          unmesmas = e.getFullYear() + "-" + ('0' + (e.getMonth() + 1)).slice(-2) + "-" + ('0' + dia).slice(-2); //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
         }
 
         this.listacuotas = 1;
