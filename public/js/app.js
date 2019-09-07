@@ -3577,6 +3577,12 @@ __webpack_require__.r(__webpack_exports__);
 
       me.historialcredito(page, buscar, criterio);
     },
+    generarboucher: function generarboucher(idcuota) {
+      window.open('http://localhost:8000/credito/detallecuotapdf/' + idcuota + '', '_blank');
+    },
+    pdfDetallecuota: function pdfDetallecuota(idcredito) {
+      window.open('http://localhost:8000/credito/detallecreditopdf/' + idcredito, '_blank');
+    },
     historialcredito: function historialcredito(page, buscar, criterio) {
       var me = this;
       me.listado = 2;
@@ -43654,7 +43660,19 @@ var render = function() {
                           [_c("i", { staticClass: "fa fa-trash-o" })]
                         ),
                         _vm._v(" "),
-                        _vm._m(3, true)
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.pdfDetallecuota(credito.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+                        )
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-1" }, [
@@ -43961,7 +43979,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "table-responsive" }, [
                       _c("table", { staticClass: "table  table-bordered " }, [
-                        _vm._m(4),
+                        _vm._m(3),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -44245,7 +44263,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "table-responsive" }, [
                       _c("table", { staticClass: "table  table-bordered " }, [
-                        _vm._m(5),
+                        _vm._m(4),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -44680,7 +44698,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(6),
+                  _vm._m(5),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-md-6" }, [
                     _c(
@@ -44706,7 +44724,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: {
                           click: function($event) {
-                            return _vm.generarboucher()
+                            return _vm.generarboucher(_vm.arrayCuotaDetalle.id)
                           }
                         }
                       },
@@ -44770,16 +44788,6 @@ var staticRenderFns = [
         _vm._v("Detalle de Credito")
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-info btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-file-pdf-o" })]
-    )
   },
   function() {
     var _vm = this

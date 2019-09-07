@@ -229,6 +229,7 @@ class CreditoController extends Controller
                 $mytime= Carbon::now('America/Lima');
 
                 $cuota->idcredito = $credito->id;
+                $cuota->numerocuota = $cuot['contador'];
                 $cuota->idusuario=\Auth::user()->id;
                 $cuota->fechapago = $cuot['fechapago'];
                 $cuota->fechacancelacion =$mytime->toDateString();
@@ -334,6 +335,50 @@ class CreditoController extends Controller
                 'credito'=>$credito,
                 'cuotas'=>$cuotas]);
             return $pdf->download('Credito-'.$numerocredito[0]->numeroprestamo.'.pdf');
+        
+    }
+    public function pdfDetalleCuota(Request $request, $id){
+        $cuotas = Cuota::join('creditos','cuotas.idcredito','=','creditos.id')
+        -> join('clientes','creditos.idcliente','=','clientes.id')
+        ->join('personas','clientes.id','=','personas.id')
+        ->join('users','creditos.idusuario','=','users.id')
+        ->select(
+            'creditos.id', 
+            'creditos.numeroprestamo',
+            'creditos.idkiva',
+             'creditos.montodesembolsado',
+            'creditos.fechadesembolso',
+            'creditos.numerocuotas',
+            'creditos.tipocambio',
+            'creditos.tasa',
+            'creditos.estado',
+            'creditos.periodo',
+            'cuotas.id',
+            'cuotas.numerocuota',
+            'cuotas.fechapago',
+            'cuotas.fechacancelacion',
+            'cuotas.saldopendiente',
+            'cuotas.monto',
+            'cuotas.otroscostos',
+            'cuotas.descripcion',
+            'cuotas.estado',
+            'personas.nombre',
+            'personas.dni',
+            'personas.direccion',
+            'personas.telefono',
+            'personas.email',
+            'personas.apellidopaterno',
+            'personas.apellidomaterno','users.usuario')
+        ->where('cuotas.id','=',$id)->take(1)->get();
+            
+       
+
+            $numerocredito=Cuota::select('numerocuota')
+            ->where('id',$id)->get();
+
+            $pdf= \PDF::loadView('pdf.detallecuota',[
+                'cuotas'=>$cuotas]);
+            return $pdf->download('Cuota-'.$numerocredito[0]->numerocuota.'.pdf');
         
     }
 }

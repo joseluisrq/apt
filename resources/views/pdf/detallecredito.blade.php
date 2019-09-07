@@ -194,6 +194,7 @@
                             <td>{{$cuot->numerocuota}}</td>
                             <td>{{$cuot->monto}}</td>
                             <td>{{$cuot->saldopendiente}}</td>
+                            
                             <td>{{$cuot->fechapago}}</td>
                             <td>{{$cuot->otroscostos}}</td>
                             <td>{{$cuot->descripcion}}</td>

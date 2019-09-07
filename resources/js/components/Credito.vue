@@ -176,7 +176,7 @@
                      <div class="col-md-2">
                           <button type="button" class="btn btn-warning btn-sm"  @click="editarCredito()"><i class="fa fa-pencil"></i></button>
                            <button type="button" class="btn btn-danger btn-sm" @click="eliminarCredito()"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-info btn-sm"><i class="fa fa-file-pdf-o"></i></button>
+                            <button type="button" class="btn btn-info btn-sm"  @click="pdfDetallecuota(credito.id)"><i class="fa fa-file-pdf-o"></i></button>
                            
                      </div>
                     
@@ -563,7 +563,7 @@
                                 </div>
                                 <div class="col-md-6">
                                         
-                                        <button type="button" class="btn btn-info col-md-12" @click="generarboucher()"><i class="fa fa-file-pdf-o"></i>
+                                        <button type="button" class="btn btn-info col-md-12" @click="generarboucher(arrayCuotaDetalle.id)"><i class="fa fa-file-pdf-o"></i>
                                         Boucher</button>
                                 </div>
                             </div>
@@ -688,7 +688,12 @@ import vSelect from 'vue-select'
                 //Envia la petición para visualizar la data de esa página
                 me.historialcredito(page,buscar,criterio);
             },
-
+            generarboucher(idcuota){
+                window.open('http://localhost:8000/credito/detallecuotapdf/'+idcuota+'','_blank');
+            },
+            pdfDetallecuota(idcredito){
+                 window.open('http://localhost:8000/credito/detallecreditopdf/'+idcredito,'_blank');
+            },
               historialcredito (page,buscar,criterio){
                 let me=this;
                 me.listado=2;
