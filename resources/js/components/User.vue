@@ -224,6 +224,7 @@
 
 <script>
     export default {
+         props : ['ruta'],
         data (){
             return {
                 persona_id: 0,
@@ -290,7 +291,7 @@
         methods : {
             listarPersona (page,buscar,criterio){
                 let me=this;
-                var url= '/user?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
+                var url= this.ruta+'/user?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayPersona = respuesta.personas.data;
@@ -302,7 +303,7 @@
             },
             selectRol(){
                 let me=this;
-                var url= '/rol/selectRol';
+                var url= this.ruta+'/rol/selectRol';
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayRol = respuesta.roles;
@@ -325,7 +326,7 @@
                 
                 let me = this;
 
-                axios.post('/user/registrar',{
+                axios.post(this.ruta+'/user/registrar',{
                     'dni': this.dni,
                     'nombre': this.nombre,
                     'apellidopaterno': this.apellidopaterno,
@@ -359,7 +360,7 @@
                 
                 let me = this;
 
-                axios.put('/user/actualizar',{
+                 axios.put(this.ruta+'/user/actualizar',{
                     'dni': this.dni,
                     'nombre': this.nombre,
                     'apellidopaterno': this.apellidopaterno,
@@ -478,7 +479,7 @@
                         if (result.value) {
                             //usamos axios para desactivar
                               let me=this;
-                                axios.put('/user/desactivar',{ //hacemos referencia a la ruta que creamos
+                                 axios.put(this.ruta+'/user/desactivar',{ //hacemos referencia a la ruta que creamos
                                     'id':id
                                 }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
                                     me.listarPersona(1,'','nombre');
@@ -528,7 +529,7 @@
                         if (result.value) {
                             //usamos axios para desactivar
                               let me=this;
-                                axios.put('/user/activar',{ //hacemos referencia a la ruta que creamos
+                                 axios.put(this.ruta+'/user/activar',{ //hacemos referencia a la ruta que creamos
                                     'id':id
                                 }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
                                     me.listarPersona(1,'','nombre');

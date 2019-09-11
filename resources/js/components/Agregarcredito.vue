@@ -331,6 +331,7 @@
 <script>
 import vSelect from 'vue-select'
     export default {
+         props : ['ruta'],
         data (){
             return {
                 //variables para credito
@@ -439,7 +440,7 @@ import vSelect from 'vue-select'
             listarCredito (){
                  
                 let me=this;
-                var url= '/credito/creditosCliente?idkiva='+me.idkiva;
+                var url= this.ruta+'/credito/creditosCliente?idkiva='+me.idkiva;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCredito = respuesta.creditos;
@@ -453,7 +454,7 @@ import vSelect from 'vue-select'
             //listar cuotas luego de ingresar el credito
             listarCuotas(){
                   let me=this;
-                var url= '/credito/cuotasClientenuevo?idkiva='+me.idkiva;
+                var url= this.ruta+'/credito/cuotasClientenuevo?idkiva='+me.idkiva;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCuotasnuevo = respuesta.cuotas;
@@ -497,7 +498,7 @@ import vSelect from 'vue-select'
                         if (result.value) {
                             //usamos axios para desactivar
                               let me=this;
-                                axios.put('/credito/desactivar',{ //hacemos referencia a la ruta que creamos
+                                 axios.put(this.ruta+'/credito/desactivar',{ //hacemos referencia a la ruta que creamos
                                     'id':me.arrayCredito[0].id
                                 }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
                                     me.nuevoCredito();
@@ -548,7 +549,7 @@ import vSelect from 'vue-select'
             selectCliente(search, loading){
                  let me=this;
                  loading(true)
-                var url= '/cliente/selectCliente?filtro='+search;
+                var url= this.ruta+'/cliente/selectCliente?filtro='+search;
                 axios.get(url).then(function (response) {
                     let respuesta= response.data;
                     q:search;
@@ -681,7 +682,7 @@ import vSelect from 'vue-select'
                         )
 
 
-                                    axios.post('/credito/registrar',{
+                                    axios.post(this.ruta+'/credito/registrar',{
 
                                 'numeroprestamo': this.numeroprestamo,
                                 'idkiva': this.idkiva,

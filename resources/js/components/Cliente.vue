@@ -181,6 +181,7 @@
 
 <script>
     export default {
+         props : ['ruta'],
         data (){
             return {
                 //datos de la persona
@@ -249,7 +250,7 @@
         methods : {
             listarPersona (page,buscar,criterio){
                 let me=this;
-                var url= '/cliente?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
+                var url= this.ruta+'/cliente?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayPersona = respuesta.personas.data;
@@ -273,7 +274,7 @@
                 
                 let me = this;
 
-                axios.post('/cliente/registrar',{
+                axios.post(this.ruta+'/cliente/registrar',{
                     'dni': this.dni,
                     'nombre': this.nombre,
                     'apellidopaterno': this.apellidopaterno,
@@ -301,7 +302,7 @@
                 
                 let me = this;
 
-                axios.put('/cliente/actualizar',{
+                 axios.put(this.ruta+'/cliente/actualizar',{
                     'dni': this.dni,
                     'nombre': this.nombre,
                    'apellidopaterno': this.apellidopaterno,

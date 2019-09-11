@@ -80,6 +80,7 @@
 
 <script>
     export default {
+         props : ['ruta'],
         data (){
             return {
                 rol_id: 0,
@@ -134,7 +135,7 @@
         methods : {
             listarRol (page,buscar,criterio){
                 let me=this;
-                var url= '/rol?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
+                var url= this.ruta+'/rol?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayRol = respuesta.roles.data;

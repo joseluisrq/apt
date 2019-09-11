@@ -2172,6 +2172,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['ruta'],
   data: function data() {
     return {
       //variables para credito
@@ -2273,7 +2274,7 @@ __webpack_require__.r(__webpack_exports__);
     //lisar credito luego se aver sido insertado el credito
     listarCredito: function listarCredito() {
       var me = this;
-      var url = '/credito/creditosCliente?idkiva=' + me.idkiva;
+      var url = this.ruta + '/credito/creditosCliente?idkiva=' + me.idkiva;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayCredito = respuesta.creditos;
@@ -2285,7 +2286,7 @@ __webpack_require__.r(__webpack_exports__);
     //listar cuotas luego de ingresar el credito
     listarCuotas: function listarCuotas() {
       var me = this;
-      var url = '/credito/cuotasClientenuevo?idkiva=' + me.idkiva;
+      var url = this.ruta + '/credito/cuotasClientenuevo?idkiva=' + me.idkiva;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayCuotasnuevo = respuesta.cuotas;
@@ -2325,7 +2326,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           //usamos axios para desactivar
           var me = _this;
-          axios.put('/credito/desactivar', {
+          axios.put(_this.ruta + '/credito/desactivar', {
             //hacemos referencia a la ruta que creamos
             'id': me.arrayCredito[0].id
           }).then(function (response) {
@@ -2367,7 +2368,7 @@ __webpack_require__.r(__webpack_exports__);
     selectCliente: function selectCliente(search, loading) {
       var me = this;
       loading(true);
-      var url = '/cliente/selectCliente?filtro=' + search;
+      var url = this.ruta + '/cliente/selectCliente?filtro=' + search;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
 
@@ -2469,7 +2470,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           Swal.fire('Insertado', 'El credito ha sido registrado', 'success');
-          axios.post('/credito/registrar', {
+          axios.post(_this2.ruta + '/credito/registrar', {
             'numeroprestamo': _this2.numeroprestamo,
             'idkiva': _this2.idkiva,
             'montodesembolsado': _this2.montodesembolsado,
@@ -2703,6 +2704,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['ruta'],
   data: function data() {
     return {
       //datos de la persona
@@ -2772,7 +2774,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     listarPersona: function listarPersona(page, buscar, criterio) {
       var me = this;
-      var url = '/cliente?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = this.ruta + '/cliente?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayPersona = respuesta.personas.data;
@@ -2794,7 +2796,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var me = this;
-      axios.post('/cliente/registrar', {
+      axios.post(this.ruta + '/cliente/registrar', {
         'dni': this.dni,
         'nombre': this.nombre,
         'apellidopaterno': this.apellidopaterno,
@@ -2819,7 +2821,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var me = this;
-      axios.put('/cliente/actualizar', {
+      axios.put(this.ruta + '/cliente/actualizar', {
         'dni': this.dni,
         'nombre': this.nombre,
         'apellidopaterno': this.apellidopaterno,
@@ -3511,6 +3513,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['ruta'],
   data: function data() {
     return {
       //variables para credito
@@ -3616,7 +3619,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     cargarPdf: function cargarPdf() {
-      window.open('http://localhost:8000/credito/listarpdf', '_blank');
+      window.open(this.ruta + '/credito/listarpdf', '_blank');
     },
     cambiarPagina: function cambiarPagina(page, buscar, criterio) {
       var me = this; //Actualiza la página actual
@@ -3626,15 +3629,15 @@ __webpack_require__.r(__webpack_exports__);
       me.historialcredito(page, buscar, criterio);
     },
     generarboucher: function generarboucher(idcuota) {
-      window.open('http://localhost:8000/credito/detallecuotapdf/' + idcuota + '', '_blank');
+      window.open(this.ruta + '/credito/detallecuotapdf/' + idcuota + '', '_blank');
     },
     pdfDetallecuota: function pdfDetallecuota(idcredito) {
-      window.open('http://localhost:8000/credito/detallecreditopdf/' + idcredito, '_blank');
+      window.open(this.ruta + '/credito/detallecreditopdf/' + idcredito, '_blank');
     },
     historialcredito: function historialcredito(page, buscar, criterio) {
       var me = this;
       me.listado = 2;
-      var url = '/credito?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = this.ruta + '/credito?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayCredito = respuesta.creditos.data;
@@ -3646,7 +3649,7 @@ __webpack_require__.r(__webpack_exports__);
     //lisar credito luego se aver sido insertado el credito
     listarCredito: function listarCredito(idkiva) {
       var me = this;
-      var url = '/credito/creditosCliente?idkiva=' + idkiva;
+      var url = this.ruta + '/credito/creditosCliente?idkiva=' + idkiva;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayCredito = respuesta.creditos;
@@ -3660,7 +3663,7 @@ __webpack_require__.r(__webpack_exports__);
     listarCuotas: function listarCuotas(idkiva) {
       this.listado = 0;
       var me = this;
-      var url = '/credito/cuotasClientenuevo?idkiva=' + idkiva;
+      var url = this.ruta + '/credito/cuotasClientenuevo?idkiva=' + idkiva;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayCuotasnuevo = respuesta.cuotas;
@@ -3697,7 +3700,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           //usamos axios para desactivar
           var me = _this;
-          axios.put('/credito/desactivar', {
+          axios.put(_this.ruta + '/credito/desactivar', {
             //hacemos referencia a la ruta que creamos
             'id': me.arrayCredito[0].id
           }).then(function (response) {
@@ -3741,7 +3744,7 @@ __webpack_require__.r(__webpack_exports__);
     selectCliente: function selectCliente(search, loading) {
       var me = this;
       loading(true);
-      var url = '/cliente/selectCliente?filtro=' + search;
+      var url = this.ruta + '/cliente/selectCliente?filtro=' + search;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
 
@@ -4578,6 +4581,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['ruta'],
   data: function data() {
     return {
       rol_id: 0,
@@ -4635,7 +4639,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     listarRol: function listarRol(page, buscar, criterio) {
       var me = this;
-      var url = '/rol?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = this.ruta + '/rol?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayRol = respuesta.roles.data;
@@ -4893,6 +4897,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['ruta'],
   data: function data() {
     return {
       persona_id: 0,
@@ -4962,7 +4967,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     listarPersona: function listarPersona(page, buscar, criterio) {
       var me = this;
-      var url = '/user?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = this.ruta + '/user?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayPersona = respuesta.personas.data;
@@ -4973,7 +4978,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectRol: function selectRol() {
       var me = this;
-      var url = '/rol/selectRol';
+      var url = this.ruta + '/rol/selectRol';
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayRol = respuesta.roles;
@@ -4994,7 +4999,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var me = this;
-      axios.post('/user/registrar', {
+      axios.post(this.ruta + '/user/registrar', {
         'dni': this.dni,
         'nombre': this.nombre,
         'apellidopaterno': this.apellidopaterno,
@@ -5026,7 +5031,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var me = this;
-      axios.put('/user/actualizar', {
+      axios.put(this.ruta + '/user/actualizar', {
         'dni': this.dni,
         'nombre': this.nombre,
         'apellidopaterno': this.apellidopaterno,
@@ -5143,7 +5148,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           //usamos axios para desactivar
           var me = _this;
-          axios.put('/user/desactivar', {
+          axios.put(_this.ruta + '/user/desactivar', {
             //hacemos referencia a la ruta que creamos
             'id': id
           }).then(function (response) {
@@ -5187,7 +5192,7 @@ __webpack_require__.r(__webpack_exports__);
         if (result.value) {
           //usamos axios para desactivar
           var me = _this2;
-          axios.put('/user/activar', {
+          axios.put(_this2.ruta + '/user/activar', {
             //hacemos referencia a la ruta que creamos
             'id': id
           }).then(function (response) {

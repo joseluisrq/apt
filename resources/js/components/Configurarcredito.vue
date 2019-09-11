@@ -583,6 +583,7 @@
 <script>
 import vSelect from 'vue-select'
     export default {
+        props : ['ruta'],
         data (){
             return {
                 //variables para credito
@@ -698,7 +699,7 @@ import vSelect from 'vue-select'
             },
 
             cargarPdf(){
-                window.open('http://localhost:8000/credito/listarpdf','_blank');
+                window.open(this.ruta+'/credito/listarpdf','_blank');
             },
               cambiarPagina(page,buscar,criterio){
                 let me = this;
@@ -708,15 +709,15 @@ import vSelect from 'vue-select'
                 me.historialcredito(page,buscar,criterio);
             },
             generarboucher(idcuota){
-                window.open('http://localhost:8000/credito/detallecuotapdf/'+idcuota+'','_blank');
+                window.open(this.ruta+'/credito/detallecuotapdf/'+idcuota+'','_blank');
             },
             pdfDetallecuota(idcredito){
-                 window.open('http://localhost:8000/credito/detallecreditopdf/'+idcredito,'_blank');
+                 window.open(this.ruta+'/credito/detallecreditopdf/'+idcredito,'_blank');
             },
               historialcredito (page,buscar,criterio){
                 let me=this;
                 me.listado=2;
-                var url= '/credito?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
+                var url= this.ruta+'/credito?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCredito = respuesta.creditos.data;
@@ -730,7 +731,7 @@ import vSelect from 'vue-select'
             listarCredito (idkiva){
                  
                 let me=this;
-                var url= '/credito/creditosCliente?idkiva='+idkiva;
+                var url= this.ruta+'/credito/creditosCliente?idkiva='+idkiva;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCredito = respuesta.creditos;
@@ -746,7 +747,7 @@ import vSelect from 'vue-select'
             listarCuotas(idkiva){
                  this.listado=0;
                   let me=this;
-                var url= '/credito/cuotasClientenuevo?idkiva='+idkiva;
+                var url= this.ruta+'/credito/cuotasClientenuevo?idkiva='+idkiva;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCuotasnuevo = respuesta.cuotas;
@@ -787,7 +788,7 @@ import vSelect from 'vue-select'
                         if (result.value) {
                             //usamos axios para desactivar
                               let me=this;
-                                axios.put('/credito/desactivar',{ //hacemos referencia a la ruta que creamos
+                                 axios.put(this.ruta+'/credito/desactivar',{ //hacemos referencia a la ruta que creamos
                                     'id':me.arrayCredito[0].id
                                 }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
                                     me.nuevoCredito();
@@ -839,7 +840,7 @@ import vSelect from 'vue-select'
             selectCliente(search, loading){
                  let me=this;
                  loading(true)
-                var url= '/cliente/selectCliente?filtro='+search;
+                var url= this.ruta+'/cliente/selectCliente?filtro='+search;
                 axios.get(url).then(function (response) {
                     let respuesta= response.data;
                     q:search;
