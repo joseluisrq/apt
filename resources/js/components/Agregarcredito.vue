@@ -46,7 +46,7 @@
                                 <input type="text" class="form-control"   v-model="idkiva"  placeholder="Identificador KIVA">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Monto desembolsado<span class="text-danger "   v-show="montodesembolsado==0">
+                                <label for="exampleInputPassword1">Monto desembolsado (Dolares)<span class="text-danger "   v-show="montodesembolsado==0">
                                      (Obligatorio)</span></label>
                                 <input type="number" class="form-control" step="any" v-model="montodesembolsado"  placeholder="">
                                  
@@ -93,9 +93,9 @@
                                     <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Cuota</th>
-                                            <th>Monto</th>
-                                            <th>Saldo Pendiente</th>
+                                            <th>N°</th>
+                                            <th>Monto de Cuota ($)</th>
+                                            <th>Saldo Pendiente Neto($)</th>
                                             <th>Fecha de Pago</th>
                                             <th>Otros Pagos</th>
                                             <th>Descripcion</th>
@@ -174,14 +174,15 @@
                       </div>
                     
                      <div class="col-md-2">
-                          <button type="button" class="btn btn-warning btn-sm"  @click="editarCredito()"><i class="fa fa-pencil"></i></button>
+                        
                            <button type="button" class="btn btn-danger btn-sm" @click="eliminarCredito()"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-info btn-sm"><i class="fa fa-file-pdf-o"></i></button>
+                            
+                             <button type="button" class="btn btn-info btn-sm"  @click="pdfDetallecuota(credito.id)"><i class="fa fa-file-pdf-o"></i></button>
                            
                      </div>
                     
                      <div class="col-md-1">
-                          <button type="button" class="btn btn-success btn-sm"  @click="nuevoCredito()"><i class="fa fa-plus-circle"></i></button>
+                          <button type="button" class="btn btn-success btn-sm"  @click="nuevoCredito()"><i class="fa fa-plus-circle">Nuevo Credito</i></button>
                      </div>
                  
                     <div class="col-md-12">
@@ -213,7 +214,7 @@
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
                                 <p class="mb-2 font-weight-bold">Monto Desembolsado</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.montodesembolsado"></h6>
+                                <h6 class="mb-4 font-weight-light" v-text="'$ '+credito.montodesembolsado"></h6>
                             </div>
                         </div>
                     </div>
@@ -238,7 +239,7 @@
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
                                 <p class="mb-2 font-weight-bold">Tipo de Cambio</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.tipocambio"></h6>
+                                <h6 class="mb-4 font-weight-light" v-text="'S/ '+credito.tipocambio"></h6>
                             </div>
                         </div>
                     </div>
@@ -246,7 +247,7 @@
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
                                 <p class="mb-2 font-weight-bold">Tasa</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.tasa"></h6>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.tasa+' %'"></h6>
                             </div>
                         </div>
                     </div>
@@ -254,7 +255,11 @@
                         <div class="wrapper d-flex justify-content-between">
                             <div class="side-left">
                                 <p class="mb-2 font-weight-bold">Periodo</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.periodo"></h6>
+                                <h6 class="mb-4 font-weight-light" v-if="credito.periodo==1">Mensual</h6>
+                                <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==2">Bimestral</h6>
+                                <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==3">Trimestral</h6>
+                                <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==6">Semestral</h6>
+                                <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==12">Anual</h6>
                             </div>
                         </div>
                     </div>
@@ -275,9 +280,12 @@
                         <table class="table  table-bordered ">
                             <thead class="table-bordered ">
                                 <tr class="font-weight-bold">
-                                    <th class="font-weight-bold">Fecha de Pago</th>
-                                    <th class="font-weight-bold">Cuota</th>
-                                    <th class="font-weight-bold">Saldo Pendiente</th>
+                                   
+                                     <th class="font-weight-bold">N°</th>
+                                      <th class="font-weight-bold">Fecha de Pago</th>
+                                  
+                                    <th class="font-weight-bold">Monto Cuota($)</th>
+                                    <th class="font-weight-bold">Saldo Pendiente Neto($)</th>
                                     <th class="font-weight-bold">Otros Costos</th>
                                     <th class="font-weight-bold">Descripcion</th>
                                     <th class="font-weight-bold">Pago</th>
@@ -287,7 +295,9 @@
                             </thead>
                             <tbody>
                                 <tr v-for="cuotanuevo in arrayCuotasnuevo" :key="cuotanuevo.id">
-                                     <td v-text="cuotanuevo.fechapago"></td>
+                                      <td v-text="cuotanuevo.numerocuota"></td>
+                                      <td v-text="cuotanuevo.fechapago"></td>
+                                    
                                      <td v-text="cuotanuevo.monto"></td>
                                     <td v-text="cuotanuevo.saldopendiente"></td>
                                     <td v-text="cuotanuevo.otroscostos"></td>
@@ -461,6 +471,9 @@ import vSelect from 'vue-select'
               me.editarvar=1;
               
             },
+             pdfDetallecuota(idcredito){
+                 window.open('http://localhost:8000/credito/detallecreditopdf/'+idcredito,'_blank');
+            },
              //editar credito
             eliminarCredito(){
               
@@ -587,7 +600,8 @@ import vSelect from 'vue-select'
                 
                     var e = new Date(this.fechadesembolso);
                     var dia=e.getDate()+1;
-                    e.setMonth(e.getMonth() + 1);
+                    e.setMonth(e.getMonth() + parseInt(this.periodo));
+                    
                     var unmesmas = e.getFullYear() + "-" + ('0'+(e.getMonth() + 1)).slice(-2) + "-" + ('0'+dia).slice(-2);
                     
 
@@ -595,8 +609,13 @@ import vSelect from 'vue-select'
                     
                    
                     
-                    // pendiente=sininteres-montoxcuota;
+                    //monto toal menos cuota sin interes
                     pendiente=(montotal-sininteres).toFixed(2);
+
+                    //ultima cuota
+                    if((i+1)==this.numerocuotas){
+                        pendiente=0;
+                    }
 
                     me.arrayCuota.push({
                         //(monto total+tasa)/cantidadde cuotas
@@ -612,14 +631,15 @@ import vSelect from 'vue-select'
                     })
                     montotal=pendiente;
                     contadoraux++;
-
+                    
+                    
 
                      e = new Date(unmesmas);
                     dia=e.getDate()+1;
-                     e.setMonth(e.getMonth() + 1);
+                     e.setMonth(e.getMonth() + parseInt(this.periodo));
                       unmesmas = e.getFullYear() + "-" + ('0'+(e.getMonth()+1)).slice(-2) + "-" + ('0'+dia).slice(-2);
                    
-                    //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
+                  
                     }
                 
 

@@ -26,7 +26,7 @@ Vue.component('rol', require('./components/Rol.vue').default);
 Vue.component('user', require('./components/User.vue').default);
 Vue.component('credito', require('./components/Credito.vue').default);
 Vue.component('agregarcredito', require('./components/Agregarcredito.vue').default);
-
+Vue.component('configcredito', require('./components/Configurarcredito.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -35,8 +35,8 @@ Vue.component('agregarcredito', require('./components/Agregarcredito.vue').defau
 
 const app = new Vue({
     el: '#app',
-    data:{
-        menu:0,
+    data: {
+        menu: 0,
         ruta: 'http://localhost/apt/public'
     }
 });

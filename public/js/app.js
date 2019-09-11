@@ -2160,6 +2160,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2289,6 +2299,9 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       me.editarvar = 1;
     },
+    pdfDetallecuota: function pdfDetallecuota(idcredito) {
+      window.open('http://localhost:8000/credito/detallecreditopdf/' + idcredito, '_blank');
+    },
     //editar credito
     eliminarCredito: function eliminarCredito() {
       var _this = this;
@@ -2398,12 +2411,17 @@ __webpack_require__.r(__webpack_exports__);
         var contadoraux = 1;
         var e = new Date(this.fechadesembolso);
         var dia = e.getDate() + 1;
-        e.setMonth(e.getMonth() + 1);
+        e.setMonth(e.getMonth() + parseInt(this.periodo));
         var unmesmas = e.getFullYear() + "-" + ('0' + (e.getMonth() + 1)).slice(-2) + "-" + ('0' + dia).slice(-2);
 
         for (var i = 0; i < this.numerocuotas; i++) {
-          // pendiente=sininteres-montoxcuota;
-          pendiente = (montotal - sininteres).toFixed(2);
+          //monto toal menos cuota sin interes
+          pendiente = (montotal - sininteres).toFixed(2); //ultima cuota
+
+          if (i + 1 == this.numerocuotas) {
+            pendiente = 0;
+          }
+
           me.arrayCuota.push({
             //(monto total+tasa)/cantidadde cuotas
             monto: montoxcuota,
@@ -2417,8 +2435,8 @@ __webpack_require__.r(__webpack_exports__);
           contadoraux++;
           e = new Date(unmesmas);
           dia = e.getDate() + 1;
-          e.setMonth(e.getMonth() + 1);
-          unmesmas = e.getFullYear() + "-" + ('0' + (e.getMonth() + 1)).slice(-2) + "-" + ('0' + dia).slice(-2); //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
+          e.setMonth(e.getMonth() + parseInt(this.periodo));
+          unmesmas = e.getFullYear() + "-" + ('0' + (e.getMonth() + 1)).slice(-2) + "-" + ('0' + dia).slice(-2);
         }
 
         this.listacuotas = 1;
@@ -2898,10 +2916,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Credito.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Credito.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Configurarcredito.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Configurarcredito.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3545,7 +3563,8 @@ __webpack_require__.r(__webpack_exports__);
       offset: 3,
       criterio: 'numeroprestamo',
       //inicializamos el criterio de busqueda
-      buscar: ''
+      buscar: '',
+      hoy: ''
     };
   },
   components: {
@@ -3584,6 +3603,18 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    fechaactual: function fechaactual() {
+      var date = new Date();
+      var day = date.getDate();
+      var month = date.getMonth() + 1;
+      var year = date.getFullYear();
+
+      if (month < 10) {
+        this.hoy = year + '-0' + month + '-' + day;
+      } else {
+        this.hoy = year + '-' + month + '-' + day;
+      }
+    },
     cargarPdf: function cargarPdf() {
       window.open('http://localhost:8000/credito/listarpdf', '_blank');
     },
@@ -3830,6 +3861,628 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.historialcredito(1, this.buscar, this.criterio);
+    this.fechaactual();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Credito.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Credito.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['ruta'],
+  data: function data() {
+    return {
+      //variables para credito
+      credito_id: 0,
+      numeroprestamo: '',
+      idkiva: '',
+      montodesembolsado: 0.0,
+      fechadesembolso: '',
+      numerocuotas: 0,
+      tipocambio: 0.0,
+      tasa: 13,
+      estado: '',
+      periodo: 1,
+      //variables para clientes
+      idcliente: 0,
+      nombrecliente: '',
+      dni: '0',
+      apellidopaterno: '',
+      apellidomaterno: '',
+      //variables para cuotas
+      monto: 0,
+      fechapago: '',
+      saldopendiente: 0.0,
+      otroscostos: 0.0,
+      descripcion: '',
+      listacuotas: 0,
+      //para mostrar oocultar dormulario
+      listado: 2,
+      editarvar: 0,
+      arrayCredito: [],
+      //alamacenar el credito
+      arrayCuota: [],
+      //alamcenar todas las cuotas
+      arrayCliente: [],
+      arrayCuotasnuevo: [],
+      arrayCuotaDetalle: [],
+      modal: 0,
+      tituloModal: '',
+      tipoAccion: 0,
+      errorCredito: 0,
+      errorMostrarMsjCredito: [],
+      pagination: {
+        'total': 0,
+        'current_page': 0,
+        'per_page': 0,
+        'last_page': 0,
+        'from': 0,
+        'to': 0
+      },
+      offset: 3,
+      criterio: 'numeroprestamo',
+      //inicializamos el criterio de busqueda
+      buscar: '',
+      hoy: ''
+    };
+  },
+  components: {
+    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
+  computed: {
+    isActived: function isActived() {
+      return this.pagination.current_page;
+    },
+    //Calcula los elementos de la paginación
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+
+      var from = this.pagination.current_page - this.offset;
+
+      if (from < 1) {
+        from = 1;
+      }
+
+      var to = from + this.offset * 2;
+
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+
+      var pagesArray = [];
+
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+
+      return pagesArray;
+    }
+  },
+  methods: {
+    fechaactual: function fechaactual() {
+      var date = new Date();
+      var day = date.getDate();
+      var month = date.getMonth() + 1;
+      var year = date.getFullYear();
+
+      if (month < 10) {
+        this.hoy = year + '-0' + month + '-' + day;
+      } else {
+        this.hoy = year + '-' + month + '-' + day;
+      }
+    },
+    cargarPdf: function cargarPdf() {
+      window.open(this.ruta + '/credito/listarpdf', '_blank');
+    },
+    cambiarPagina: function cambiarPagina(page, buscar, criterio) {
+      var me = this; //Actualiza la página actual
+
+      me.pagination.current_page = page; //Envia la petición para visualizar la data de esa página
+
+      me.historialcredito(page, buscar, criterio);
+    },
+    generarboucher: function generarboucher(idcuota) {
+      window.open(this.ruta + '/credito/detallecuotapdf/' + idcuota + '', '_blank');
+    },
+    pdfDetallecuota: function pdfDetallecuota(idcredito) {
+      window.open(this.ruta + '/credito/detallecreditopdf/' + idcredito, '_blank');
+    },
+    historialcredito: function historialcredito(page, buscar, criterio) {
+      var me = this;
+      me.listado = 2;
+      var url = this.ruta + '/credito?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayCredito = respuesta.creditos.data;
+        me.pagination = respuesta.pagination;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    //cetalle de credito
+    listarCredito: function listarCredito(idkiva) {
+      var me = this;
+      var url = this.ruta + '/credito/creditosCliente?idkiva=' + idkiva;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayCredito = respuesta.creditos;
+        me.tipocambio = me.arrayCredito[0].tipocambio;
+        me.listarCuotas(idkiva);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    //detalle de cuotas
+    listarCuotas: function listarCuotas(idkiva) {
+      this.listado = 0;
+      var me = this;
+      var url = this.ruta + '/credito/cuotasClientenuevo?idkiva=' + idkiva;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayCuotasnuevo = respuesta.cuotas;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    mostrarCreditos: function mostrarCreditos() {
+      this.listado = 0;
+    },
+    ocultarCreditos: function ocultarCreditos() {
+      this.listado = 1;
+    },
+    cerrarModal: function cerrarModal() {
+      this.modal = 0;
+    },
+    abrirModal: function abrirModal(index) {
+      var me = this;
+      me.modal = 1;
+      me.arrayCuotaDetalle = me.arrayCuotasnuevo[index];
+    }
+  },
+  mounted: function mounted() {
+    this.historialcredito(1, this.buscar, this.criterio);
+    this.fechaactual();
   }
 });
 
@@ -9047,6 +9700,25 @@ exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    pos
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Configurarcredito.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Configurarcredito.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.modal-dialog{\r\n    overflow-y: initial !important\n}\n.modal-body{\r\n   height: 500px;\r\n   overflow-y: auto;\n}\n.modal-content{\r\n        width: 100% !important;\r\n        position: absolute !important;\n}\n.mostrar{\r\n       \r\n        display: list-item !important;\r\n    opacity: 1 !important;\r\n    position: fixed !important;\r\n    background-color: #3c29297a !important;\n}\n.div-error{\r\n        display: flex;\r\n        justify-content: center;\n}\n.text-error{\r\n        color: red !important;\r\n        font-weight: bold;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Credito.vue?vue&type=style&index=0&lang=css&":
 /*!*************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Credito.vue?vue&type=style&index=0&lang=css& ***!
@@ -9059,7 +9731,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-dialog{\r\n    overflow-y: initial !important\n}\n.modal-body{\r\n   height: 500px;\r\n   overflow-y: auto;\n}\n.modal-content{\r\n        width: 100% !important;\r\n        position: absolute !important;\n}\n.mostrar{\r\n       \r\n        display: list-item !important;\r\n    opacity: 1 !important;\r\n    position: fixed !important;\r\n    background-color: #3c29297a !important;\n}\n.div-error{\r\n        display: flex;\r\n        justify-content: center;\n}\n.text-error{\r\n        color: red !important;\r\n        font-weight: bold;\n}\r\n", ""]);
+exports.push([module.i, "\n.modal-dialog{\r\n    overflow-y: initial !important\n}\n.modal-body{\r\n   height: 500px;\r\n   overflow-y: auto;\n}\n.modal-content{\r\n        width: 100% !important;\r\n        position: absolute !important;\n}\n.mostrar{\r\n       \r\n        display: list-item !important;\r\n    opacity: 1 !important;\r\n    position: fixed !important;\r\n    background-color: #3c29297a !important;\n}   \r\n \r\n    \r\n", ""]);
 
 // exports
 
@@ -40010,6 +40682,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Configurarcredito.vue?vue&type=style&index=0&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Configurarcredito.vue?vue&type=style&index=0&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--5-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--5-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Configurarcredito.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Configurarcredito.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Credito.vue?vue&type=style&index=0&lang=css&":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Credito.vue?vue&type=style&index=0&lang=css& ***!
@@ -40880,7 +41582,7 @@ var render = function() {
                             "label",
                             { attrs: { for: "exampleInputPassword1" } },
                             [
-                              _vm._v("Monto desembolsado"),
+                              _vm._v("Monto desembolsado (Dolares)"),
                               _c(
                                 "span",
                                 {
@@ -41518,20 +42220,6 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.editarCredito()
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-pencil" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
                             staticClass: "btn btn-danger btn-sm",
                             attrs: { type: "button" },
                             on: {
@@ -41543,7 +42231,19 @@ var render = function() {
                           [_c("i", { staticClass: "fa fa-trash-o" })]
                         ),
                         _vm._v(" "),
-                        _vm._m(3, true)
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.pdfDetallecuota(credito.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+                        )
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-1" }, [
@@ -41558,7 +42258,11 @@ var render = function() {
                               }
                             }
                           },
-                          [_c("i", { staticClass: "fa fa-plus-circle" })]
+                          [
+                            _c("i", { staticClass: "fa fa-plus-circle" }, [
+                              _vm._v("Nuevo Credito")
+                            ])
+                          ]
                         )
                       ]),
                       _vm._v(" "),
@@ -41664,7 +42368,9 @@ var render = function() {
                               _c("h6", {
                                 staticClass: "mb-4 font-weight-light",
                                 domProps: {
-                                  textContent: _vm._s(credito.montodesembolsado)
+                                  textContent: _vm._s(
+                                    "$ " + credito.montodesembolsado
+                                  )
                                 }
                               })
                             ])
@@ -41742,7 +42448,9 @@ var render = function() {
                               _c("h6", {
                                 staticClass: "mb-4 font-weight-light",
                                 domProps: {
-                                  textContent: _vm._s(credito.tipocambio)
+                                  textContent: _vm._s(
+                                    "S/ " + credito.tipocambio
+                                  )
                                 }
                               })
                             ])
@@ -41767,7 +42475,9 @@ var render = function() {
                               _vm._v(" "),
                               _c("h6", {
                                 staticClass: "mb-4 font-weight-light",
-                                domProps: { textContent: _vm._s(credito.tasa) }
+                                domProps: {
+                                  textContent: _vm._s(credito.tasa + " %")
+                                }
                               })
                             ])
                           ]
@@ -41789,12 +42499,37 @@ var render = function() {
                                 [_vm._v("Periodo")]
                               ),
                               _vm._v(" "),
-                              _c("h6", {
-                                staticClass: "mb-4 font-weight-light",
-                                domProps: {
-                                  textContent: _vm._s(credito.periodo)
-                                }
-                              })
+                              credito.periodo == 1
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Mensual")]
+                                  )
+                                : credito.periodo == 2
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Bimestral")]
+                                  )
+                                : credito.periodo == 3
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Trimestral")]
+                                  )
+                                : credito.periodo == 6
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Semestral")]
+                                  )
+                                : credito.periodo == 12
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Anual")]
+                                  )
+                                : _vm._e()
                             ])
                           ]
                         )
@@ -41814,12 +42549,18 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "table-responsive" }, [
                       _c("table", { staticClass: "table  table-bordered " }, [
-                        _vm._m(4),
+                        _vm._m(3),
                         _vm._v(" "),
                         _c(
                           "tbody",
                           _vm._l(_vm.arrayCuotasnuevo, function(cuotanuevo) {
                             return _c("tr", { key: cuotanuevo.id }, [
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.numerocuota)
+                                }
+                              }),
+                              _vm._v(" "),
                               _c("td", {
                                 domProps: {
                                   textContent: _vm._s(cuotanuevo.fechapago)
@@ -41887,11 +42628,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Cuota")]),
+        _c("th", [_vm._v("N°")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Monto")]),
+        _c("th", [_vm._v("Monto de Cuota ($)")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Saldo Pendiente")]),
+        _c("th", [_vm._v("Saldo Pendiente Neto($)")]),
         _vm._v(" "),
         _c("th", [_vm._v("Fecha de Pago")]),
         _vm._v(" "),
@@ -41927,26 +42668,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      { staticClass: "btn btn-info btn-sm", attrs: { type: "button" } },
-      [_c("i", { staticClass: "fa fa-file-pdf-o" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "table-bordered " }, [
       _c("tr", { staticClass: "font-weight-bold" }, [
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("N°")]),
+        _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [
           _vm._v("Fecha de Pago")
         ]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cuota")]),
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Monto Cuota($)")
+        ]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Saldo Pendiente")
+          _vm._v("Saldo Pendiente Neto($)")
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Otros Costos")]),
@@ -42817,10 +43552,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Credito.vue?vue&type=template&id=7386ba0a&":
-/*!**********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Credito.vue?vue&type=template&id=7386ba0a& ***!
-  \**********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Configurarcredito.vue?vue&type=template&id=1c160aeb&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Configurarcredito.vue?vue&type=template&id=1c160aeb& ***!
+  \********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -43818,7 +44553,7 @@ var render = function() {
                                 staticClass: "mb-4 font-weight-light",
                                 domProps: {
                                   textContent: _vm._s(
-                                    "$" + credito.montodesembolsado
+                                    "$ " + credito.montodesembolsado
                                   )
                                 }
                               })
@@ -43897,7 +44632,9 @@ var render = function() {
                               _c("h6", {
                                 staticClass: "mb-4 font-weight-light",
                                 domProps: {
-                                  textContent: _vm._s(credito.tipocambio)
+                                  textContent: _vm._s(
+                                    "S/ " + credito.tipocambio
+                                  )
                                 }
                               })
                             ])
@@ -44030,7 +44767,7 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              cuotanuevo.fechapago < "2018-05-05" &&
+                              cuotanuevo.fechapago < _vm.hoy &&
                               cuotanuevo.estado == 0
                                 ? _c("td", [
                                     _vm._v(
@@ -44849,6 +45586,1217 @@ var staticRenderFns = [
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("ID kiva")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cliente")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Monto")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Fecha")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("N° Cuotas")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Estado")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [_c("hr")])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Credito.vue?vue&type=template&id=7386ba0a&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Credito.vue?vue&type=template&id=7386ba0a& ***!
+  \**********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "main",
+    {},
+    [
+      _vm.listado == 0
+        ? [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-12 grid-margin card" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-body" },
+                  _vm._l(_vm.arrayCredito, function(credito) {
+                    return _c("div", { key: credito.id, staticClass: "row" }, [
+                      _vm._m(0, true),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-2" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.pdfDetallecuota(credito.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.historialcredito(
+                                  1,
+                                  _vm.buscar,
+                                  _vm.criterio
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-mail-reply" }),
+                            _vm._v("Historial ")
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Cliente")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(
+                                    credito.nombre +
+                                      " " +
+                                      credito.apellidopaterno +
+                                      " " +
+                                      credito.apellidomaterno
+                                  )
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Número de Prestamo")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.numeroprestamo)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold " },
+                                [_vm._v("ID KIVA")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.idkiva)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Monto ")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(
+                                    "$ " + credito.montodesembolsado
+                                  )
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Fecha de desembolso")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.fechadesembolso)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("N°  Cuotas")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.numerocuotas)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Tipo de Cambio")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(
+                                    "S/ " + credito.tipocambio
+                                  )
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Tasa de Interes")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.tasa + " %")
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Periodo")]
+                              ),
+                              _vm._v(" "),
+                              credito.periodo == 1
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Mensual")]
+                                  )
+                                : credito.periodo == 2
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Bimensual")]
+                                  )
+                                : credito.periodo == 3
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Trimestral")]
+                                  )
+                                : credito.periodo == 6
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Semestral")]
+                                  )
+                                : credito.periodo == 12
+                                ? _c(
+                                    "h6",
+                                    { staticClass: "mb-4 font-weight-light" },
+                                    [_vm._v("Anual")]
+                                  )
+                                : _vm._e()
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h6", { staticClass: "font-weight-bold" }, [
+                      _vm._v("Cuotas")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c("table", { staticClass: "table  table-bordered " }, [
+                        _vm._m(1),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.arrayCuotasnuevo, function(
+                            cuotanuevo,
+                            index
+                          ) {
+                            return _c("tr", { key: cuotanuevo.id }, [
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.numerocuota)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", { staticClass: "py-1" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.abrirModal(index)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-eye" })]
+                                ),
+                                _vm._v(
+                                  " \n                                             \n                                                  "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              cuotanuevo.fechapago < _vm.hoy &&
+                              cuotanuevo.estado == 0
+                                ? _c("td", [
+                                    _vm._v(
+                                      "\n                                        " +
+                                        _vm._s(cuotanuevo.fechapago) +
+                                        " "
+                                    ),
+                                    _c(
+                                      "span",
+                                      { staticClass: "badge badge-warning" },
+                                      [_vm._v(" Cuota atrasada")]
+                                    )
+                                  ])
+                                : _c("td", [
+                                    _c("span", {
+                                      domProps: {
+                                        textContent: _vm._s(
+                                          cuotanuevo.fechapago
+                                        )
+                                      }
+                                    })
+                                  ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  "\n                                        $ " +
+                                    _vm._s(cuotanuevo.monto) +
+                                    " \n                                     "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "badge badge-primary",
+                                    staticStyle: { "font-size": "12px" }
+                                  },
+                                  [
+                                    _vm._v(
+                                      " S/ " +
+                                        _vm._s(
+                                          parseFloat(
+                                            cuotanuevo.monto * _vm.tipocambio
+                                          ).toFixed(2)
+                                        )
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(cuotanuevo.saldopendiente)
+                                }
+                              }),
+                              _vm._v(" "),
+                              cuotanuevo.estado == 0
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-danger" },
+                                      [_vm._v("Pendiente")]
+                                    )
+                                  ])
+                                : cuotanuevo.estado == 1
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-success" },
+                                      [_vm._v("Pagada")]
+                                    )
+                                  ])
+                                : _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-success" },
+                                      [_vm._v("Pago con retraso")]
+                                    )
+                                  ])
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.listado == 2
+        ? [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h4", { staticClass: "text-center" }, [
+                      _vm._v(
+                        "Historial de Creditos  \n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "col-md-6 col-sm-12" }, [
+                        _c("div", { staticClass: "input-group" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.criterio,
+                                  expression: "criterio"
+                                }
+                              ],
+                              staticClass: "form-control col-md-4",
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.criterio = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { value: "numeroprestamo" } },
+                                [_vm._v("Número de prestamo")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "idkiva" } }, [
+                                _vm._v("ID kiva")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "dni" } }, [
+                                _vm._v("DNI Cliente")
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "option",
+                                { attrs: { value: "fechadesembolso" } },
+                                [_vm._v("Fecha de Desembolso ")]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.buscar,
+                                expression: "buscar"
+                              }
+                            ],
+                            staticClass: "form-control form-control-lg",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Texto a buscar"
+                            },
+                            domProps: { value: _vm.buscar },
+                            on: {
+                              keyup: function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.historialcredito(
+                                  1,
+                                  _vm.buscar,
+                                  _vm.criterio
+                                )
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.buscar = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-dark btn-sm",
+                              attrs: { type: "submit" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.historialcredito(
+                                    1,
+                                    _vm.buscar,
+                                    _vm.criterio
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fa fa-search" }),
+                              _vm._v(" Buscar")
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4 col-sm-12" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-2 col-sm-12" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.cargarPdf()
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-file-pdf-o" }),
+                            _vm._v(
+                              "\n                                Pdf\n                            "
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c("table", { staticClass: "table  table-bordered " }, [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.arrayCredito, function(credito) {
+                            return _c("tr", { key: credito.id }, [
+                              _c("td", { staticClass: "py-1" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.listarCredito(credito.idkiva)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-eye" })]
+                                ),
+                                _vm._v(
+                                  " \n                                               \n                                    "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.numeroprestamo)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.idkiva)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: { textContent: _vm._s(credito.dni) }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(
+                                    credito.nombre +
+                                      " " +
+                                      credito.apellidopaterno +
+                                      " " +
+                                      credito.apellidomaterno
+                                  )
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.montodesembolsado)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.fechadesembolso)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(credito.numerocuotas)
+                                }
+                              }),
+                              _vm._v(" "),
+                              credito.estado == 1
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-warning" },
+                                      [_vm._v("En proceso")]
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              credito.estado == 0
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-danger" },
+                                      [_vm._v("Desactivador")]
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              credito.estado == 2
+                                ? _c("td", [
+                                    _c(
+                                      "label",
+                                      { staticClass: "badge badge-success" },
+                                      [_vm._v("Completado")]
+                                    )
+                                  ])
+                                : _vm._e()
+                            ])
+                          }),
+                          0
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("nav", [
+                        _c(
+                          "ul",
+                          { staticClass: "pagination" },
+                          [
+                            _vm.pagination.current_page > 1
+                              ? _c("li", { staticClass: "page-item" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "page-link",
+                                      attrs: { href: "#" },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.cambiarPagina(
+                                            _vm.pagination.current_page - 1,
+                                            _vm.buscar,
+                                            _vm.criterio
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Anterior")]
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm._l(_vm.pagesNumber, function(page) {
+                              return _c(
+                                "li",
+                                {
+                                  key: page,
+                                  staticClass: "page-item",
+                                  class: [page == _vm.isActived ? "active" : ""]
+                                },
+                                [
+                                  _c("a", {
+                                    staticClass: "page-link",
+                                    attrs: { href: "#" },
+                                    domProps: { textContent: _vm._s(page) },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.cambiarPagina(
+                                          page,
+                                          _vm.buscar,
+                                          _vm.criterio
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            }),
+                            _vm._v(" "),
+                            _vm.pagination.current_page <
+                            _vm.pagination.last_page
+                              ? _c("li", { staticClass: "page-item" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "page-link",
+                                      attrs: { href: "#" },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.cambiarPagina(
+                                            _vm.pagination.current_page + 1,
+                                            _vm.buscar,
+                                            _vm.criterio
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Siguiente")]
+                                  )
+                                ])
+                              : _vm._e()
+                          ],
+                          2
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "modal ",
+          class: { mostrar: _vm.modal },
+          attrs: { "aria-hidden": "true" }
+        },
+        [
+          _c("div", { staticClass: "modal-dialog" }, [
+            _c("div", { staticClass: "modal-content bg bg-primary " }, [
+              _c("h4", { staticClass: "text-center  mt-2 text-white" }, [
+                _vm._v(
+                  "                           \n                            Cuota N° : " +
+                    _vm._s(_vm.arrayCuotaDetalle.numerocuota) +
+                    "     \n                            "
+                ),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary text-white float-rigth",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModal()
+                      }
+                    }
+                  },
+                  [_vm._v("× ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body card" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Cliente")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(
+                              _vm.arrayCuotaDetalle.nombre +
+                                " " +
+                                _vm.arrayCuotaDetalle.apellidopaterno +
+                                " " +
+                                _vm.apellidomaterno
+                            )
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4 mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Cuota en  Dolares)")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c(
+                          "h6",
+                          { staticClass: "font-weight-medium text-left mb-0" },
+                          [
+                            _vm._v(
+                              "\n                                            $ " +
+                                _vm._s(_vm.arrayCuotaDetalle.monto) +
+                                "   \n                                           "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4 mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Cuota en Soles)")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c(
+                          "h6",
+                          { staticClass: "font-weight-medium text-left mb-0" },
+                          [
+                            _vm._v(
+                              "\n                                          S/ " +
+                                _vm._s(
+                                  _vm.arrayCuotaDetalle.monto * _vm.tipocambio
+                                ) +
+                                " "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-4  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Otros Pagos")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(
+                              _vm.arrayCuotaDetalle.otroscostos
+                            )
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12   mt-2" }, [
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Pago Total")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(
+                              "S/" +
+                                (
+                                  parseFloat(
+                                    _vm.arrayCuotaDetalle.monto * _vm.tipocambio
+                                  ) +
+                                  parseFloat(_vm.arrayCuotaDetalle.otroscostos)
+                                ).toFixed(2)
+                            )
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Fecha de Pago")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(_vm.arrayCuotaDetalle.fechapago)
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Fecha de Cancelación")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _vm.arrayCuotaDetalle.estado == 0
+                          ? _c(
+                              "h6",
+                              {
+                                staticClass: "font-weight-medium text-left mb-0"
+                              },
+                              [_vm._v("Pendiente")]
+                            )
+                          : _c("h6", {
+                              staticClass: "font-weight-medium text-left mb-0",
+                              domProps: {
+                                textContent: _vm._s(
+                                  _vm.arrayCuotaDetalle.fechacancelacion
+                                )
+                              }
+                            })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Detalle")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _vm.arrayCuotaDetalle.descripcion == null
+                          ? _c(
+                              "h6",
+                              {
+                                staticClass: "font-weight-medium text-left mb-0"
+                              },
+                              [_vm._v("Sin detalle")]
+                            )
+                          : _c("h6", {
+                              staticClass: "font-weight-medium text-left mb-0",
+                              domProps: {
+                                textContent: _vm._s(
+                                  _vm.arrayCuotaDetalle.descripcion
+                                )
+                              }
+                            })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12  mt-2" }, [
+                    _c("div", { staticClass: "float-left" }, [
+                      _c("p", { staticClass: "mb-0 text-left" }, [
+                        _vm._v("Cajero")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "fluid-container" }, [
+                        _c("h6", {
+                          staticClass: "font-weight-medium text-left mb-0",
+                          domProps: {
+                            textContent: _vm._s(
+                              _vm.arrayCuotaDetalle.usuarionombre +
+                                " " +
+                                _vm.arrayCuotaDetalle.usuariopaterno +
+                                " " +
+                                _vm.arrayCuotaDetalle.usuariomaterno
+                            )
+                          }
+                        })
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger col-md-12",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.cerrarModal()
+                          }
+                        }
+                      },
+                      [_vm._v("Cerrar")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-info col-md-12",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.generarboucher(_vm.arrayCuotaDetalle.id)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-file-pdf-o" }),
+                        _vm._v(
+                          "\n                                        Boucher"
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]
+      )
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-9" }, [
+      _c("h4", { staticClass: "text-primary mb-5" }, [
+        _vm._v("Detalle de Credito")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "table-bordered " }, [
+      _c("tr", { staticClass: "font-weight-bold" }, [
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Opciones")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Fecha de Pago")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Cuota Dolares")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cuota Soles")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Saldo Pendiente")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Pago")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "table-bordered " }, [
+      _c("tr", { staticClass: "font-weight-bold" }, [
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Opciones")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("N° de Prestamo")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("ID kiva")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("DNI Cliente")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Nombres del Cliente")
+        ]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Monto")]),
         _vm._v(" "),
@@ -58256,6 +60204,7 @@ Vue.component('rol', __webpack_require__(/*! ./components/Rol.vue */ "./resource
 Vue.component('user', __webpack_require__(/*! ./components/User.vue */ "./resources/js/components/User.vue")["default"]);
 Vue.component('credito', __webpack_require__(/*! ./components/Credito.vue */ "./resources/js/components/Credito.vue")["default"]);
 Vue.component('agregarcredito', __webpack_require__(/*! ./components/Agregarcredito.vue */ "./resources/js/components/Agregarcredito.vue")["default"]);
+Vue.component('configcredito', __webpack_require__(/*! ./components/Configurarcredito.vue */ "./resources/js/components/Configurarcredito.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -58498,6 +60447,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Cliente_vue_vue_type_template_id_652dbb42___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Cliente_vue_vue_type_template_id_652dbb42___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Configurarcredito.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/Configurarcredito.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Configurarcredito_vue_vue_type_template_id_1c160aeb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Configurarcredito.vue?vue&type=template&id=1c160aeb& */ "./resources/js/components/Configurarcredito.vue?vue&type=template&id=1c160aeb&");
+/* harmony import */ var _Configurarcredito_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Configurarcredito.vue?vue&type=script&lang=js& */ "./resources/js/components/Configurarcredito.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Configurarcredito_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Configurarcredito.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/Configurarcredito.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Configurarcredito_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Configurarcredito_vue_vue_type_template_id_1c160aeb___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Configurarcredito_vue_vue_type_template_id_1c160aeb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Configurarcredito.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Configurarcredito.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/Configurarcredito.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Configurarcredito.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Configurarcredito.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Configurarcredito.vue?vue&type=style&index=0&lang=css&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/Configurarcredito.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--5-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--5-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Configurarcredito.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Configurarcredito.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Configurarcredito.vue?vue&type=template&id=1c160aeb&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/Configurarcredito.vue?vue&type=template&id=1c160aeb& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_template_id_1c160aeb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Configurarcredito.vue?vue&type=template&id=1c160aeb& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Configurarcredito.vue?vue&type=template&id=1c160aeb&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_template_id_1c160aeb___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Configurarcredito_vue_vue_type_template_id_1c160aeb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

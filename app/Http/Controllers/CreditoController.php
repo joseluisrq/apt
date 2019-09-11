@@ -35,6 +35,7 @@ class CreditoController extends Controller
                 'creditos.tasa',
                 'creditos.estado',
                 'creditos.periodo',
+                'personas.dni',
                 'personas.nombre',
                 'personas.apellidopaterno',
                 'personas.apellidomaterno','users.usuario')
@@ -42,26 +43,54 @@ class CreditoController extends Controller
             ->orderBy('creditos.id', 'desc')->paginate(10);
         }
         else{
-            $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
-            ->join('personas','clientes.id','=','personas.id')
-            ->join('users','creditos.idusuario','=','users.id')
-            ->select(
-                'creditos.id', 
-                'creditos.numeroprestamo',
-                'creditos.idkiva',
-                'creditos.montodesembolsado',
-                'creditos.fechadesembolso',
-                'creditos.numerocuotas',
-                'creditos.tipocambio',
-                'creditos.tasa',
-                'creditos.estado',
-                'creditos.periodo',
-                'personas.nombre',
-                'personas.apellidopaterno',
-                'personas.apellidomaterno','users.usuario')
-            ->where('creditos.'.$criterio, 'like', '%'. $buscar . '%')
-            ->where('creditos.estado', '<>', '0')
-            ->orderBy('creditos.id', 'desc')->paginate(10);
+            if($criterio=='dni'){
+                $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
+                ->join('personas','clientes.id','=','personas.id')
+                ->join('users','creditos.idusuario','=','users.id')
+                ->select(
+                    'creditos.id', 
+                    'creditos.numeroprestamo',
+                    'creditos.idkiva',
+                    'creditos.montodesembolsado',
+                    'creditos.fechadesembolso',
+                    'creditos.numerocuotas',
+                    'creditos.tipocambio',
+                    'creditos.tasa',
+                    'creditos.estado',
+                    'creditos.periodo',
+                    'personas.nombre',
+                    'personas.dni',
+                    'personas.apellidopaterno',
+                    'personas.apellidomaterno','users.usuario')
+                ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')
+                ->where('creditos.estado', '<>', '0')
+                ->orderBy('creditos.id', 'desc')->paginate(10);
+
+            }else{
+
+                $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
+                ->join('personas','clientes.id','=','personas.id')
+                ->join('users','creditos.idusuario','=','users.id')
+                ->select(
+                    'creditos.id', 
+                    'creditos.numeroprestamo',
+                    'creditos.idkiva',
+                    'creditos.montodesembolsado',
+                    'creditos.fechadesembolso',
+                    'creditos.numerocuotas',
+                    'creditos.tipocambio',
+                    'creditos.tasa',
+                    'creditos.estado',
+                    'creditos.periodo',
+                    'personas.nombre',
+                    'personas.dni',
+                    'personas.apellidopaterno',
+                    'personas.apellidomaterno','users.usuario')
+                ->where('creditos.'.$criterio, 'like', '%'. $buscar . '%')
+                ->where('creditos.estado', '<>', '0')
+                ->orderBy('creditos.id', 'desc')->paginate(10);
+            }
+           
         }
          
         return [

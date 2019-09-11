@@ -73,19 +73,21 @@ class ClienteController extends Controller
         try{
             DB::beginTransaction(); //utlizamos transaccion
             $persona = new Persona();
-            $persona->dni = '7021545';//prueba no se esta registrando el dni
+            $persona->dni = $request->dni;//prueba no se esta registrando el dni
             $persona->nombre = $request->nombre;
             $persona->apellidopaterno = $request->apellidopaterno;
             $persona->apellidomaterno = $request->apellidomaterno;
-           // $persona->fechanacimiento = $request->fechanacimiento;
+            $persona->fechanacimiento = $request->fechanacimiento;
             $persona->direccion = $request->direccion;
             $persona->telefono = $request->telefono;
             $persona->email = $request->email;
-           // $persona->estado = $request->estado_per;
+            $persona->estado = '1';
             $persona->save();
  
             $cliente = new Cliente();
-            //$cliente->estado = $request->estado_cli;  
+            $cliente->estadocredito = '0';
+            $cliente->estado = '1';    
+            
             $cliente->id = $persona->id;
             $cliente->save();
  

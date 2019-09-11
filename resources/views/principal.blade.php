@@ -21,21 +21,21 @@
 
   <!-- endinject -->
   
-  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <link rel="shortcut icon" href="images/favicon.png" />
 </head>
 
 <body>
 
 <div id="app">
   <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
+    <!-- partial:partials/_navbar.html -->
     <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
         <a class="navbar-brand brand-logo" href="/">
-          <img src="../../images/logo.png"   alt="logo" >
+          <img src="images/logo.png"   alt="logo" >
         </a>
         <a class="navbar-brand brand-logo-mini" href="/">
-          <img src="../../images/logo.png"   alt="logo" >
+          <img src="images/logo.png"   alt="logo" >
         </a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center">
@@ -97,10 +97,10 @@
               </a>
             </div>
           </li>
-          <li class="nav-item dropdown d-none d-xl-inline-block">
+          <li class="nav-item dropdown ">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <span class="profile-text">{{Auth::user()->usuario}} </span>
-              <img class="img-xs rounded-circle" src="../../images/faces/face1.jpg" alt="Profile image">
+              <img class="img-xs rounded-circle" src="images/faces/face.png" alt="Profile image">
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <a class="dropdown-item p-0">

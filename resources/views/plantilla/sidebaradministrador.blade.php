@@ -1,5 +1,6 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
    <ul class="nav">
+     
     <hr>
     <li class="nav-item">
       <a class="nav-link" href="index.html">
@@ -10,7 +11,7 @@
      <li class="nav-item"  @click="menu=1">
        <a class="nav-link" href="#">
          <i class="menu-icon fa fa-bolt"></i>
-         <span class="menu-title">Creditos Activos</span>
+         <span class="menu-title">Pagar Cuota</span>
        </a>
      </li>
      <li class="nav-item"  @click="menu=2">
@@ -25,6 +26,13 @@
         <span class="menu-title">Historial de Creditos</span>
       </a>
     </li>
+    <li class="nav-item"  @click="menu=9">
+      <a class="nav-link" href="#">
+      <i class="menu-icon fa fa-gears"></i>
+        <span class="menu-title">Configurar Credito</span>
+      </a>
+    </li>
+    
     <li class="nav-item">
      <hr>
     </li>

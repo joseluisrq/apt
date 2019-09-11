@@ -13,24 +13,24 @@
                      </template>
                      
                      <template v-if="menu==2">
-                            <agregarcredito></agregarcredito>
+                            <agregarcredito :ruta="ruta"></agregarcredito>
                      </template>
                      
                      <template v-if="menu==3">
-                            <credito></credito>
+                            <credito :ruta="ruta"></credito>
                      </template>
                      
                      <template v-if="menu==4">
                           
-                            <cliente></cliente>
+                            <cliente :ruta="ruta"></cliente>
                      </template>
                      
                      <template v-if="menu==5">
-                            <user></user>   
+                            <user :ruta="ruta"></user>   
                      </template>
 
                      <template v-if="menu==6">
-                            <rol></rol>
+                            <rol :ruta="ruta"></rol>
                      </template>
 
                      <template v-if="menu==7">
@@ -38,6 +38,9 @@
                      </template>
                      <template v-if="menu==8">
                             <h1>Acerca de</h1>       
+                     </template>
+                     <template v-if="menu==9">
+                            <configcredito :ruta="ruta"></configcredito>     
                      </template>
                          
                      </template>
@@ -47,7 +50,7 @@
               
 
                      <template v-if="menu==3">
-                            <cliente></cliente>
+                            <cliente :ruta="ruta"></cliente>
                      </template>
        @else
        
