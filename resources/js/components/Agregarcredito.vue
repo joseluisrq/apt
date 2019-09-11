@@ -54,7 +54,7 @@
                             <div class="form-group col-md-3">
                                 <label for="exampleInputPassword1">Fecha de desembolso<span class="text-danger "   v-show="fechadesembolso==''">
                                      (Obligatorio)</span></label>
-                                <input type="date" class="form-control" v-model="fechadesembolso"  placeholder="">
+                                <input type="date" class="form-control" v-model="fechadesembolso"  placeholder="" >
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="exampleInputPassword1">Número Cuotas:<span class="text-danger "   v-show="numerocuotas==0">
@@ -416,6 +416,15 @@ import vSelect from 'vue-select'
             }
         },
         methods : {
+            fechaactual(){
+                let date = new Date();
+
+                let day = date.getDate();
+                let month = date.getMonth() + 1;
+                let year = date.getFullYear();
+
+                this.fechadesembolso=day+'/'+month+'/'+year
+            },
             //lisar credito luego se aver sido insertado el credito
             listarCredito (){
                  
@@ -634,41 +643,57 @@ import vSelect from 'vue-select'
                 
                 let me = this;
 
-                axios.post('/credito/registrar',{
-
-                    'numeroprestamo': this.numeroprestamo,
-                    'idkiva': this.idkiva,
-                    'montodesembolsado': this.montodesembolsado,
-                    'fechadesembolso' : this.fechadesembolso,
-                    'numerocuotas' : this.numerocuotas,
-                    'tipocambio' : this.tipocambio,
-                    'tasa' : this.tasa,
-                    'periodo' : this.periodo,
-                     'idcliente' : this.idcliente,
-
-                     'data':this.arrayCuota
-                   
-
-                }).then(function (response) {
-
-                   
-                   
-                 
-                    me.listado=0;
-                    me.listarCredito();
-
-                    Swal.fire({
-                    position: 'top-end',
+                Swal.fire({
+                    title: '¿Está seguro que desea AGREGAR UN NUEVO CREDITO?',
+                    text: "",
                     type: 'success',
-                    title: 'Credito Insertado',
-                    showConfirmButton: false,
-                    timer: 2000
-                    })
-                    
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                     cancelButtonText: 'Cancelar',
+                    confirmButtonText: 'Si'
+                    }).then((result) => {
+                    if (result.value) {
+                        Swal.fire(
+                        'Insertado',
+                        'El credito ha sido registrado',
+                        'success'
+                        )
 
-                }).catch(function (error) {
-                    console.log(error);
-                });
+
+                                    axios.post('/credito/registrar',{
+
+                                'numeroprestamo': this.numeroprestamo,
+                                'idkiva': this.idkiva,
+                                'montodesembolsado': this.montodesembolsado,
+                                'fechadesembolso' : this.fechadesembolso,
+                                'numerocuotas' : this.numerocuotas,
+                                'tipocambio' : this.tipocambio,
+                                'tasa' : this.tasa,
+                                'periodo' : this.periodo,
+                                'idcliente' : this.idcliente,
+
+                                'data':this.arrayCuota
+                            
+
+                            }).then(function (response) {
+
+                            
+                            
+                            
+                                me.listado=0;
+                                me.listarCredito();
+
+                             
+                                
+
+                            }).catch(function (error) {
+                                console.log(error);
+                            });
+                    }
+                    })
+
+               
             },
          
                    
@@ -693,6 +718,7 @@ import vSelect from 'vue-select'
          
         },
         mounted() {
+             //  this.fechaactual()
             //this.listarCredito();
         }
     }

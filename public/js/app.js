@@ -2253,6 +2253,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    fechaactual: function fechaactual() {
+      var date = new Date();
+      var day = date.getDate();
+      var month = date.getMonth() + 1;
+      var year = date.getFullYear();
+      this.fechadesembolso = day + '/' + month + '/' + year;
+    },
     //lisar credito luego se aver sido insertado el credito
     listarCredito: function listarCredito() {
       var me = this;
@@ -2425,34 +2432,43 @@ __webpack_require__.r(__webpack_exports__);
       this.listado = 1;
     },
     registrarCredito: function registrarCredito() {
+      var _this2 = this;
+
       if (this.validarCredito()) {
         return;
       }
 
       var me = this;
-      axios.post('/credito/registrar', {
-        'numeroprestamo': this.numeroprestamo,
-        'idkiva': this.idkiva,
-        'montodesembolsado': this.montodesembolsado,
-        'fechadesembolso': this.fechadesembolso,
-        'numerocuotas': this.numerocuotas,
-        'tipocambio': this.tipocambio,
-        'tasa': this.tasa,
-        'periodo': this.periodo,
-        'idcliente': this.idcliente,
-        'data': this.arrayCuota
-      }).then(function (response) {
-        me.listado = 0;
-        me.listarCredito();
-        Swal.fire({
-          position: 'top-end',
-          type: 'success',
-          title: 'Credito Insertado',
-          showConfirmButton: false,
-          timer: 2000
-        });
-      })["catch"](function (error) {
-        console.log(error);
+      Swal.fire({
+        title: '¿Está seguro que desea AGREGAR UN NUEVO CREDITO?',
+        text: "",
+        type: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Si'
+      }).then(function (result) {
+        if (result.value) {
+          Swal.fire('Insertado', 'El credito ha sido registrado', 'success');
+          axios.post('/credito/registrar', {
+            'numeroprestamo': _this2.numeroprestamo,
+            'idkiva': _this2.idkiva,
+            'montodesembolsado': _this2.montodesembolsado,
+            'fechadesembolso': _this2.fechadesembolso,
+            'numerocuotas': _this2.numerocuotas,
+            'tipocambio': _this2.tipocambio,
+            'tasa': _this2.tasa,
+            'periodo': _this2.periodo,
+            'idcliente': _this2.idcliente,
+            'data': _this2.arrayCuota
+          }).then(function (response) {
+            me.listado = 0;
+            me.listarCredito();
+          })["catch"](function (error) {
+            console.log(error);
+          });
+        }
       });
     },
     validarCredito: function validarCredito() {
@@ -2471,7 +2487,8 @@ __webpack_require__.r(__webpack_exports__);
       return this.errorCredito;
     }
   },
-  mounted: function mounted() {//this.listarCredito();
+  mounted: function mounted() {//  this.fechaactual()
+    //this.listarCredito();
   }
 });
 
@@ -58754,7 +58771,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp2\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })
