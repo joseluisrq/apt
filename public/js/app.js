@@ -3513,9 +3513,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -44962,29 +44959,6 @@ var render = function() {
                             ]
                           )
                         ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4 col-sm-12" }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-2 col-sm-12" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.cargarPdf()
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "fa fa-file-pdf-o" }),
-                            _vm._v(
-                              "\n                                Pdf\n                            "
-                            )
-                          ]
-                        )
                       ])
                     ]),
                     _vm._v(" "),
@@ -45001,7 +44975,10 @@ var render = function() {
                                   "button",
                                   {
                                     staticClass: "btn btn-warning btn-sm",
-                                    attrs: { type: "button" },
+                                    attrs: {
+                                      type: "button",
+                                      title: "EDITAR CREDITO"
+                                    },
                                     on: {
                                       click: function($event) {
                                         return _vm.listarCredito(credito.idkiva)
@@ -45019,7 +44996,10 @@ var render = function() {
                                   "button",
                                   {
                                     staticClass: "btn btn-danger btn-sm",
-                                    attrs: { type: "button" },
+                                    attrs: {
+                                      type: "button",
+                                      title: "ELIMINAR CREDITO"
+                                    },
                                     on: {
                                       click: function($event) {
                                         return _vm.eliminarCredito(credito.id)
@@ -45027,6 +45007,23 @@ var render = function() {
                                     }
                                   },
                                   [_c("i", { staticClass: "fa fa-trash-o" })]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary btn-sm",
+                                    attrs: {
+                                      type: "button",
+                                      title: "HISTORIAL DE CAMBIOS"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.eliminarCredito(credito.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: " fa fa-cubes" })]
                                 )
                               ]),
                               _vm._v(" "),

@@ -375,13 +375,7 @@
                                     </div>
 
                                 </div>
-                                 <div class="col-md-4 col-sm-12">
-                                       </div>
-                                <div class="col-md-2 col-sm-12">
-                                      <button type="button" @click="cargarPdf()" class="btn btn-info"> <i class="fa fa-file-pdf-o"></i>
-                                Pdf
-                            </button>
-                                </div>
+                                
                              
                                 
     
@@ -407,11 +401,14 @@
                                 <tbody>
                                     <tr v-for="credito in arrayCredito" :key="credito.id">
                                     <td class="py-1">
-                                                <button type="button" @click="listarCredito(credito.idkiva)" class="btn btn-warning btn-sm">
+                                                <button type="button" title="EDITAR CREDITO" @click="listarCredito(credito.idkiva)" class="btn btn-warning btn-sm">
                                                <i class="fa fa-pencil-square-o"></i>
                                                 </button>
-                                                <button type="button" @click="eliminarCredito(credito.id)" class="btn btn-danger btn-sm">
+                                                <button type="button" title="ELIMINAR CREDITO" @click="eliminarCredito(credito.id)" class="btn btn-danger btn-sm">
                                               <i class="fa fa-trash-o"></i>
+                                                </button>
+                                                <button type="button" title="HISTORIAL DE CAMBIOS" @click="eliminarCredito(credito.id)" class="btn btn-primary btn-sm">
+                                             <i class=" fa fa-cubes"></i>
                                                 </button>
                                                
                                     </td>
