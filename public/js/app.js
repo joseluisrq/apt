@@ -4313,44 +4313,16 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       //variables para credito
-      credito_id: 0,
-      numeroprestamo: '',
-      idkiva: '',
-      montodesembolsado: 0.0,
-      fechadesembolso: '',
-      numerocuotas: 0,
       tipocambio: 0.0,
-      tasa: 13,
-      estado: '',
-      periodo: 1,
-      //variables para clientes
-      idcliente: 0,
-      nombrecliente: '',
-      dni: '0',
-      apellidopaterno: '',
-      apellidomaterno: '',
-      //variables para cuotas
-      monto: 0,
-      fechapago: '',
-      saldopendiente: 0.0,
-      otroscostos: 0.0,
-      descripcion: '',
       listacuotas: 0,
       //para mostrar oocultar dormulario
       listado: 2,
       editarvar: 0,
       arrayCredito: [],
       //alamacenar el credito
-      arrayCuota: [],
-      //alamcenar todas las cuotas
-      arrayCliente: [],
       arrayCuotasnuevo: [],
       arrayCuotaDetalle: [],
       modal: 0,
-      tituloModal: '',
-      tipoAccion: 0,
-      errorCredito: 0,
-      errorMostrarMsjCredito: [],
       pagination: {
         'total': 0,
         'current_page': 0,
@@ -46487,7 +46459,7 @@ var render = function() {
                                 " " +
                                 _vm.arrayCuotaDetalle.apellidopaterno +
                                 " " +
-                                _vm.apellidomaterno
+                                _vm.arrayCuotaDetalle.apellidomaterno
                             )
                           }
                         })

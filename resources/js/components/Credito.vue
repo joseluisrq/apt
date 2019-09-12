@@ -317,7 +317,7 @@
                                     <p class="mb-0 text-left">Cliente</p>
                                         <div class="fluid-container">
                                             <h6 class="font-weight-medium text-left mb-0" 
-                                            v-text="arrayCuotaDetalle.nombre+' '+arrayCuotaDetalle.apellidopaterno+' '+apellidomaterno"></h6>
+                                            v-text="arrayCuotaDetalle.nombre+' '+arrayCuotaDetalle.apellidopaterno+' '+arrayCuotaDetalle.apellidomaterno"></h6>
                                         </div>
                                     </div>
                                 </div>
@@ -433,31 +433,8 @@ import vSelect from 'vue-select'
         data (){
             return {
                 //variables para credito
-                credito_id: 0,
-                numeroprestamo : '',
-                idkiva : '',
-                montodesembolsado : 0.0,
-                fechadesembolso : '',
-                numerocuotas : 0,
+                               
                 tipocambio : 0.0,
-                tasa : 13,
-                estado : '',
-                periodo : 1,
-
-//variables para clientes
-                idcliente:0,
-                nombrecliente:'',
-                dni:'0',
-                apellidopaterno:'',
-                apellidomaterno:'',
-
-//variables para cuotas
-                monto:0,
-                fechapago:'',
-                saldopendiente:0.0,
-                otroscostos:0.0,
-                descripcion:'',
-
                 listacuotas:0,
 
 
@@ -468,17 +445,15 @@ import vSelect from 'vue-select'
                 
 
                 arrayCredito : [], //alamacenar el credito
-                arrayCuota : [], //alamcenar todas las cuotas
-                arrayCliente:[],
+              
+                
                 arrayCuotasnuevo:[],
                 arrayCuotaDetalle:[],
                 
                 
                 modal : 0,
-                tituloModal : '',
-                tipoAccion : 0,
-                errorCredito : 0,
-                errorMostrarMsjCredito : [],
+               
+               
                 pagination : {
                     'total' : 0,
                     'current_page' : 0,
