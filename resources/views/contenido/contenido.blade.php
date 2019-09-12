@@ -34,10 +34,10 @@
                      </template>
 
                      <template v-if="menu==7">
-                            <h1>Ayuda de</h1>       
+                            <ayuda :ruta="ruta">Ayuda de</ayuda>       
                      </template>
                      <template v-if="menu==8">
-                            <h1>Acerca de</h1>       
+                            <acerca :ruta="ruta">Acerca de</acerca>       
                      </template>
                      <template v-if="menu==9">
                             <configcredito :ruta="ruta"></configcredito>     
