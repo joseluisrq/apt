@@ -175,15 +175,14 @@
                     
                      <div class="col-md-2">
                         
-                           <button type="button" class="btn btn-danger btn-sm" @click="eliminarCredito()"><i class="fa fa-trash-o"></i></button>
-                            
-                             <button type="button" class="btn btn-info btn-sm"  @click="pdfDetallecuota(credito.id)"><i class="fa fa-file-pdf-o"></i></button>
                            
+                             <button type="button" class="btn btn-info btn-sm"  @click="pdfDetallecuota(credito.id)"><i class="fa fa-file-pdf-o"></i></button>
+                              <button type="button" class="btn btn-success btn-sm"  @click="nuevoCredito()"><i class="fa fa-plus-circle">Nuevo Credito</i></button>
+              
                      </div>
                     
                      <div class="col-md-1">
-                          <button type="button" class="btn btn-success btn-sm"  @click="nuevoCredito()"><i class="fa fa-plus-circle">Nuevo Credito</i></button>
-                     </div>
+                              </div>
                  
                     <div class="col-md-12">
                         

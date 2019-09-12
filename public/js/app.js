@@ -2169,7 +2169,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -42225,20 +42224,6 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-danger btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.eliminarCredito()
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-trash-o" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
                             staticClass: "btn btn-info btn-sm",
                             attrs: { type: "button" },
                             on: {
@@ -42248,10 +42233,8 @@ var render = function() {
                             }
                           },
                           [_c("i", { staticClass: "fa fa-file-pdf-o" })]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-1" }, [
+                        ),
+                        _vm._v(" "),
                         _c(
                           "button",
                           {
@@ -42270,6 +42253,8 @@ var render = function() {
                           ]
                         )
                       ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1" }),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-12" }, [
                         _c(
@@ -60812,7 +60797,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp2\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })
