@@ -351,7 +351,7 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                        <h4 class="text-center">Lista  de Creditos  
+                        <h4 class="text-center">Configurar Creditos  /Lista de Creditos
                         </h4>
                         <hr>
                       
@@ -363,6 +363,7 @@
                                         <select class="form-control col-md-4" v-model="criterio">
                                         <option value="numeroprestamo">Número de prestamo</option>
                                         <option value="idkiva">ID kiva</option>
+                                         <option value="dni">DNI Cliente</option>
                                         <option value="fechadesembolso">Fecha de Desembolso </option>
                                         
                                         </select>
@@ -394,6 +395,7 @@
                                             <th class="font-weight-bold">Opciones</th>
                                             <th class="font-weight-bold">N° de Prestamo</th>
                                             <th class="font-weight-bold">ID kiva</th>
+                                            <th class="font-weight-bold">DNI cliente</th>
                                             <th class="font-weight-bold">Cliente</th>
                                             <th class="font-weight-bold">Monto</th>
                                             <th class="font-weight-bold">Fecha</th>
@@ -405,15 +407,19 @@
                                 <tbody>
                                     <tr v-for="credito in arrayCredito" :key="credito.id">
                                     <td class="py-1">
-                                                <button type="button" @click="listarCredito(credito.idkiva)" class="btn btn-success btn-sm">
-                                                <i class="fa fa-eye"></i>
-                                                </button>&nbsp;
+                                                <button type="button" @click="listarCredito(credito.idkiva)" class="btn btn-warning btn-sm">
+                                               <i class="fa fa-pencil-square-o"></i>
+                                                </button>
+                                                <button type="button" @click="eliminarCredito(credito.id)" class="btn btn-danger btn-sm">
+                                              <i class="fa fa-trash-o"></i>
+                                                </button>
                                                
                                     </td>
                                         <td v-text="credito.numeroprestamo"></td>
                                             <td v-text="credito.idkiva"></td>
+                                              <td v-text="credito.dni"></td>
                                             <td v-text="credito.nombre+' '+credito.apellidopaterno+' '+credito.apellidomaterno"></td>
-                                            <td v-text="credito.montodesembolsado"></td>
+                                            <td v-text="'$ '+credito.montodesembolsado"></td>
                                             <td v-text="credito.fechadesembolso"></td>
                                             <td v-text="credito.numerocuotas"></td>
                                             <td v-if="credito.estado==1" >
@@ -766,7 +772,7 @@ import vSelect from 'vue-select'
               
             },
              //editar credito
-            eliminarCredito(){
+            eliminarCredito(id){
               
                  const swalWithBootstrapButtons = Swal.mixin({
                         customClass: {
@@ -791,10 +797,10 @@ import vSelect from 'vue-select'
                                  axios.put(this.ruta+'/credito/desactivar',{ //hacemos referencia a la ruta que creamos
                                     'id':me.arrayCredito[0].id
                                 }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
-                                    me.nuevoCredito();
+                                  
                                       swalWithBootstrapButtons.fire(
                                     'Eliminado!',
-                                    'El registro ha sido eliminado con éxito',
+                                    'El credito ha sido eliminado con éxito',
                                     'success'
                                     )
                                 }).catch(function(){

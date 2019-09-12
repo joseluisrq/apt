@@ -3510,6 +3510,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -3677,7 +3683,7 @@ __webpack_require__.r(__webpack_exports__);
       me.editarvar = 1;
     },
     //editar credito
-    eliminarCredito: function eliminarCredito() {
+    eliminarCredito: function eliminarCredito(id) {
       var _this = this;
 
       var swalWithBootstrapButtons = Swal.mixin({
@@ -3704,8 +3710,7 @@ __webpack_require__.r(__webpack_exports__);
             'id': me.arrayCredito[0].id
           }).then(function (response) {
             //de una ves que se ejecuto mostramos le mensaje de desactivado
-            me.nuevoCredito();
-            swalWithBootstrapButtons.fire('Eliminado!', 'El registro ha sido eliminado con éxito', 'success');
+            swalWithBootstrapButtons.fire('Eliminado!', 'El credito ha sido eliminado con éxito', 'success');
           })["catch"](function () {
             console.log(error);
           });
@@ -44830,7 +44835,9 @@ var render = function() {
                 _c("div", { staticClass: "card" }, [
                   _c("div", { staticClass: "card-body" }, [
                     _c("h4", { staticClass: "text-center" }, [
-                      _vm._v("Lista  de Creditos  \n                        ")
+                      _vm._v(
+                        "Configurar Creditos  /Lista de Creditos\n                        "
+                      )
                     ]),
                     _vm._v(" "),
                     _c("hr"),
@@ -44876,6 +44883,10 @@ var render = function() {
                               _vm._v(" "),
                               _c("option", { attrs: { value: "idkiva" } }, [
                                 _vm._v("ID kiva")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "dni" } }, [
+                                _vm._v("DNI Cliente")
                               ]),
                               _vm._v(" "),
                               _c(
@@ -44989,7 +45000,7 @@ var render = function() {
                                 _c(
                                   "button",
                                   {
-                                    staticClass: "btn btn-success btn-sm",
+                                    staticClass: "btn btn-warning btn-sm",
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
@@ -44997,10 +45008,25 @@ var render = function() {
                                       }
                                     }
                                   },
-                                  [_c("i", { staticClass: "fa fa-eye" })]
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-pencil-square-o"
+                                    })
+                                  ]
                                 ),
-                                _vm._v(
-                                  " \n                                               \n                                    "
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger btn-sm",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.eliminarCredito(credito.id)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-trash-o" })]
                                 )
                               ]),
                               _vm._v(" "),
@@ -45017,6 +45043,10 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("td", {
+                                domProps: { textContent: _vm._s(credito.dni) }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
                                 domProps: {
                                   textContent: _vm._s(
                                     credito.nombre +
@@ -45030,7 +45060,9 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", {
                                 domProps: {
-                                  textContent: _vm._s(credito.montodesembolsado)
+                                  textContent: _vm._s(
+                                    "$ " + credito.montodesembolsado
+                                  )
                                 }
                               }),
                               _vm._v(" "),
@@ -45546,6 +45578,8 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("ID kiva")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("DNI cliente")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cliente")]),
         _vm._v(" "),
