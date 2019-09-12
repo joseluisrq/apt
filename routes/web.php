@@ -71,6 +71,8 @@ Route::group(['middleware'=>['auth']],function(){
             Route::put('/credito/desactivar', 'CreditoController@desactivar');
             Route::post('/credito/registrar', 'CreditoController@store');
             Route::get('/credito/creditosCliente', 'CreditoController@creditosCliente');
+            Route::get('/credito/creditosClienteEdit', 'CreditoController@creditosClienteEdit');
+            Route::get('/credito/cuotasClientEdit', 'CreditoController@cuotasClientEdit');
             Route::get('/credito/cuotasClientenuevo', 'CreditoController@cuotasClientenuevo');
             Route::get('/credito/listarpdf', 'CreditoController@listarPdf')->name('creditos_pdf');
             Route::get('/credito/detallecreditopdf/{id}', 'CreditoController@pdfDetallecredito')->name('detallecredito_pdf');

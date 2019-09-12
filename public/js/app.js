@@ -3212,307 +3212,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -3548,6 +3247,7 @@ __webpack_require__.r(__webpack_exports__);
       arrayCredito: [],
       //alamacenar el credito
       arrayCuota: [],
+      detalleCredito: [],
       //alamcenar todas las cuotas
       arrayCliente: [],
       arrayCuotasnuevo: [],
@@ -3630,12 +3330,6 @@ __webpack_require__.r(__webpack_exports__);
 
       me.historialcredito(page, buscar, criterio);
     },
-    generarboucher: function generarboucher(idcuota) {
-      window.open(this.ruta + '/credito/detallecuotapdf/' + idcuota + '', '_blank');
-    },
-    pdfDetallecuota: function pdfDetallecuota(idcredito) {
-      window.open(this.ruta + '/credito/detallecreditopdf/' + idcredito, '_blank');
-    },
     historialcredito: function historialcredito(page, buscar, criterio) {
       var me = this;
       me.listado = 2;
@@ -3648,38 +3342,51 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    //lisar credito luego se aver sido insertado el credito
-    listarCredito: function listarCredito(idkiva) {
+    //listar cuotas luego de EDITAR EL CREDITO
+    listarCuotas: function listarCuotas(id) {
+      this.arrayCuota.length = 0;
       var me = this;
-      var url = this.ruta + '/credito/creditosCliente?idkiva=' + idkiva;
+      var url = this.ruta + '/credito/cuotasClientEdit?id=' + id;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
-        me.arrayCredito = respuesta.creditos;
-        me.tipocambio = me.arrayCredito[0].tipocambio;
-        me.listarCuotas(idkiva);
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    //listar cuotas luego de ingresar el credito
-    listarCuotas: function listarCuotas(idkiva) {
-      this.listado = 0;
-      var me = this;
-      var url = this.ruta + '/credito/cuotasClientenuevo?idkiva=' + idkiva;
-      axios.get(url).then(function (response) {
-        var respuesta = response.data;
-        me.arrayCuotasnuevo = respuesta.cuotas;
+        me.arrayCuota = respuesta.cuotasedit;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     //editar credito
-    editarCredito: function editarCredito() {
+    editarCredito: function editarCredito(credito) {
       this.listado = 1;
+      this.arrayCredito.length = 0;
       var me = this;
-      me.editarvar = 1;
+      var url = this.ruta + '/credito/creditosClienteEdit?id=' + credito + '';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.detalleCredito = respuesta.creditosedit; //datos del credito
+
+        me.credito_id = me.detalleCredito[0].id;
+        me.numeroprestamo = me.detalleCredito[0].numeroprestamo;
+        me.idkiva = me.detalleCredito[0].idkiva;
+        me.montodesembolsado = me.detalleCredito[0].montodesembolsado;
+        me.fechadesembolso = me.detalleCredito[0].fechadesembolso;
+        me.numerocuotas = me.detalleCredito[0].numerocuotas;
+        me.tipocambio = me.detalleCredito[0].tipocambio;
+        me.tasa = me.detalleCredito[0].tasa;
+        me.periodo = me.detalleCredito[0].periodo; //datos del clientes
+
+        me.idcliente = me.detalleCredito[0].idcliente;
+        me.nombrecliente = me.detalleCredito[0].nombre;
+        me.dni = me.detalleCredito[0].dni;
+        me.apellidopaterno = me.detalleCredito[0].apellidopaterno;
+        me.apellidomaterno = me.detalleCredito[0].apellidomaterno; // me.tipocambio=me.arrayCredito[0].tipocambio;
+        //LISTAR CUOTAS
+
+        me.listarCuotas(credito);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
-    //editar credito
+    //ELIMNAR credito
     eliminarCredito: function eliminarCredito(id) {
       var _this = this;
 
@@ -43589,8 +43296,31 @@ var render = function() {
               _c("div", { staticClass: "col-12" }, [
                 _c("div", { staticClass: "card" }, [
                   _c("div", { staticClass: "card-body" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-outline-success btn-sm",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.historialcredito(
+                              1,
+                              _vm.buscar,
+                              _vm.criterio
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-mail-reply" }),
+                        _vm._v("Ver todos los Creditos ")
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
                     _c("h4", { staticClass: "text-center" }, [
-                      _vm._v("Nuevo Crédito")
+                      _vm._v("Editar Crédito ")
                     ]),
                     _vm._v(" "),
                     _c("hr"),
@@ -44087,7 +43817,7 @@ var render = function() {
                           _c(
                             "button",
                             {
-                              staticClass: "btn btn-primary mr-2",
+                              staticClass: "btn btn-warning mr-2",
                               attrs: { type: "button" },
                               on: {
                                 click: function($event) {
@@ -44095,7 +43825,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v(" Generar Cuotas")]
+                            [_vm._v(" Generar Nuevas Cuotas")]
                           )
                         ]),
                         _vm._v(" "),
@@ -44111,13 +43841,13 @@ var render = function() {
                                     "tbody",
                                     _vm._l(_vm.arrayCuota, function(cuota) {
                                       return _c("tr", { key: cuota.id }, [
-                                        _c("td", [
-                                          _vm._v(
-                                            " \n                                               " +
-                                              _vm._s(cuota.contador) +
-                                              "\n                                            "
-                                          )
-                                        ]),
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              cuota.numerocuota
+                                            )
+                                          }
+                                        }),
                                         _vm._v(" "),
                                         _c("td", [
                                           _c("input", {
@@ -44344,527 +44074,10 @@ var render = function() {
                                   }
                                 }
                               },
-                              [_vm._v("Registrar Credito")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-light",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.nuevoCredito()
-                                  }
-                                }
-                              },
-                              [_vm._v("Limpiar Campos")]
+                              [_vm._v("ACTUALIZAR ")]
                             )
                           ])
-                        : _c("div", { staticClass: "form-group col-4" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-success mr-2",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.editarCredito()
-                                  }
-                                }
-                              },
-                              [_vm._v("ActualizarCredito")]
-                            )
-                          ])
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ]
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.listado == 0
-        ? [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-12 grid-margin card" }, [
-                _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  _vm._l(_vm.arrayCredito, function(credito) {
-                    return _c("div", { key: credito.id, staticClass: "row" }, [
-                      _vm._m(2, true),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-2" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-warning btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.editarCredito()
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-pencil" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.eliminarCredito()
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-trash-o" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.pdfDetallecuota(credito.id)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fa fa-file-pdf-o" })]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-1" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success btn-sm",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.historialcredito(
-                                  1,
-                                  _vm.buscar,
-                                  _vm.criterio
-                                )
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "fa fa-mail-reply" }),
-                            _vm._v("Historial ")
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-12" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "wrapper d-flex justify-content-between"
-                          },
-                          [
-                            _c("div", { staticClass: "side-left" }, [
-                              _c(
-                                "p",
-                                { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Cliente")]
-                              ),
-                              _vm._v(" "),
-                              _c("h6", {
-                                staticClass: "mb-4 font-weight-light",
-                                domProps: {
-                                  textContent: _vm._s(
-                                    credito.nombre +
-                                      " " +
-                                      credito.apellidopaterno +
-                                      " " +
-                                      credito.apellidomaterno
-                                  )
-                                }
-                              })
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "wrapper d-flex justify-content-between"
-                          },
-                          [
-                            _c("div", { staticClass: "side-left" }, [
-                              _c(
-                                "p",
-                                { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Número de Prestamo")]
-                              ),
-                              _vm._v(" "),
-                              _c("h6", {
-                                staticClass: "mb-4 font-weight-light",
-                                domProps: {
-                                  textContent: _vm._s(credito.numeroprestamo)
-                                }
-                              })
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "wrapper d-flex justify-content-between"
-                          },
-                          [
-                            _c("div", { staticClass: "side-left" }, [
-                              _c(
-                                "p",
-                                { staticClass: "mb-2 font-weight-bold " },
-                                [_vm._v("ID KIVA")]
-                              ),
-                              _vm._v(" "),
-                              _c("h6", {
-                                staticClass: "mb-4 font-weight-light",
-                                domProps: {
-                                  textContent: _vm._s(credito.idkiva)
-                                }
-                              })
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "wrapper d-flex justify-content-between"
-                          },
-                          [
-                            _c("div", { staticClass: "side-left" }, [
-                              _c(
-                                "p",
-                                { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Monto ")]
-                              ),
-                              _vm._v(" "),
-                              _c("h6", {
-                                staticClass: "mb-4 font-weight-light",
-                                domProps: {
-                                  textContent: _vm._s(
-                                    "$ " + credito.montodesembolsado
-                                  )
-                                }
-                              })
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "wrapper d-flex justify-content-between"
-                          },
-                          [
-                            _c("div", { staticClass: "side-left" }, [
-                              _c(
-                                "p",
-                                { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Fecha de desembolso")]
-                              ),
-                              _vm._v(" "),
-                              _c("h6", {
-                                staticClass: "mb-4 font-weight-light",
-                                domProps: {
-                                  textContent: _vm._s(credito.fechadesembolso)
-                                }
-                              })
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "wrapper d-flex justify-content-between"
-                          },
-                          [
-                            _c("div", { staticClass: "side-left" }, [
-                              _c(
-                                "p",
-                                { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("N°  Cuotas")]
-                              ),
-                              _vm._v(" "),
-                              _c("h6", {
-                                staticClass: "mb-4 font-weight-light",
-                                domProps: {
-                                  textContent: _vm._s(credito.numerocuotas)
-                                }
-                              })
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "wrapper d-flex justify-content-between"
-                          },
-                          [
-                            _c("div", { staticClass: "side-left" }, [
-                              _c(
-                                "p",
-                                { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Tipo de Cambio")]
-                              ),
-                              _vm._v(" "),
-                              _c("h6", {
-                                staticClass: "mb-4 font-weight-light",
-                                domProps: {
-                                  textContent: _vm._s(
-                                    "S/ " + credito.tipocambio
-                                  )
-                                }
-                              })
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "wrapper d-flex justify-content-between"
-                          },
-                          [
-                            _c("div", { staticClass: "side-left" }, [
-                              _c(
-                                "p",
-                                { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Tasa de Interes")]
-                              ),
-                              _vm._v(" "),
-                              _c("h6", {
-                                staticClass: "mb-4 font-weight-light",
-                                domProps: {
-                                  textContent: _vm._s(credito.tasa + " %")
-                                }
-                              })
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-3" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "wrapper d-flex justify-content-between"
-                          },
-                          [
-                            _c("div", { staticClass: "side-left" }, [
-                              _c(
-                                "p",
-                                { staticClass: "mb-2 font-weight-bold" },
-                                [_vm._v("Periodo")]
-                              ),
-                              _vm._v(" "),
-                              credito.periodo == 1
-                                ? _c(
-                                    "h6",
-                                    { staticClass: "mb-4 font-weight-light" },
-                                    [_vm._v("Mensual")]
-                                  )
-                                : credito.periodo == 2
-                                ? _c(
-                                    "h6",
-                                    { staticClass: "mb-4 font-weight-light" },
-                                    [_vm._v("Bimensual")]
-                                  )
-                                : credito.periodo == 3
-                                ? _c(
-                                    "h6",
-                                    { staticClass: "mb-4 font-weight-light" },
-                                    [_vm._v("Trimestral")]
-                                  )
-                                : credito.periodo == 6
-                                ? _c(
-                                    "h6",
-                                    { staticClass: "mb-4 font-weight-light" },
-                                    [_vm._v("Semestral")]
-                                  )
-                                : credito.periodo == 12
-                                ? _c(
-                                    "h6",
-                                    { staticClass: "mb-4 font-weight-light" },
-                                    [_vm._v("Anual")]
-                                  )
-                                : _vm._e()
-                            ])
-                          ]
-                        )
-                      ])
-                    ])
-                  }),
-                  0
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
-                _c("div", { staticClass: "card" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("h6", { staticClass: "font-weight-bold" }, [
-                      _vm._v("Cuotas")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "table-responsive" }, [
-                      _c("table", { staticClass: "table  table-bordered " }, [
-                        _vm._m(3),
-                        _vm._v(" "),
-                        _c(
-                          "tbody",
-                          _vm._l(_vm.arrayCuotasnuevo, function(
-                            cuotanuevo,
-                            index
-                          ) {
-                            return _c("tr", { key: cuotanuevo.id }, [
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(cuotanuevo.numerocuota)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", { staticClass: "py-1" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-success btn-sm",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.abrirModal(index)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-eye" })]
-                                ),
-                                _vm._v(
-                                  " \n                                             \n                                                  "
-                                )
-                              ]),
-                              _vm._v(" "),
-                              cuotanuevo.fechapago < _vm.hoy &&
-                              cuotanuevo.estado == 0
-                                ? _c("td", [
-                                    _vm._v(
-                                      "\n                                        " +
-                                        _vm._s(cuotanuevo.fechapago) +
-                                        " "
-                                    ),
-                                    _c(
-                                      "span",
-                                      { staticClass: "badge badge-warning" },
-                                      [_vm._v(" Cuota atrasada")]
-                                    )
-                                  ])
-                                : _c("td", [
-                                    _c("span", {
-                                      domProps: {
-                                        textContent: _vm._s(
-                                          cuotanuevo.fechapago
-                                        )
-                                      }
-                                    })
-                                  ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _vm._v(
-                                  "\n                                        $ " +
-                                    _vm._s(cuotanuevo.monto) +
-                                    " \n                                     "
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass: "badge badge-primary",
-                                    staticStyle: { "font-size": "12px" }
-                                  },
-                                  [
-                                    _vm._v(
-                                      " S/ " +
-                                        _vm._s(
-                                          parseFloat(
-                                            cuotanuevo.monto * _vm.tipocambio
-                                          ).toFixed(2)
-                                        )
-                                    )
-                                  ]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(cuotanuevo.saldopendiente)
-                                }
-                              }),
-                              _vm._v(" "),
-                              cuotanuevo.estado == 0
-                                ? _c("td", [
-                                    _c(
-                                      "label",
-                                      { staticClass: "badge badge-danger" },
-                                      [_vm._v("Pendiente")]
-                                    )
-                                  ])
-                                : cuotanuevo.estado == 1
-                                ? _c("td", [
-                                    _c(
-                                      "label",
-                                      { staticClass: "badge badge-success" },
-                                      [_vm._v("Pagada")]
-                                    )
-                                  ])
-                                : _c("td", [
-                                    _c(
-                                      "label",
-                                      { staticClass: "badge badge-success" },
-                                      [_vm._v("Pago con retraso")]
-                                    )
-                                  ])
-                            ])
-                          }),
-                          0
-                        )
-                      ])
+                        : _c("div", { staticClass: "form-group col-4" })
                     ])
                   ])
                 ])
@@ -45012,7 +44225,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "table-responsive" }, [
                       _c("table", { staticClass: "table  table-bordered " }, [
-                        _vm._m(4),
+                        _vm._m(2),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -45029,7 +44242,7 @@ var render = function() {
                                     },
                                     on: {
                                       click: function($event) {
-                                        return _vm.listarCredito(credito.idkiva)
+                                        return _vm.editarCredito(credito.id)
                                       }
                                     }
                                   },
@@ -45247,294 +44460,7 @@ var render = function() {
               ])
             ])
           ]
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "modal ",
-          class: { mostrar: _vm.modal },
-          attrs: { "aria-hidden": "true" }
-        },
-        [
-          _c("div", { staticClass: "modal-dialog" }, [
-            _c("div", { staticClass: "modal-content bg bg-primary " }, [
-              _c("h4", { staticClass: "text-center  mt-2 text-white" }, [
-                _vm._v(
-                  "                           \n                            Cuota N° : " +
-                    _vm._s(_vm.arrayCuotaDetalle.numerocuota) +
-                    "     \n                            "
-                ),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary text-white float-rigth",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.cerrarModal()
-                      }
-                    }
-                  },
-                  [_vm._v("× ")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body card" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-12" }, [
-                    _c("div", { staticClass: "float-left" }, [
-                      _c("p", { staticClass: "mb-0 text-left" }, [
-                        _vm._v("Cliente")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "fluid-container" }, [
-                        _c("h6", {
-                          staticClass: "font-weight-medium text-left mb-0",
-                          domProps: {
-                            textContent: _vm._s(
-                              _vm.arrayCuotaDetalle.nombre +
-                                " " +
-                                _vm.arrayCuotaDetalle.apellidopaterno +
-                                " " +
-                                _vm.apellidomaterno
-                            )
-                          }
-                        })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4 mt-2" }, [
-                    _c("div", { staticClass: "float-left" }, [
-                      _c("p", { staticClass: "mb-0 text-left" }, [
-                        _vm._v("Cuota en  Dolares)")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "fluid-container" }, [
-                        _c(
-                          "h6",
-                          { staticClass: "font-weight-medium text-left mb-0" },
-                          [
-                            _vm._v(
-                              "\n                                            $ " +
-                                _vm._s(_vm.arrayCuotaDetalle.monto) +
-                                "   \n                                           "
-                            )
-                          ]
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4 mt-2" }, [
-                    _c("div", { staticClass: "float-left" }, [
-                      _c("p", { staticClass: "mb-0 text-left" }, [
-                        _vm._v("Cuota en Soles)")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "fluid-container" }, [
-                        _c(
-                          "h6",
-                          { staticClass: "font-weight-medium text-left mb-0" },
-                          [
-                            _vm._v(
-                              "\n                                          S/ " +
-                                _vm._s(
-                                  _vm.arrayCuotaDetalle.monto * _vm.tipocambio
-                                ) +
-                                " "
-                            )
-                          ]
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-4  mt-2" }, [
-                    _c("div", { staticClass: "float-left" }, [
-                      _c("p", { staticClass: "mb-0 text-left" }, [
-                        _vm._v("Otros Pagos")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "fluid-container" }, [
-                        _c("h6", {
-                          staticClass: "font-weight-medium text-left mb-0",
-                          domProps: {
-                            textContent: _vm._s(
-                              _vm.arrayCuotaDetalle.otroscostos
-                            )
-                          }
-                        })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-12   mt-2" }, [
-                    _c("hr"),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "float-left" }, [
-                      _c("p", { staticClass: "mb-0 text-left" }, [
-                        _vm._v("Pago Total")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "fluid-container" }, [
-                        _c("h6", {
-                          staticClass: "font-weight-medium text-left mb-0",
-                          domProps: {
-                            textContent: _vm._s(
-                              "S/" +
-                                (
-                                  parseFloat(
-                                    _vm.arrayCuotaDetalle.monto * _vm.tipocambio
-                                  ) +
-                                  parseFloat(_vm.arrayCuotaDetalle.otroscostos)
-                                ).toFixed(2)
-                            )
-                          }
-                        })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6  mt-2" }, [
-                    _c("div", { staticClass: "float-left" }, [
-                      _c("p", { staticClass: "mb-0 text-left" }, [
-                        _vm._v("Fecha de Pago")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "fluid-container" }, [
-                        _c("h6", {
-                          staticClass: "font-weight-medium text-left mb-0",
-                          domProps: {
-                            textContent: _vm._s(_vm.arrayCuotaDetalle.fechapago)
-                          }
-                        })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6  mt-2" }, [
-                    _c("div", { staticClass: "float-left" }, [
-                      _c("p", { staticClass: "mb-0 text-left" }, [
-                        _vm._v("Fecha de Cancelación")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "fluid-container" }, [
-                        _vm.arrayCuotaDetalle.estado == 0
-                          ? _c(
-                              "h6",
-                              {
-                                staticClass: "font-weight-medium text-left mb-0"
-                              },
-                              [_vm._v("Pendiente")]
-                            )
-                          : _c("h6", {
-                              staticClass: "font-weight-medium text-left mb-0",
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.arrayCuotaDetalle.fechacancelacion
-                                )
-                              }
-                            })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6  mt-2" }, [
-                    _c("div", { staticClass: "float-left" }, [
-                      _c("p", { staticClass: "mb-0 text-left" }, [
-                        _vm._v("Detalle")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "fluid-container" }, [
-                        _vm.arrayCuotaDetalle.descripcion == null
-                          ? _c(
-                              "h6",
-                              {
-                                staticClass: "font-weight-medium text-left mb-0"
-                              },
-                              [_vm._v("Sin detalle")]
-                            )
-                          : _c("h6", {
-                              staticClass: "font-weight-medium text-left mb-0",
-                              domProps: {
-                                textContent: _vm._s(
-                                  _vm.arrayCuotaDetalle.descripcion
-                                )
-                              }
-                            })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-12  mt-2" }, [
-                    _c("div", { staticClass: "float-left" }, [
-                      _c("p", { staticClass: "mb-0 text-left" }, [
-                        _vm._v("Cajero")
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "fluid-container" }, [
-                        _c("h6", {
-                          staticClass: "font-weight-medium text-left mb-0",
-                          domProps: {
-                            textContent: _vm._s(
-                              _vm.arrayCuotaDetalle.usuarionombre +
-                                " " +
-                                _vm.arrayCuotaDetalle.usuariopaterno +
-                                " " +
-                                _vm.arrayCuotaDetalle.usuariomaterno
-                            )
-                          }
-                        })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(5),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger col-md-12",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.cerrarModal()
-                          }
-                        }
-                      },
-                      [_vm._v("Cerrar")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-md-6" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-info col-md-12",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.generarboucher(_vm.arrayCuotaDetalle.id)
-                          }
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-file-pdf-o" }),
-                        _vm._v(
-                          "\n                                        Boucher"
-                        )
-                      ]
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ]
-      )
+        : _vm._e()
     ],
     2
   )
@@ -45576,44 +44502,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-9" }, [
-      _c("h4", { staticClass: "text-primary mb-5" }, [
-        _vm._v("Detalle de Credito")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "table-bordered " }, [
-      _c("tr", { staticClass: "font-weight-bold" }, [
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Opciones")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Fecha de Pago")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Cuota Dolares")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cuota Soles")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Saldo Pendiente")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Pago")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "table-bordered " }, [
       _c("tr", { staticClass: "font-weight-bold" }, [
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Opciones")]),
@@ -45637,12 +44525,6 @@ var staticRenderFns = [
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Estado")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [_c("hr")])
   }
 ]
 render._withStripped = true
@@ -60956,7 +59838,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp2\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })

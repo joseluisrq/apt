@@ -135,6 +135,72 @@ class CreditoController extends Controller
         return ['creditos' => $creditos];
 
     }
+
+      //mostrar el credito ingresado
+      public function creditosClienteEdit(Request $request)
+      {
+          //if (!$request->ajax()) return redirect('/');
+         // if (!$request->ajax()) return redirect('/');
+   
+          $id = $request->id;
+           $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
+          ->join('personas','clientes.id','=','personas.id')
+          ->select(
+              'creditos.id', 
+              'creditos.numeroprestamo',
+              'creditos.idkiva',
+              'creditos.montodesembolsado',
+              'creditos.fechadesembolso',
+              'creditos.numerocuotas',
+              'creditos.tipocambio',
+              'creditos.tasa',
+              'creditos.estado',
+              'creditos.periodo',
+              'personas.nombre',
+              'personas.dni',
+              'personas.id as idcliente',
+              'personas.apellidopaterno',
+              'personas.apellidomaterno')
+          ->where('creditos.id','=',$id)->take(1)->get();
+           
+          return ['creditosedit' => $creditos];
+  
+      }
+
+      public function cuotasClientEdit(Request $request)
+    {
+        //if (!$request->ajax()) return redirect('/');
+ 
+        $id = $request->id;
+         $cuotas = Cuota::join('creditos','cuotas.idcredito','=','creditos.id')
+         ->join('clientes','creditos.idcliente','=','clientes.id')
+         ->join('personas as cli','clientes.id','=','cli.id')
+        ->join('users','cuotas.idusuario','=','users.id')
+         ->join('personas as us','users.id','=','us.id')
+        ->select(
+            'cuotas.id', 
+            'cuotas.monto',
+            'cuotas.fechapago',
+            'cuotas.fechacancelacion',
+            'cuotas.saldopendiente',
+            'cuotas.otroscostos',
+            'cuotas.descripcion',
+            'cuotas.estado',
+            'cuotas.numerocuota',
+            'cli.nombre',
+            'cli.apellidopaterno',
+            'cli.apellidomaterno',
+            'us.nombre as usuarionombre',
+            'us.apellidopaterno as usuariopaterno',
+            'us.apellidomaterno as usuariomaterno'            
+            )
+        ->where('creditos.id','=',$id)
+        ->orderBy('cuotas.id', 'asc')->get();
+         
+        return ['cuotasedit' => $cuotas];
+
+    }
+
     //selecionar las cuotas de un credito determinado //cambiar luego po rl id de credito
     public function cuotasClientenuevo(Request $request)
     {

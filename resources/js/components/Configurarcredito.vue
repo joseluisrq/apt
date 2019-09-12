@@ -1,14 +1,17 @@
 <template>
  <main class="">
 
-<!--formulario ingreso de credito-->
+<!--formulario actualizar el  de credito y cuotas -->
     <template v-if="listado==1"><!--me permite visualizar o cocultar el formulario-->
         <div class="row  form-group">
            <div class="col-12">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="text-center">Nuevo Crédito</h4>
-                      <hr>
+                         <button type="button" class="btn btn-outline-success btn-sm"  @click="historialcredito(1,buscar,criterio)"><i class="fa fa-mail-reply"></i>Ver todos los Creditos </button>
+                    
+                 <hr>
+                      <h4 class="text-center">Editar Crédito </h4>
+                             <hr>
                       <p class="card-description">
                         Insertar la información requerida
                       </p>
@@ -83,11 +86,12 @@
                             </div>
 
                              <div class="form-group col-12">
-                                <button type="button"  class="btn btn-primary mr-2" @click="agregarCuotas()"> Generar Cuotas</button>
+                                <button type="button"  class="btn btn-warning mr-2" @click="agregarCuotas()"> Generar Nuevas Cuotas</button>
                              
                              </div>
                             
                             <hr>
+                        <!--tabla de cuotas--> 
                             <div class="col-12 mt-4">
                                 <div class="table-responsive">
                                     <table class="table">
@@ -103,8 +107,8 @@
                                     </thead>
                                     <tbody v-if="arrayCuota.length">
                                         <tr v-for="cuota in arrayCuota" :key="cuota.id">
-                                            <td> 
-                                               {{cuota.contador}}
+                                            <td v-text="cuota.numerocuota"> 
+                                               
                                             </td>
                                             <td> 
                                                 <input type="number" class="form-control"   v-model="cuota.monto"  placeholder="Número Cuotas">
@@ -134,6 +138,7 @@
                                     </table>
                                 </div>
                             </div>
+                         <!--fin de tabla cuotas-->
                         </div>
 
                         <div  v-show="errorCredito" class=" form-group col-md-12 mt-2 bg-danger">
@@ -146,11 +151,11 @@
 
                         
                          <div v-if="editarvar==0" class="form-group col-4">
-                            <button type="button" class="btn btn-success mr-2" @click="registrarCredito()">Registrar Credito</button>
-                            <button type="button" class="btn btn-light"  @click="nuevoCredito()">Limpiar Campos</button>
+                            <button type="button" class="btn btn-success mr-2" @click="registrarCredito()">ACTUALIZAR </button>
+                           
                          </div>
                          <div v-else class="form-group col-4">
-                            <button type="button" class="btn btn-success mr-2" @click="editarCredito()">ActualizarCredito</button>
+                           <!-- <button type="button" class="btn btn-success mr-2" @click="editarCredito()">ActualizarCredito</button>-->
                            
                          </div>
                       </form>
@@ -161,189 +166,7 @@
     </template>
 <!--fin formulario ingreso de credito-->
 
-    <!--detalle de crtedito-->
-    <template v-if="listado==0">
-        <div class="row">
-            <div class="col-lg-12 grid-margin card">
-                <div class="card-body">
-                
-
-                  <div class="row" v-for="credito in arrayCredito" :key="credito.id">
-                      <div class="col-md-9">
-                            <h4 class="text-primary mb-5">Detalle de Credito</h4>
-                      </div>
-                    
-                     <div class="col-md-2">
-                          <button type="button" class="btn btn-warning btn-sm"  @click="editarCredito()"><i class="fa fa-pencil"></i></button>
-                           <button type="button" class="btn btn-danger btn-sm" @click="eliminarCredito()"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-info btn-sm"  @click="pdfDetallecuota(credito.id)"><i class="fa fa-file-pdf-o"></i></button>
-                           
-                     </div>
-                    
-                     <div class="col-md-1">
-                          <button type="button" class="btn btn-success btn-sm"  @click="historialcredito(1,buscar,criterio)"><i class="fa fa-mail-reply"></i>Historial </button>
-                     </div>
-                 
-                    <div class="col-md-12">
-                        
-                            <div class="wrapper d-flex justify-content-between">
-                                <div class="side-left">
-                                    <p class="mb-2 font-weight-bold">Cliente</p>
-                                    <h6 class="mb-4 font-weight-light" v-text="credito.nombre+' '+credito.apellidopaterno+' '+credito.apellidomaterno"></h6>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="col-md-3">
-                            <div class="wrapper d-flex justify-content-between">
-                                <div class="side-left">
-                                    <p class="mb-2 font-weight-bold">Número de Prestamo</p>
-                                    <h6 class="mb-4 font-weight-light" v-text="credito.numeroprestamo"></h6>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="wrapper d-flex justify-content-between">
-                            <div class="side-left">
-                                <p class="mb-2 font-weight-bold ">ID KIVA</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.idkiva"></h6>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="col-md-3">
-                        <div class="wrapper d-flex justify-content-between">
-                            <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Monto </p>
-                                <h6 class="mb-4 font-weight-light" v-text="'$ '+credito.montodesembolsado"></h6>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="col-md-3">
-                        <div class="wrapper d-flex justify-content-between">
-                            <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Fecha de desembolso</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.fechadesembolso"></h6>
-                            </div>
-                        </div>
-                    </div>
-
-                      <div class="col-md-3">
-                        <div class="wrapper d-flex justify-content-between">
-                            <div class="side-left">
-                                <p class="mb-2 font-weight-bold">N°  Cuotas</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.numerocuotas"></h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="wrapper d-flex justify-content-between">
-                            <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Tipo de Cambio</p>
-                                <h6 class="mb-4 font-weight-light" v-text="'S/ '+credito.tipocambio"></h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="wrapper d-flex justify-content-between">
-                            <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Tasa de Interes</p>
-                                <h6 class="mb-4 font-weight-light" v-text="credito.tasa+' %'"></h6>
-                            </div>
-                        </div>
-                    </div>
-                      <div class="col-md-3">
-                        <div class="wrapper d-flex justify-content-between">
-                            <div class="side-left">
-                                <p class="mb-2 font-weight-bold">Periodo</p>
-                                <h6 class="mb-4 font-weight-light" v-if="credito.periodo==1">Mensual</h6>
-                                  <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==2">Bimensual</h6>
-                                   <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==3">Trimestral</h6>
-                                    <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==6">Semestral</h6>
-                                     <h6 class="mb-4 font-weight-light" v-else-if="credito.periodo==12">Anual</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                  
-                  
-                  
-                  
-                </div>
-              </div>
-             <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="font-weight-bold">Cuotas</h6>
-
-                    <!--TABLA DE LA LISTA DE CREDITOS-->
-                    <div class="table-responsive">
-                        <table class="table  table-bordered ">
-                            <thead class="table-bordered ">
-                                <tr class="font-weight-bold">
-                                      <th class="font-weight-bold">#</th>
-                                    <th class="font-weight-bold">Opciones</th>
-                                   
-                                    <th class="font-weight-bold">Fecha de Pago</th>
-                                    <th class="font-weight-bold">Cuota Dolares</th>
-                                    <th class="font-weight-bold">Cuota Soles</th>
-                                    <th class="font-weight-bold">Saldo Pendiente</th>
-                                    
-                                    <th class="font-weight-bold">Pago</th>
-                                        
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <tr  v-for="(cuotanuevo,index) in arrayCuotasnuevo" :key="cuotanuevo.id" >
-
-                                   
-                                       <td v-text="cuotanuevo.numerocuota"></td>
-                                     <td class="py-1">
-                                                <button type="button" @click="abrirModal(index)" class="btn btn-success btn-sm">
-                                                <i class="fa fa-eye"></i>
-                                                </button>&nbsp;
-                                             
-                                                  </td>
-                                 
-                                    <td v-if="cuotanuevo.fechapago < hoy && cuotanuevo.estado==0" >
-                                        {{cuotanuevo.fechapago}} <span class="badge badge-warning"> Cuota atrasada</span>
-                                    </td>
-                                     <td v-else>
-                                        <span  v-text="cuotanuevo.fechapago"></span>
-                                    </td>
-                                     <td >
-                                        $ {{cuotanuevo.monto}} 
-                                     </td>
-                                     <td >
-                                         <span class="badge badge-primary" style="font-size:12px;"> S/ {{ parseFloat(cuotanuevo.monto * tipocambio).toFixed(2)	}}</span>
-                                     </td>
-                                     
-                                    <td v-text="cuotanuevo.saldopendiente"></td>
-                                   
-                                    <td v-if="cuotanuevo.estado==0">
-                                        <label class="badge badge-danger">Pendiente</label>
-                                    </td>
-                                     <td v-else-if="cuotanuevo.estado==1">
-                                         <label class="badge badge-success">Pagada</label>
-                                     </td>
-                                     <td v-else>
-                                         <label class="badge badge-success">Pago con retraso</label>
-                                     </td>
-                                  
-                                   
-                                         
-                                    
-                                </tr>                 
-                            </tbody>
-                        </table>
-                        
-                    </div>
-                    <!--FIN  DE TABLA DE LA LISTA DE CREDITOS-->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template> 
+ 
 
 <!--listado de creditos-->
     <template v-if="listado==2">
@@ -401,7 +224,7 @@
                                 <tbody>
                                     <tr v-for="credito in arrayCredito" :key="credito.id">
                                     <td class="py-1">
-                                                <button type="button" title="EDITAR CREDITO" @click="listarCredito(credito.idkiva)" class="btn btn-warning btn-sm">
+                                                <button type="button" title="EDITAR CREDITO" @click="editarCredito(credito.id)" class="btn btn-warning btn-sm">
                                                <i class="fa fa-pencil-square-o"></i>
                                                 </button>
                                                 <button type="button" title="ELIMINAR CREDITO" @click="eliminarCredito(credito.id)" class="btn btn-danger btn-sm">
@@ -455,130 +278,6 @@
 <!--finde lista de creditos-->
 
 
-<!--modal detalle de cuota-->
-    <!-- Modal -->
- 
-        <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content bg bg-primary ">
-                            <h4 class="text-center  mt-2 text-white" >                           
-                            Cuota N° : {{arrayCuotaDetalle.numerocuota}}  &nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-primary text-white float-rigth"  @click="cerrarModal()">&times; </button> </h4>
-                           
-                     
-                        <!-- Modal body -->
-                        <div class="modal-body card">
-                          
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="float-left">
-                                    <p class="mb-0 text-left">Cliente</p>
-                                        <div class="fluid-container">
-                                            <h6 class="font-weight-medium text-left mb-0" 
-                                            v-text="arrayCuotaDetalle.nombre+' '+arrayCuotaDetalle.apellidopaterno+' '+apellidomaterno"></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mt-2">
-                                    <div class="float-left">
-                                    <p class="mb-0 text-left">Cuota en  Dolares)</p>
-                                        <div class="fluid-container">
-                                         
-                                            <h6  class="font-weight-medium text-left mb-0">
-                                            $ {{arrayCuotaDetalle.monto}}   
-                                           </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="col-md-4 mt-2">
-                                    <div class="float-left">
-                                    <p class="mb-0 text-left">Cuota en Soles)</p>
-                                        <div class="fluid-container">
-                                         
-                                            <h6  class="font-weight-medium text-left mb-0">
-                                          S/ {{arrayCuotaDetalle.monto*tipocambio}} </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                  <div class="col-md-4  mt-2">
-                                    <div class="float-left">
-                                    <p class="mb-0 text-left">Otros Pagos</p>
-                                        <div class="fluid-container">
-                                            <h6 class="font-weight-medium text-left mb-0" v-text="arrayCuotaDetalle.otroscostos"></h6>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                 <div class="col-md-12   mt-2">
-                                      <hr>
-                                    <div class="float-left">
-                                       
-                                    <p class="mb-0 text-left">Pago Total</p>
-                                        <div class="fluid-container">
-                                            <h6 class="font-weight-medium text-left mb-0" 
-                                            v-text="'S/' +(parseFloat(arrayCuotaDetalle.monto*tipocambio)+ parseFloat(arrayCuotaDetalle.otroscostos)).toFixed(2)"></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="col-md-6  mt-2">
-                                    <div class="float-left">
-                                    <p class="mb-0 text-left">Fecha de Pago</p>
-                                        <div class="fluid-container">
-                                            <h6 class="font-weight-medium text-left mb-0" v-text="arrayCuotaDetalle.fechapago"></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6  mt-2">
-                                    <div class="float-left">
-                                    <p class="mb-0 text-left">Fecha de Cancelación</p>
-                                        <div class="fluid-container">
-                                            <h6 v-if="arrayCuotaDetalle.estado==0" class="font-weight-medium text-left mb-0" >Pendiente</h6>
-                                            <h6 v-else class="font-weight-medium text-left mb-0" v-text="arrayCuotaDetalle.fechacancelacion"></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="col-md-6  mt-2">
-                                    <div class="float-left">
-                                    <p class="mb-0 text-left">Detalle</p>
-                                        <div class="fluid-container">
-                                            <h6 v-if="arrayCuotaDetalle.descripcion==null" class="font-weight-medium text-left mb-0" >Sin detalle</h6>
-                                            <h6 v-else class="font-weight-medium text-left mb-0" v-text="arrayCuotaDetalle.descripcion"></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12  mt-2">
-                                    <div class="float-left">
-                                    <p class="mb-0 text-left">Cajero</p>
-                                        <div class="fluid-container">
-                                          
-                                            <h6  class="font-weight-medium text-left mb-0" 
-                                            v-text="arrayCuotaDetalle.usuarionombre+' '+
-                                            arrayCuotaDetalle.usuariopaterno+' '+
-                                            arrayCuotaDetalle.usuariomaterno"></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <hr>
-                                </div>
-                                <div class="col-md-6">
-                                        <button type="button" class="btn btn-danger col-md-12" @click="cerrarModal()">Cerrar</button>
-                                </div>
-                                <div class="col-md-6">
-                                        
-                                        <button type="button" class="btn btn-info col-md-12" @click="generarboucher(arrayCuotaDetalle.id)"><i class="fa fa-file-pdf-o"></i>
-                                        Boucher</button>
-                                </div>
-                            </div>
-                      
-                       
-                        </div>
-
-                        </div>
-                    
-                </div>
-        </div>
-<!-- fin de detalle de cuota-->
 
    </main>
 </template>
@@ -625,7 +324,8 @@ import vSelect from 'vue-select'
                 
 
                 arrayCredito : [], //alamacenar el credito
-                arrayCuota : [], //alamcenar todas las cuotas
+                arrayCuota : [], 
+                detalleCredito : [],//alamcenar todas las cuotas
                 arrayCliente:[],
                 arrayCuotasnuevo:[],
                 arrayCuotaDetalle:[],
@@ -711,12 +411,7 @@ import vSelect from 'vue-select'
                 //Envia la petición para visualizar la data de esa página
                 me.historialcredito(page,buscar,criterio);
             },
-            generarboucher(idcuota){
-                window.open(this.ruta+'/credito/detallecuotapdf/'+idcuota+'','_blank');
-            },
-            pdfDetallecuota(idcredito){
-                 window.open(this.ruta+'/credito/detallecreditopdf/'+idcredito,'_blank');
-            },
+           
               historialcredito (page,buscar,criterio){
                 let me=this;
                 me.listado=2;
@@ -730,30 +425,15 @@ import vSelect from 'vue-select'
                     console.log(error);
                 });
             },
-            //lisar credito luego se aver sido insertado el credito
-            listarCredito (idkiva){
-                 
+           
+            //listar cuotas luego de EDITAR EL CREDITO
+            listarCuotas(id){
+                this.arrayCuota.length=0;
                 let me=this;
-                var url= this.ruta+'/credito/creditosCliente?idkiva='+idkiva;
+                var url= this.ruta+'/credito/cuotasClientEdit?id='+id;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    me.arrayCredito = respuesta.creditos;
-                    me.tipocambio=me.arrayCredito[0].tipocambio;
-                    me.listarCuotas(idkiva)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-         
-            },
-            //listar cuotas luego de ingresar el credito
-            listarCuotas(idkiva){
-                 this.listado=0;
-                  let me=this;
-                var url= this.ruta+'/credito/cuotasClientenuevo?idkiva='+idkiva;
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data;
-                    me.arrayCuotasnuevo = respuesta.cuotas;
+                    me.arrayCuota = respuesta.cuotasedit;
                   
                 })
                 .catch(function (error) {
@@ -762,13 +442,48 @@ import vSelect from 'vue-select'
             },
 
             //editar credito
-            editarCredito(){
+            editarCredito(credito){
               this.listado=1;
-              let me=this;
-              me.editarvar=1;
+              
+                this.arrayCredito.length=0
+                 let me=this;
+                  
+                var url= this.ruta+'/credito/creditosClienteEdit?id='+credito+'';
+                axios.get(url).then(function (response) {
+                     var respuesta= response.data;
+                     
+                 me.detalleCredito = respuesta.creditosedit;
+
+                //datos del credito
+                 me.credito_id=me.detalleCredito[0].id
+                 me.numeroprestamo=me.detalleCredito[0].numeroprestamo
+                 me.idkiva=me.detalleCredito[0].idkiva
+                 me.montodesembolsado=me.detalleCredito[0].montodesembolsado
+                 me.fechadesembolso=me.detalleCredito[0].fechadesembolso
+                 me.numerocuotas=me.detalleCredito[0].numerocuotas
+                 me.tipocambio=me.detalleCredito[0].tipocambio
+                 me.tasa=me.detalleCredito[0].tasa
+                 me.periodo=me.detalleCredito[0].periodo
+
+
+                //datos del clientes
+                me.idcliente=me.detalleCredito[0].idcliente
+                me. nombrecliente=me.detalleCredito[0].nombre
+                me.dni=me.detalleCredito[0].dni
+                me.apellidopaterno=me.detalleCredito[0].apellidopaterno
+                me.apellidomaterno=me.detalleCredito[0].apellidomaterno
+                 
+                   // me.tipocambio=me.arrayCredito[0].tipocambio;
+                //LISTAR CUOTAS
+                me.listarCuotas(credito)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+             
               
             },
-             //editar credito
+             //ELIMNAR credito
             eliminarCredito(id){
               
                  const swalWithBootstrapButtons = Swal.mixin({
