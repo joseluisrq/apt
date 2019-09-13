@@ -3348,6 +3348,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -44582,17 +44586,19 @@ var render = function() {
                                 }
                               }),
                               _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(bit.idcliente_n)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("td", {
-                                domProps: {
-                                  textContent: _vm._s(bit.idcliente_v)
-                                }
-                              }),
+                              _c("td", [
+                                bit.idcliente_n != bit.idcliente_v
+                                  ? _c("p", [
+                                      _vm._v(
+                                        "\n                                        Cliente Anterior : " +
+                                          _vm._s(bit.idcliente_n) +
+                                          "\n                                        Cliente Nuevo: " +
+                                          _vm._s(bit.idcliente_v) +
+                                          " "
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ]),
                               _vm._v(" "),
                               _c("td", {
                                 domProps: { textContent: _vm._s(bit.condicion) }
@@ -44684,11 +44690,7 @@ var staticRenderFns = [
           _vm._v("Fecha de Registro")
         ]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Dato Anterior")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Dato Actual")]),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cambios")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [
           _vm._v("Realizo el Cambio")

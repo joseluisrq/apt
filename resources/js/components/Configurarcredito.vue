@@ -306,16 +306,20 @@
                             <thead class="table-bordered ">
                                 <tr class="font-weight-bold">
                                     <th class="font-weight-bold">Fecha de Registro</th>
-                                    <th class="font-weight-bold">Dato Anterior</th>
-                                    <th class="font-weight-bold">Dato Actual</th>
+                                    <th class="font-weight-bold">Cambios</th>
+                                   
                                     <th class="font-weight-bold">Realizo el Cambio</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="bit in arrayBitacoraCredito" :key="bit.id">
                                     <td v-text="bit.fechacambio"></td>
-                                    <td v-text="bit.idcliente_n"></td>
-                                    <td v-text="bit.idcliente_v"></td>
+                                    <td >
+                                         <p v-if="bit.idcliente_n!=bit.idcliente_v">
+                                        Cliente Anterior : {{bit.idcliente_n}}
+                                        Cliente Nuevo: {{bit.idcliente_v}} </p>
+                                    </td>
+                                   
                                     <td v-text="bit.condicion"></td>
                                     </tr>
                                 </tbody>
