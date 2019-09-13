@@ -345,7 +345,7 @@
 
             desactivarCliente(id,estadocredito){
 
-            if(estadocredito==1){
+             if(estadocredito==1){
                 Swal.fire({
                     position: 'center',
                     type: 'error',
@@ -353,8 +353,8 @@
                     showConfirmButton: false,
                     timer: 2500
                     })
-            }
-            else{
+                }
+                else{
                 const swalWithBootstrapButtons = Swal.mixin({
                         customClass: {
                             confirmButton: 'btn btn-success',
@@ -408,11 +408,15 @@
             validarPersona(){
                 this.errorPersona=0;
                 this.errorMostrarMsjPersona =[];
+                let expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
                 if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
                  if (!this.dni) this.errorMostrarMsjPersona.push("Ingrese DNI");
                  if (!this.apellidopaterno) this.errorMostrarMsjPersona.push("El Apellido Paterno no puede estar vacio");
                   if (!this.apellidomaterno) this.errorMostrarMsjPersona.push("El Apellido Materno no puede estar vacio");
+                if(this.email){
+                        if (!expr.test(this.email)) this.errorMostrarMsjPersona.push("Ingrese un correo valido");
+                }
 
 
                 if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;

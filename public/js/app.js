@@ -2916,10 +2916,16 @@ __webpack_require__.r(__webpack_exports__);
     validarPersona: function validarPersona() {
       this.errorPersona = 0;
       this.errorMostrarMsjPersona = [];
+      var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
       if (!this.dni) this.errorMostrarMsjPersona.push("Ingrese DNI");
       if (!this.apellidopaterno) this.errorMostrarMsjPersona.push("El Apellido Paterno no puede estar vacio");
       if (!this.apellidomaterno) this.errorMostrarMsjPersona.push("El Apellido Materno no puede estar vacio");
+
+      if (this.email) {
+        if (!expr.test(this.email)) this.errorMostrarMsjPersona.push("Ingrese un correo valido");
+      }
+
       if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
       return this.errorPersona;
     },
