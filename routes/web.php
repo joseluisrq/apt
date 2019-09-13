@@ -50,6 +50,7 @@ Route::group(['middleware'=>['auth']],function(){
             Route::post('/cliente/registrar', 'ClienteController@store');
             Route::put('/cliente/actualizar', 'ClienteController@update');
             Route::get('/cliente/selectCliente', 'ClienteController@selectCliente');
+            Route::put('/cliente/desactivar','ClienteController@desactivar'); 
             
             
 

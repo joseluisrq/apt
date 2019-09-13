@@ -29,8 +29,10 @@ class ClienteController extends Controller
             'personas.telefono',
             'personas.email',
             'personas.estado as estado_per',
-            'clientes.estado as estado_cli'
+            'clientes.estadocredito as estadocredito',
+            'clientes.estado as estadocliente'
             )
+            ->where('clientes.estado', '=', 1)
             ->orderBy('personas.id', 'desc')->paginate(10);
         }
         else{
@@ -46,7 +48,7 @@ class ClienteController extends Controller
                 'personas.telefono',
                 'personas.email',
                 'personas.estado as estado_per',
-                'clientes.estado as estado_cli'
+                'clientes.estadocredito as estadocredito'
             )            
             ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')
             ->orderBy('personas.id', 'desc')->paginate(10);
@@ -122,11 +124,11 @@ class ClienteController extends Controller
             $persona->direccion = $request->direccion;
             $persona->telefono = $request->telefono;
             $persona->email = $request->email;
-            $persona->estado = $request->estado_per;
+          
             $persona->save();
  
              
-            $cliente->estado = $request->estado_cli;
+            $cliente->estado = '1';
             
             $cliente->save();
  
@@ -154,6 +156,15 @@ class ClienteController extends Controller
 
         return ['clientes' => $clientes];
     }
+    public function desactivar(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        $cliente = Cliente::findOrFail($request->id);
+        $cliente->estado = '0';
+        $cliente->estadocredito = '1'; //para que no llamemos cuando creamos un credito/ porciacaso
+        $cliente->save();
+    }
+ 
 
   
 }

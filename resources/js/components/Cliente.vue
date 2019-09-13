@@ -3,178 +3,198 @@
 
             <main class="main">
             <!-- Breadcrumb -->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Escritorio</a></li>
-            </ol>
-            
-            <div class="container-fluid">
-                <!-- Ejemplo de tabla Listado -->
+          
+             <div class="row">
+             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Lista clientes 
-                        <button type="button" @click="abrirModal('persona','registrar')" class="btn btn-secondary ustify-content-end">
-                            <i class="icon-plus"></i>&nbsp;Nuevo
-                        </button>
-                    </div>
                     <div class="card-body">
-                        <div class="form-group row">
-                            <div class="col-md-6">
+                    <h4 class="text-center">Lista  de Clientes  
+                    </h4>
+                    <hr>
+                       
+                    
+                    <div class="form-group row">
+                            <div class="col-md-6 col-sm-12">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
                                       <option value="dni">DNI</option>
                                       <option value="nombre">Nombre</option>
-                                      <option value="nombre">Apellido Paterno</option>
-                                      <option value="telefono">Teléfono</option>
+                                      <option value="apellidopaterno">Apellidos </option>
+                                              <option value="telefono">Teléfono</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarPersona(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarPersona(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscar" @keyup.enter="listarPersona(1,buscar,criterio)" 
+                                    class="form-control form-control-lg" placeholder="Texto a buscar">
+                                     <button type="submit" @click="listarPersona(1,buscar,criterio)" 
+                                     class="btn btn-outline-dark btn-sm"><i class="fa fa-search"></i> Buscar</button>
+                                
                                 </div>
                             </div>
+                             <div class="col-md-3 col-sm-1">
+                                
+                                 
+                            </div>
+                            <div class="col-md-3 col-sm-11">
+                                
+                                     <button class="btn btn-outline-primary justify-content-end" @click="abrirModal('persona','registrar')">
+                                    <span class="fa fa-plus"></span> agregar cliente</button>
+
+                                    
+                            </div>
+                             
+ 
                         </div>
-                        <table class="table table-bordered table-striped table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Opciones</th>
-                                    <th>DNI</th>
-                                     <th>Nombre</th>
-                                    <th>Apellidos</th>
-                                    <th>Fecha de Nacimiento</th>
-                                    <th>Dirección</th>
-                                    <th>Teléfono</th>
-                                    <th>Email</th>
-                                    <th>Estado Cli</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="persona in arrayPersona" :key="persona.id">
-                                    <td>
-                                        <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm">
-                                         <span class="text-white"><i class="fa fa-pencil-square-o"></i> </span>
-                                        </button>
-                                    </td>
-                                      <td v-text="persona.dni"></td>
+                    <div class="table-responsive">
+                        <table class="table  table-bordered ">
+                        <thead class="table-bordered ">
+                            <tr class="font-weight-bold">
+                                    <th class="font-weight-bold">Opciones</th>
+                                    <th class="font-weight-bold">DNI</th>
+                                    <th class="font-weight-bold">Nombre</th>
+                                    <th class="font-weight-bold">Apellidos</th>
+                                    <th class="font-weight-bold">Dirección</th>
+                                    <th class="font-weight-bold">Teléfono</th>
+                                    <th class="font-weight-bold">Email</th>
+                                    
+                                    <th class="font-weight-bold">Credito</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="persona in arrayPersona" :key="persona.id">
+                            <td class="py-1">
+                                        <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm" title="EDITAR CLIENTE">
+                                          <i class="fa fa-pencil"></i>
+                                        </button>&nbsp;
+                                        <template v-if="persona.estadocliente==1">
+                                            <button type="button" class="btn btn-danger btn-sm" @click="desactivarCliente(persona.id,persona.estadocredito)" title="ELIMINAR CLIENTE">
+                                               <i class="fa fa-trash-o"></i>
+                                            </button>
+                                        </template>
+                                       
+                            </td>
+                                 <td v-text="persona.dni"></td>
                                     <td v-text="persona.nombre"></td>
                                     <td v-text="persona.apellidopaterno+' '+persona.apellidomaterno"></td>
-                                    <td v-text="persona.fechanacimiento"></td>
+                                  
                                     <td v-text="persona.direccion"></td>
                                     <td v-text="persona.telefono"></td>
                                     <td v-text="persona.email"></td>
-                                    <td v-text="persona.estado_cli"></td>
-                                </tr>                                
-                            </tbody>
+                                
+                                          <td  v-if="persona.estadocredito==1"  >
+                                                <label class="badge badge-danger">Con Crédito</label>
+                                            </td>
+                                            <td  v-if="persona.estadocredito==0"  >
+                                                <label class="badge badge-success">Sin Crédito</label>
+                                            </td>
+                                   
+                            </tr>                 
+                        </tbody>
                         </table>
-                        <nav>
+                          <nav>
                             <ul class="pagination">
                                 <li class="page-item" v-if="pagination.current_page > 1">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Anterior</a>
                                 </li>
                                 <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
                                     <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
                                 </li>
                                 <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Sig</a>
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Siguiente</a>
                                 </li>
                             </ul>
                         </nav>
                     </div>
+                    </div>
                 </div>
-                <!-- Fin ejemplo de tabla Listado -->
             </div>
-            <!--Inicio del modal agregar/actualizar-->
-            <div class="modal fade" tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-primary modal-lg" role="document">
+        </div>
+
+          
+            <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" v-text="tituloModal"></h4>
-                            <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
-                              <span aria-hidden="true">×</span>
-                            </button>
+                    
+                        <!-- Modal Header -->
+                        <div class="">
+                        <h4 class="text-center  mt-2" > 
+                             <button type="button" class="close"  @click="cerrarModal()" data-dismiss="modal">&times; </button>
+                             {{tituloModal}} </h4>                         
+                       
+                    
                         </div>
-                        <div class="modal-body">
+                        
+                        <!-- Modal body -->
+                        <div class="modal-body card">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                             <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">DNI</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="dni" class="form-control" placeholder="DNI">                                        
-                                    </div>
+
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label class=" form-control-label" for="text-input">DNI (*)</label>
+                                    <input type="text" v-model="dni" class="form-control" placeholder="DNI">                                              
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre (*)</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">                                        
-                                    </div>
+                                <div class="col-md-3  form-group">
+                                    <label class=" form-control-label" for="text-input">Nombres(*)</label>
+                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">                                        
                                 </div>
-                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Apellido Paterno</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="apellidopaterno" class="form-control" placeholder="Apellido Paterno">                                        
-                                    </div>
+                                <div class="col-md-3  form-group">
+                                     <label class="form-control-label" for="text-input">Apellido Paterno (*)</label>
+                                     <input type="text" v-model="apellidopaterno" class="form-control" 
+                                            placeholder="Primer Apellido">   
                                 </div>
-                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Apellido Materno</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="apellidomaterno" class="form-control" placeholder="Apellido Materno">                                        
-                                    </div>
+                                <div class="col-md-3  form-group">
+                                      <label class=" form-control-label" for="text-input">Apellido Materno (*)</label>               
+                                      <input type="text" v-model="apellidomaterno" class="form-control" placeholder="Apellido Materno">                                        
                                 </div>
-                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Fecha de Nacimiento</label>
-                                    <div class="col-md-9">
-                                        <input type="date" v-model="fechanacimiento" class="form-control" placeholder="1993-03-01">                                        
-                                    </div>
+                                <div class="col-md-3 form-group ">
+                                        <label class="form-control-label" for="text-input">Fecha de Nacimiento</label>
+                                         <input type="date" v-model="fechanacimiento" class="form-control" >    
                                 </div>
-                              
-                               
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Dirección</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Teléfono</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Email</label>
-                                    <div class="col-md-9">
-                                        <input type="email" v-model="email" class="form-control" placeholder="Email">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Estado Cliente</label>
-                                    <div class="col-md-9">
-                                        <input type="number" v-model="estado_cli" class="form-control" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Estado Persona</label>
-                                    <div class="col-md-9">
-                                        <input type="number" v-model="estado_per" class="form-control" placeholder="">
-                                    </div>
+                                <div class="col-md-3 form-group ">
+                                        <label class=" form-control-label" for="email-input">Dirección</label>
+                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección"> 
                                 </div>
 
-                                <div v-show="errorPersona" class="form-group row div-error">
-                                    <div class="text-center text-error">
-                                        <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
+                                <div class="col-md-3 form-group">
+                                     <label class=" form-control-label" for="email-input">Teléfono</label>
+                                    <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
+                                 </div>
 
+                                <div class="col-md-3 form-group ">
+                                    <label class=" form-control-label" for="email-input">Email</label>
+                                    <input type="email" v-model="email" class="form-control" placeholder="Email">
+                                </div>
+
+                             
+                             </div>
+                                  
+
+                                     <div  v-show="errorPersona" class=" form-group col-md-12 mt-2 bg-danger">
+                                        <div class="text-center">
+                                            <div v-for="error in errorMostrarMsjPersona" :key="error">
+                                            <mark class="bg-danger text-white col-md-12" ><i class="fa fa-exclamation-triangle"></i> {{error}}</mark>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarPersona()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarPersona()">Actualizar</button>
-                        </div>
+                                </form>
+                      
+                        
+                        <!-- Modal footer -->
+                      <div class="row">
+                          <div class="col-md-6">
+                               <button type="button" class="btn btn-secondary col-md-12" @click="cerrarModal()">Cerrar</button></div>
+                          <div class="col-md-6">
+                              <button type="button" v-if="tipoAccion==1" class="btn btn-primary col-md-12" @click="registrarPersona()">Guardar</button>
+                                <button type="button" v-if="tipoAccion==2" class="btn btn-primary col-md-12" @click="actualizarPersona()">Actualizar</button>
+                 
+                          </div>
+                           
+                                   </div>
+                       </div>
+                        
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
-            </div>
+        </div>
+           
             <!--Fin del modal-->
         </main>
 </template>
@@ -321,12 +341,79 @@
                 }).catch(function (error) {
                     console.log(error);
                 }); 
-            },            
+            },  
+
+            desactivarCliente(id,estadocredito){
+
+            if(estadocredito==1){
+                Swal.fire({
+                    position: 'center',
+                    type: 'error',
+                    title: 'No puedes eliminar a un cliente con Crédito',
+                    showConfirmButton: false,
+                    timer: 2500
+                    })
+            }
+            else{
+                const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false
+                        })
+
+                        swalWithBootstrapButtons.fire({
+                        title: 'Elimnar Cliente',
+                       text: "¿Está seguro de eliminar a este cliente?",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true
+                        }).then((result) => {
+                        if (result.value) {
+                            //usamos axios para desactivar
+                              let me=this;
+                                 axios.put(this.ruta+'/cliente/desactivar',{ //hacemos referencia a la ruta que creamos
+                                    'id':id
+                                }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
+                                    me.listarPersona(1,'','nombre');
+                                      swalWithBootstrapButtons.fire(
+                                    '¡Eliminado!',
+                                    'El cliente ha sido eliminado con éxito',
+                                    'success'
+                                    )
+                                }).catch(function(){
+                                    console.log(error);
+                                });
+
+                           
+                        } else if (
+                            /* Read more about handling dismissals below */
+                            result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                           // swalWithBootstrapButtons.fire(
+                                //mensaje cuando cancelamos
+                            /*'Cancelled',
+                            /'Your imaginary file is safe :)',
+                            'error'*/
+                          //  )
+                        }
+                        })
+            } 
+
+              
+            },          
             validarPersona(){
                 this.errorPersona=0;
                 this.errorMostrarMsjPersona =[];
 
                 if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre de la persona no puede estar vacío.");
+                 if (!this.dni) this.errorMostrarMsjPersona.push("Ingrese DNI");
+                 if (!this.apellidopaterno) this.errorMostrarMsjPersona.push("El Apellido Paterno no puede estar vacio");
+                  if (!this.apellidomaterno) this.errorMostrarMsjPersona.push("El Apellido Materno no puede estar vacio");
+
 
                 if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
 
@@ -358,7 +445,7 @@
                             case 'registrar':
                             {
                                 this.modal = 1;
-                                this.tituloModal = 'Registrar Proveedor';
+                                this.tituloModal = 'Registrar Cliente';
                                 this.dni='';
                                 this.nombre='';
                                   this.apellidopaterno='';
@@ -405,16 +492,30 @@
     }
 </script>
 <style>    
-    .modal-content{
+   .modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 500px;
+     
+   
+    overflow-y: auto;
+}
+
+    
+   .modal-content{
         width: 100% !important;
         position: absolute !important;
     }
     .mostrar{
+       
         display: list-item !important;
         opacity: 1 !important;
-        position: absolute !important;
+        position: fixed !important;
         background-color: #3c29297a !important;
-    }
+  
+
+    }   
     .div-error{
         display: flex;
         justify-content: center;
