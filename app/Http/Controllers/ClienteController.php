@@ -110,7 +110,7 @@ class ClienteController extends Controller
         try{
             DB::beginTransaction();
  
-            //Buscar primero el proveedor a modificar
+            //Buscar primero el cliente a modificar
             $cliente = Cliente::findOrFail($request->id);
  
             $persona = Persona::findOrFail($cliente->id);//REALIZAMOS UNA BUSQUEDA CON EL ID DEL PROVEEDOR PARA BUSCAR EL 

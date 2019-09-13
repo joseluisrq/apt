@@ -230,13 +230,13 @@ class CreditoController extends Controller
             'us.apellidomaterno as usuariomaterno'
             //'us.nombre'
            // 'usuario.apellidopaterno',
-//'usuario.apellidomaterno'
+           //'usuario.apellidomaterno'
             
             )
-        ->where('creditos.idkiva','=',$idkiva)
-        ->orderBy('cuotas.id', 'asc')->get();
+          ->where('creditos.idkiva','=',$idkiva)
+         ->orderBy('cuotas.id', 'asc')->get();
          
-        return ['cuotas' => $cuotas];
+         return ['cuotas' => $cuotas];
 
     }
     
@@ -360,6 +360,68 @@ class CreditoController extends Controller
         $cuota->estado = '0'; //anulado
         $cuota->save();
     }
+
+    public function actualizar(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+         
+        try{
+            DB::beginTransaction();
+ 
+            //Buscar primero el cliente a modificar
+            $credito = Credito::findOrFail($request->id);
+ 
+            //$cliente = Cliente::findOrFail($credito->id);//REALIZAMOS UNA BUSQUEDA CON EL ID DEL cliente PARA BUSCAR EL 
+            //persona porque son el mismo
+ 
+            $credito->numeroprestamo = $request->numeroprestamo;
+            $credito->idkiva = $request->idkiva;
+            $credito->montodesembolsado = $request->montodesembolsado;
+            $credito->fechadesembolso = $request->fechadesembolso;
+            $credito->numerocuotas = $request->numerocuotas;
+            $credito->tipocambio = $request->tipocambio;
+            $credito->tasa = $request->tasa;
+            $credito->periodo = $request->periodo;
+            $credito->idusuario = \Auth::user()->id;
+           // $credito->periodo = $request->periodo;
+          
+            $credito->save();
+
+
+            $cuotas = $request->data;//Array de cuotas
+            //Recorro todos los elementosq que me han enviado
+ 
+         /*   foreach($cuotas as $ep=>$cuot)
+            {
+                $cuota =  Cuota::findOrFail($cuot['id']);
+               
+                //$cuota->idcredito = $credito->id;
+               // $cuota->numerocuota = $cuot['contador'];
+               // $cuota->idusuario=\Auth::user()->id;
+              //  $cuota->fechapago = $cuot['fechapago'];
+               $cuota->saldopendiente =  $cuot['saldopendiente']; //$cuot['fechacancelacion'];
+              $cuota->monto = $cuot['monto']; //$cuot['fechacancelacion'];   
+              //  $cuota->otroscostos =  $cuot['otroscostos'];; //$cuot['fechacancelacion'];     
+              //  $cuota->descripcion =  $cuot['descripcion']; //$cuot['fechacancelacion']; 
+               
+                             
+                $cuota->save();
+            }   
+ */
+             
+           // $cliente->estado = '1';
+            
+            //$cliente->save();
+ 
+            DB::commit();
+ 
+        } catch (Exception $e){
+            DB::rollBack();
+        }
+ 
+       
+    }
+
     public function listarPdf(){
         $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
         ->join('personas','clientes.id','=','personas.id')

@@ -535,7 +535,7 @@ import vSelect from 'vue-select'
             pdfDetallecuota(idcredito){
                  window.open(this.ruta + '/credito/detallecreditopdf/'+idcredito,'_blank');
             },
-              historialcredito (page,buscar,criterio){
+            historialcredito (page,buscar,criterio){
                 let me=this;
                 me.listado=2;
                 var url= this.ruta + '/credito?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;

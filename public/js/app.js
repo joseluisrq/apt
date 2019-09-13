@@ -3295,6 +3295,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -3335,6 +3388,7 @@ __webpack_require__.r(__webpack_exports__);
       arrayCliente: [],
       arrayCuotasnuevo: [],
       arrayCuotaDetalle: [],
+      arrayBitacoraCredito: [],
       modal: 0,
       tituloModal: '',
       tipoAccion: 0,
@@ -3402,6 +3456,18 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.hoy = year + '-' + month + '-' + day;
       }
+    },
+    bitacoracredito: function bitacoracredito(id) {
+      this.listado = 3;
+      this.arrayBitacoraCredito.length = 0;
+      var me = this;
+      var url = this.ruta + '/bitacoracredito/cambiosRegistrados?id=' + id;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayBitacoraCredito = respuesta.creditosbit;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     cargarPdf: function cargarPdf() {
       window.open(this.ruta + '/credito/listarpdf', '_blank');
@@ -3597,13 +3663,13 @@ __webpack_require__.r(__webpack_exports__);
     ocultarCreditos: function ocultarCreditos() {
       this.listado = 1;
     },
-    registrarCredito: function registrarCredito() {
+    actualizarCredito: function actualizarCredito() {
       if (this.validarCredito()) {
         return;
       }
 
       var me = this;
-      axios.post('/credito/registrar', {
+      axios.put(this.ruta + '/credito/actualizar', {
         'numeroprestamo': this.numeroprestamo,
         'idkiva': this.idkiva,
         'montodesembolsado': this.montodesembolsado,
@@ -3613,14 +3679,15 @@ __webpack_require__.r(__webpack_exports__);
         'tasa': this.tasa,
         'periodo': this.periodo,
         'idcliente': this.idcliente,
+        'id': this.credito_id,
         'data': this.arrayCuota
       }).then(function (response) {
-        me.listado = 0;
-        me.listarCredito();
+        me.listado = 2;
+        me.historialcredito(1, me.buscar, me.criterio);
         Swal.fire({
           position: 'top-end',
           type: 'success',
-          title: 'Credito Insertado',
+          title: 'Credito Actualizado',
           showConfirmButton: false,
           timer: 2000
         });
@@ -44097,7 +44164,7 @@ var render = function() {
                                 attrs: { type: "button" },
                                 on: {
                                   click: function($event) {
-                                    return _vm.registrarCredito()
+                                    return _vm.actualizarCredito()
                                   }
                                 }
                               },
@@ -44307,7 +44374,7 @@ var render = function() {
                                     },
                                     on: {
                                       click: function($event) {
-                                        return _vm.eliminarCredito(credito.id)
+                                        return _vm.bitacoracredito(credito.id)
                                       }
                                     }
                                   },
@@ -44487,6 +44554,60 @@ var render = function() {
               ])
             ])
           ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.listado == 3
+        ? [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h4", { staticClass: "text-center" }, [
+                      _vm._v(" Modificaciones de Creditos")
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c("table", { staticClass: "table  table-bordered " }, [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.arrayBitacoraCredito, function(bit) {
+                            return _c("tr", { key: bit.id }, [
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(bit.fechacambio)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(bit.idcliente_n)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: {
+                                  textContent: _vm._s(bit.idcliente_v)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: { textContent: _vm._s(bit.condicion) }
+                              })
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]
         : _vm._e()
     ],
     2
@@ -44550,6 +44671,28 @@ var staticRenderFns = [
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("N° Cuotas")]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Estado")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "table-bordered " }, [
+      _c("tr", { staticClass: "font-weight-bold" }, [
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Fecha de Registro")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Dato Anterior")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Dato Actual")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [
+          _vm._v("Realizo el Cambio")
+        ])
       ])
     ])
   }

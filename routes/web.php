@@ -70,6 +70,7 @@ Route::group(['middleware'=>['auth']],function(){
             //Credito
             Route::get('/credito', 'CreditoController@index');
             Route::put('/credito/desactivar', 'CreditoController@desactivar');
+            Route::put('/credito/actualizar', 'CreditoController@actualizar');
             Route::post('/credito/registrar', 'CreditoController@store');
             Route::get('/credito/creditosCliente', 'CreditoController@creditosCliente');
             Route::get('/credito/creditosClienteEdit', 'CreditoController@creditosClienteEdit');
@@ -83,6 +84,8 @@ Route::group(['middleware'=>['auth']],function(){
             Route::get('/credito/obtenerCuotas', 'CreditoController@obtenerCuotas');
             
           
+            //bitacora Creditos
+            Route::get('/bitacoracredito/cambiosRegistrados', 'CreditoBitacoraController@cambiosRegistrados');
           
         });
 

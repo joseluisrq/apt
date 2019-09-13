@@ -151,7 +151,7 @@
 
                         
                          <div v-if="editarvar==0" class="form-group col-4">
-                            <button type="button" class="btn btn-success mr-2" @click="registrarCredito()">ACTUALIZAR </button>
+                            <button type="button" class="btn btn-success mr-2" @click="actualizarCredito()">ACTUALIZAR </button>
                            
                          </div>
                          <div v-else class="form-group col-4">
@@ -230,7 +230,7 @@
                                                 <button type="button" title="ELIMINAR CREDITO" @click="eliminarCredito(credito.id)" class="btn btn-danger btn-sm">
                                               <i class="fa fa-trash-o"></i>
                                                 </button>
-                                                <button type="button" title="HISTORIAL DE CAMBIOS" @click="eliminarCredito(credito.id)" class="btn btn-primary btn-sm">
+                                                <button type="button" title="HISTORIAL DE CAMBIOS" @click="bitacoracredito(credito.id)" class="btn btn-primary btn-sm">
                                              <i class=" fa fa-cubes"></i>
                                                 </button>
                                                
@@ -276,6 +276,59 @@
             </div>
     </template>
 <!--finde lista de creditos-->
+
+<!--bitacora de credito-->
+<template v-if="listado==3">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-center"> Modificaciones de Creditos</h4> 
+                    <hr> 
+                    <!--<div class="form-group row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="input-group">
+                                <select class="form-control col-md-4">
+                                    <option value="numeroprestamo">Número de prestamo</option>
+                                    <option value="idkiva">ID kiva</option>
+                                    <option value="dni">DNI Cliente</option>
+                                    <option value="fechadesembolso">Fecha de Desembolso </option>
+                                </select> 
+                                <input type="text" placeholder="Texto a buscar" class="form-control form-control-lg">
+                                <button type="submit" class="btn btn-outline-dark btn-sm">
+                                    <i class="fa fa-search"></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="table-responsive">
+                        <table class="table  table-bordered ">
+                            <thead class="table-bordered ">
+                                <tr class="font-weight-bold">
+                                    <th class="font-weight-bold">Fecha de Registro</th>
+                                    <th class="font-weight-bold">Dato Anterior</th>
+                                    <th class="font-weight-bold">Dato Actual</th>
+                                    <th class="font-weight-bold">Realizo el Cambio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="bit in arrayBitacoraCredito" :key="bit.id">
+                                    <td v-text="bit.fechacambio"></td>
+                                    <td v-text="bit.idcliente_n"></td>
+                                    <td v-text="bit.idcliente_v"></td>
+                                    <td v-text="bit.condicion"></td>
+                                    </tr>
+                                </tbody>
+                        </table> 
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</template>
+
+
 
 
 
@@ -329,6 +382,7 @@ import vSelect from 'vue-select'
                 arrayCliente:[],
                 arrayCuotasnuevo:[],
                 arrayCuotaDetalle:[],
+                arrayBitacoraCredito:[],
                 
                 
                 modal : 0,
@@ -401,6 +455,22 @@ import vSelect from 'vue-select'
                    
             },
 
+            bitacoracredito(id){
+                this.listado=3;
+                this.arrayBitacoraCredito.length=0;
+                let me=this;
+                var url= this.ruta+'/bitacoracredito/cambiosRegistrados?id='+id;
+                 axios.get(url).then(function (response) {
+                    var respuesta= response.data;
+                    me.arrayBitacoraCredito = respuesta.creditosbit;
+                  
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            },
+
             cargarPdf(){
                 window.open(this.ruta+'/credito/listarpdf','_blank');
             },
@@ -412,7 +482,7 @@ import vSelect from 'vue-select'
                 me.historialcredito(page,buscar,criterio);
             },
            
-              historialcredito (page,buscar,criterio){
+            historialcredito (page,buscar,criterio){
                 let me=this;
                 me.listado=2;
                 var url= this.ruta+'/credito?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
@@ -640,14 +710,14 @@ import vSelect from 'vue-select'
             ocultarCreditos(){
                 this.listado=1;
             },  
-            registrarCredito(){
+            actualizarCredito(){
                 if (this.validarCredito()){
                     return;
                 }
                 
                 let me = this;
 
-                axios.post('/credito/registrar',{
+                axios.put(this.ruta+'/credito/actualizar',{
 
                     'numeroprestamo': this.numeroprestamo,
                     'idkiva': this.idkiva,
@@ -657,9 +727,11 @@ import vSelect from 'vue-select'
                     'tipocambio' : this.tipocambio,
                     'tasa' : this.tasa,
                     'periodo' : this.periodo,
-                     'idcliente' : this.idcliente,
+                    'idcliente' : this.idcliente,
 
-                     'data':this.arrayCuota
+                     'id': this.credito_id,
+
+                    'data':this.arrayCuota
                    
 
                 }).then(function (response) {
@@ -667,13 +739,14 @@ import vSelect from 'vue-select'
                    
                    
                  
-                    me.listado=0;
-                    me.listarCredito();
+                    me.listado=2;
+                    
+                     me.historialcredito(1,me.buscar,me.criterio);
 
                     Swal.fire({
                     position: 'top-end',
                     type: 'success',
-                    title: 'Credito Insertado',
+                    title: 'Credito Actualizado',
                     showConfirmButton: false,
                     timer: 2000
                     })
