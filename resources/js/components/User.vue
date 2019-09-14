@@ -1,14 +1,6 @@
 <template>
-
-
-    <main class="">
-
-        <!-- Button trigger modal -->
-
-
-<!-- Modal -->
-
-
+    <main >
+        <!--LISTADA DE USUARIOS-->
         <div class="row">
              <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
@@ -111,10 +103,11 @@
                 </div>
             </div>
         </div>
-            <!-- Breadcrumb -->
-                <!-- The Modal -->
+        <!--FIN LISTADA DE USUARIOS-->
+
+         <!--MODAL INSERTAR O ACTUALIZAR USUARIOS-->
         <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
-                <div class="modal-dialog">
+            <div class="modal-dialog">
                     <div class="modal-content">
                     
                         <!-- Modal Header -->
@@ -184,7 +177,7 @@
                                         <input type="password" v-model="password" class="form-control" placeholder="Password de acceso">
                                     </div>
                              
-                             </div>
+                                </div>
                                     <div v-show="errorPersona" class="form-group row div-error">
                                         <div class="text-center text-error">
                                             <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
@@ -197,29 +190,22 @@
                       
                         
                         <!-- Modal footer -->
-                      <div class="row">
-                          <div class="col-md-6">
-                               <button type="button" class="btn btn-secondary col-md-12" @click="cerrarModal()">Cerrar</button></div>
-                          <div class="col-md-6">
-                              <button type="button" v-if="tipoAccion==1" class="btn btn-primary col-md-12" @click="registrarPersona()">Guardar</button>
-                                <button type="button" v-if="tipoAccion==2" class="btn btn-primary col-md-12" @click="actualizarPersona()">Actualizar</button>
-                 
-                          </div>
-                           
-                                   </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-secondary col-md-12" @click="cerrarModal()">Cerrar</button></div>
+                            <div class="col-md-6">
+                                <button type="button" v-if="tipoAccion==1" class="btn btn-primary col-md-12" @click="registrarPersona()">Guardar</button>
+                                    <button type="button" v-if="tipoAccion==2" class="btn btn-primary col-md-12" @click="actualizarPersona()">Actualizar</button>
+                            </div>
+                        </div>
                        </div>
                         
                     </div>
-                </div>
+            </div>
         </div>
-           
-            <!--Inicio del modal agregar/actualizar-->
-               <!--Inicio del modal agregar/actualizar-->
-          
-            <!--Fin del modal-->
-            <!--Fin del modal-->
+         <!--FIN MODAL INSERTAR O ACTUALIZAR USUARIOS-->
+    
     </main>
-
 </template>
 
 <script>
@@ -289,6 +275,7 @@
             }
         },
         methods : {
+            //SON LOS MISMOS METODOS DE CLEINTES PERO EN USUARIOS :v
             listarPersona (page,buscar,criterio){
                 let me=this;
                 var url= this.ruta+'/user?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;

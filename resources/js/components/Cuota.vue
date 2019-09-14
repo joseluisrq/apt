@@ -111,44 +111,76 @@
 
 <!-- INICIO CALENDARIO CUOTAS PENDIENTES -->
     <template v-if="!showpagocuota">
-         <div class="row">
-                <div class="col-lg-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                        <div class="form-group row">
-                            <div class="row">
-                                <div class="col-6 input-group">
-                                    <h5>Cliente(DNI): </h5>
-                                    <input type="text" v-model="dniBuscar" @keyup.enter="cuentaAPagar()" 
-                                    class="form-control form-control-lg border border-dark" placeholder="Ingresar DNI del cliente">
-                                    <button type="submit" @click="obtenerCuotaDeCliente" 
-                                    class="btn btn-outline-dark btn-sm"><i class="fa fa-search"></i> Buscar</button>
+         <div class="row card">
+           <div class="col-md-12 mt-4">
+             <h5 class="text-center"> Pagar Cuota</h5>
+             <hr>
+           </div>
+          <div class="col-lg-12 grid-margin stretch-card">
+                  <div class="col-md-4 form-group">
+                      <div class="row">
+                                <div class="col-md-12">
+                                  <label for="exampleInputEmail1">DNI Cliente</label>
+                                    </div>
+                                <div class="col-md-10">
+                                  <input type="text" v-model="dniBuscar" @keyup.enter="cuentaAPagar()" class="form-control form-control border border-dark" placeholder="Ingresar DNI del cliente">
+                            
                                 </div>
-                                <div class="col-6 input-group">
-                                  <input id="fecha" type="date" class="form-control border border-dark"/>
-                                  <button @click="gotoPast" type="button" class="btn btn-dark">Ir a fecha</button>
+                                <div class="col-md-2">
+                                      <button type="submit" @click="obtenerCuotaDeCliente" class="btn btn-outline-dark btn-sm">
+                                  <i class="fa fa-search"></i> Buscar
+                                </button>
                                 </div>
-                            </div>
-                        </div>
+                                
+
+                      </div>        
+                    </div>
+                    <div class="col-md-3 form-group">
+                      </div>
+
+                    <div class="col-md-4 form-group">
+                      <div class="row">
+                                <div class="col-md-12">
+                                  <label for="exampleInputEmail1">Buscar Fecha</label>
+                                    </div>
+                                <div class="col-md-10">
+                                  <input id="fecha" type="date" class="form-control form-control border border-dark" >
+                            
+                                </div>
+                                <div class="col-md-2">
+                                       <button @click="gotoPast" type="button" class="btn btn-outline-dark btn-sm">
+                                      <i class="fa fa-search"></i>Buscar
+                                </button>
+                                </div>
+                                
+
+                      </div>        
+                    </div>
+                    
+                    
+            </div>
+          </div>
 
                         <div class="row">
 
                             <div v-if="showdetalle" class="col-4">
                               <div class="card border border-light">
-                                <div class="card-header">
+                                <div class="card-header bg bg-primary text-white">
                                   Detalle de cuota
                                   <button @click="showdetalle=false" type="button" class="close" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                    <span aria-hidden="true" class="text-white">&times;</span>
                                   </button>
                                 </div>
                                 <div class="card-body">                                
                                 
-                                  <div class="row">  
+                                  <div class="row"> 
+                                    <div class="col-12"> 
                                       <div class="wrapper d-flex justify-content-between">
                                           <div class="side-left">
                                               <p class="mb-2 font-weight-bold">CLIENTE:</p>
                                               <p class="font-weight-light" v-text="nombrecliente"></p>
                                           </div>
+                                      </div>
                                       </div>
                                   </div>
                                   <div class="row">
@@ -209,9 +241,9 @@
                                       </div>
                                     </div>-->
                                   <div class="row">
-                                      <div class="wrapper d-flex justify-content-between">
-                                          <div class="side-right">
-                                              <button class="btn btn-primary" @click="showpagocuota=true;">Ir a pagos</button>
+                                      <div class="wrapper d-flex justify-content-between col-md-6">
+                                          <div class="side-left">
+                                              <button class="btn btn-outline-success col-md-12" @click="showpagocuota=true;">Ir a pagos</button>
                                           </div>
                                       </div>
                                   </div>

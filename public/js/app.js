@@ -18940,6 +18940,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -19597,20 +19629,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
   data: function data() {
@@ -19680,6 +19698,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    //SON LOS MISMOS METODOS DE CLEINTES PERO EN USUARIOS :v
     listarPersona: function listarPersona(page, buscar, criterio) {
       var me = this;
       var url = this.ruta + '/user?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -61700,452 +61719,393 @@ var render = function() {
       _vm._v(" "),
       !_vm.showpagocuota
         ? [
-            _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "row card" }, [
+              _vm._m(0),
+              _vm._v(" "),
               _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
-                _c("div", { staticClass: "card" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("div", { staticClass: "form-group row" }, [
-                      _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-6 input-group" }, [
-                          _c("h5", [_vm._v("Cliente(DNI): ")]),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dniBuscar,
-                                expression: "dniBuscar"
-                              }
-                            ],
-                            staticClass:
-                              "form-control form-control-lg border border-dark",
-                            attrs: {
-                              type: "text",
-                              placeholder: "Ingresar DNI del cliente"
-                            },
-                            domProps: { value: _vm.dniBuscar },
-                            on: {
-                              keyup: function($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
-                                  )
-                                ) {
-                                  return null
-                                }
-                                return _vm.cuentaAPagar()
-                              },
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.dniBuscar = $event.target.value
-                              }
+                _c("div", { staticClass: "col-md-4 form-group" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dniBuscar,
+                            expression: "dniBuscar"
+                          }
+                        ],
+                        staticClass:
+                          "form-control form-control border border-dark",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Ingresar DNI del cliente"
+                        },
+                        domProps: { value: _vm.dniBuscar },
+                        on: {
+                          keyup: function($event) {
+                            if (
+                              !$event.type.indexOf("key") &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
                             }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-outline-dark btn-sm",
-                              attrs: { type: "submit" },
-                              on: { click: _vm.obtenerCuotaDeCliente }
-                            },
-                            [
-                              _c("i", { staticClass: "fa fa-search" }),
-                              _vm._v(" Buscar")
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-6 input-group" }, [
-                          _c("input", {
-                            staticClass: "form-control border border-dark",
-                            attrs: { id: "fecha", type: "date" }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-dark",
-                              attrs: { type: "button" },
-                              on: { click: _vm.gotoPast }
-                            },
-                            [_vm._v("Ir a fecha")]
-                          )
-                        ])
-                      ])
+                            return _vm.cuentaAPagar()
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.dniBuscar = $event.target.value
+                          }
+                        }
+                      })
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _vm.showdetalle
-                        ? _c("div", { staticClass: "col-4" }, [
-                            _c(
-                              "div",
-                              { staticClass: "card border border-light" },
-                              [
-                                _c("div", { staticClass: "card-header" }, [
-                                  _vm._v(
-                                    "\n                                  Detalle de cuota\n                                  "
-                                  ),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "close",
-                                      attrs: {
-                                        type: "button",
-                                        "aria-label": "Close"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.showdetalle = false
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "span",
-                                        { attrs: { "aria-hidden": "true" } },
-                                        [_vm._v("×")]
-                                      )
-                                    ]
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "card-body" }, [
-                                  _c("div", { staticClass: "row" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "wrapper d-flex justify-content-between"
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "side-left" },
-                                          [
-                                            _c(
-                                              "p",
-                                              {
-                                                staticClass:
-                                                  "mb-2 font-weight-bold"
-                                              },
-                                              [_vm._v("CLIENTE:")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", {
-                                              staticClass: "font-weight-light",
-                                              domProps: {
-                                                textContent: _vm._s(
-                                                  _vm.nombrecliente
-                                                )
-                                              }
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "row" }, [
-                                    _c("div", { staticClass: "col-6" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "wrapper d-flex justify-content-between"
-                                        },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "side-left" },
-                                            [
-                                              _c(
-                                                "p",
-                                                {
-                                                  staticClass:
-                                                    "mb-2 font-weight-bold"
-                                                },
-                                                [_vm._v("DNI: ")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("p", {
-                                                staticClass:
-                                                  "mb-4 font-weight-light",
-                                                domProps: {
-                                                  textContent: _vm._s(_vm.dni)
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "col-6" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "wrapper d-flex justify-content-between"
-                                        },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "side-left" },
-                                            [
-                                              _c(
-                                                "p",
-                                                {
-                                                  staticClass:
-                                                    "mb-2 font-weight-bold "
-                                                },
-                                                [_vm._v("ID KIVA")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("p", {
-                                                staticClass:
-                                                  "mb-4 font-weight-light",
-                                                domProps: {
-                                                  textContent: _vm._s(
-                                                    _vm.idkiva
-                                                  )
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "row" }, [
-                                    _c(
-                                      "p",
-                                      {
-                                        staticClass: "col-12 font-weight-bold"
-                                      },
-                                      [_vm._v("Monto ")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("p", {
-                                      staticClass: "col-6",
-                                      domProps: {
-                                        textContent: _vm._s(
-                                          "$ " + _vm.montocuota
-                                        )
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("p", {
-                                      staticClass: "col-6",
-                                      domProps: {
-                                        textContent: _vm._s(
-                                          "s/. " +
-                                            (
-                                              _vm.montocuota * _vm.tipocambio
-                                            ).toFixed(2)
-                                        )
-                                      }
-                                    })
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "row" }, [
-                                    _c("div", { staticClass: "col-6" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "wrapper d-flex justify-content-between"
-                                        },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "side-left" },
-                                            [
-                                              _c(
-                                                "p",
-                                                {
-                                                  staticClass:
-                                                    "mb-2 font-weight-bold"
-                                                },
-                                                [_vm._v("Otros costos ")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("p", {
-                                                staticClass:
-                                                  "mb-4 font-weight-light",
-                                                domProps: {
-                                                  textContent: _vm._s(
-                                                    "S/. " +
-                                                      _vm.otroscostoscuota
-                                                  )
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "col-6" }, [
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "wrapper d-flex justify-content-between"
-                                        },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "side-left" },
-                                            [
-                                              _c(
-                                                "p",
-                                                {
-                                                  staticClass:
-                                                    "mb-2 font-weight-bold"
-                                                },
-                                                [_vm._v("Saldo pendiente")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("p", {
-                                                staticClass:
-                                                  "mb-4 font-weight-light",
-                                                domProps: {
-                                                  textContent: _vm._s(
-                                                    "S/. " +
-                                                      _vm.saldopendientecuota
-                                                  )
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "row" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "wrapper d-flex justify-content-between"
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "side-left" },
-                                          [
-                                            _c(
-                                              "p",
-                                              {
-                                                staticClass:
-                                                  "mb-2 font-weight-bold"
-                                              },
-                                              [_vm._v("Fecha pago")]
-                                            ),
-                                            _vm._v(" "),
-                                            _c("p", {
-                                              staticClass:
-                                                "mb-4 font-weight-light",
-                                              domProps: {
-                                                textContent: _vm._s(
-                                                  _vm.fechapago
-                                                )
-                                              }
-                                            })
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "row" }, [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "wrapper d-flex justify-content-between"
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "side-right" },
-                                          [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass: "btn btn-primary",
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.showpagocuota = true
-                                                  }
-                                                }
-                                              },
-                                              [_vm._v("Ir a pagos")]
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ])
-                                ])
-                              ]
-                            )
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
                       _c(
-                        "div",
-                        { class: _vm.showdetalle ? "col-8" : "col-12" },
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-dark btn-sm",
+                          attrs: { type: "submit" },
+                          on: { click: _vm.obtenerCuotaDeCliente }
+                        },
                         [
-                          _c("div", {
-                            staticClass: "calendario-top col-sm-12",
-                            attrs: { id: "cabeceracalendario" }
-                          }),
-                          _vm._v(" "),
-                          _c("FullCalendar", {
-                            ref: "fullCalendar",
-                            staticClass: "calendario-calendar col-sm-12",
-                            attrs: {
-                              defaultView: "dayGridMonth",
-                              header: {
-                                left: "prev,next,today",
-                                center: "title",
-                                right:
-                                  "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
-                              },
-                              buttonText: {
-                                day: "Día",
-                                month: "Mes",
-                                today: "Hoy",
-                                week: "Semana",
-                                year: "Año"
-                              },
-                              locale: _vm.lang,
-                              plugins: _vm.calendarPlugins,
-                              weekends: _vm.calendarWeekends,
-                              events: _vm.calendarEvents,
-                              eventLimit: true
-                            },
-                            on: { eventClick: _vm.eventSelected }
-                          })
-                        ],
-                        1
+                          _c("i", { staticClass: "fa fa-search" }),
+                          _vm._v(" Buscar\n                                ")
+                        ]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3 form-group" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-4 form-group" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-dark btn-sm",
+                          attrs: { type: "button" },
+                          on: { click: _vm.gotoPast }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-search" }),
+                          _vm._v("Buscar\n                                ")
+                        ]
                       )
                     ])
                   ])
                 ])
               ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "row" }, [
+              _vm.showdetalle
+                ? _c("div", { staticClass: "col-4" }, [
+                    _c("div", { staticClass: "card border border-light" }, [
+                      _c(
+                        "div",
+                        { staticClass: "card-header bg bg-primary text-white" },
+                        [
+                          _vm._v(
+                            "\n                                  Detalle de cuota\n                                  "
+                          ),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "close",
+                              attrs: { type: "button", "aria-label": "Close" },
+                              on: {
+                                click: function($event) {
+                                  _vm.showdetalle = false
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "text-white",
+                                  attrs: { "aria-hidden": "true" }
+                                },
+                                [_vm._v("×")]
+                              )
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "card-body" }, [
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-12" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "wrapper d-flex justify-content-between"
+                              },
+                              [
+                                _c("div", { staticClass: "side-left" }, [
+                                  _c(
+                                    "p",
+                                    { staticClass: "mb-2 font-weight-bold" },
+                                    [_vm._v("CLIENTE:")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", {
+                                    staticClass: "font-weight-light",
+                                    domProps: {
+                                      textContent: _vm._s(_vm.nombrecliente)
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-6" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "wrapper d-flex justify-content-between"
+                              },
+                              [
+                                _c("div", { staticClass: "side-left" }, [
+                                  _c(
+                                    "p",
+                                    { staticClass: "mb-2 font-weight-bold" },
+                                    [_vm._v("DNI: ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", {
+                                    staticClass: "mb-4 font-weight-light",
+                                    domProps: { textContent: _vm._s(_vm.dni) }
+                                  })
+                                ])
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-6" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "wrapper d-flex justify-content-between"
+                              },
+                              [
+                                _c("div", { staticClass: "side-left" }, [
+                                  _c(
+                                    "p",
+                                    { staticClass: "mb-2 font-weight-bold " },
+                                    [_vm._v("ID KIVA")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", {
+                                    staticClass: "mb-4 font-weight-light",
+                                    domProps: {
+                                      textContent: _vm._s(_vm.idkiva)
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("p", { staticClass: "col-12 font-weight-bold" }, [
+                            _vm._v("Monto ")
+                          ]),
+                          _vm._v(" "),
+                          _c("p", {
+                            staticClass: "col-6",
+                            domProps: {
+                              textContent: _vm._s("$ " + _vm.montocuota)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("p", {
+                            staticClass: "col-6",
+                            domProps: {
+                              textContent: _vm._s(
+                                "s/. " +
+                                  (_vm.montocuota * _vm.tipocambio).toFixed(2)
+                              )
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-6" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "wrapper d-flex justify-content-between"
+                              },
+                              [
+                                _c("div", { staticClass: "side-left" }, [
+                                  _c(
+                                    "p",
+                                    { staticClass: "mb-2 font-weight-bold" },
+                                    [_vm._v("Otros costos ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", {
+                                    staticClass: "mb-4 font-weight-light",
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        "S/. " + _vm.otroscostoscuota
+                                      )
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-6" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "wrapper d-flex justify-content-between"
+                              },
+                              [
+                                _c("div", { staticClass: "side-left" }, [
+                                  _c(
+                                    "p",
+                                    { staticClass: "mb-2 font-weight-bold" },
+                                    [_vm._v("Saldo pendiente")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", {
+                                    staticClass: "mb-4 font-weight-light",
+                                    domProps: {
+                                      textContent: _vm._s(
+                                        "S/. " + _vm.saldopendientecuota
+                                      )
+                                    }
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "wrapper d-flex justify-content-between"
+                            },
+                            [
+                              _c("div", { staticClass: "side-left" }, [
+                                _c(
+                                  "p",
+                                  { staticClass: "mb-2 font-weight-bold" },
+                                  [_vm._v("Fecha pago")]
+                                ),
+                                _vm._v(" "),
+                                _c("p", {
+                                  staticClass: "mb-4 font-weight-light",
+                                  domProps: {
+                                    textContent: _vm._s(_vm.fechapago)
+                                  }
+                                })
+                              ])
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "row" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "wrapper d-flex justify-content-between col-md-6"
+                            },
+                            [
+                              _c("div", { staticClass: "side-left" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-success col-md-12",
+                                    on: {
+                                      click: function($event) {
+                                        _vm.showpagocuota = true
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Ir a pagos")]
+                                )
+                              ])
+                            ]
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c(
+                "div",
+                { class: _vm.showdetalle ? "col-8" : "col-12" },
+                [
+                  _c("div", {
+                    staticClass: "calendario-top col-sm-12",
+                    attrs: { id: "cabeceracalendario" }
+                  }),
+                  _vm._v(" "),
+                  _c("FullCalendar", {
+                    ref: "fullCalendar",
+                    staticClass: "calendario-calendar col-sm-12",
+                    attrs: {
+                      defaultView: "dayGridMonth",
+                      header: {
+                        left: "prev,next,today",
+                        center: "title",
+                        right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+                      },
+                      buttonText: {
+                        day: "Día",
+                        month: "Mes",
+                        today: "Hoy",
+                        week: "Semana",
+                        year: "Año"
+                      },
+                      locale: _vm.lang,
+                      plugins: _vm.calendarPlugins,
+                      weekends: _vm.calendarWeekends,
+                      events: _vm.calendarEvents,
+                      eventLimit: true
+                    },
+                    on: { eventClick: _vm.eventSelected }
+                  })
+                ],
+                1
+              )
             ])
           ]
         : _vm._e()
@@ -62153,7 +62113,49 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12 mt-4" }, [
+      _c("h5", { staticClass: "text-center" }, [_vm._v(" Pagar Cuota")]),
+      _vm._v(" "),
+      _c("hr")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+        _vm._v("DNI Cliente")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+        _vm._v("Buscar Fecha")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-10" }, [
+      _c("input", {
+        staticClass: "form-control form-control border border-dark",
+        attrs: { id: "fecha", type: "date" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -62457,13 +62459,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("main", {}, [
+  return _c("main", [
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-body" }, [
             _c("h4", { staticClass: "text-center" }, [
-              _vm._v("Lista  de usuarios  \n                    ")
+              _vm._v("Lista  de usuarios  \n                ")
             ]),
             _vm._v(" "),
             _c("hr"),
@@ -62628,7 +62630,7 @@ var render = function() {
                             },
                             [_c("i", { staticClass: "fa fa-pencil" })]
                           ),
-                          _vm._v(" \n                                        "),
+                          _vm._v(" \n                                    "),
                           persona.condicion
                             ? [
                                 _c(
@@ -62821,9 +62823,7 @@ var render = function() {
                   [_vm._v("× ")]
                 ),
                 _vm._v(
-                  "\n                             " +
-                    _vm._s(_vm.tituloModal) +
-                    " "
+                  "\n                         " + _vm._s(_vm.tituloModal) + " "
                 )
               ])
             ]),
