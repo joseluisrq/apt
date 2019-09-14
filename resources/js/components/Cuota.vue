@@ -123,7 +123,7 @@
                                   <label for="exampleInputEmail1">DNI Cliente</label>
                                     </div>
                                 <div class="col-md-10">
-                                  <input type="text" v-model="dniBuscar" @keyup.enter="cuentaAPagar()" class="form-control form-control border border-dark" placeholder="Ingresar DNI del cliente">
+                                  <input type="text" v-model="dniBuscar" @keyup.enter="obtenerCuotaDeCliente()" class="form-control form-control border border-dark" placeholder="Ingresar DNI del cliente">
                             
                                 </div>
                                 <div class="col-md-2">
@@ -163,7 +163,7 @@
 
                         <div class="row">
 
-                            <div v-if="showdetalle" class="col-4">
+                            <div v-if="showdetalle" class="col-md-4">
                               <div class="card border border-light">
                                 <div class="card-header bg bg-primary text-white">
                                   Detalle de cuota
@@ -174,7 +174,7 @@
                                 <div class="card-body">                                
                                 
                                   <div class="row"> 
-                                    <div class="col-12"> 
+                                    <div class="col-md-12"> 
                                       <div class="wrapper d-flex justify-content-between">
                                           <div class="side-left">
                                               <p class="mb-2 font-weight-bold">CLIENTE:</p>
@@ -184,7 +184,7 @@
                                       </div>
                                   </div>
                                   <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-md-6">
                                       <div class="wrapper d-flex justify-content-between">
                                           <div class="side-left">
                                               <p class="mb-2 font-weight-bold">DNI: </p>
@@ -192,7 +192,7 @@
                                           </div>
                                       </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-md-6">
                                         <div class="wrapper d-flex justify-content-between">
                                             <div class="side-left">
                                                 <p class="mb-2 font-weight-bold ">ID KIVA</p>
@@ -202,12 +202,12 @@
                                     </div>
                                   </div>
                                    <div class="row">
-                                      <p class="col-12 font-weight-bold">Monto </p>
-                                      <p class="col-6" v-text="'$ '+montocuota"></p>
-                                      <p class="col-6" v-text="'s/. '+(montocuota*tipocambio).toFixed(2)"></p>
+                                      <p class="col-md-12 font-weight-bold">Monto </p>
+                                      <p class="col-md-6" v-text="'$ '+montocuota"></p>
+                                      <p class="col-md-6" v-text="'s/. '+(montocuota*tipocambio).toFixed(2)"></p>
                                   </div>
                                   <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-md-6">
                                       <div class="wrapper d-flex justify-content-between">
                                           <div class="side-left">
                                               <p class="mb-2 font-weight-bold">Otros costos </p>
@@ -215,7 +215,7 @@
                                           </div>
                                       </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-md-6">
                                         <div class="wrapper d-flex justify-content-between">
                                             <div class="side-left">
                                                 <p class="mb-2 font-weight-bold">Saldo pendiente</p>
@@ -241,10 +241,11 @@
                                       </div>
                                     </div>-->
                                   <div class="row">
-                                      <div class="wrapper d-flex justify-content-between col-md-6">
-                                          <div class="side-left">
-                                              <button class="btn btn-outline-success col-md-12" @click="showpagocuota=true;">Ir a pagos</button>
-                                          </div>
+                                      <div class="col-md-12">
+                                         
+                                              <button class="btn btn-success col-md-12" @click="showpagocuota=true;">
+                                               <i class="fa fa-cash-register"></i>Ir a pagos</button>
+                                          
                                       </div>
                                   </div>
                                 </div>
@@ -252,12 +253,12 @@
                             </div>
 
                            <!-- INICIO CALENDARIO -->
-                           <div :class="showdetalle?'col-8':'col-12'">
-                              <div id="cabeceracalendario" class="calendario-top col-sm-12">
-                                
-                              </div>
+                           <div :class="showdetalle?'col-md-8':'col-md-12'">
+                             <!-- <div id="cabeceracalendario" class="calendario-top col-sm-12">
+                              
+                              </div>-->
                               <FullCalendar
-                                class="calendario-calendar col-sm-12"
+                                class="calendario-calendar col-sm-12 card"
                                 ref="fullCalendar"
                                 defaultView="dayGridMonth"
                                 :header="{
@@ -533,7 +534,7 @@ export default {
 
           if(cuotas.length == 0)
             Swal.fire({
-              title: 'ESTE CLIENTE NO TIENE CUENTAS PENDIENTES DE PAGO',
+              title: 'El cliente no tiene cuotas a pagar',
               animation: true,
               customClass: {
                 popup: 'animated tada'

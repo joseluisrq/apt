@@ -37,7 +37,7 @@ class CuotaController extends Controller
                 'personas.apellidomaterno',
                 'personas.dni'
             )
-            ->where('personas.dni', 'like', '%' . $dni . '%')
+            ->where('personas.dni', '=',$dni)
             ->where('creditos.estado', '=', '1')//Buscar los créditos activos
             ->where('cuotas.estado', '=', '0')//Buscar las cuotas que faltan pagar
             ->orderby('fechapago', 'ASC')//Buscar las cuotas que faltan pagar

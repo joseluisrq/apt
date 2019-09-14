@@ -18972,6 +18972,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -19187,7 +19188,7 @@ __webpack_require__.r(__webpack_exports__);
         var fechahoy = res.data.fechahoy;
         _this4.fechahoy = fechahoy;
         if (cuotas.length == 0) Swal.fire({
-          title: 'ESTE CLIENTE NO TIENE CUENTAS PENDIENTES DE PAGO',
+          title: 'El cliente no tiene cuotas a pagar',
           animation: true,
           customClass: {
             popup: 'animated tada'
@@ -61758,7 +61759,7 @@ var render = function() {
                             ) {
                               return null
                             }
-                            return _vm.cuentaAPagar()
+                            return _vm.obtenerCuotaDeCliente()
                           },
                           input: function($event) {
                             if ($event.target.composing) {
@@ -61816,7 +61817,7 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "row" }, [
               _vm.showdetalle
-                ? _c("div", { staticClass: "col-4" }, [
+                ? _c("div", { staticClass: "col-md-4" }, [
                     _c("div", { staticClass: "card border border-light" }, [
                       _c(
                         "div",
@@ -61852,7 +61853,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "card-body" }, [
                         _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-12" }, [
+                          _c("div", { staticClass: "col-md-12" }, [
                             _c(
                               "div",
                               {
@@ -61880,7 +61881,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-6" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
                             _c(
                               "div",
                               {
@@ -61904,7 +61905,7 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-6" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
                             _c(
                               "div",
                               {
@@ -61932,19 +61933,21 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _c("p", { staticClass: "col-12 font-weight-bold" }, [
-                            _vm._v("Monto ")
-                          ]),
+                          _c(
+                            "p",
+                            { staticClass: "col-md-12 font-weight-bold" },
+                            [_vm._v("Monto ")]
+                          ),
                           _vm._v(" "),
                           _c("p", {
-                            staticClass: "col-6",
+                            staticClass: "col-md-6",
                             domProps: {
                               textContent: _vm._s("$ " + _vm.montocuota)
                             }
                           }),
                           _vm._v(" "),
                           _c("p", {
-                            staticClass: "col-6",
+                            staticClass: "col-md-6",
                             domProps: {
                               textContent: _vm._s(
                                 "s/. " +
@@ -61955,7 +61958,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-6" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
                             _c(
                               "div",
                               {
@@ -61983,7 +61986,7 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-6" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
                             _c(
                               "div",
                               {
@@ -62039,30 +62042,23 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "wrapper d-flex justify-content-between col-md-6"
-                            },
-                            [
-                              _c("div", { staticClass: "side-left" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-outline-success col-md-12",
-                                    on: {
-                                      click: function($event) {
-                                        _vm.showpagocuota = true
-                                      }
-                                    }
-                                  },
-                                  [_vm._v("Ir a pagos")]
-                                )
-                              ])
-                            ]
-                          )
+                          _c("div", { staticClass: "col-md-12" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success col-md-12",
+                                on: {
+                                  click: function($event) {
+                                    _vm.showpagocuota = true
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "fa fa-cash-register" }),
+                                _vm._v("Ir a pagos")
+                              ]
+                            )
+                          ])
                         ])
                       ])
                     ])
@@ -62071,16 +62067,11 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { class: _vm.showdetalle ? "col-8" : "col-12" },
+                { class: _vm.showdetalle ? "col-md-8" : "col-md-12" },
                 [
-                  _c("div", {
-                    staticClass: "calendario-top col-sm-12",
-                    attrs: { id: "cabeceracalendario" }
-                  }),
-                  _vm._v(" "),
                   _c("FullCalendar", {
                     ref: "fullCalendar",
-                    staticClass: "calendario-calendar col-sm-12",
+                    staticClass: "calendario-calendar col-sm-12 card",
                     attrs: {
                       defaultView: "dayGridMonth",
                       header: {
