@@ -283,6 +283,8 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                    <button type="button" class="btn btn-outline-success btn-sm"  @click="historialcredito(1,buscar,criterio)"><i class="fa fa-mail-reply"></i>Ver todos los Creditos </button>
+                    <hr>
                     <h4 class="text-center"> Modificaciones de Creditos</h4> 
                     <hr> 
                     <!--<div class="form-group row">
@@ -306,20 +308,76 @@
                             <thead class="table-bordered ">
                                 <tr class="font-weight-bold">
                                     <th class="font-weight-bold">Fecha de Registro</th>
-                                    <th class="font-weight-bold">Cambios</th>
+                                    <th class="font-weight-bold">Cambios 
+                                         <label class="badge badge-success"> Nuevo</label>
+                                          <label class="badge badge-warning">Antiguo</label>
+                                    </th>
                                    
-                                    <th class="font-weight-bold">Realizo el Cambio</th>
+                                    <th class="font-weight-bold">USUARIO</th>
+                                     <th class="font-weight-bold">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="bit in arrayBitacoraCredito" :key="bit.id">
                                     <td v-text="bit.fechacambio"></td>
                                     <td >
-                                         <p v-if="bit.idcliente_n!=bit.idcliente_v">
-                                        Cliente Anterior : {{bit.idcliente_n}}
-                                        Cliente Nuevo: {{bit.idcliente_v}} </p>
+                                         <p v-if="bit.numeroprestamo_n!=bit.numeroprestamo_v">
+                                            N° Credito : 
+                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.numeroprestamo_n}}</label>
+                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.numeroprestamo_v}}</label>
+                                        </p>
+                                        <p v-if="bit.idkiva_n!=bit.idkiva_v">
+                                            ID KIVA : 
+                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.idkiva_n}}</label>
+                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.idkiva_v}}</label>
+                                        </p>
+                                        <p v-if="bit.montodesembolsado_n!=bit.montodesembolsado_v">
+                                            MONTO DESEMB: 
+                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.montodesembolsado_n}}</label>
+                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.montodesembolsado_v}}</label>
+                                        </p>
+                                        <p v-if="bit.fechadesembolso_n!=bit.fechadesembolso_v">
+                                            FECHA DESEMB: 
+                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.fechadesembolso_n}}</label>
+                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.fechadesembolso_v}}</label>
+                                        </p>
+                                        <p v-if="bit.numerocuotas_n!=bit.numerocuotas_v">
+                                            N° CUOTAS: 
+                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.numerocuotas_n}}</label>
+                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.numerocuotas_v}}</label>
+                                        </p>
+
+                                         <p v-if="bit.tipocambio_n!=bit.tipocambio_v">
+                                            N° CUOTAS: 
+                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.tipocambio_n}}</label>
+                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.tipocambio_v}}</label>
+                                        </p>
+
+                                         <p v-if="bit.tasa_n!=bit.tasa_v">
+                                            TASA: 
+                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.tasa_n}}</label>
+                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.tasa_v}}</label>
+                                        </p>
+
+                                       <!-- <p v-if="bit.estado_n!=bit.estado_v">
+                                            ESTADO: 
+                                            <label class="badge badge-success" style="font-size:14px;" > {{bit.tasa_n}}</label>
+                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.tasa_v}}</label>
+                                        </p>-->
+
+                                         <p v-if="bit.periodo_n!=bit.periodo_v">
+                                            PERIODO: 
+                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.periodo_n}}</label>
+                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.periodo_v}}</label>
+                                        </p>
+                                        <span>**********************************************</span>
+
+                                        
+                                         
+
+                                    
                                     </td>
-                                   
+                                    <td v-text="bit.nombre"></td>
                                     <td v-text="bit.condicion"></td>
                                     </tr>
                                 </tbody>

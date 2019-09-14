@@ -3352,6 +3352,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -44566,6 +44624,29 @@ var render = function() {
               _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
                 _c("div", { staticClass: "card" }, [
                   _c("div", { staticClass: "card-body" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-outline-success btn-sm",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.historialcredito(
+                              1,
+                              _vm.buscar,
+                              _vm.criterio
+                            )
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-mail-reply" }),
+                        _vm._v("Ver todos los Creditos ")
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
                     _c("h4", { staticClass: "text-center" }, [
                       _vm._v(" Modificaciones de Creditos")
                     ]),
@@ -44587,18 +44668,238 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("td", [
-                                bit.idcliente_n != bit.idcliente_v
+                                bit.numeroprestamo_n != bit.numeroprestamo_v
                                   ? _c("p", [
                                       _vm._v(
-                                        "\n                                        Cliente Anterior : " +
-                                          _vm._s(bit.idcliente_n) +
-                                          "\n                                        Cliente Nuevo: " +
-                                          _vm._s(bit.idcliente_v) +
-                                          " "
+                                        "\n                                            N° Credito : \n                                            "
+                                      ),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-success",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            " " + _vm._s(bit.numeroprestamo_n)
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-warning",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(_vm._s(bit.numeroprestamo_v))]
                                       )
                                     ])
-                                  : _vm._e()
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                bit.idkiva_n != bit.idkiva_v
+                                  ? _c("p", [
+                                      _vm._v(
+                                        "\n                                            ID KIVA : \n                                            "
+                                      ),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-success",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(" " + _vm._s(bit.idkiva_n))]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-warning",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(_vm._s(bit.idkiva_v))]
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                bit.montodesembolsado_n !=
+                                bit.montodesembolsado_v
+                                  ? _c("p", [
+                                      _vm._v(
+                                        "\n                                            MONTO DESEMB: \n                                            "
+                                      ),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-success",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(bit.montodesembolsado_n)
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-warning",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            _vm._s(bit.montodesembolsado_v)
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                bit.fechadesembolso_n != bit.fechadesembolso_v
+                                  ? _c("p", [
+                                      _vm._v(
+                                        "\n                                            FECHA DESEMB: \n                                            "
+                                      ),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-success",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            " " + _vm._s(bit.fechadesembolso_n)
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-warning",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(_vm._s(bit.fechadesembolso_v))]
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                bit.numerocuotas_n != bit.numerocuotas_v
+                                  ? _c("p", [
+                                      _vm._v(
+                                        "\n                                            N° CUOTAS: \n                                            "
+                                      ),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-success",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            " " + _vm._s(bit.numerocuotas_n)
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-warning",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(_vm._s(bit.numerocuotas_v))]
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                bit.tipocambio_n != bit.tipocambio_v
+                                  ? _c("p", [
+                                      _vm._v(
+                                        "\n                                            N° CUOTAS: \n                                            "
+                                      ),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-success",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(" " + _vm._s(bit.tipocambio_n))]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-warning",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(_vm._s(bit.tipocambio_v))]
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                bit.tasa_n != bit.tasa_v
+                                  ? _c("p", [
+                                      _vm._v(
+                                        "\n                                            TASA: \n                                            "
+                                      ),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-success",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(" " + _vm._s(bit.tasa_n))]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-warning",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(_vm._s(bit.tasa_v))]
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                bit.periodo_n != bit.periodo_v
+                                  ? _c("p", [
+                                      _vm._v(
+                                        "\n                                            PERIODO: \n                                            "
+                                      ),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-success",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(" " + _vm._s(bit.periodo_n))]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "label",
+                                        {
+                                          staticClass: "badge badge-warning",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
+                                        [_vm._v(_vm._s(bit.periodo_v))]
+                                      )
+                                    ])
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                _c("span", [
+                                  _vm._v(
+                                    "**********************************************"
+                                  )
+                                ])
                               ]),
+                              _vm._v(" "),
+                              _c("td", {
+                                domProps: { textContent: _vm._s(bit.nombre) }
+                              }),
                               _vm._v(" "),
                               _c("td", {
                                 domProps: { textContent: _vm._s(bit.condicion) }
@@ -44690,11 +44991,20 @@ var staticRenderFns = [
           _vm._v("Fecha de Registro")
         ]),
         _vm._v(" "),
-        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Cambios")]),
-        _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Realizo el Cambio")
-        ])
+          _vm._v("Cambios \n                                         "),
+          _c("label", { staticClass: "badge badge-success" }, [
+            _vm._v(" Nuevo")
+          ]),
+          _vm._v(" "),
+          _c("label", { staticClass: "badge badge-warning" }, [
+            _vm._v("Antiguo")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("USUARIO")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Acción")])
       ])
     ])
   }
@@ -60010,7 +60320,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp2\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })
