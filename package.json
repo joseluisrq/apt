@@ -25,6 +25,11 @@
     },
     "dependencies": {
         "vue-barcode": "^1.2.0",
-        "vue-select": "^2.4.0"
+        "vue-select": "^2.4.0",
+        "@fullcalendar/core": "4.2.0",
+        "@fullcalendar/daygrid": "4.2.0",
+        "@fullcalendar/interaction": "4.2.0",
+        "@fullcalendar/timegrid": "4.2.0",
+        "@fullcalendar/vue": "4.2.0"
     }
 }

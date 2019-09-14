@@ -408,7 +408,7 @@
                                 </div>
                                 <div class="col-md-6">
                                         
-                                        <button type="button" class="btn btn-info col-md-12" @click="generarboucher(arrayCuotaDetalle.id)"><i class="fa fa-file-pdf-o"></i>
+                                        <button v-if="arrayCuotaDetalle.estado==1" type="button" class="btn btn-info col-md-12" @click="generarboucher(arrayCuotaDetalle.id)"><i class="fa fa-file-pdf-o"></i>
                                         Boucher</button>
                                 </div>
                             </div>

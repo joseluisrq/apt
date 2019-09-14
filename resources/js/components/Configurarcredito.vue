@@ -359,11 +359,11 @@
                                             <label class="badge badge-warning" style="font-size:14px;">{{bit.tasa_v}}</label>
                                         </p>
 
-                                       <!-- <p v-if="bit.estado_n!=bit.estado_v">
+                                       <p v-if="bit.estado_n!=bit.estado_v">
                                             ESTADO: 
-                                            <label class="badge badge-success" style="font-size:14px;" > {{bit.tasa_n}}</label>
-                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.tasa_v}}</label>
-                                        </p>-->
+                                            <label class="badge badge-success" style="font-size:14px;" v-if="bit.estado_n==2"> CREDITO TERMINADO</label>
+                                            <label class="badge badge-warning" style="font-size:14px;" v-if="bit.estado_v==1">EN PROCESO</label>
+                                        </p>
 
                                          <p v-if="bit.periodo_n!=bit.periodo_v">
                                             PERIODO: 

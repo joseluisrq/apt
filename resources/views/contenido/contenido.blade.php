@@ -9,7 +9,7 @@
                      </template>
 
                      <template v-if="menu==1">
-                          
+                            <cuota :ruta="ruta"></cuota>
                      </template>
                      
                      <template v-if="menu==2">

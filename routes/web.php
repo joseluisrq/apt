@@ -51,6 +51,13 @@ Route::group(['middleware'=>['auth']],function(){
             Route::put('/cliente/actualizar', 'ClienteController@update');
             Route::get('/cliente/selectCliente', 'ClienteController@selectCliente');
             Route::put('/cliente/desactivar','ClienteController@desactivar'); 
+
+            
+            Route::get('/cuota', 'CuotaController@index');
+            Route::get('/cuota/cliente', 'CuotaController@cuotaPagoCliente');
+            Route::put('/cuota/pagar', 'CuotaController@update');
+            //Pago Porciones de cuota
+            Route::post('/cuota/porcion', 'CuotaController@registrarPorcionPago');
             
             
 

@@ -30,6 +30,8 @@ Vue.component('configcredito', require('./components/Configurarcredito.vue').def
 
 Vue.component('ayuda', require('./components/Ayuda.vue').default);
 Vue.component('acerca', require('./components/Acerca.vue').default);
+
+Vue.component('cuota', require('./components/Cuota.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

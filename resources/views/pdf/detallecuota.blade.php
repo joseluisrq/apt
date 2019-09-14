@@ -54,15 +54,15 @@
                             <span class="promo">S.Anterior</span> &nbsp;&nbsp;&nbsp;
                             <span class="promo">Pago</span>&nbsp;&nbsp;&nbsp;
                             <span class="promo">S.Actual</span> 
-                          <br>PRINCIPAL &nbsp;&nbsp;&nbsp; {{$c->saldopendiente}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$c->monto}}&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{($c->saldopendiente)-($c->monto)}}
-                          <br>INTERES : 12545.00
+                          <br>PRINCIPAL &nbsp;&nbsp;&nbsp; {{$c->saldopendiente + $c->monto}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$c->monto-(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)}}&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{($c->saldopendiente)}}
+                          <br>INTERES :  {{($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas}}
                           <br> ----------------------
-                          <br>La suma de :  4500.00 SOLES
+                          <br>La suma de :  {{$c->monto}}
   
                       </p>
                       <p>
-                          Cuota Pag: {{$c->numerocuota}} <br>
-                          Proxima Cuota a Pag por Ventan: 10/05/2019
+                          Cuota N°: {{$c->numerocuota}} <br>
+                          
                       </p>
                     
                     </div>
@@ -73,35 +73,35 @@
                   <div class="coupon">
                    
                    
-                        <div class="container" style="background-color:white">
-                                <p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                    COMPROBANTE DE ABONO</p>
-                          
-                        <p>NRO CUOTA: {{$c->numerocuota}}  &nbsp; &nbsp; &nbsp; NRO PRESTAMO : {{$c->numeroprestamo}}
-                        <br> {{$c->fechacancelacion}}
-                         <br>DNI SOCIO  : {{$c->dni}}
-                        <br>{{$c->nombre}} {{$c->apellidopaterno}} {{$c->apellidomaterno}}
-                        <br>Obs: {{$c->descripcion}}
-                        <br>N° CRED: {{$c->numeroprestamo}}
-                        <br>PROD.CRED:CREDITO CONGARANTIA LIQUIDA/PLAZO</p>
-                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <span class="promo">S.Anterior</span> &nbsp;&nbsp;&nbsp;
-                                <span class="promo">Pago</span>&nbsp;&nbsp;&nbsp;
-                                <span class="promo">S.Actual</span> 
-                              <br>PRINCIPAL &nbsp;&nbsp;&nbsp; {{$c->saldopendiente}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$c->monto}}&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{($c->saldopendiente)-($c->monto)}}
-                              <br>INTERES : 12545.00
-                              <br> ----------------------
-                              <br>La suma de :  4500.00 SOLES
-      
-                          </p>
-                          <p>
-                              Cuota Pag: {{$c->numerocuota}} <br>
-                              Proxima Cuota a Pag por Ventan: 10/05/2019
-                          </p>
-                        
-                        </div>
+                    <div class="container" style="background-color:white">
+                            <p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                COMPROBANTE DE ABONO</p>
                       
-                      </div>
+                    <p>NRO CUOTA: {{$c->numerocuota}}  &nbsp; &nbsp; &nbsp; NRO PRESTAMO : {{$c->numeroprestamo}}
+                    <br> {{$c->fechacancelacion}}
+                     <br>DNI SOCIO  : {{$c->dni}}
+                    <br>{{$c->nombre}} {{$c->apellidopaterno}} {{$c->apellidomaterno}}
+                    <br>Obs: {{$c->descripcion}}
+                    <br>N° CRED: {{$c->numeroprestamo}}
+                    <br>PROD.CRED:CREDITO CONGARANTIA LIQUIDA/PLAZO</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="promo">S.Anterior</span> &nbsp;&nbsp;&nbsp;
+                            <span class="promo">Pago</span>&nbsp;&nbsp;&nbsp;
+                            <span class="promo">S.Actual</span> 
+                          <br>PRINCIPAL &nbsp;&nbsp;&nbsp; {{$c->saldopendiente + $c->monto}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$c->monto-(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)}}&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{($c->saldopendiente)}}
+                          <br>INTERES :  {{($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas}}
+                          <br> ----------------------
+                          <br>La suma de :  {{$c->monto}}
+  
+                      </p>
+                      <p>
+                          Cuota N°: {{$c->numerocuota}} <br>
+                          
+                      </p>
+                    
+                    </div>
+                  
+                  </div>
             @endforeach
     </body>
 </html>

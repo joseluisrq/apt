@@ -2,14 +2,88 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use App\Credito;
 use App\Cuota;
+use App\Porcion;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CuotaController extends Controller
 {
-    //
+    public function index(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $fechahoy = Carbon::now('America/Lima');
+
+        $dni = $request['dni'];
+
+        if($dni != null)
+        {
+            $cuotas = Cuota::join('creditos', 'creditos.id', '=', 'cuotas.idcredito')
+            ->join('personas', 'personas.id', '=', 'creditos.idcliente')
+            ->select(
+                'creditos.idkiva',
+                'creditos.tipocambio',
+                'cuotas.id',
+                'cuotas.fechacancelacion',
+                'cuotas.fechapago',
+                'cuotas.monto',
+                'cuotas.otroscostos',
+                'cuotas.saldopendiente',
+                'personas.nombre',
+                'personas.apellidopaterno',
+                'personas.apellidomaterno',
+                'personas.dni'
+            )
+            ->where('personas.dni', 'like', '%' . $dni . '%')
+            ->where('creditos.estado', '=', '1')//Buscar los créditos activos
+            ->where('cuotas.estado', '=', '0')//Buscar las cuotas que faltan pagar
+            ->orderby('fechapago', 'ASC')//Buscar las cuotas que faltan pagar
+            ->limit(1)//Solo se obtiene la cuota que debe pagar
+            ->get();
+        }else{
+            $cuotas = Cuota::join('creditos', 'creditos.id', '=', 'cuotas.idcredito')
+                ->join('personas', 'personas.id', '=', 'creditos.idcliente')
+                ->select(
+                    'creditos.idkiva',
+                    'creditos.tipocambio',
+                    'cuotas.id',
+                    'cuotas.fechacancelacion',
+                    'cuotas.fechapago',
+                    'cuotas.monto',
+                    'cuotas.otroscostos',
+                    'cuotas.saldopendiente',
+                    'personas.nombre',
+                    'personas.apellidopaterno',
+                    'personas.apellidomaterno',
+                    'personas.dni'
+                )
+                ->where('cuotas.estado', '=', '0')
+                ->get();
+        }
+
+        return [
+            'cuotas' => $cuotas,
+            'fechahoy' =>  $fechahoy
+        ];
+    }
+
+    public function cuotaPagoCliente(Request $request)//Este método retorna la cuota que el cliente debe pagar
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $fechahoy = Carbon::now('America/Lima');
+
+
+
+        return [
+            'cuotas' => $cuotas,
+            'fechahoy' =>  $fechahoy
+        ];
+    }
+
     public function store(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
@@ -49,11 +123,88 @@ class CuotaController extends Controller
                 $cuota->monto = 0; //$cuot['fechacancelacion'];   
                 $cuota->otroscostos = 0; //$cuot['fechacancelacion'];     
                 $cuota->descripcion = 'Registro Nuevo'; //$cuot['fechacancelacion']; 
-                $cuota->estado = '1'; //$cuot['fechacancelacion'];        
+                $cuota->estado = '0'; //$cuot['fechacancelacion'];        
                              
                 $cuota->save();
             }          
  
+            DB::commit();
+        } catch (Exception $e){
+            DB::rollBack();
+        }
+    }
+
+    public function update(Request $request)
+    {        
+        if (!$request->ajax()) return redirect('/');
+         
+        try{
+            DB::beginTransaction();
+
+            $cuota = Cuota::findOrFail($request->id);
+
+            $descripcion = $request->descripcion;
+            if($descripcion == null) $descripcion = "Cuota pagada";
+
+            $cuota->descripcion = $descripcion;
+            $cuota->fechacancelacion = Carbon::now('America/Lima');
+            $cuota->estado = "1";
+            $cuota->save();
+
+            $idcredito = $cuota->idcredito;
+            //Verificar que todas las cuotas del crédito se hayan pagado
+            $cuotas = Cuota::join('creditos', 'creditos.id', '=', 'cuotas.idcredito')
+            ->select(
+                'cuotas.id'
+            )
+            ->where('cuotas.estado', '=', '0')
+            ->where('creditos.id', '=', $idcredito)
+            ->get();
+
+            if(sizeof($cuotas) == 0){//En este caso ya se pagaron todas las cuotas
+                $credito = Credito::findOrFail($idcredito);
+
+                $credito->estado = "2";//Crédito finalizado
+                $credito->save();
+            }
+
+
+            DB::commit();
+ 
+        } catch (Exception $e){
+            DB::rollBack();
+        }
+    }
+
+    public function registrarPorcionPago(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+ 
+        try{
+            DB::beginTransaction();
+ 
+            //Crear el registro de porción de cuota
+            $mytime = Carbon::now('America/Lima');
+ 
+            $porcion = new Porcion();
+            
+            $porcion->id = $request->id;
+            $porcion->idusuario = \Auth::user()->id;
+            $porcion->fechapago = $mytime;
+            $porcion->fechacancelacion = $mytime;
+            $porcion->monto = $request->monto;
+            $porcion->otroscostos = $request->otroscostos;
+            $porcion->descripcion = $request->descripcion;
+            $porcion->estado = "1";//Como se paga el mismo día de su creación, el estado es PAGADO
+            $porcion->save();
+
+            //Actualizar el monto de la cuota de la cual solo se ha pagado una porción
+            $cuota = Cuota::findOrFail($request->id);
+
+            $cuota->monto = $cuota->monto - $request->monto;
+            $cuota->estado = "0";//La cuota aún está pendiente de pago
+            $cuota->save();
+
             DB::commit();
         } catch (Exception $e){
             DB::rollBack();
