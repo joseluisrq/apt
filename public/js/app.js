@@ -16985,9 +16985,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
   data: function data() {
@@ -17057,6 +17054,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    //CARGAR LA TABLA DE CLIENTES
     listarPersona: function listarPersona(page, buscar, criterio) {
       var me = this;
       var url = this.ruta + '/cliente?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
@@ -17068,6 +17066,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    //CAMBIAR DE PAGINA Y CARGAR 10 REGISTROS DIFERENTES
     cambiarPagina: function cambiarPagina(page, buscar, criterio) {
       var me = this; //Actualiza la página actual
 
@@ -17075,6 +17074,7 @@ __webpack_require__.r(__webpack_exports__);
 
       me.listarPersona(page, buscar, criterio);
     },
+    //ENVIAR DATOS AL CONTROLADOR CLIENTE@STORE
     registrarPersona: function registrarPersona() {
       if (this.validarPersona()) {
         return;
@@ -17100,6 +17100,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(this.dni);
       });
     },
+    //ENVIAR DATOS AL CONTROLADOR CLIENTE@UPDATE
     actualizarPersona: function actualizarPersona() {
       if (this.validarPersona()) {
         return;
@@ -17125,6 +17126,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    //SIMULA QUE UN CLIENTE HA SIDO ELIMINADO/ ESTADO CLIENTE  A 0
     desactivarCliente: function desactivarCliente(id, estadocredito) {
       var _this = this;
 
@@ -17179,6 +17181,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
+    //VALIDAMOS LOS DATOS INGRESADOS 
     validarPersona: function validarPersona() {
       this.errorPersona = 0;
       this.errorMostrarMsjPersona = [];
@@ -17195,6 +17198,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
       return this.errorPersona;
     },
+    //CERRAMOS MODAL Y LIMPIAMOS CAMPOS
     cerrarModal: function cerrarModal() {
       this.modal = 0;
       this.tituloModal = '';
@@ -17210,6 +17214,7 @@ __webpack_require__.r(__webpack_exports__);
       this.estado_cli = '';
       this.errorPersona = 0;
     },
+    //ABRIMOS MODAL DE CREAR O ACTUALIZAR DE ACUERDO A LA ACCION 
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
@@ -57712,7 +57717,7 @@ var render = function() {
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-body" }, [
             _c("h4", { staticClass: "text-center" }, [
-              _vm._v("Lista  de Clientes  \n            ")
+              _vm._v("Lista  de Clientes  \n                ")
             ]),
             _vm._v(" "),
             _c("hr"),
@@ -57876,7 +57881,7 @@ var render = function() {
                             },
                             [_c("i", { staticClass: "fa fa-pencil" })]
                           ),
-                          _vm._v(" \n                                "),
+                          _vm._v(" \n                                    "),
                           persona.estadocliente == 1
                             ? [
                                 _c(
@@ -58071,7 +58076,7 @@ var render = function() {
                   [_vm._v("× ")]
                 ),
                 _vm._v(
-                  "\n                     " + _vm._s(_vm.tituloModal) + " "
+                  "\n                         " + _vm._s(_vm.tituloModal) + " "
                 )
               ])
             ]),

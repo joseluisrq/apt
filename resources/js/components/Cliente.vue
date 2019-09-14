@@ -1,10 +1,7 @@
 <template>
-
-
-            <main class="main">
-            <!-- Breadcrumb -->
-          
-             <div class="row">
+    <main class="main">         
+        <!--LISTA DE CLIENTES-->
+        <div class="row">
              <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -107,9 +104,10 @@
                 </div>
             </div>
         </div>
+        <!--FIN DE LISTA DE CLIENTES-->
 
-          
-            <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
+        <!--MODAL  INSERTAR Y ACTUALIZAR CLIENTE-->
+        <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                     
@@ -193,10 +191,9 @@
                         
                     </div>
                 </div>
-        </div>
-           
-            <!--Fin del modal-->
-        </main>
+       </div>
+        <!--FIN MODAL  INSERTAR Y ACTUALIZAR CLIENTE-->
+    </main>
 </template>
 
 <script>
@@ -268,6 +265,7 @@
             }
         },
         methods : {
+            //CARGAR LA TABLA DE CLIENTES
             listarPersona (page,buscar,criterio){
                 let me=this;
                 var url= this.ruta+'/cliente?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
@@ -280,6 +278,8 @@
                     console.log(error);
                 });
             },
+
+            //CAMBIAR DE PAGINA Y CARGAR 10 REGISTROS DIFERENTES
             cambiarPagina(page,buscar,criterio){
                 let me = this;
                 //Actualiza la página actual
@@ -287,6 +287,8 @@
                 //Envia la petición para visualizar la data de esa página
                 me.listarPersona(page,buscar,criterio);
             },
+
+            //ENVIAR DATOS AL CONTROLADOR CLIENTE@STORE
             registrarPersona(){
                 if (this.validarPersona()){
                     return;
@@ -315,6 +317,8 @@
                     console.log(this.dni);
                 });
             },
+            
+            //ENVIAR DATOS AL CONTROLADOR CLIENTE@UPDATE
             actualizarPersona(){
                if (this.validarPersona()){
                     return;
@@ -343,6 +347,7 @@
                 }); 
             },  
 
+            //SIMULA QUE UN CLIENTE HA SIDO ELIMINADO/ ESTADO CLIENTE  A 0
             desactivarCliente(id,estadocredito){
 
              if(estadocredito==1){
@@ -401,10 +406,11 @@
                           //  )
                         }
                         })
-            } 
-
+              } 
               
-            },          
+            },  
+            
+            //VALIDAMOS LOS DATOS INGRESADOS 
             validarPersona(){
                 this.errorPersona=0;
                 this.errorMostrarMsjPersona =[];
@@ -423,6 +429,8 @@
 
                 return this.errorPersona;
             },
+
+            //CERRAMOS MODAL Y LIMPIAMOS CAMPOS
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
@@ -441,6 +449,8 @@
                 this.errorPersona=0;
 
             },
+
+            //ABRIMOS MODAL DE CREAR O ACTUALIZAR DE ACUERDO A LA ACCION 
             abrirModal(modelo, accion, data = []){
                 switch(modelo){
                     case "persona":
