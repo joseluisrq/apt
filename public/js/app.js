@@ -16495,9 +16495,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -16592,14 +16589,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    fechaactual: function fechaactual() {
-      var date = new Date();
-      var day = date.getDate();
-      var month = date.getMonth() + 1;
-      var year = date.getFullYear();
-      this.fechadesembolso = day + '/' + month + '/' + year;
-    },
-    //lisar credito luego se aver sido insertado el credito
+    //MOSTRAR DETALLE DE CREDITO
     listarCredito: function listarCredito() {
       var me = this;
       var url = this.ruta + '/credito/creditosCliente?idkiva=' + me.idkiva;
@@ -16611,7 +16601,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    //listar cuotas luego de ingresar el credito
+    //MOSTRAR CUOTAS DE DETALLE DE CREDITO
     listarCuotas: function listarCuotas() {
       var me = this;
       var url = this.ruta + '/credito/cuotasClientenuevo?idkiva=' + me.idkiva;
@@ -16622,60 +16612,11 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    //editar credito
-    editarCredito: function editarCredito() {
-      this.listado = 1;
-      var me = this;
-      me.editarvar = 1;
-    },
+    //GENERAR PDF DE CREDITO CREADO
     pdfDetallecuota: function pdfDetallecuota(idcredito) {
-      window.open('http://localhost:8000/credito/detallecreditopdf/' + idcredito, '_blank');
+      window.open(this.ruta + '/credito/detallecreditopdf/' + idcredito, '_blank');
     },
-    //editar credito
-    eliminarCredito: function eliminarCredito() {
-      var _this = this;
-
-      var swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      });
-      swalWithBootstrapButtons.fire({
-        title: '¿Esta seguro de eliminar este crédito?',
-        // text: "You won't be able to revert this!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-      }).then(function (result) {
-        if (result.value) {
-          //usamos axios para desactivar
-          var me = _this;
-          axios.put(_this.ruta + '/credito/desactivar', {
-            //hacemos referencia a la ruta que creamos
-            'id': me.arrayCredito[0].id
-          }).then(function (response) {
-            //de una ves que se ejecuto mostramos le mensaje de desactivado
-            me.nuevoCredito();
-            swalWithBootstrapButtons.fire('Eliminado!', 'El registro ha sido eliminado con éxito', 'success');
-          })["catch"](function () {
-            console.log(error);
-          });
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {// swalWithBootstrapButtons.fire(
-          //mensaje cuando cancelamos
-
-          /*'Cancelled',
-          /'Your imaginary file is safe :)',
-          'error'*/
-          //  )
-        }
-      });
-    },
+    //LIMPIAR LOS CAMPOS PARA UN NUEVO CREDITO
     nuevoCredito: function nuevoCredito() {
       var me = this;
       me.idkiva = '';
@@ -16693,6 +16634,7 @@ __webpack_require__.r(__webpack_exports__);
       me.arrayCliente = [];
       this.listacuotas = 0;
     },
+    //SELECIONAR CLIENTE PARA CREDITO
     selectCliente: function selectCliente(search, loading) {
       var me = this;
       loading(true);
@@ -16708,6 +16650,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    //COGER DTOS DEL CLIENTE PARA VISTA DETALLE
     getDatosCliente: function getDatosCliente(val1) {
       var me = this;
       me.loading = true;
@@ -16717,6 +16660,7 @@ __webpack_require__.r(__webpack_exports__);
       me.apellidopaterno = val1.apellidopaterno;
       me.apellidomaterno = val1.apellidomaterno;
     },
+    //GENERAR LAS CUOTAS
     agregarCuotas: function agregarCuotas() {
       this.arrayCuota.length = 0;
       var me = this;
@@ -16772,14 +16716,9 @@ __webpack_require__.r(__webpack_exports__);
       } //fin del else
 
     },
-    mostrarCreditos: function mostrarCreditos() {
-      this.listado = 0;
-    },
-    ocultarCreditos: function ocultarCreditos() {
-      this.listado = 1;
-    },
+    //ENVIAR LOS DATOS A REGISTRAR AL CONTROLADOR
     registrarCredito: function registrarCredito() {
-      var _this2 = this;
+      var _this = this;
 
       if (this.validarCredito()) {
         return;
@@ -16797,18 +16736,18 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Si'
       }).then(function (result) {
         if (result.value) {
-          Swal.fire('Insertado', 'El credito ha sido registrado', 'success');
-          axios.post(_this2.ruta + '/credito/registrar', {
-            'numeroprestamo': _this2.numeroprestamo,
-            'idkiva': _this2.idkiva,
-            'montodesembolsado': _this2.montodesembolsado,
-            'fechadesembolso': _this2.fechadesembolso,
-            'numerocuotas': _this2.numerocuotas,
-            'tipocambio': _this2.tipocambio,
-            'tasa': _this2.tasa,
-            'periodo': _this2.periodo,
-            'idcliente': _this2.idcliente,
-            'data': _this2.arrayCuota
+          Swal.fire('CREADO', 'El credito ha sido registrado en la base de datos', 'success');
+          axios.post(_this.ruta + '/credito/registrar', {
+            'numeroprestamo': _this.numeroprestamo,
+            'idkiva': _this.idkiva,
+            'montodesembolsado': _this.montodesembolsado,
+            'fechadesembolso': _this.fechadesembolso,
+            'numerocuotas': _this.numerocuotas,
+            'tipocambio': _this.tipocambio,
+            'tasa': _this.tasa,
+            'periodo': _this.periodo,
+            'idcliente': _this.idcliente,
+            'data': _this.arrayCuota
           }).then(function (response) {
             me.listado = 0;
             me.listarCredito();
@@ -16818,6 +16757,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    //VALIDAR CREDITO PARA QUE INGRESE TODOS LOS CAMPOS     
     validarCredito: function validarCredito() {
       this.errorCredito = 0;
       this.errorMostrarMsjCredito = [];
@@ -16833,9 +16773,6 @@ __webpack_require__.r(__webpack_exports__);
       if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
       return this.errorCredito;
     }
-  },
-  mounted: function mounted() {//  this.fechaactual()
-    //this.listarCredito();
   }
 });
 
@@ -24509,7 +24446,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-dialog{\r\n    overflow-y: initial !important\n}\n.modal-body{\r\n    height: 500px;\r\n   \r\n    overflow-y: auto;\n}\n.modal-content{\r\n        width: 100% !important;\r\n        position: absolute !important;\n}\n.mostrar{\r\n       \r\n        display: list-item !important;\r\n        opacity: 1 !important;\r\n        position: fixed !important;\r\n        background-color: #3c29297a !important;\n}\n.div-error{\r\n        display: flex;\r\n        justify-content: center;\n}\n.text-error{\r\n        color: red !important;\r\n        font-weight: bold;\n}\r\n", ""]);
+exports.push([module.i, "\n.mostrar{\n   \n    display: list-item !important;\n    opacity: 1 !important;\n    position: fixed !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -56463,7 +56400,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "main",
-    {},
     [
       _vm.listado
         ? [
@@ -56479,7 +56415,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("p", { staticClass: "card-description" }, [
                       _vm._v(
-                        "\n                        Insertar la información requerida\n                      "
+                        "\n                       Insertar la información requerida\n                     "
                       )
                     ]),
                     _vm._v(" "),
@@ -56531,7 +56467,7 @@ var render = function() {
                             { attrs: { for: "exampleInputEmail1" } },
                             [
                               _vm._v(
-                                "Identificador de prestamo\n                                "
+                                "Identificador de prestamo\n                               "
                               ),
                               _c(
                                 "span",
@@ -56548,7 +56484,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                     (Obligatorio)"
+                                    "\n                                    (Obligatorio)"
                                   )
                                 ]
                               )
@@ -56587,7 +56523,7 @@ var render = function() {
                             { attrs: { for: "exampleInputPassword1" } },
                             [
                               _vm._v(
-                                "Identificador KIVA:\n                                    "
+                                "Identificador KIVA:\n                                   "
                               ),
                               _c(
                                 "span",
@@ -56604,7 +56540,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                     (Obligatorio)"
+                                    "\n                                    (Obligatorio)"
                                   )
                                 ]
                               )
@@ -56658,7 +56594,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                     (Obligatorio)"
+                                    "\n                                    (Obligatorio)"
                                   )
                                 ]
                               )
@@ -56713,7 +56649,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                     (Obligatorio)"
+                                    "\n                                    (Obligatorio)"
                                   )
                                 ]
                               )
@@ -56764,7 +56700,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                     (Obligatorio)"
+                                    "\n                                    (Obligatorio)"
                                   )
                                 ]
                               )
@@ -56818,7 +56754,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                     (Obligatorio)"
+                                    "\n                                    (Obligatorio)"
                                   )
                                 ]
                               )
@@ -56872,7 +56808,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                     (Obligatorio)"
+                                    "\n                                    (Obligatorio)"
                                   )
                                 ]
                               )
@@ -56995,9 +56931,9 @@ var render = function() {
                                       return _c("tr", { key: cuota.id }, [
                                         _c("td", [
                                           _vm._v(
-                                            " \n                                               " +
+                                            " \n                                              " +
                                               _vm._s(cuota.contador) +
-                                              "\n                                            "
+                                              "\n                                           "
                                           )
                                         ]),
                                         _vm._v(" "),
@@ -57245,21 +57181,7 @@ var render = function() {
                               [_vm._v("Limpiar Campos")]
                             )
                           ])
-                        : _c("div", { staticClass: "form-group col-4" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-success mr-2",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.editarCredito()
-                                  }
-                                }
-                              },
-                              [_vm._v("ActualizarCredito")]
-                            )
-                          ])
+                        : _vm._e()
                     ])
                   ])
                 ])
@@ -57695,7 +57617,7 @@ var staticRenderFns = [
     return _c("tr", [
       _c("td", { attrs: { colspan: "6" } }, [
         _vm._v(
-          "\n                                                Indique la cantidad de cuotas\n                                            "
+          "\n                                               Indique la cantidad de cuotas\n                                           "
         )
       ])
     ])
@@ -76415,7 +76337,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp2\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })

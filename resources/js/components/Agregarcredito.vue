@@ -1,7 +1,7 @@
 <template>
- <main class="">
+ <main >
 
-<!--formulario ingreso de credito-->
+    <!--FORMULARIO INSERT CREDITO-->
     <template v-if="listado"><!--me permite visualizar o cocultar el formulario-->
         <div class="row  form-group">
            <div class="col-12">
@@ -149,19 +149,16 @@
                             <button type="button"  v-if="btnregistar==1" class="btn btn-success mr-2" @click="registrarCredito()">Registrar Credito</button>
                             <button type="button" class="btn btn-light"  @click="nuevoCredito()">Limpiar Campos</button>
                          </div>
-                         <div v-else class="form-group col-4">
-                            <button type="button" class="btn btn-success mr-2" @click="editarCredito()">ActualizarCredito</button>
-                           
-                         </div>
+                        
                       </form>
                     </div>
                   </div>
                 </div>
         </div>
     </template>
-<!--fin formulario ingreso de credito-->
+    <!--FIN FORMULARIO INSERT CREDITO-->
 
-    <!--listade creditos-->
+    <!--DETALLE DE CREDITO CREADO-->
     <template v-else>
         <div class="row">
             <div class="col-lg-12 grid-margin card">
@@ -322,7 +319,7 @@
             </div>
         </div>
     </template> 
-    <!--finde lista de creditos-->
+    <!--FIN  DETALLE DE CREDITO CREADO-->
 
    </main>
 </template>
@@ -345,14 +342,14 @@ import vSelect from 'vue-select'
                 estado : '',
                 periodo : 1,
 
-//variables para clientes
+                //variables para clientes
                 idcliente:0,
                 nombrecliente:'',
                 dni:'0',
                 apellidopaterno:'',
                 apellidomaterno:'',
 
-//variables para cuotas
+                //variables para cuotas
                 monto:0,
                 fechapago:'',
                 saldopendiente:0.0,
@@ -362,7 +359,7 @@ import vSelect from 'vue-select'
                 listacuotas:0,
 
 
-//para mostrar oocultar dormulario
+                //para mostrar oocultar dormulario
                 listado:1,
                 editarvar:0,
                 btnregistar:0,
@@ -426,16 +423,8 @@ import vSelect from 'vue-select'
             }
         },
         methods : {
-            fechaactual(){
-                let date = new Date();
-
-                let day = date.getDate();
-                let month = date.getMonth() + 1;
-                let year = date.getFullYear();
-
-                this.fechadesembolso=day+'/'+month+'/'+year
-            },
-            //lisar credito luego se aver sido insertado el credito
+           
+            //MOSTRAR DETALLE DE CREDITO
             listarCredito (){
                  
                 let me=this;
@@ -450,7 +439,7 @@ import vSelect from 'vue-select'
                 });
          
             },
-            //listar cuotas luego de ingresar el credito
+            //MOSTRAR CUOTAS DE DETALLE DE CREDITO
             listarCuotas(){
                   let me=this;
                 var url= this.ruta+'/credito/cuotasClientenuevo?idkiva='+me.idkiva;
@@ -464,67 +453,12 @@ import vSelect from 'vue-select'
                 });
             },
 
-            //editar credito
-            editarCredito(){
-              this.listado=1;
-              let me=this;
-              me.editarvar=1;
-              
-            },
+            //GENERAR PDF DE CREDITO CREADO
              pdfDetallecuota(idcredito){
-                 window.open('http://localhost:8000/credito/detallecreditopdf/'+idcredito,'_blank');
+                 window.open(this.ruta+'/credito/detallecreditopdf/'+idcredito,'_blank');
             },
-             //editar credito
-            eliminarCredito(){
-              
-                 const swalWithBootstrapButtons = Swal.mixin({
-                        customClass: {
-                            confirmButton: 'btn btn-success',
-                            cancelButton: 'btn btn-danger'
-                        },
-                        buttonsStyling: false
-                        })
-
-                        swalWithBootstrapButtons.fire({
-                        title: '¿Esta seguro de eliminar este crédito?',
-                       // text: "You won't be able to revert this!",
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                        }).then((result) => {
-                        if (result.value) {
-                            //usamos axios para desactivar
-                              let me=this;
-                                 axios.put(this.ruta+'/credito/desactivar',{ //hacemos referencia a la ruta que creamos
-                                    'id':me.arrayCredito[0].id
-                                }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
-                                    me.nuevoCredito();
-                                      swalWithBootstrapButtons.fire(
-                                    'Eliminado!',
-                                    'El registro ha sido eliminado con éxito',
-                                    'success'
-                                    )
-                                }).catch(function(){
-                                    console.log(error);
-                                });
-
-                           
-                        } else if (
-                            /* Read more about handling dismissals below */
-                            result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                           // swalWithBootstrapButtons.fire(
-                                //mensaje cuando cancelamos
-                            /*'Cancelled',
-                            /'Your imaginary file is safe :)',
-                            'error'*/
-                          //  )
-                        }
-                        })
-
-            },
+         
+            //LIMPIAR LOS CAMPOS PARA UN NUEVO CREDITO
             nuevoCredito(){
                 let me=this;
                     me.idkiva='';
@@ -545,6 +479,7 @@ import vSelect from 'vue-select'
                       this.listacuotas=0;
             },
 
+            //SELECIONAR CLIENTE PARA CREDITO
             selectCliente(search, loading){
                  let me=this;
                  loading(true)
@@ -560,6 +495,8 @@ import vSelect from 'vue-select'
                     console.log(error);
                 });
             },
+
+            //COGER DTOS DEL CLIENTE PARA VISTA DETALLE
             getDatosCliente(val1){
                 let me=this;
                 me.loading=true;
@@ -570,7 +507,7 @@ import vSelect from 'vue-select'
                 me.apellidomaterno=val1.apellidomaterno
             },
           
-
+            //GENERAR LAS CUOTAS
             agregarCuotas(){
                 
                 this.arrayCuota.length=0;
@@ -650,12 +587,7 @@ import vSelect from 'vue-select'
                
             },
 
-            mostrarCreditos(){
-                this.listado=0;
-            },
-            ocultarCreditos(){
-                this.listado=1;
-            },  
+            //ENVIAR LOS DATOS A REGISTRAR AL CONTROLADOR
             registrarCredito(){
                 if (this.validarCredito()){
                     return;
@@ -675,8 +607,8 @@ import vSelect from 'vue-select'
                     }).then((result) => {
                     if (result.value) {
                         Swal.fire(
-                        'Insertado',
-                        'El credito ha sido registrado',
+                        'CREADO',
+                        'El credito ha sido registrado en la base de datos',
                         'success'
                         )
 
@@ -716,7 +648,7 @@ import vSelect from 'vue-select'
                
             },
          
-                   
+            //VALIDAR CREDITO PARA QUE INGRESE TODOS LOS CAMPOS     
             validarCredito(){
                 this.errorCredito=0;
                 this.errorMostrarMsjCredito =[];
@@ -737,28 +669,11 @@ import vSelect from 'vue-select'
             },
          
         },
-        mounted() {
-             //  this.fechaactual()
-            //this.listarCredito();
-        }
+       
     }
 </script>
 <style>  
-  
-.modal-dialog{
-    overflow-y: initial !important
-}
-.modal-body{
-    height: 500px;
-   
-    overflow-y: auto;
-}
 
-    
-   .modal-content{
-        width: 100% !important;
-        position: absolute !important;
-    }
     .mostrar{
        
         display: list-item !important;
