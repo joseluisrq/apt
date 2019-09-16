@@ -516,6 +516,7 @@ class CreditoController extends Controller
             'cuotas.numerocuota',
             'cuotas.fechapago',
             'cuotas.fechacancelacion',
+            
             'cuotas.saldopendiente',
             'cuotas.monto',
             'cuotas.otroscostos',

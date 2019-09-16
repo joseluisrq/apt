@@ -40,30 +40,34 @@
                    
                    
                     <div class="container" style="background-color:white">
-                            <p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                COMPROBANTE DE ABONO</p>
+                            <p>APT SAN MARCOS RUC: 20453715</p>
                       
-                    <p>NRO CUOTA: {{$c->numerocuota}}  &nbsp; &nbsp; &nbsp; NRO PRESTAMO : {{$c->numeroprestamo}}
+                    <p>NRO OPERACIÓN: {{$c->id}}
                     <br> {{$c->fechacancelacion}}
                      <br>DNI SOCIO  : {{$c->dni}}
                     <br>{{$c->nombre}} {{$c->apellidopaterno}} {{$c->apellidomaterno}}
                     <br>Obs: {{$c->descripcion}}
                     <br>N° CRED: {{$c->numeroprestamo}}
                     <br>PROD.CRED:CREDITO CONGARANTIA LIQUIDA/PLAZO</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <span class="promo">S.Anterior</span> &nbsp;&nbsp;&nbsp;
-                            <span class="promo">Pago</span>&nbsp;&nbsp;&nbsp;
-                            <span class="promo">S.Actual</span> 
-                          <br>PRINCIPAL &nbsp;&nbsp;&nbsp; {{$c->saldopendiente + $c->monto}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$c->monto-(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)}}&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{($c->saldopendiente)}}
-                          <br>INTERES :  {{($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas}}
-                          <br> ----------------------
-                          <br>La suma de :  {{$c->monto}}
+                    <p>SALDO ANTERIOR N: $  {{$c->saldopendiente + $c->monto}} 
+                    <br>MONTO A PAGAR N: S/ {{($c->monto)*($c->tipocambio)}}
+                    <br>INTERES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;: S/ {{(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)*($c->tipocambio)}}
+                    <br>OTROS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;: S/ {{$c->otroscostos}}
+                     
+                    <br>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;: {{(($c->monto+(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas))*$c->tipocambio)+$c->otroscostos}} 
   
                       </p>
                       <p>
-                          Cuota N°: {{$c->numerocuota}} <br>
+                         GRACIAS POR SU PREFERENCIA <br>
+                         USUARIO: {{$c->usuario}} &nbsp;&nbsp;PASN
+
                           
                       </p>
+                      <p>
+                        DOC.IDE ...............FIRMA................
+                                             
+                      </p>
+                    
                     
                     </div>
                   
@@ -73,35 +77,39 @@
                   <div class="coupon">
                    
                    
-                    <div class="container" style="background-color:white">
-                            <p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                COMPROBANTE DE ABONO</p>
-                      
-                    <p>NRO CUOTA: {{$c->numerocuota}}  &nbsp; &nbsp; &nbsp; NRO PRESTAMO : {{$c->numeroprestamo}}
-                    <br> {{$c->fechacancelacion}}
-                     <br>DNI SOCIO  : {{$c->dni}}
-                    <br>{{$c->nombre}} {{$c->apellidopaterno}} {{$c->apellidomaterno}}
-                    <br>Obs: {{$c->descripcion}}
-                    <br>N° CRED: {{$c->numeroprestamo}}
-                    <br>PROD.CRED:CREDITO CONGARANTIA LIQUIDA/PLAZO</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <span class="promo">S.Anterior</span> &nbsp;&nbsp;&nbsp;
-                            <span class="promo">Pago</span>&nbsp;&nbsp;&nbsp;
-                            <span class="promo">S.Actual</span> 
-                          <br>PRINCIPAL &nbsp;&nbsp;&nbsp; {{$c->saldopendiente + $c->monto}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{$c->monto-(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)}}&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{($c->saldopendiente)}}
-                          <br>INTERES :  {{($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas}}
-                          <br> ----------------------
-                          <br>La suma de :  {{$c->monto}}
-  
-                      </p>
-                      <p>
-                          Cuota N°: {{$c->numerocuota}} <br>
-                          
-                      </p>
+                   <div class="container" style="background-color:white">
+                           <p>APT SAN MARCOS RUC: 20453715</p>
+                     
+                   <p>NRO OPERACIÓN: {{$c->id}}
+                   <br> {{$c->fechacancelacion}}
+                    <br>DNI SOCIO  : {{$c->dni}}
+                   <br>{{$c->nombre}} {{$c->apellidopaterno}} {{$c->apellidomaterno}}
+                   <br>Obs: {{$c->descripcion}}
+                   <br>N° CRED: {{$c->numeroprestamo}}
+                   <br>PROD.CRED:CREDITO CONGARANTIA LIQUIDA/PLAZO</p>
+                   <p>SALDO ANTERIOR N: $  {{$c->saldopendiente + $c->monto}} 
+                   <br>MONTO A PAGAR N: S/ {{($c->monto)*($c->tipocambio)}}
+                   <br>INTERES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/ {{(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)*($c->tipocambio)}}
+                   <br>OTROS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/ {{$c->otroscostos}}
                     
-                    </div>
-                  
-                  </div>
+                   <br>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{(($c->monto+(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas))*$c->tipocambio)+$c->otroscostos}} 
+ 
+                     </p>
+                     <p>
+                        GRACIAS POR SU PREFERENCIA <br>
+                        USUARIO: {{$c->usuario}} &nbsp;&nbsp;PASN
+
+                         
+                     </p>
+                     <p>
+                       DOC.IDE ...............FIRMA................
+                                            
+                     </p>
+                   
+                   
+                   </div>
+                 
+                 </div>
             @endforeach
     </body>
 </html>

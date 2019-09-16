@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Credito;
 use App\Cuota;
 use App\Porcion;
+use App\Persona;
+use App\Cliente;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -155,9 +157,11 @@ class CuotaController extends Controller
             $cuota = Cuota::findOrFail($request->id);
 
             $descripcion = $request->descripcion;
+           
             if($descripcion == null) $descripcion = "Cuota pagada";
 
             $cuota->descripcion = $descripcion;
+            $cuota->otroscostos = $request->otrospagos;
             $cuota->fechacancelacion = Carbon::now('America/Lima');
             $cuota->estado = "1";
             $cuota->save();
@@ -177,6 +181,11 @@ class CuotaController extends Controller
 
                 $credito->estado = "2";//Crédito finalizado
                 $credito->save();
+
+                $idpersona = $request->idpersona;
+                $cliente = Credito::findOrFail($idpersona);
+                $cliente->estadocredito = "0";//Crédito finalizado
+                $cliente->save();
             }
 
 
