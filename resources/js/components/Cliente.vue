@@ -1,8 +1,9 @@
 <template>
     <main class="main">         
         <!--LISTA DE CLIENTES-->
-        <div class="row">
-             <div class="col-lg-12 grid-margin stretch-card">
+        <template v-if="!showpagocuota">
+             <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                     <h4 class="text-center">Lista  de Clientes  
@@ -53,6 +54,7 @@
                                     <th class="font-weight-bold">Email</th>
                                     
                                     <th class="font-weight-bold">Credito</th>
+                                 
                             </tr>
                         </thead>
                         <tbody>
@@ -61,9 +63,20 @@
                                         <button type="button" @click="abrirModal('persona','actualizar',persona)" class="btn btn-warning btn-sm" title="EDITAR CLIENTE">
                                           <i class="fa fa-pencil"></i>
                                         </button>&nbsp;
-                                        <template v-if="persona.estadocliente==1">
-                                            <button type="button" class="btn btn-danger btn-sm" @click="desactivarCliente(persona.id,persona.estadocredito)" title="ELIMINAR CLIENTE">
-                                               <i class="fa fa-trash-o"></i>
+                                       
+                                        <button type="button" class="btn btn-danger btn-sm" @click="desactivarCliente(persona.id,persona.estadocredito)" title="ELIMINAR CLIENTE">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                      
+
+                                        <template v-if="persona.estadocredito==1">
+                                            <button type="button" class="btn btn-primary btn-sm" @click="obtenerCuotaDeCliente(persona.dni)" title="PAGAR CUOTA">
+                                               <i class="fa fa-dollar"></i>
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="button" disabled class="btn btn-outline-primary btn-sm"  title="PAGAR CUOTA">
+                                               <i class="fa fa-dollar"></i>
                                             </button>
                                         </template>
                                        
@@ -79,9 +92,11 @@
                                           <td  v-if="persona.estadocredito==1"  >
                                                 <label class="badge badge-danger">Con Crédito</label>
                                             </td>
-                                            <td  v-if="persona.estadocredito==0"  >
+                                            <td  v-else-if="persona.estadocredito==0"  >
                                                 <label class="badge badge-success">Sin Crédito</label>
                                             </td>
+
+                                            
                                    
                             </tr>                 
                         </tbody>
@@ -102,97 +117,247 @@
                     </div>
                     </div>
                 </div>
+                </div>
             </div>
-        </div>
+
+             <!--MODAL  INSERTAR Y ACTUALIZAR CLIENTE-->
+                <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                            
+                                <!-- Modal Header -->
+                                <div class="">
+                                <h4 class="text-center  mt-2" > 
+                                    <button type="button" class="close"  @click="cerrarModal()" data-dismiss="modal">&times; </button>
+                                    {{tituloModal}} </h4>                         
+                            
+                            
+                                </div>
+                                
+                                <!-- Modal body -->
+                                <div class="modal-body card">
+                                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                                    <div class="row">
+                                        <div class="col-md-3 form-group">
+                                            <label class=" form-control-label" for="text-input">DNI (*)</label>
+                                            <input type="text" v-model="dni" class="form-control" placeholder="DNI">                                              
+                                        </div>
+                                        <div class="col-md-3  form-group">
+                                            <label class=" form-control-label" for="text-input">Nombres(*)</label>
+                                            <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">                                        
+                                        </div>
+                                        <div class="col-md-3  form-group">
+                                            <label class="form-control-label" for="text-input">Apellido Paterno (*)</label>
+                                            <input type="text" v-model="apellidopaterno" class="form-control" 
+                                                    placeholder="Primer Apellido">   
+                                        </div>
+                                        <div class="col-md-3  form-group">
+                                            <label class=" form-control-label" for="text-input">Apellido Materno (*)</label>               
+                                            <input type="text" v-model="apellidomaterno" class="form-control" placeholder="Apellido Materno">                                        
+                                        </div>
+                                        <div class="col-md-3 form-group ">
+                                                <label class="form-control-label" for="text-input">Fecha de Nacimiento</label>
+                                                <input type="date" v-model="fechanacimiento" class="form-control" >    
+                                        </div>
+                                        <div class="col-md-3 form-group ">
+                                                <label class=" form-control-label" for="email-input">Dirección</label>
+                                                <input type="text" v-model="direccion" class="form-control" placeholder="Dirección"> 
+                                        </div>
+
+                                        <div class="col-md-3 form-group">
+                                            <label class=" form-control-label" for="email-input">Teléfono</label>
+                                            <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
+                                        </div>
+
+                                        <div class="col-md-3 form-group ">
+                                            <label class=" form-control-label" for="email-input">Email</label>
+                                            <input type="email" v-model="email" class="form-control" placeholder="Email">
+                                        </div>
+
+                                    
+                                    </div>
+                                        
+
+                                            <div  v-show="errorPersona" class=" form-group col-md-12 mt-2 bg-danger">
+                                                <div class="text-center">
+                                                    <div v-for="error in errorMostrarMsjPersona" :key="error">
+                                                    <mark class="bg-danger text-white col-md-12" ><i class="fa fa-exclamation-triangle"></i> {{error}}</mark>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                            
+                                
+                                <!-- Modal footer -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-secondary col-md-12" @click="cerrarModal()">Cerrar</button></div>
+                                <div class="col-md-6">
+                                    <button type="button" v-if="tipoAccion==1" class="btn btn-primary col-md-12" @click="registrarPersona()">Guardar</button>
+                                        <button type="button" v-if="tipoAccion==2" class="btn btn-primary col-md-12" @click="actualizarPersona()">Actualizar</button>
+                        
+                                </div>
+                                
+                                        </div>
+                            </div>
+                                
+                            </div>
+                        </div>
+                </div>
+             <!--FIN MODAL  INSERTAR Y ACTUALIZAR CLIENTE-->
+
+        </template>
+       
         <!--FIN DE LISTA DE CLIENTES-->
 
-        <!--MODAL  INSERTAR Y ACTUALIZAR CLIENTE-->
-        <div class="modal "  :class="{'mostrar' : modal}"  aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                    
-                        <!-- Modal Header -->
-                        <div class="">
-                        <h4 class="text-center  mt-2" > 
-                             <button type="button" class="close"  @click="cerrarModal()" data-dismiss="modal">&times; </button>
-                             {{tituloModal}} </h4>                         
-                       
-                    
-                        </div>
-                        
-                        <!-- Modal body -->
-                        <div class="modal-body card">
-                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+       
 
-                            <div class="row">
-                                <div class="col-md-3 form-group">
-                                    <label class=" form-control-label" for="text-input">DNI (*)</label>
-                                    <input type="text" v-model="dni" class="form-control" placeholder="DNI">                                              
-                                </div>
-                                <div class="col-md-3  form-group">
-                                    <label class=" form-control-label" for="text-input">Nombres(*)</label>
-                                    <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la persona">                                        
-                                </div>
-                                <div class="col-md-3  form-group">
-                                     <label class="form-control-label" for="text-input">Apellido Paterno (*)</label>
-                                     <input type="text" v-model="apellidopaterno" class="form-control" 
-                                            placeholder="Primer Apellido">   
-                                </div>
-                                <div class="col-md-3  form-group">
-                                      <label class=" form-control-label" for="text-input">Apellido Materno (*)</label>               
-                                      <input type="text" v-model="apellidomaterno" class="form-control" placeholder="Apellido Materno">                                        
-                                </div>
-                                <div class="col-md-3 form-group ">
-                                        <label class="form-control-label" for="text-input">Fecha de Nacimiento</label>
-                                         <input type="date" v-model="fechanacimiento" class="form-control" >    
-                                </div>
-                                <div class="col-md-3 form-group ">
-                                        <label class=" form-control-label" for="email-input">Dirección</label>
-                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección"> 
-                                </div>
-
-                                <div class="col-md-3 form-group">
-                                     <label class=" form-control-label" for="email-input">Teléfono</label>
-                                    <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono">
-                                 </div>
-
-                                <div class="col-md-3 form-group ">
-                                    <label class=" form-control-label" for="email-input">Email</label>
-                                    <input type="email" v-model="email" class="form-control" placeholder="Email">
-                                </div>
-
-                             
-                             </div>
-                                  
-
-                                     <div  v-show="errorPersona" class=" form-group col-md-12 mt-2 bg-danger">
-                                        <div class="text-center">
-                                            <div v-for="error in errorMostrarMsjPersona" :key="error">
-                                            <mark class="bg-danger text-white col-md-12" ><i class="fa fa-exclamation-triangle"></i> {{error}}</mark>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </form>
-                      
-                        
-                        <!-- Modal footer -->
+            <!-- INICIO PAGO DE CUOTA -->
+        <template v-if="showpagocuota">
+         <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
                       <div class="row">
-                          <div class="col-md-6">
-                               <button type="button" class="btn btn-secondary col-md-12" @click="cerrarModal()">Cerrar</button></div>
-                          <div class="col-md-6">
-                              <button type="button" v-if="tipoAccion==1" class="btn btn-primary col-md-12" @click="registrarPersona()">Guardar</button>
-                                <button type="button" v-if="tipoAccion==2" class="btn btn-primary col-md-12" @click="actualizarPersona()">Actualizar</button>
-                 
+                          <div class="col-md-9">
+                                <h4 class="font-weight-bold">   
+                               PAGO DE CUOTA N° {{numerocuota}}
+                                </h4> 
                           </div>
-                           
-                                   </div>
-                       </div>
-                        
+                           <div class="col-md-3">
+                               <button type="button" class="btn btn-outline-success btn-sm" @click="showpagocuota=false"><i class="fa fa-mail-reply"></i>Lista de Clientes </button>
+                           </div>
+                      </div>
+                  
+                    <hr> 
+              
+               <div class="row">
+                    <div class="col-md-12 ">  
+                         <h5 class=" text-dark"><i class="fa fa-address-book-o "></i> Datos del Cliente</h5>
+                         <hr>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="font-weight-bold">DNI</p>
+                        <p class="font-weight-light" v-text="dni"></p>
+                    </div>
+                    <div class="col-md-9">  
+                        <p class="font-weight-bold">Cliente</p>
+                        <p class="font-weight-light" v-text="nombrecliente"></p>
+                    </div>
+                    
+                </div>
+
+                 <div class="row">
+                    <div class="col-md-12">  
+                         <hr>
+                         <h5 class="text-dark"><i class="fa fa-desktop "></i> Datos del Credito</h5>
+                         <hr>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="font-weight-bold ">N° Prestamo</p>
+                        <p class="font-weight-light" v-text="numeroprestamo"></p>
+                    </div>
+                      <div class="col-md-3">
+                        <p class="font-weight-bold ">ID KIVA</p>
+                        <p class="font-weight-light" v-text="idkiva"></p>
+                    </div>
+                     <div class="col-md-3">
+                        <p class="font-weight-bold ">Tipo cambio</p>
+                        <p class="font-weight-light" v-text="tipocambio"></p>
+                    </div>
+                    <div class="col-md-3">
+                            <p class="font-weight-bold">Fecha pago</p>
+                            <p class="font-weight-light" v-text="fechapago"></p>
                     </div>
                 </div>
-       </div>
-        <!--FIN MODAL  INSERTAR Y ACTUALIZAR CLIENTE-->
+
+                 <div class="row">
+                    <div class="col-md-12">  
+                         <hr>
+                         <h5 class=""> <i class="fa fa-money  "></i> Detalle del Pago</h5>
+                        <hr>
+                    </div>
+                    <div class="col-md-6">  
+                      <table class="table table-bordered">
+                      <thead>
+                        
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Saldo Anterior Neto</td>
+                          <td v-text="'$ '+(parseFloat(saldopendientecuota)+parseFloat(montocuota))"></td>
+                        </tr>
+                       
+                        <tr>
+                          <td>Pago Neto</td>
+                          <td v-text="'S/ '+(montocuota*tipocambio).toFixed(2)"></td>
+                        </tr>
+                         <tr>
+                          <td>Otros Pagos</td>
+                          <td><input type="number" class="form-control"   v-model="otroscostoscuota"></td>
+                        </tr>
+                        <tr>
+                          <td>Interes</td>
+                          <td v-text="'S/ '+(interes*tipocambio).toFixed(2)"></td>
+                        </tr>
+                        <tr>
+                          <td>Total a Pagar</td>
+                          <td ><input type="text" class="form-control"   v-model="totalpagar"></td>
+                        </tr>
+                         
+                      </tbody>
+                    </table>
+                    </div>
+
+                     <div class="col-md-6">  
+                      <table class="table table-bordered">
+                      <thead>
+                        
+                      </thead>
+                      <tbody>
+                        
+                        <tr>
+                          <td>Saldo Actual</td>
+                          <td>53275531</td>
+                        </tr>
+                        <tr>
+                          <td>Pago Neto</td>
+                          <td>53275531</td>
+                        </tr>
+                        <tr>
+                          <td>Interes</td>
+                          <td>53275531</td>
+                        </tr>
+                        <tr>
+                          <td>Total a Pagar</td>
+                          <td>53275531</td>
+                        </tr>
+                         
+                      </tbody>
+                    </table>
+                    </div>
+                  
+                </div>
+            
+                <div class="row">
+                    <div class="col-12">
+                        <p class="font-weight-bold">Descripción</p>
+                        <textarea rows="4" cols="50" oninput="this.value = this.value.toUpperCase();" v-model="descpagocuota"></textarea>
+                    </div>
+                </div>
+                <div v-if="!showpagoporcion" class="col-12">
+                    <button type="button" class="btn btn-primary" @click="showpagoporcion=true;">Pagar porción</button>
+                    <button type="button" class="btn btn-success" @click="pagarCuota">Confirmar pago</button>
+                </div>
+                </div>
+            </div>
+            </div>
+         </div>
+        </template>
+    <!-- FIN PAGO DE CUOTA -->
+
     </main>
 </template>
 
@@ -213,6 +378,24 @@
                 email : '',
                 estado_per : 1,
 
+                //datos de cuota
+                idcuota:0,
+                numerocuota:0,
+                idkiva:'',
+                numeroprestamo:0,
+                nombrecliente:'',
+                fechakiva:'',
+                dni:'',
+                fechapago:'',
+                montocuota:0.0,
+                totalpagar:0.0,
+               
+                interes:0.0,
+            
+                otroscostoscuota:0,
+                saldopendientecuota:0.0,
+                tipocambio:0.0,
+
                 //datos del cliente
                 estado_cli : '',
                
@@ -230,10 +413,14 @@
                     'from' : 0,
                     'to' : 0,
                 },
+                        
+                
                 offset : 3,
                 criterio : 'nombre',
-                buscar : ''
+                buscar : '',
+                 showpagocuota: false,
             }
+            
         },
         computed:{
             isActived: function(){
@@ -346,6 +533,57 @@
                     console.log(error);
                 }); 
             },  
+
+            //CUOTA PAGAR
+            obtenerCuotaDeCliente(dni){
+                let me=this;
+                axios.get(this.ruta+'/cuota?dni='+dni)
+                    .then(res => {
+                    let cuotas = res.data.cuotas;
+                    let fechahoy = res.data.fechahoy;
+
+                    this.fechahoy = fechahoy;
+
+                    if(cuotas.length == 0)
+                        Swal.fire({
+                        title: 'El cliente no tiene cuotas a pagar',
+                        animation: true,
+                        customClass: {
+                            popup: 'animated tada'
+                        }
+                        })
+                    else if (cuotas.length == 1){
+                      this.idcuota = cuotas[0].id;
+                       this.numeroprestamo = cuotas[0].numeroprestamo;
+                       this.numerocuota = cuotas[0].numerocuota;
+                      this.idkiva = cuotas[0].idkiva;
+                      this.nombrecliente = cuotas[0].nombre + " " + cuotas[0].apellidopaterno + " " + cuotas[0].apellidomaterno;
+                      this.dni = cuotas[0].dni;
+                      this.fechapago = cuotas[0].fechapago;
+                       this.fechakiva = cuotas[0].fechakiva;
+                      this.montocuota = cuotas[0].monto;
+                    //  this.otroscostoscuota = cuotas[0].otroscostos;   
+                       this.tipocambio = cuotas[0].tipocambio;                   
+                      this.saldopendientecuota = cuotas[0].saldopendiente;
+
+                      this.interes=
+                          ((cuotas[0].montodesembolsado*(cuotas[0].tasa/100))
+                          )/cuotas[0].numerocuotas;
+
+                    this.totalpagar=(((parseFloat(this.montocuota)+parseFloat(this.interes))*this.tipocambio)).toFixed(2);
+                    
+                      //this.montodesembolsado=cuotas[0].montodesembolsado;
+                     //  this.tasa=cuotas[0].tasa;
+                      // this.cantidadcuotas=cuotas[0].numerocuotas
+
+                        this.showpagocuota = true;
+                         //this.showpagocuota = true;
+                    }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+                },
 
             //SIMULA QUE UN CLIENTE HA SIDO ELIMINADO/ ESTADO CLIENTE  A 0
             desactivarCliente(id,estadocredito){

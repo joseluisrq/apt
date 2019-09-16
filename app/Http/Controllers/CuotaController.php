@@ -25,8 +25,14 @@ class CuotaController extends Controller
             ->join('personas', 'personas.id', '=', 'creditos.idcliente')
             ->select(
                 'creditos.idkiva',
+                'creditos.numeroprestamo',
                 'creditos.tipocambio',
+                'creditos.fechakiva',
+                'creditos.tasa',
+                'creditos.numerocuotas',
+                'creditos.montodesembolsado',
                 'cuotas.id',
+                'cuotas.numerocuota',
                 'cuotas.fechacancelacion',
                 'cuotas.fechapago',
                 'cuotas.monto',
@@ -49,7 +55,12 @@ class CuotaController extends Controller
                 ->select(
                     'creditos.idkiva',
                     'creditos.tipocambio',
+                    'creditos.numeroprestamo',
+                    'creditos.montodesembolsado',
+                    'creditos.numerocuotas',
+                    'creditos.tasa',
                     'cuotas.id',
+                    'cuotas.numerocuota',
                     'cuotas.fechacancelacion',
                     'cuotas.fechapago',
                     'cuotas.monto',

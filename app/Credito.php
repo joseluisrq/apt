@@ -14,6 +14,7 @@ class Credito extends Model
         'idkiva',
         'montodesembolsado',
         'fechadesembolso',
+        'fechakiva',
         'numerocuotas',
         'tipocambio',
         'tasa',

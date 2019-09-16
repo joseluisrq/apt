@@ -30,6 +30,7 @@ class CreditoController extends Controller
                 'creditos.idkiva',
                  'creditos.montodesembolsado',
                 'creditos.fechadesembolso',
+               
                 'creditos.numerocuotas',
                 'creditos.tipocambio',
                 'creditos.tasa',
@@ -306,6 +307,7 @@ class CreditoController extends Controller
             $credito->idkiva = $request->idkiva;
             $credito->montodesembolsado = $request->montodesembolsado;
             $credito->fechadesembolso = $request->fechadesembolso; 
+            $credito->fechakiva = $request->fechakiva; 
             $credito->numerocuotas = $request->numerocuotas; //cantidad de cuiotas
             $credito->tipocambio = $request->tipocambio; //de dolares a soles
             $credito->tasa = $request->tasa;

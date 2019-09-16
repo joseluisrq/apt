@@ -56,6 +56,11 @@
                                      (Obligatorio)</span></label>
                                 <input type="date" class="form-control" v-model="fechadesembolso"  placeholder="" >
                             </div>
+                             <div class="form-group col-md-3">
+                                <label for="exampleInputPassword1">Fecha de Aprobación<span class="text-danger "   v-show="fechakiva==''">
+                                     (Obligatorio)</span></label>
+                                <input type="date" class="form-control" v-model="fechakiva"  placeholder="" >
+                            </div>
                             <div class="form-group col-md-3">
                                 <label for="exampleInputPassword1">Número Cuotas:<span class="text-danger "   v-show="numerocuotas==0">
                                      (Obligatorio)</span></label>
@@ -336,6 +341,7 @@ import vSelect from 'vue-select'
                 idkiva : '',
                 montodesembolsado : 0.0,
                 fechadesembolso : '',
+                 fechakiva : '',
                 numerocuotas : 0,
                 tipocambio : 0.0,
                 tasa : 13,
@@ -514,7 +520,7 @@ import vSelect from 'vue-select'
                 let me=this;
                
 
-                if(this.idkiva==0||this.numeroprestamo==''||this.montodesembolsado==0 ||this.numerocuotas==0 ||this.tipocambio==0 ||this.fechadesembolso==''){
+                if(this.idkiva==0||this.numeroprestamo==''||this.montodesembolsado==0 ||this.numerocuotas==0 ||this.tipocambio==0 ||this.fechakiva=='' ||this.fechadesembolso==''){
                     Swal.fire({
                         position: 'top-end',
                         type: 'error',
@@ -526,15 +532,14 @@ import vSelect from 'vue-select'
                      me.btnregistar=1;
                     var montotal=this.montodesembolsado;
                                 
-                    let interes=(parseFloat(montotal)*parseFloat(this.tasa))/100;
-                    let montoconinteres=(parseFloat(montotal) + parseFloat(interes))
-                    
-                    var montoxcuota=((montoconinteres)/this.numerocuotas).toFixed(2);
-                    var sininteres=(parseFloat(this.montodesembolsado)/this.numerocuotas)
-
-                    var pendiente=this.montodesembolsado;
+            
                     var contadoraux=1;
+                    //cuota neta
+                    var cuotaneta=(this.montodesembolsado/this.numerocuotas).toFixed(2);
+                    //saldo pendienteneto =monto desembolsado- montopor cuota
+                    var saldop=(parseFloat(this.montodesembolsado)-parseFloat(cuotaneta)).toFixed(2);
                 
+                     //FECHA
                     var e = new Date(this.fechadesembolso);
                     var dia=e.getDate()+1;
                     e.setMonth(e.getMonth() + parseInt(this.periodo));
@@ -544,29 +549,24 @@ import vSelect from 'vue-select'
 
                     for (let i = 0; i < this.numerocuotas; i++) { 
                     
-                   
-                    
-                    //monto toal menos cuota sin interes
-                    pendiente=(montotal-sininteres).toFixed(2);
-
-                    //ultima cuota
                     if((i+1)==this.numerocuotas){
-                        pendiente=0;
+                        saldop=0;
                     }
 
                     me.arrayCuota.push({
                         //(monto total+tasa)/cantidadde cuotas
                     
-                        monto:montoxcuota,
+                        monto:cuotaneta,
                         fechapago:unmesmas,
-                        saldopendiente:pendiente,
+                        saldopendiente:saldop,
                         otroscostos:0.0,
                         descripcion:'',
                         contador:contadoraux,
 
                     
                     })
-                    montotal=pendiente;
+
+                    saldop=(parseFloat(saldop)-parseFloat(cuotaneta)).toFixed(2);
                     contadoraux++;
                     
                     
@@ -576,11 +576,8 @@ import vSelect from 'vue-select'
                      e.setMonth(e.getMonth() + parseInt(this.periodo));
                       unmesmas = e.getFullYear() + "-" + ('0'+(e.getMonth()+1)).slice(-2) + "-" + ('0'+dia).slice(-2);
                    
-                  
                     }
-                
-
-
+    
                     this.listacuotas=1;
 
                  }//fin del else
@@ -606,11 +603,7 @@ import vSelect from 'vue-select'
                     confirmButtonText: 'Si'
                     }).then((result) => {
                     if (result.value) {
-                        Swal.fire(
-                        'CREADO',
-                        'El credito ha sido registrado en la base de datos',
-                        'success'
-                        )
+                      
 
 
                                     axios.post(this.ruta+'/credito/registrar',{
@@ -619,6 +612,7 @@ import vSelect from 'vue-select'
                                 'idkiva': this.idkiva,
                                 'montodesembolsado': this.montodesembolsado,
                                 'fechadesembolso' : this.fechadesembolso,
+                                'fechakiva' : this.fechakiva,
                                 'numerocuotas' : this.numerocuotas,
                                 'tipocambio' : this.tipocambio,
                                 'tasa' : this.tasa,
@@ -631,7 +625,11 @@ import vSelect from 'vue-select'
                             }).then(function (response) {
 
                             
-                            
+                                  Swal.fire(
+                        'CREADO',
+                        'El credito ha sido registrado en la base de datos',
+                        'success'
+                        )
                             
                                 me.listado=0;
                                 me.listarCredito();
@@ -658,6 +656,7 @@ import vSelect from 'vue-select'
                 if (!this.numeroprestamo) this.errorMostrarMsjCredito.push("Ingrese el número de prestamo");
                 if (this.montodesembolsado==0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
                 if (!this.fechadesembolso) this.errorMostrarMsjCredito.push("Seleccione una fecha de desembolso");
+                if (!this.fechakiva) this.errorMostrarMsjCredito.push("Seleccione una fecha de Aprobación");
                 if (this.numerocuotas==0) this.errorMostrarMsjCredito.push("Ingrese el número de cuotas");
                 if (this.tipocambio==0) this.errorMostrarMsjCredito.push("Ingrese el tipo de cambio");
                 if (this.tasa==0) this.errorMostrarMsjCredito.push("La tasa de interes no puede ser 0");

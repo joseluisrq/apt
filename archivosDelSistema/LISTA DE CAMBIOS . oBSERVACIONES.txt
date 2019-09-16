@@ -1,0 +1,44 @@
+Fecha de aprobacion de kiva: 
+detalle de cretio baoucher de desembolso: tipo boleta
+2 hoas del detalle de las cuotas
+
+
+Detalle de credito boton para pagar cuota
+Todos los pagosa que aparescan en soles
+
+
+Redeondeo de decimales de las cuotas en el boucher
+id kiva en el boucher del detalel de cuota
+
+
+enbcre<r cuota solo puede ecitar fecha de pago, otros pagos, descripcion
+verificar el pago de otros
+
+
+editar creidto cliente, prestamos , kiva
+cuando edita el cliente al que saae haliberado que quede sin credito
+
+
+
+elimina desabilitado
+y habilidado, credito.
+solo se puede habilitar si el ciente no tiene otro credito
+
+Filtrar por nombres
+
+
+
+DETALLE DEL KIVA
+12 DE CADA MES FECHA DE VENCIMIENTO
+DEL MES ANTERIOR ENVIAN HASTA EL 12 DEMES PRESENTE
+CAPITAL POR DEBER DEL CREDITO SININTERESES N° CREDITO
+CUOTAS DE PAGO OQUE PERTENECESN AL MES DEL REPORTE
+
+
+SE ENVIA TODOS LOS PAGOS
+AH SINO AYAN PAGO
+
+
+
+ESTADO DE MOROSO SALE TODOS LOS MESES 
+ 

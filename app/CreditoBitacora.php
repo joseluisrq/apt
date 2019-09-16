@@ -18,20 +18,10 @@ class CreditoBitacora extends Model
         'numeroprestamo_n',
         'idkiva_v',
         'idkiva_n',
-        'montodesembolsado_v',
-        'montodesembolsado_n',
-        'fechadesembolso_v',
-        'fechadesembolso_n',
-        'numerocuotas_v',
-        'numerocuotas_n',
-        'tipocambio_v',
-        'tipocambio_n',
-        'tasa_v',
-        'tasa_n',
+        'fechakiva_v',
+        'fechakiva_n',
         'estado_v',
         'estado_n',
-        'periodo_n',
-        'periodo_v',
         'condicion'
     ];
 /*usuario que ha registrado el credito

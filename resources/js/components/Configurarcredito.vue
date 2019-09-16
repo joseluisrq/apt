@@ -287,22 +287,7 @@
                     <hr>
                     <h4 class="text-center"> Modificaciones de Creditos</h4> 
                     <hr> 
-                    <!--<div class="form-group row">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="input-group">
-                                <select class="form-control col-md-4">
-                                    <option value="numeroprestamo">Número de prestamo</option>
-                                    <option value="idkiva">ID kiva</option>
-                                    <option value="dni">DNI Cliente</option>
-                                    <option value="fechadesembolso">Fecha de Desembolso </option>
-                                </select> 
-                                <input type="text" placeholder="Texto a buscar" class="form-control form-control-lg">
-                                <button type="submit" class="btn btn-outline-dark btn-sm">
-                                    <i class="fa fa-search"></i> Buscar
-                                </button>
-                            </div>
-                        </div>
-                    </div> -->
+                   
                     <div class="table-responsive">
                         <table class="table  table-bordered ">
                             <thead class="table-bordered ">
@@ -331,45 +316,19 @@
                                             <label class="badge badge-success" style="font-size:14px;"> {{bit.idkiva_n}}</label>
                                             <label class="badge badge-warning" style="font-size:14px;">{{bit.idkiva_v}}</label>
                                         </p>
-                                        <p v-if="bit.montodesembolsado_n!=bit.montodesembolsado_v">
-                                            MONTO DESEMB: 
-                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.montodesembolsado_n}}</label>
-                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.montodesembolsado_v}}</label>
-                                        </p>
-                                        <p v-if="bit.fechadesembolso_n!=bit.fechadesembolso_v">
-                                            FECHA DESEMB: 
-                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.fechadesembolso_n}}</label>
-                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.fechadesembolso_v}}</label>
-                                        </p>
-                                        <p v-if="bit.numerocuotas_n!=bit.numerocuotas_v">
-                                            N° CUOTAS: 
-                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.numerocuotas_n}}</label>
-                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.numerocuotas_v}}</label>
-                                        </p>
-
-                                         <p v-if="bit.tipocambio_n!=bit.tipocambio_v">
-                                            N° CUOTAS: 
-                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.tipocambio_n}}</label>
-                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.tipocambio_v}}</label>
-                                        </p>
-
-                                         <p v-if="bit.tasa_n!=bit.tasa_v">
-                                            TASA: 
-                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.tasa_n}}</label>
-                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.tasa_v}}</label>
-                                        </p>
-
+                                       
                                        <p v-if="bit.estado_n!=bit.estado_v">
                                             ESTADO: 
                                             <label class="badge badge-success" style="font-size:14px;" v-if="bit.estado_n==2"> CREDITO TERMINADO</label>
+                                            <label class="badge badge-success" style="font-size:14px;" v-else-if="bit.estado_n==1"> EN PROCESO</label>
+                                            <label class="badge badge-danger" style="font-size:14px;" v-else-if="bit.estado_n==0"> CREDITO INACTIVO</label>
+
                                             <label class="badge badge-warning" style="font-size:14px;" v-if="bit.estado_v==1">EN PROCESO</label>
+                                            <label class="badge badge-success" style="font-size:14px;" v-else-if="bit.estado_v==2"> CREDITO TERMINADO</label>
+                                             <label class="badge badge-danger" style="font-size:14px;" v-else-if="bit.estado_v==0"> CREDITO INACTIVO</label>
                                         </p>
 
-                                         <p v-if="bit.periodo_n!=bit.periodo_v">
-                                            PERIODO: 
-                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.periodo_n}}</label>
-                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.periodo_v}}</label>
-                                        </p>
+                                        
                                         <span>**********************************************</span>
 
                                         
