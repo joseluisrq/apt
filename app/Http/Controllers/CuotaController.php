@@ -183,7 +183,7 @@ class CuotaController extends Controller
                 $credito->save();
 
                 $idpersona = $request->idpersona;
-                $cliente = Credito::findOrFail($idpersona);
+                $cliente = Cliente::findOrFail($idpersona);
                 $cliente->estadocredito = "0";//Crédito finalizado
                 $cliente->save();
             }

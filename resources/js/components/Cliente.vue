@@ -644,7 +644,7 @@
 
                         swalWithBootstrapButtons.fire({
                         title: 'Elimnar Cliente',
-                       text: "¿Está seguro de eliminar a este cliente?",
+                        text: "¿Está seguro de eliminar a este cliente?",
                         type: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'Aceptar',
@@ -795,6 +795,7 @@
                      let cuotaid = this.idcuota;
 
                      this.generarboucher(cuotaid);
+                     this.listarPersona(1,this.buscar,this.criterio);
                      this.showpagocuota = false;
                   
                     })
@@ -811,7 +812,7 @@
                     
                    // this.limpiarDatos();
                 },
-                generarboucher(idcuota){
+            generarboucher(idcuota){
                 window.open(this.ruta + '/credito/detallecuotapdf/'+idcuota+'','_blank');
             },
             //pagar porcion cuota
@@ -849,6 +850,8 @@
                     this.descpagoporcion='',
 
                     this.showpagocuota = false;
+                    this.showpagoporcion=false;
+                    this.botoncuota=true;
                    
                     })
                     .catch(err => {

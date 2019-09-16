@@ -372,44 +372,14 @@ class CreditoController extends Controller
  
             //Buscar primero el cliente a modificar
             $credito = Credito::findOrFail($request->id);
- 
-            //$cliente = Cliente::findOrFail($credito->id);//REALIZAMOS UNA BUSQUEDA CON EL ID DEL cliente PARA BUSCAR EL 
-            //persona porque son el mismo
- 
             $credito->numeroprestamo = $request->numeroprestamo;
             $credito->idkiva = $request->idkiva;
-            $credito->montodesembolsado = $request->montodesembolsado;
-            $credito->fechadesembolso = $request->fechadesembolso;
-            $credito->numerocuotas = $request->numerocuotas;
-            $credito->tipocambio = $request->tipocambio;
-            $credito->tasa = $request->tasa;
-            $credito->periodo = $request->periodo;
             $credito->idusuario = \Auth::user()->id;
-           // $credito->periodo = $request->periodo;
-          
             $credito->save();
 
 
-            $cuotas = $request->data;//Array de cuotas
-            //Recorro todos los elementosq que me han enviado
- 
-         /*   foreach($cuotas as $ep=>$cuot)
-            {
-                $cuota =  Cuota::findOrFail($cuot['id']);
-               
-                //$cuota->idcredito = $credito->id;
-               // $cuota->numerocuota = $cuot['contador'];
-               // $cuota->idusuario=\Auth::user()->id;
-              //  $cuota->fechapago = $cuot['fechapago'];
-               $cuota->saldopendiente =  $cuot['saldopendiente']; //$cuot['fechacancelacion'];
-              $cuota->monto = $cuot['monto']; //$cuot['fechacancelacion'];   
-              //  $cuota->otroscostos =  $cuot['otroscostos'];; //$cuot['fechacancelacion'];     
-              //  $cuota->descripcion =  $cuot['descripcion']; //$cuot['fechacancelacion']; 
-               
-                             
-                $cuota->save();
-            }   
- */
+
+
              
            // $cliente->estado = '1';
             

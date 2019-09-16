@@ -17517,6 +17517,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this3.generarboucher(cuotaid);
 
+        _this3.listarPersona(1, _this3.buscar, _this3.criterio);
+
         _this3.showpagocuota = false;
       })["catch"](function (err) {
         Swal.fire({
@@ -17562,6 +17564,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }); // this.generarboucher(cuotaid);
 
         _this4.montoporcion = 0.0, _this4.otroscostosporcion = 0.0, _this4.descpagoporcion = '', _this4.showpagocuota = false;
+        _this4.showpagoporcion = false;
+        _this4.botoncuota = true;
       })["catch"](function (err) {
         Swal.fire({
           position: 'top-end',
@@ -17911,44 +17915,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -17971,6 +17937,9 @@ __webpack_require__.r(__webpack_exports__);
       dni: '0',
       apellidopaterno: '',
       apellidomaterno: '',
+      //cliente actual
+      idclienteactual: 0,
+      idclientenuevo: 0,
       //variables para cuotas
       monto: 0,
       fechapago: '',
@@ -18182,23 +18151,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    nuevoCredito: function nuevoCredito() {
-      var me = this;
-      me.idkiva = '';
-      this.listado = 1;
-      me.idcliente = 0;
-      me.numeroprestamo = ''; //me.idkiva='';
-
-      me.montodesembolsado = 0.0;
-      me.fechadesembolso = '';
-      me.numerocuotas = 0;
-      me.tipocambio = 0.0;
-      me.tasa = 0.0;
-      me.periodo = '';
-      me.arrayCuota = [];
-      me.arrayCliente = [];
-      this.listacuotas = 0;
-    },
     selectCliente: function selectCliente(search, loading) {
       var me = this;
       loading(true);
@@ -18223,41 +18175,6 @@ __webpack_require__.r(__webpack_exports__);
       me.apellidopaterno = val1.apellidopaterno;
       me.apellidomaterno = val1.apellidomaterno;
     },
-    agregarCuotas: function agregarCuotas() {
-      this.arrayCuota.length = 0;
-      var me = this;
-
-      if (this.idkiva == 0 || this.numeroprestamo == '' || this.montodesembolsado == 0) {} else {
-        var montotal = this.montodesembolsado;
-        var interes = parseFloat(montotal) * parseFloat(this.tasa) / 100;
-        var montoconinteres = (parseFloat(montotal) + parseFloat(interes)).toFixed(2);
-        var montoxcuota = (montoconinteres / this.numerocuotas).toFixed(2);
-        var sininteres = (parseFloat(this.montodesembolsado) / this.numerocuotas).toFixed(2);
-        var pendiente = this.montodesembolsado;
-        var fechapagoxcuota = this.fechadesembolso;
-        var contadoraux = 1;
-        var fecha = new Date(fechapagoxcuota);
-
-        for (var i = 0; i < this.numerocuotas; i++) {
-          // pendiente=sininteres-montoxcuota;
-          pendiente = (montotal - sininteres).toFixed(2);
-          me.arrayCuota.push({
-            //(monto total+tasa)/cantidadde cuotas
-            monto: montoxcuota,
-            fechapago: this.fechadesembolso,
-            saldopendiente: pendiente,
-            otroscostos: 0.0,
-            descripcion: '',
-            contador: contadoraux
-          });
-          montotal = pendiente;
-          contadoraux++; //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
-        }
-
-        this.listacuotas = 1;
-      } //fin del else
-
-    },
     mostrarCreditos: function mostrarCreditos() {
       this.listado = 0;
     },
@@ -18273,15 +18190,16 @@ __webpack_require__.r(__webpack_exports__);
       axios.put(this.ruta + '/credito/actualizar', {
         'numeroprestamo': this.numeroprestamo,
         'idkiva': this.idkiva,
-        'montodesembolsado': this.montodesembolsado,
-        'fechadesembolso': this.fechadesembolso,
-        'numerocuotas': this.numerocuotas,
-        'tipocambio': this.tipocambio,
-        'tasa': this.tasa,
-        'periodo': this.periodo,
+
+        /* 'montodesembolsado': this.montodesembolsado,
+         'fechadesembolso' : this.fechadesembolso,
+         'numerocuotas' : this.numerocuotas,
+         'tipocambio' : this.tipocambio,
+         'tasa' : this.tasa,
+         'periodo' : this.periodo,*/
         'idcliente': this.idcliente,
-        'id': this.credito_id,
-        'data': this.arrayCuota
+        'id': this.credito_id //'data':this.arrayCuota
+
       }).then(function (response) {
         me.listado = 2;
         me.historialcredito(1, me.buscar, me.criterio);
@@ -18302,11 +18220,13 @@ __webpack_require__.r(__webpack_exports__);
       if (this.idcliente == 0) this.errorMostrarMsjCredito.push("Seleccione un Cliente");
       if (!this.idkiva) this.errorMostrarMsjCredito.push("Ingrese el ID KIVA");
       if (!this.numeroprestamo) this.errorMostrarMsjCredito.push("Ingrese el número de prestamo");
-      if (this.montodesembolsado == 0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
+      /*if (this.montodesembolsado==0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
       if (!this.fechadesembolso) this.errorMostrarMsjCredito.push("Seleccione una fecha de desembolso");
-      if (this.numerocuotas == 0) this.errorMostrarMsjCredito.push("Ingrese el número de cuotas");
-      if (this.tipocambio == 0) this.errorMostrarMsjCredito.push("Ingrese el tipo de cambio");
-      if (this.tasa == 0) this.errorMostrarMsjCredito.push("La tasa de interes no puede ser 0"); //si al menos tenemosun error enotnces errorCredito=1
+      if (this.numerocuotas==0) this.errorMostrarMsjCredito.push("Ingrese el número de cuotas");
+      if (this.tipocambio==0) this.errorMostrarMsjCredito.push("Ingrese el tipo de cambio");
+      if (this.tasa==0) this.errorMostrarMsjCredito.push("La tasa de interes no puede ser 0");
+          */
+      //si al menos tenemosun error enotnces errorCredito=1
 
       if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
       return this.errorCredito;
@@ -59638,541 +59558,7 @@ var render = function() {
                           })
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "form-group col-md-3" }, [
-                          _c(
-                            "label",
-                            { attrs: { for: "exampleInputPassword1" } },
-                            [
-                              _vm._v("Monto"),
-                              _c(
-                                "span",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.montodesembolsado == 0,
-                                      expression: "montodesembolsado==0"
-                                    }
-                                  ],
-                                  staticClass: "text-danger "
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                     (Obligatorio)"
-                                  )
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.montodesembolsado,
-                                expression: "montodesembolsado"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              type: "number",
-                              step: "any",
-                              placeholder: ""
-                            },
-                            domProps: { value: _vm.montodesembolsado },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.montodesembolsado = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group col-md-3" }, [
-                          _c(
-                            "label",
-                            { attrs: { for: "exampleInputPassword1" } },
-                            [
-                              _vm._v("Fecha "),
-                              _c(
-                                "span",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.fechadesembolso == "",
-                                      expression: "fechadesembolso==''"
-                                    }
-                                  ],
-                                  staticClass: "text-danger "
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                     (Obligatorio)"
-                                  )
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.fechadesembolso,
-                                expression: "fechadesembolso"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "date", placeholder: "" },
-                            domProps: { value: _vm.fechadesembolso },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.fechadesembolso = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group col-md-3" }, [
-                          _c(
-                            "label",
-                            { attrs: { for: "exampleInputPassword1" } },
-                            [
-                              _vm._v("N° Cuotas:"),
-                              _c(
-                                "span",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.numerocuotas == 0,
-                                      expression: "numerocuotas==0"
-                                    }
-                                  ],
-                                  staticClass: "text-danger "
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                     (Obligatorio)"
-                                  )
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.numerocuotas,
-                                expression: "numerocuotas"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              type: "number",
-                              placeholder: "Número Cuotas"
-                            },
-                            domProps: { value: _vm.numerocuotas },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.numerocuotas = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group col-md-3" }, [
-                          _c(
-                            "label",
-                            { attrs: { for: "exampleInputPassword1" } },
-                            [
-                              _vm._v("Tipo de Cambio"),
-                              _c(
-                                "span",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.tipocambio == 0,
-                                      expression: "tipocambio==0"
-                                    }
-                                  ],
-                                  staticClass: "text-danger "
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                     (Obligatorio)"
-                                  )
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.tipocambio,
-                                expression: "tipocambio"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              type: "number",
-                              placeholder: "Número Cuotas"
-                            },
-                            domProps: { value: _vm.tipocambio },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.tipocambio = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group col-md-3" }, [
-                          _c(
-                            "label",
-                            { attrs: { for: "exampleInputPassword1" } },
-                            [
-                              _vm._v("Tasa de Interes"),
-                              _c(
-                                "span",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.tasa == 0,
-                                      expression: "tasa==0"
-                                    }
-                                  ],
-                                  staticClass: "text-danger "
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                     (Obligatorio)"
-                                  )
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.tasa,
-                                expression: "tasa"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: {
-                              type: "number",
-                              placeholder: "Número Cuotas"
-                            },
-                            domProps: { value: _vm.tasa },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.tasa = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group col-md-3" }, [
-                          _c(
-                            "label",
-                            { attrs: { for: "exampleFormControlSelect1" } },
-                            [_vm._v("Periodo")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.periodo,
-                                  expression: "periodo"
-                                }
-                              ],
-                              staticClass: "form-control form-control-lg",
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.periodo = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                }
-                              }
-                            },
-                            [
-                              _c("option", { attrs: { value: "1" } }, [
-                                _vm._v("Mensual")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "2" } }, [
-                                _vm._v("Bimestral")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "3" } }, [
-                                _vm._v("Trimestral")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "6" } }, [
-                                _vm._v("Semestral")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "12" } }, [
-                                _vm._v("Anual")
-                              ])
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "form-group col-12" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-warning mr-2",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.agregarCuotas()
-                                }
-                              }
-                            },
-                            [_vm._v(" Generar Nuevas Cuotas")]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("hr"),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-12 mt-4" }, [
-                          _c("div", { staticClass: "table-responsive" }, [
-                            _c("table", { staticClass: "table" }, [
-                              _vm._m(0),
-                              _vm._v(" "),
-                              _vm.arrayCuota.length
-                                ? _c(
-                                    "tbody",
-                                    _vm._l(_vm.arrayCuota, function(cuota) {
-                                      return _c("tr", { key: cuota.id }, [
-                                        _c("td", {
-                                          domProps: {
-                                            textContent: _vm._s(
-                                              cuota.numerocuota
-                                            )
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: cuota.monto,
-                                                expression: "cuota.monto"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              type: "number",
-                                              placeholder: "Número Cuotas"
-                                            },
-                                            domProps: { value: cuota.monto },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  cuota,
-                                                  "monto",
-                                                  $event.target.value
-                                                )
-                                              }
-                                            }
-                                          })
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: cuota.saldopendiente,
-                                                expression:
-                                                  "cuota.saldopendiente"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              type: "number",
-                                              placeholder: "Número Cuotas"
-                                            },
-                                            domProps: {
-                                              value: cuota.saldopendiente
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  cuota,
-                                                  "saldopendiente",
-                                                  $event.target.value
-                                                )
-                                              }
-                                            }
-                                          })
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: cuota.fechapago,
-                                                expression: "cuota.fechapago"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              type: "date",
-                                              placeholder: "Número Cuotas"
-                                            },
-                                            domProps: {
-                                              value: cuota.fechapago
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  cuota,
-                                                  "fechapago",
-                                                  $event.target.value
-                                                )
-                                              }
-                                            }
-                                          })
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: cuota.otroscostos,
-                                                expression: "cuota.otroscostos"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              type: "number",
-                                              placeholder: "Número Cuotas"
-                                            },
-                                            domProps: {
-                                              value: cuota.otroscostos
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  cuota,
-                                                  "otroscostos",
-                                                  $event.target.value
-                                                )
-                                              }
-                                            }
-                                          })
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: cuota.descripcion,
-                                                expression: "cuota.descripcion"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              type: "text",
-                                              placeholder: "Número Cuotas"
-                                            },
-                                            domProps: {
-                                              value: cuota.descripcion
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  cuota,
-                                                  "descripcion",
-                                                  $event.target.value
-                                                )
-                                              }
-                                            }
-                                          })
-                                        ])
-                                      ])
-                                    }),
-                                    0
-                                  )
-                                : _c("tbody", [_vm._m(1)])
-                            ])
-                          ])
-                        ])
+                        _c("hr")
                       ]),
                       _vm._v(" "),
                       _c(
@@ -60378,7 +59764,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "table-responsive" }, [
                       _c("table", { staticClass: "table  table-bordered " }, [
-                        _vm._m(2),
+                        _vm._m(0),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -60652,7 +60038,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "table-responsive" }, [
                       _c("table", { staticClass: "table  table-bordered " }, [
-                        _vm._m(3),
+                        _vm._m(1),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -60831,38 +60217,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Cuota")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Monto")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Saldo Pendiente")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Fecha de Pago")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Otros Pagos")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Descripcion")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { attrs: { colspan: "6" } }, [
-        _vm._v(
-          "\n                                                Indique la cantidad de cuotas\n                                            "
-        )
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

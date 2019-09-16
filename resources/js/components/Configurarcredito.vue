@@ -48,51 +48,13 @@
 
                                 <input type="text" class="form-control"   v-model="idkiva"  placeholder="Identificador KIVA">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Monto<span class="text-danger "   v-show="montodesembolsado==0">
-                                     (Obligatorio)</span></label>
-                                <input type="number" class="form-control" step="any" v-model="montodesembolsado"  placeholder="">
-                                 
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Fecha <span class="text-danger "   v-show="fechadesembolso==''">
-                                     (Obligatorio)</span></label>
-                                <input type="date" class="form-control" v-model="fechadesembolso"  placeholder="">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">N° Cuotas:<span class="text-danger "   v-show="numerocuotas==0">
-                                     (Obligatorio)</span></label>
-                                <input type="number" class="form-control"  v-model="numerocuotas" placeholder="Número Cuotas">
-                            </div>
-                             <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Tipo de Cambio<span class="text-danger "   v-show="tipocambio==0">
-                                     (Obligatorio)</span></label>
-                                <input type="number" class="form-control"  v-model="tipocambio"   placeholder="Número Cuotas">
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="exampleInputPassword1">Tasa de Interes<span class="text-danger "   v-show="tasa==0">
-                                     (Obligatorio)</span></label>
-                                <input type="number" class="form-control"  v-model="tasa"   placeholder="Número Cuotas">
-                            </div>
-                             <div class="form-group col-md-3">
-                                <label for="exampleFormControlSelect1">Periodo</label>
-                                <select class="form-control form-control-lg" v-model="periodo">
-                                <option value="1">Mensual</option>
-                                <option value="2">Bimestral</option>
-                                <option value="3">Trimestral</option>
-                                <option value="6">Semestral</option>
-                                <option value="12">Anual</option>
-                                </select>
-                            </div>
+                            
 
-                             <div class="form-group col-12">
-                                <button type="button"  class="btn btn-warning mr-2" @click="agregarCuotas()"> Generar Nuevas Cuotas</button>
                              
-                             </div>
                             
                             <hr>
                         <!--tabla de cuotas--> 
-                            <div class="col-12 mt-4">
+                           <!-- <div class="col-12 mt-4">
                                 <div class="table-responsive">
                                     <table class="table">
                                     <thead>
@@ -137,7 +99,7 @@
                                     </tbody>
                                     </table>
                                 </div>
-                            </div>
+                            </div>-->
                          <!--fin de tabla cuotas-->
                         </div>
 
@@ -380,6 +342,10 @@ import vSelect from 'vue-select'
                 dni:'0',
                 apellidopaterno:'',
                 apellidomaterno:'',
+
+                //cliente actual
+                idclienteactual:0,
+                idclientenuevo:0,
 
 //variables para cuotas
                 monto:0,
@@ -626,25 +592,7 @@ import vSelect from 'vue-select'
                         })
 
             },
-            nuevoCredito(){
-                let me=this;
-                    me.idkiva='';
-                    this.listado=1;
-                    me.idcliente=0;
-                    me.numeroprestamo='';
-                    //me.idkiva='';
-                    me.montodesembolsado=0.0;
-                    me.fechadesembolso='';
-                    me.numerocuotas=0;
-                    me.tipocambio=0.0;
-                    me.tasa=0.0;
-                    me.periodo='';
-
-                    me.arrayCuota=[];
-                    me.arrayCliente=[];
-
-                      this.listacuotas=0;
-            },
+       
 
             selectCliente(search, loading){
                  let me=this;
@@ -672,59 +620,7 @@ import vSelect from 'vue-select'
             },
           
 
-            agregarCuotas(){
-                
-                this.arrayCuota.length=0;
-                let me=this;
-
-                if(this.idkiva==0||this.numeroprestamo==''||this.montodesembolsado==0){
-
-                }else{
-
-                    var montotal=this.montodesembolsado;
-                                
-                    let interes=(parseFloat(montotal)*parseFloat(this.tasa))/100;
-                    let montoconinteres=(parseFloat(montotal) + parseFloat(interes)).toFixed(2);
-                    
-                    var montoxcuota=((montoconinteres)/this.numerocuotas).toFixed(2);
-                    var sininteres=(parseFloat(this.montodesembolsado)/this.numerocuotas).toFixed(2);
-
-                    var pendiente=this.montodesembolsado;
-                    var fechapagoxcuota=this.fechadesembolso;
-                    var contadoraux=1;
-                
-                var fecha = new Date(fechapagoxcuota);
-
-                    for (let i = 0; i < this.numerocuotas; i++) { 
-                    
-                    // pendiente=sininteres-montoxcuota;
-                    pendiente=(montotal-sininteres).toFixed(2);
-
-                    me.arrayCuota.push({
-                        //(monto total+tasa)/cantidadde cuotas
-                    
-                        monto:montoxcuota,
-                        fechapago:this.fechadesembolso,
-                        saldopendiente:pendiente,
-                        otroscostos:0.0,
-                        descripcion:'',
-                        contador:contadoraux,
-
-                    
-                    })
-                    montotal=pendiente;
-                    contadoraux++;
-                    //fechapagoxcuota=fechapagoxcuota.getTime()+semanaEnMilisegundos;
-                    }
-                
-
-
-                    this.listacuotas=1;
-
-                 }//fin del else
-               
-            },
-
+       
             mostrarCreditos(){
                 this.listado=0;
             },
@@ -742,17 +638,17 @@ import vSelect from 'vue-select'
 
                     'numeroprestamo': this.numeroprestamo,
                     'idkiva': this.idkiva,
-                    'montodesembolsado': this.montodesembolsado,
+                   /* 'montodesembolsado': this.montodesembolsado,
                     'fechadesembolso' : this.fechadesembolso,
                     'numerocuotas' : this.numerocuotas,
                     'tipocambio' : this.tipocambio,
                     'tasa' : this.tasa,
-                    'periodo' : this.periodo,
+                    'periodo' : this.periodo,*/
                     'idcliente' : this.idcliente,
 
                      'id': this.credito_id,
 
-                    'data':this.arrayCuota
+                    //'data':this.arrayCuota
                    
 
                 }).then(function (response) {
@@ -786,12 +682,12 @@ import vSelect from 'vue-select'
                 if (this.idcliente==0) this.errorMostrarMsjCredito.push("Seleccione un Cliente");
                 if (!this.idkiva) this.errorMostrarMsjCredito.push("Ingrese el ID KIVA");
                 if (!this.numeroprestamo) this.errorMostrarMsjCredito.push("Ingrese el número de prestamo");
-                if (this.montodesembolsado==0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
+                /*if (this.montodesembolsado==0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
                 if (!this.fechadesembolso) this.errorMostrarMsjCredito.push("Seleccione una fecha de desembolso");
                 if (this.numerocuotas==0) this.errorMostrarMsjCredito.push("Ingrese el número de cuotas");
                 if (this.tipocambio==0) this.errorMostrarMsjCredito.push("Ingrese el tipo de cambio");
                 if (this.tasa==0) this.errorMostrarMsjCredito.push("La tasa de interes no puede ser 0");
-
+                    */
                 //si al menos tenemosun error enotnces errorCredito=1
                 if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
 
