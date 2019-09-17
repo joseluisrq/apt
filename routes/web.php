@@ -13,7 +13,8 @@
 //middelware usuarios invitados
 Route::group(['middleware'=>['guest']],function(){
     Route::get('/','Auth\LoginController@mostrarFormularioLogin'); 
-    Route::post('/login','Auth\LoginController@login')->name('login'); 
+    Route::post('/login','Auth\LoginController@login')->name('login');
+    Route::get('credito/export', 'CreditoController@export'); 
 });
 
 //usuarios autentificados

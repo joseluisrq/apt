@@ -9,6 +9,10 @@ use Carbon\Carbon;
 use App\Credito;
 use App\Cuota;
 
+use App\Exports\CreditoExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
+
 
 class CreditoController extends Controller
 {
@@ -510,5 +514,10 @@ class CreditoController extends Controller
                 'cuotas'=>$cuotas]);
             return $pdf->download('Cuota-'.$numerocredito[0]->numerocuota.'.pdf');
         
+    }
+    public function export() 
+    {
+        return Excel::download(new CreditoExport, 'creditos.xlsx');
+    
     }
 }
