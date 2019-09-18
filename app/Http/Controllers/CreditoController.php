@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Credito;
+use App\User;
 use App\Cuota;
 
 use App\Exports\CreditoExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
-
+use App\Notifications\NotificacionAdmin;
 
 class CreditoController extends Controller
 {
@@ -346,7 +347,27 @@ class CreditoController extends Controller
             $cliente = Cliente::findOrFail($request->idcliente);
             $cliente->estadocredito = '1';
             $cliente->save();
- 
+            
+            //guardar notificacion
+            $fechaactual=date('Y-m-d');
+            $numCredito=DB::table('creditos')->whereDate('created_at',$fechaactual)->count();
+
+            $arregloDatos=[
+                'creditos'=>[
+                    'numero'=>$numCredito,
+                    'msj'=>'Creditos'
+                ]
+            ];
+            $allUsers=User::all();
+            foreach($allUsers as $notificar){
+                User::findOrFail($notificar->id)->notify(new NotificacionAdmin($arregloDatos));
+            }
+
+
+
+
+
+
             DB::commit();
         } catch (Exception $e){
             DB::rollBack();

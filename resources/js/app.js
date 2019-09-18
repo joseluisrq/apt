@@ -32,6 +32,7 @@ Vue.component('ayuda', require('./components/Ayuda.vue').default);
 Vue.component('acerca', require('./components/Acerca.vue').default);
 
 Vue.component('cuota', require('./components/Cuota.vue').default);
+Vue.component('notificacion', require('./components/Notificacion.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -42,6 +43,17 @@ const app = new Vue({
     el: '#app',
     data: {
         menu: 0,
+        notificacion: [],
         ruta: 'http://localhost/apt/public'
+    },
+    created() {
+        let me = this;
+        axios.post('notification/get').then(function(response) {
+            //console.log(response.data);
+            me.notificacion = response.data;
+        }).catch(function(error) {
+            console.log(error);
+        });
+
     }
 });

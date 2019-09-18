@@ -21,7 +21,10 @@ Route::group(['middleware'=>['guest']],function(){
 Route::group(['middleware'=>['auth']],function(){
         //cerrar sesion
         Route::post('/cerrarsesion','Auth\LoginController@cerrarSesion')->name('cerrarsesion'); 
-         //Vista principal
+        
+        //notificacion
+        Route::post('/notification/get','NotificationController@get');
+        //Vista principal
         Route::get('/main', function () {
             return view('contenido/contenido');
         })->name('main');
