@@ -12,11 +12,11 @@ const mix = require('laravel-mix');
  */
 
 //mix.js('resources/js/app.js', 'public/js')
- //   .sass('resources/sass/app.scss', 'public/css');
+//   .sass('resources/sass/app.scss', 'public/css');
 
 
 mix.styles([
-       // 'resources/plantilla/css/font-awesome.min.css',
+        // 'resources/plantilla/css/font-awesome.min.css',
         'resources/plantilla/css/bootstrap.min.css',
         'resources/plantilla/css/vendor.bundle.addons.css',
         'resources/plantilla/css/vendor.bundle.base.css',
@@ -27,16 +27,22 @@ mix.styles([
         'resources/plantilla/js/popper.min.js',
         'resources/plantilla/js/off-canvas.js',
         'resources/plantilla/js/bootstrap.min.js',
-        
+
         //'resources/plantilla/js/misc.js',
         'resources/plantilla/js/vendor.bundle.base.js',
         'resources/plantilla/js/vendor.bundle.addons.js',
-      
-        'resources/plantilla/js/dashboard.js',  
+
+        'resources/plantilla/js/dashboard.js',
         'resources/plantilla/js/Chart.min.js',
-        'resources/plantilla/js/pace.min.js',   
-        'resources/plantilla/js/template.js',   
+        'resources/plantilla/js/pace.min.js',
+        'resources/plantilla/js/template.js',
         'resources/plantilla/js/sweetalert2.js',
-       
+
     ], 'public/js/plantilla.js')
-    .js(['resources/js/app.js'], 'public/js/app.js')
+    .js([
+
+
+        'resources/js/app.js',
+
+
+    ], 'public/js/app.js')

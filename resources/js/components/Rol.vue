@@ -79,6 +79,8 @@
 </template>
 
 <script>
+    import  {mapState } from "vuex";
+ 
     export default {
          props : ['ruta'],
         data (){
@@ -130,7 +132,8 @@
                 }
                 return pagesArray;             
 
-            }
+            },
+          //  ...mapState(['titulo'])
         },
         methods : {
             listarRol (page,buscar,criterio){

@@ -47,8 +47,10 @@ class CreditoExport implements FromView
                'cuotas.idcredito',
                 DB::raw('SUM(cuotas.monto) as montosporcredito')
 
-            )->get(),
-            'creditos'=>Cuota::join('creditos','idcredito','creditos.id')
+            )
+           
+            ->get()
+         /*   'creditos'=>Cuota::join('creditos','idcredito','creditos.id')
             ->where('creditos.estado', '=', '1') //CREDITOS ACTIVOS
             ->where ('cuotas.estado', '=', '1')  //CUOTAS PAGADAS
             ->whereMonth('cuotas.fechapago', '<', $dateMes) //CUOTAS QUE SU FECHA ES EL MES PASADO
@@ -57,7 +59,7 @@ class CreditoExport implements FromView
                 'creditos.montodesembolsado',
                 'creditos.numeroprestamo',
                 'creditos.id') 
-            ->get()
+            ->get()*/
 
         ]);
     }
