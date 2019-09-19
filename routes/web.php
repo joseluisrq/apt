@@ -98,6 +98,8 @@ Route::group(['middleware'=>['auth']],function(){
             //bitacora Creditos
             Route::get('/bitacoracredito/cambiosRegistrados', 'CreditoBitacoraController@cambiosRegistrados');
           
+            //notificaicones
+            Route::get('/notification/notificacionCuotas','NotificationController@notificacionCuotas');
         });
 
       

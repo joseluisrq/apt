@@ -31,12 +31,22 @@ class NotificacionAdmin extends Notification
      */
     public function via($notifiable)
     {
-       return ['database'];
+       return ['database','broadcast'];
         // return ['mail'];
     }
+    //guardar en la base datos
     public function toDatabase($notifiable){
         return[
             'datos'=> $this->GlobalDatos
+
+        ];
+    }
+    //envio por el canal a usuario autorizados
+    public function toBroadcast($notifiable){
+        return[
+            'data'=> [
+                'datos'=>$this->GlobalDatos
+                ]
 
         ];
     }

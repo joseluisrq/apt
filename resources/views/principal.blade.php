@@ -11,6 +11,7 @@
   <meta name="keyword" content="">
   <title>APT San Marcos</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="userId" content="{{ Auth::check() ? Auth::user()->id: ''}}">
   
 
   <link href="fonts/iconfonts/mdi/css/materialdesignicons.min.css" rel="stylesheet">

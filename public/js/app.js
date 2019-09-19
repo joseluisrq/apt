@@ -19468,10 +19468,66 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['notificacion'],
+  props: ['notificacion', 'ruta'],
   data: function data() {
-    return {};
+    return {
+      arrayNotifications: [],
+      fechadepago: 'Tines 15 dias para reportar',
+      arrayCuotas: []
+    };
+  },
+  computed: {
+    /*  listar:function(){
+          //return this.notificacion[0];
+          this.arrayNotifications=Object.values(this.notificacion[0]);
+          return Object.values(this.arrayNotifications[0]);
+      },*/
+  },
+  methods: {
+    cuotasAtrasadas: function cuotasAtrasadas() {
+      var me = this;
+      var url = 'http://localhost/apt/public/notification/notificacionCuotas';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayCuotas = respuesta.cuotasatrasadas;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    mounted: function mounted() {
+      this.cuotasAtrasadas();
+    }
   }
 });
 
@@ -72676,37 +72732,93 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._l(_vm.notificacion, function(item) {
-          return _c("li", { key: item.id }, [
-            _c("div", { staticClass: "dropdown-divider" }),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item preview-item" }, [
-              _c("div", { staticClass: "preview-thumbnail" }, [
-                _c("div", { staticClass: "preview-icon bg-warning" }, [
-                  _vm._v(
-                    "\n                     " +
-                      _vm._s(item.data.datos.creditos.numero) +
-                      "\n                    "
-                  )
+        _vm.notificacion.length
+          ? _c(
+              "div",
+              _vm._l(_vm.notificacion, function(item) {
+                return _c("li", { key: item.id }, [
+                  _c("div", { staticClass: "dropdown-divider" }),
+                  _vm._v(" "),
+                  _c("a", { staticClass: "dropdown-item preview-item" }, [
+                    _c("div", { staticClass: "preview-thumbnail" }, [
+                      _c("div", { staticClass: "preview-icon bg-warning" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(item.data.datos.creditos.numero) +
+                            "\n                            "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "preview-item-content" }, [
+                      _c(
+                        "h6",
+                        {
+                          staticClass:
+                            "preview-subject font-weight-medium text-dark"
+                        },
+                        [_vm._v(_vm._s(item.data.datos.creditos.msj))]
+                      ),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "font-weight-light small-text" })
+                    ])
+                  ])
                 ])
-              ]),
+              }),
+              0
+            )
+          : _c("div", [
+              _c("div", { staticClass: "dropdown-divider" }),
               _vm._v(" "),
-              _c("div", { staticClass: "preview-item-content" }, [
-                _c(
-                  "h6",
-                  {
-                    staticClass: "preview-subject font-weight-medium text-dark"
-                  },
-                  [_vm._v(_vm._s(item.data.datos.creditos.msj))]
-                ),
-                _vm._v(" "),
-                _c("p", { staticClass: "font-weight-light small-text" })
-              ])
-            ])
-          ])
+              _c("span", [_vm._v("No tiene notificaciones")])
+            ]),
+        _vm._v(" "),
+        _vm.arrayCuotas.length
+          ? _c(
+              "div",
+              _vm._l(_vm.arrayCuotas, function(not) {
+                return _c("li", { key: not.id }, [
+                  _c("div", { staticClass: "dropdown-divider" }),
+                  _vm._v(" "),
+                  _c("a", { staticClass: "dropdown-item preview-item" }, [
+                    _c("div", { staticClass: "preview-thumbnail" }, [
+                      _c("div", { staticClass: "preview-icon bg-warning" }, [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(not.fechapago) +
+                            "\n                            "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "preview-item-content" }, [
+                      _c(
+                        "h6",
+                        {
+                          staticClass:
+                            "preview-subject font-weight-medium text-dark"
+                        },
+                        [_vm._v(_vm._s(_vm.item.data.datos.creditos.msj))]
+                      ),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "font-weight-light small-text" })
+                    ])
+                  ])
+                ])
+              }),
+              0
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c("button", {
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.cuotasAtrasadas()
+            }
+          }
         })
-      ],
-      2
+      ]
     )
   ])
 }
@@ -87112,6 +87224,7 @@ module.exports = function(module) {
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**
  * The following block of code may be used to automatically register your
@@ -87154,6 +87267,11 @@ var app = new Vue({
       me.notificacion = response.data;
     })["catch"](function (error) {
       console.log(error);
+    });
+    var userId = $('meta[name="userId"]').attr('content');
+    Echo["private"]('App.user.' + userId).notification(function (notification) {
+      console.log(notification);
+      me.notificacion.unshift(notification);
     });
   }
 });
@@ -87214,6 +87332,7 @@ if (token) {
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  authEndpoint: 'http://localhost/apt/public',
   broadcaster: 'pusher',
   key: '9f38730526e308a8bf2f',
   cluster: 'us2',

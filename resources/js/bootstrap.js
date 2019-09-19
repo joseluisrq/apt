@@ -48,6 +48,7 @@ import Echo from 'laravel-echo';
 window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
+    authEndpoint: 'http://localhost/apt/public',
     broadcaster: 'pusher',
     key: '9f38730526e308a8bf2f',
     cluster: 'us2',
