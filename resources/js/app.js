@@ -34,6 +34,8 @@ Vue.component('acerca', require('./components/Acerca.vue').default);
 
 Vue.component('cuota', require('./components/Cuota.vue').default);
 Vue.component('notificacion', require('./components/Notificacion.vue').default);
+
+Vue.component('pagarcuota', require('./components/PagarCuota.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

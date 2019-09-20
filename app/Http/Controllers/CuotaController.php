@@ -83,6 +83,46 @@ class CuotaController extends Controller
         ];
     }
 
+    public function detalleCuota(Request $request)
+    {
+      //  if (!$request->ajax()) return redirect('/');
+
+           $id=$request->id;
+            $cuotas = Cuota::join('creditos', 'creditos.id', '=', 'cuotas.idcredito')
+            ->join('personas', 'personas.id', '=', 'creditos.idcliente')
+            ->select(
+                'creditos.idkiva',
+                'creditos.numeroprestamo',
+                'creditos.tipocambio',
+                'creditos.fechakiva',
+                'creditos.tasa',
+                'creditos.numerocuotas',
+                'creditos.montodesembolsado',
+                'cuotas.id',
+                'cuotas.numerocuota',
+                'cuotas.fechacancelacion',
+                'cuotas.fechapago',
+                'cuotas.monto',
+                'cuotas.otroscostos',
+                'cuotas.saldopendiente',
+                'personas.nombre',
+                'personas.apellidopaterno',
+                'personas.apellidomaterno',
+                'personas.dni'
+            )
+            ->where('personas.id', '=',$id)
+            ->where('creditos.estado', '=', '1')//Buscar los créditos activos
+            ->where('cuotas.estado', '=', '0')//Buscar las cuotas que faltan pagar
+            ->orderby('fechapago', 'ASC')//Buscar las cuotas que faltan pagar
+            ->limit(1)//Solo se obtiene la cuota que debe pagar
+            ->get();
+     
+        return [
+            'cuotas' => $cuotas,
+           
+        ];
+    }
+
     public function cuotaPagoCliente(Request $request)//Este método retorna la cuota que el cliente debe pagar
     {
         if (!$request->ajax()) return redirect('/');
@@ -229,5 +269,28 @@ class CuotaController extends Controller
         } catch (Exception $e){
             DB::rollBack();
         }
+    }
+
+      public function notificacionCuotas()
+    {
+      
+        $cuotasatra = Cuota::join('creditos', 'creditos.id', '=', 'cuotas.idcredito')
+        ->join('personas', 'personas.id', '=', 'creditos.idcliente')
+        ->select(
+            
+            'cuotas.id',
+            'cuotas.fechapago',
+            'cuotas.estado',
+            'creditos.numeroprestamo')
+        ->where('cuotas.estado','=',0)
+        ->whereDate('cuotas.fechapago', '<', date('Y-m-d'))
+        ->orderBy('cuotas.fechapago')
+        ->get();
+
+        return[
+            'cuotasatrasadas'=>$cuotasatra
+        ];
+
+
     }
 }

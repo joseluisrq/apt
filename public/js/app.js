@@ -17018,168 +17018,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
   data: function data() {
@@ -19498,12 +19336,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['notificacion', 'ruta'],
   data: function data() {
     return {
       arrayNotifications: [],
-      fechadepago: 'Tines 15 dias para reportar',
+      fechareporte: '',
       arrayCuotas: []
     };
   },
@@ -19525,9 +19392,363 @@ __webpack_require__.r(__webpack_exports__);
         console.log(err);
       });
     },
-    mounted: function mounted() {
-      this.cuotasAtrasadas();
+    hoyFecha: function hoyFecha() {
+      var hoy = new Date();
+      var dd = hoy.getDate();
+      var mm = hoy.getMonth() + 1;
+      var yyyy = hoy.getFullYear();
+      if (dd < 10) dd = '0' + dd;
+      if (mm < 10) mm = '0' + mm;
+      if (dd < 12) this.fechareporte = '12' - dd;
     }
+  },
+  mounted: function mounted() {
+    this.cuotasAtrasadas();
+    this.hoyFecha();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PagarCuota.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PagarCuota.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['idcliente'],
+  data: function data() {
+    var _ref;
+
+    return _ref = {
+      //ruta
+      ruta: 'http://localhost/apt/public',
+      //datos de la persona
+      persona_id: 0,
+      dni: '',
+      nombre: '',
+      apellidopaterno: '',
+      apellidomaterno: '',
+      fechanacimiento: '',
+      direccion: '',
+      telefono: '',
+      email: '',
+      estado_per: 1,
+      //datos de cuota
+      idcuota: 0,
+      numerocuota: 0,
+      idkiva: '',
+      numeroprestamo: 0,
+      nombrecliente: '',
+      fechakiva: ''
+    }, _defineProperty(_ref, "dni", ''), _defineProperty(_ref, "fechapago", ''), _defineProperty(_ref, "montocuota", 0.0), _defineProperty(_ref, "totalpagar", 0.0), _defineProperty(_ref, "interes", 0.0), _defineProperty(_ref, "otroscostoscuota", 0), _defineProperty(_ref, "saldopendientecuota", 0.0), _defineProperty(_ref, "tipocambio", 0.0), _defineProperty(_ref, "descpagocuota", ''), _defineProperty(_ref, "estado_cli", ''), _defineProperty(_ref, "personacredito_id", 0), _defineProperty(_ref, "arrayPersona", []), _defineProperty(_ref, "modal", 0), _defineProperty(_ref, "tituloModal", ''), _defineProperty(_ref, "tipoAccion", 0), _defineProperty(_ref, "errorPersona", 0), _defineProperty(_ref, "errorMostrarMsjPersona", []), _defineProperty(_ref, "pagination", {
+      'total': 0,
+      'current_page': 0,
+      'per_page': 0,
+      'last_page': 0,
+      'from': 0,
+      'to': 0
+    }), _defineProperty(_ref, "offset", 3), _defineProperty(_ref, "criterio", 'nombre'), _defineProperty(_ref, "buscar", ''), _defineProperty(_ref, "showpagocuota", false), _defineProperty(_ref, "showpagoporcion", false), _defineProperty(_ref, "botoncuota", true), _defineProperty(_ref, "montoporcion", 0.0), _defineProperty(_ref, "otroscostosporcion", 0.0), _defineProperty(_ref, "descpagoporcion", ''), _ref;
+  },
+  computed: {},
+  methods: {
+    //CUOTA PAGAR
+    obtenerCuotaDeCliente: function obtenerCuotaDeCliente() {
+      var _this = this;
+
+      var me = this;
+      axios.get(this.ruta + '/cuota/detallepagar?id=' + this.idcliente).then(function (res) {
+        var cuotas = res.data.cuotas;
+        if (cuotas.length == 0) Swal.fire({
+          title: 'El cliente no tiene cuotas a pagar',
+          animation: true,
+          customClass: {
+            popup: 'animated tada'
+          }
+        });else if (cuotas.length == 1) {
+          _this.idcuota = cuotas[0].id;
+          _this.numeroprestamo = cuotas[0].numeroprestamo;
+          _this.numerocuota = cuotas[0].numerocuota;
+          _this.idkiva = cuotas[0].idkiva;
+          _this.nombrecliente = cuotas[0].nombre + " " + cuotas[0].apellidopaterno + " " + cuotas[0].apellidomaterno;
+          _this.dni = cuotas[0].dni;
+          _this.fechapago = cuotas[0].fechapago;
+          _this.fechakiva = cuotas[0].fechakiva;
+          _this.montocuota = cuotas[0].monto; //  this.otroscostoscuota = cuotas[0].otroscostos;   
+
+          _this.tipocambio = cuotas[0].tipocambio;
+          _this.saldopendientecuota = cuotas[0].saldopendiente;
+          _this.interes = cuotas[0].montodesembolsado * (cuotas[0].tasa / 100) / cuotas[0].numerocuotas;
+          _this.totalpagar = ((parseFloat(_this.montocuota) + parseFloat(_this.interes)) * _this.tipocambio).toFixed(2); //this.montodesembolsado=cuotas[0].montodesembolsado;
+          //  this.tasa=cuotas[0].tasa;
+          // this.cantidadcuotas=cuotas[0].numerocuotas
+
+          _this.showpagocuota = true; //this.showpagocuota = true;
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    //pagar cuota
+    pagarCuota: function pagarCuota() {
+      var _this2 = this;
+
+      axios.put(this.ruta + '/cuota/pagar', {
+        'id': this.idcuota,
+        'descripcion': this.descpagocuota,
+        'otrospagos': this.otroscostoscuota,
+        'idpersona': this.personacredito_id
+      }).then(function (res) {
+        Swal.fire({
+          position: 'top-end',
+          type: 'success',
+          title: 'El pago se realizó correctamente',
+          showConfirmButton: false,
+          timer: 1500
+        }); // this.listarCuotasPendientes();
+
+        var cuotaid = _this2.idcuota;
+
+        _this2.generarboucher(cuotaid);
+
+        _this2.listarPersona(1, _this2.buscar, _this2.criterio);
+
+        _this2.showpagocuota = false;
+      })["catch"](function (err) {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Error, No se realizó el pago',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }); // this.limpiarDatos();
+    },
+    generarboucher: function generarboucher(idcuota) {
+      window.open(this.ruta + '/credito/detallecuotapdf/' + idcuota + '', '_blank');
+    },
+    //pagar porcion cuota
+    pagarPorcionCuota: function pagarPorcionCuota() {
+      var _this3 = this;
+
+      if (this.montoporcion == 0) {
+        Swal.fire({
+          title: 'Debe ingresar un monto mayor a cero',
+          animation: true,
+          customClass: {
+            popup: 'animated tada'
+          }
+        });
+        return;
+      }
+
+      var montopagardolares = this.montoporcion / this.tipocambio;
+      axios.post(this.ruta + '/cuota/porcion', {
+        'id': this.idcuota,
+        'monto': montopagardolares,
+        'otroscostos': this.otroscostosporcion,
+        'descripcion': this.descpagoporcion
+      }).then(function (res) {
+        Swal.fire({
+          position: 'top-end',
+          type: 'success',
+          title: 'El pago se realizó correctamente',
+          showConfirmButton: false,
+          timer: 1500
+        }); // this.generarboucher(cuotaid);
+
+        _this3.montoporcion = 0.0, _this3.otroscostosporcion = 0.0, _this3.descpagoporcion = '', _this3.showpagocuota = false;
+        _this3.showpagoporcion = false;
+        _this3.botoncuota = true;
+      })["catch"](function (err) {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Error, No se completó el pago',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.obtenerCuotaDeCliente();
   }
 });
 
@@ -69175,447 +69396,7 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _vm.showpagocuota
-        ? [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
-                _c("div", { staticClass: "card" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-9" }, [
-                            _c("h4", { staticClass: "font-weight-bold" }, [
-                              _vm._v(
-                                "   \n                                PAGO DE CUOTA N° " +
-                                  _vm._s(_vm.numerocuota) +
-                                  "\n                                    "
-                              )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-3" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-outline-success btn-sm",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.showpagocuota = false
-                                  }
-                                }
-                              },
-                              [
-                                _c("i", { staticClass: "fa fa-mail-reply" }),
-                                _vm._v("Lista de Clientes ")
-                              ]
-                            )
-                          ])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _vm._m(2),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-3" }, [
-                            _c("p", { staticClass: "font-weight-bold" }, [
-                              _vm._v("DNI")
-                            ]),
-                            _vm._v(" "),
-                            _c("p", {
-                              staticClass: "font-weight-light",
-                              domProps: { textContent: _vm._s(_vm.dni) }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-9" }, [
-                            _c("p", { staticClass: "font-weight-bold" }, [
-                              _vm._v("Cliente")
-                            ]),
-                            _vm._v(" "),
-                            _c("p", {
-                              staticClass: "font-weight-light",
-                              domProps: {
-                                textContent: _vm._s(_vm.nombrecliente)
-                              }
-                            })
-                          ])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _vm._m(3),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-3" }, [
-                            _c("p", { staticClass: "font-weight-bold " }, [
-                              _vm._v("N° Prestamo")
-                            ]),
-                            _vm._v(" "),
-                            _c("p", {
-                              staticClass: "font-weight-light",
-                              domProps: {
-                                textContent: _vm._s(_vm.numeroprestamo)
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-3" }, [
-                            _c("p", { staticClass: "font-weight-bold " }, [
-                              _vm._v("ID KIVA")
-                            ]),
-                            _vm._v(" "),
-                            _c("p", {
-                              staticClass: "font-weight-light",
-                              domProps: { textContent: _vm._s(_vm.idkiva) }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-3" }, [
-                            _c("p", { staticClass: "font-weight-bold " }, [
-                              _vm._v("Tipo cambio")
-                            ]),
-                            _vm._v(" "),
-                            _c("p", {
-                              staticClass: "font-weight-light",
-                              domProps: { textContent: _vm._s(_vm.tipocambio) }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-3" }, [
-                            _c("p", { staticClass: "font-weight-bold" }, [
-                              _vm._v("Fecha pago")
-                            ]),
-                            _vm._v(" "),
-                            _c("p", {
-                              staticClass: "font-weight-light",
-                              domProps: { textContent: _vm._s(_vm.fechapago) }
-                            })
-                          ])
-                        ])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "row" },
-                      [
-                        _vm._m(4),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c("table", { staticClass: "table table-bordered" }, [
-                            _c("thead"),
-                            _vm._v(" "),
-                            _c("tbody", [
-                              _c("tr", [
-                                _c("td", [_vm._v("Saldo Anterior Neto")]),
-                                _vm._v(" "),
-                                _c("td", {
-                                  domProps: {
-                                    textContent: _vm._s(
-                                      "$ " +
-                                        (
-                                          parseFloat(_vm.saldopendientecuota) +
-                                          parseFloat(_vm.montocuota)
-                                        ).toFixed(2)
-                                    )
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("tr", [
-                                _c("td", [_vm._v("Pago Neto")]),
-                                _vm._v(" "),
-                                _c("td", {
-                                  domProps: {
-                                    textContent: _vm._s(
-                                      "S/ " +
-                                        (
-                                          _vm.montocuota * _vm.tipocambio
-                                        ).toFixed(2)
-                                    )
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("tr", [
-                                _c("td", [_vm._v("Interes")]),
-                                _vm._v(" "),
-                                _c("td", {
-                                  domProps: {
-                                    textContent: _vm._s(
-                                      "S/ " +
-                                        (_vm.interes * _vm.tipocambio).toFixed(
-                                          2
-                                        )
-                                    )
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("tr", [
-                                _c("td", [_vm._v("Otros Pagos S/")]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.otroscostoscuota,
-                                        expression: "otroscostoscuota"
-                                      }
-                                    ],
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "number",
-                                      min: "0",
-                                      placeholder:
-                                        "No puede dejar este campo vacio"
-                                    },
-                                    domProps: { value: _vm.otroscostoscuota },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.otroscostoscuota =
-                                          $event.target.value
-                                      }
-                                    }
-                                  })
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c("tr", {}, [
-                                _c("td", [_vm._v("Total a Pagar")]),
-                                _vm._v(" "),
-                                _c("td", {
-                                  staticClass: "bg bg-warning text-white",
-                                  domProps: {
-                                    textContent: _vm._s(
-                                      "S/. " +
-                                        (
-                                          parseFloat(_vm.otroscostoscuota) +
-                                          parseFloat(_vm.totalpagar)
-                                        ).toFixed(2)
-                                    )
-                                  }
-                                })
-                              ])
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-6" }, [
-                          _c("p", { staticClass: "font-weight-bold" }, [
-                            _vm._v("Descripción")
-                          ]),
-                          _vm._v(" "),
-                          _c("textarea", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.descpagocuota,
-                                expression: "descpagocuota"
-                              }
-                            ],
-                            attrs: {
-                              rows: "5",
-                              cols: "50",
-                              oninput: "this.value = this.value.toUpperCase();"
-                            },
-                            domProps: { value: _vm.descpagocuota },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.descpagocuota = $event.target.value
-                              }
-                            }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-md-12" }, [
-                          _c("hr"),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col-md-9" }, [
-                              _vm.botoncuota
-                                ? _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-success col-md-4",
-                                      attrs: { type: "button" },
-                                      on: { click: _vm.pagarCuota }
-                                    },
-                                    [_vm._v("Pagar Cuota")]
-                                  )
-                                : _vm._e()
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col-md-3" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-outline-primary",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.showpagoporcion = true
-                                      _vm.botoncuota = false
-                                    }
-                                  }
-                                },
-                                [_vm._v("Pagar porción")]
-                              )
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _vm.showpagoporcion
-                          ? [
-                              _vm._m(5),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-md-2" }, [
-                                _c("p", { staticClass: "font-weight-bold" }, [
-                                  _vm._v("Ingresar Monto S/")
-                                ]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.montoporcion,
-                                      expression: "montoporcion"
-                                    }
-                                  ],
-                                  staticClass: "col-md-12",
-                                  attrs: {
-                                    required: "",
-                                    type: "Number",
-                                    max: _vm.montocuota,
-                                    min: "0",
-                                    placeholder: "Ingrese el monto a pagar"
-                                  },
-                                  domProps: { value: _vm.montoporcion },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.montoporcion = $event.target.value
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-md-2" }, [
-                                _c("p", { staticClass: "font-weight-bold" }, [
-                                  _vm._v("Otros Pagos S/")
-                                ]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.otroscostosporcion,
-                                      expression: "otroscostosporcion"
-                                    }
-                                  ],
-                                  attrs: {
-                                    type: "Number",
-                                    min: "0",
-                                    placeholder: "Ingrese cantidad"
-                                  },
-                                  domProps: { value: _vm.otroscostosporcion },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.otroscostosporcion =
-                                        $event.target.value
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-md-8" }, [
-                                _c("p", { staticClass: "font-weight-bold" }, [
-                                  _vm._v("Descripción")
-                                ]),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.descpagoporcion,
-                                      expression: "descpagoporcion"
-                                    }
-                                  ],
-                                  staticClass: "col-md-12",
-                                  attrs: {
-                                    type: "text",
-                                    oninput:
-                                      "this.value = this.value.toUpperCase();"
-                                  },
-                                  domProps: { value: _vm.descpagoporcion },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.descpagoporcion = $event.target.value
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-md-12" }, [
-                                _c("hr"),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-danger",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        _vm.showpagoporcion = false
-                                        _vm.botoncuota = true
-                                      }
-                                    }
-                                  },
-                                  [_vm._v("Cerrar")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-success",
-                                    attrs: { type: "button" },
-                                    on: { click: _vm.pagarPorcionCuota }
-                                  },
-                                  [_vm._v("Confirmar pago")]
-                                )
-                              ])
-                            ]
-                          : _vm._e()
-                      ],
-                      2
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ]
+        ? [_c("pagarcuota", { attrs: { idcliente: _vm.personacredito_id } })]
         : _vm._e()
     ],
     2
@@ -69658,65 +69439,6 @@ var staticRenderFns = [
       },
       [_c("i", { staticClass: "fa fa-dollar" })]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 " }, [
-      _c("hr"),
-      _vm._v(" "),
-      _c("h5", { staticClass: " text-dark" }, [
-        _c("i", { staticClass: "fa fa-address-book-o " }),
-        _vm._v(" Datos del Cliente")
-      ]),
-      _vm._v(" "),
-      _c("hr")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("hr"),
-      _vm._v(" "),
-      _c("h5", { staticClass: "text-dark" }, [
-        _c("i", { staticClass: "fa fa-desktop " }),
-        _vm._v(" Datos del Credito")
-      ]),
-      _vm._v(" "),
-      _c("hr")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("hr"),
-      _vm._v(" "),
-      _c("h5", {}, [
-        _c("i", { staticClass: "fa fa-money  " }),
-        _vm._v(" Detalle del Pago")
-      ]),
-      _vm._v(" "),
-      _c("hr")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("hr"),
-      _vm._v(" "),
-      _c("h5", { staticClass: "font-weight-bold" }, [
-        _vm._v("Pagar Porción de Cuota")
-      ]),
-      _vm._v(" "),
-      _c("hr")
-    ])
   }
 ]
 render._withStripped = true
@@ -72697,18 +72419,21 @@ var render = function() {
       "a",
       {
         staticClass: "nav-link count-indicator dropdown-toggle",
-        attrs: {
-          id: "notificationDropdown",
-          href: "#",
-          "data-toggle": "dropdown"
-        }
+        attrs: { id: "notificationDropdown", "data-toggle": "dropdown" }
       },
       [
         _c("i", { staticClass: "mdi mdi-bell" }),
         _vm._v(" "),
-        _c("span", { staticClass: "count" }, [
-          _vm._v(_vm._s(_vm.notificacion.length))
-        ])
+        _c(
+          "span",
+          { staticClass: "count" },
+          [
+            _vm.fechareporte
+              ? [_vm._v(_vm._s(_vm.arrayCuotas.length + parseInt(1)))]
+              : [_vm._v(_vm._s(_vm.arrayCuotas.length))]
+          ],
+          2
+        )
       ]
     ),
     _vm._v(" "),
@@ -72720,47 +72445,59 @@ var render = function() {
         attrs: { "aria-labelledby": "notificationDropdown" }
       },
       [
-        _c("a", { staticClass: "dropdown-item" }, [
-          _c("p", { staticClass: "mb-0 font-weight-normal float-left" }, [
-            _vm._v(_vm._s(_vm.notificacion.length) + "\n        ")
-          ]),
-          _vm._v(" "),
-          _c(
-            "span",
-            { staticClass: "badge badge-pill badge-warning float-right" },
-            [_vm._v("NOTIFICACIONES")]
-          )
-        ]),
+        _vm._m(0),
         _vm._v(" "),
-        _vm.notificacion.length
+        _vm.fechareporte
+          ? _c("div", [
+              _c("div", { staticClass: "dropdown-divider" }),
+              _vm._v(" "),
+              _c("a", { staticClass: "dropdown-item preview-item" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "preview-item-content" }, [
+                  _c("h6", {
+                    staticClass: "preview-subject font-weight-medium text-dark"
+                  }),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "font-weight-light small-text" }, [
+                    _vm._v(
+                      "\n                                    Reporte Kiva "
+                    ),
+                    _c("br"),
+                    _vm._v(
+                      " Tienes " +
+                        _vm._s(_vm.fechareporte) +
+                        " dias \n                                "
+                    )
+                  ])
+                ])
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.arrayCuotas.length
           ? _c(
               "div",
-              _vm._l(_vm.notificacion, function(item) {
-                return _c("li", { key: item.id }, [
+              _vm._l(_vm.arrayCuotas, function(not) {
+                return _c("li", { key: not.id }, [
                   _c("div", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
                   _c("a", { staticClass: "dropdown-item preview-item" }, [
-                    _c("div", { staticClass: "preview-thumbnail" }, [
-                      _c("div", { staticClass: "preview-icon bg-warning" }, [
+                    _vm._m(2, true),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "preview-item-content" }, [
+                      _c("h6", {
+                        staticClass:
+                          "preview-subject font-weight-medium text-dark"
+                      }),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "font-weight-light small-text" }, [
                         _vm._v(
-                          "\n                            " +
-                            _vm._s(item.data.datos.creditos.numero) +
+                          "\n                                Cuota atrasada " +
+                            _vm._s(not.fechapago) +
                             "\n                            "
                         )
                       ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "preview-item-content" }, [
-                      _c(
-                        "h6",
-                        {
-                          staticClass:
-                            "preview-subject font-weight-medium text-dark"
-                        },
-                        [_vm._v(_vm._s(item.data.datos.creditos.msj))]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "font-weight-light small-text" })
                     ])
                   ])
                 ])
@@ -72771,58 +72508,549 @@ var render = function() {
               _c("div", { staticClass: "dropdown-divider" }),
               _vm._v(" "),
               _c("span", [_vm._v("No tiene notificaciones")])
-            ]),
-        _vm._v(" "),
-        _vm.arrayCuotas.length
-          ? _c(
-              "div",
-              _vm._l(_vm.arrayCuotas, function(not) {
-                return _c("li", { key: not.id }, [
-                  _c("div", { staticClass: "dropdown-divider" }),
-                  _vm._v(" "),
-                  _c("a", { staticClass: "dropdown-item preview-item" }, [
-                    _c("div", { staticClass: "preview-thumbnail" }, [
-                      _c("div", { staticClass: "preview-icon bg-warning" }, [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(not.fechapago) +
-                            "\n                            "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "preview-item-content" }, [
-                      _c(
-                        "h6",
-                        {
-                          staticClass:
-                            "preview-subject font-weight-medium text-dark"
-                        },
-                        [_vm._v(_vm._s(_vm.item.data.datos.creditos.msj))]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "font-weight-light small-text" })
-                    ])
-                  ])
-                ])
-              }),
-              0
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _c("button", {
-          attrs: { type: "button" },
-          on: {
-            click: function($event) {
-              return _vm.cuotasAtrasadas()
-            }
-          }
-        })
+            ])
       ]
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "dropdown-item" }, [
+      _c(
+        "span",
+        { staticClass: "badge badge-pill badge-warning float-right" },
+        [_vm._v("NOTIFICACIONES\n      \n         ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "preview-thumbnail" }, [
+      _c("div", { staticClass: "preview-icon bg-success" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "preview-thumbnail" }, [
+      _c("div", { staticClass: "preview-icon bg-danger" })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PagarCuota.vue?vue&type=template&id=0b3c4d8e&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/PagarCuota.vue?vue&type=template&id=0b3c4d8e& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "row" }, [
+                _c("div", { staticClass: "col-md-9" }, [
+                  _c("h4", { staticClass: "font-weight-bold" }, [
+                    _vm._v(
+                      "   \n                                PAGO DE CUOTA N° " +
+                        _vm._s(_vm.numerocuota) +
+                        " " +
+                        _vm._s(_vm.idcliente) +
+                        "\n                                    "
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-outline-success btn-sm",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          _vm.showpagocuota = false
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "fa fa-mail-reply" }),
+                      _vm._v("Lista de Clientes ")
+                    ]
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "row" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("p", { staticClass: "font-weight-bold" }, [_vm._v("DNI")]),
+                  _vm._v(" "),
+                  _c("p", {
+                    staticClass: "font-weight-light",
+                    domProps: { textContent: _vm._s(_vm.dni) }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-9" }, [
+                  _c("p", { staticClass: "font-weight-bold" }, [
+                    _vm._v("Cliente")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    staticClass: "font-weight-light",
+                    domProps: { textContent: _vm._s(_vm.nombrecliente) }
+                  })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6" }, [
+              _c("div", { staticClass: "row" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("p", { staticClass: "font-weight-bold " }, [
+                    _vm._v("N° Prestamo")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    staticClass: "font-weight-light",
+                    domProps: { textContent: _vm._s(_vm.numeroprestamo) }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("p", { staticClass: "font-weight-bold " }, [
+                    _vm._v("ID KIVA")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    staticClass: "font-weight-light",
+                    domProps: { textContent: _vm._s(_vm.idkiva) }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("p", { staticClass: "font-weight-bold " }, [
+                    _vm._v("Tipo cambio")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    staticClass: "font-weight-light",
+                    domProps: { textContent: _vm._s(_vm.tipocambio) }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-3" }, [
+                  _c("p", { staticClass: "font-weight-bold" }, [
+                    _vm._v("Fecha pago")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", {
+                    staticClass: "font-weight-light",
+                    domProps: { textContent: _vm._s(_vm.fechapago) }
+                  })
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "row" },
+            [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("table", { staticClass: "table table-bordered" }, [
+                  _c("thead"),
+                  _vm._v(" "),
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("td", [_vm._v("Saldo Anterior Neto")]),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: {
+                          textContent: _vm._s(
+                            "$ " +
+                              (
+                                parseFloat(_vm.saldopendientecuota) +
+                                parseFloat(_vm.montocuota)
+                              ).toFixed(2)
+                          )
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Pago Neto")]),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: {
+                          textContent: _vm._s(
+                            "S/ " + (_vm.montocuota * _vm.tipocambio).toFixed(2)
+                          )
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Interes")]),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: {
+                          textContent: _vm._s(
+                            "S/ " + (_vm.interes * _vm.tipocambio).toFixed(2)
+                          )
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Otros Pagos S/")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.otroscostoscuota,
+                              expression: "otroscostoscuota"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            min: "0",
+                            placeholder: "No puede dejar este campo vacio"
+                          },
+                          domProps: { value: _vm.otroscostoscuota },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.otroscostoscuota = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", {}, [
+                      _c("td", [_vm._v("Total a Pagar")]),
+                      _vm._v(" "),
+                      _c("td", {
+                        staticClass: "bg bg-warning text-white",
+                        domProps: {
+                          textContent: _vm._s(
+                            "S/. " +
+                              (
+                                parseFloat(_vm.otroscostoscuota) +
+                                parseFloat(_vm.totalpagar)
+                              ).toFixed(2)
+                          )
+                        }
+                      })
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("p", { staticClass: "font-weight-bold" }, [
+                  _vm._v("Descripción")
+                ]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.descpagocuota,
+                      expression: "descpagocuota"
+                    }
+                  ],
+                  attrs: {
+                    rows: "5",
+                    cols: "50",
+                    oninput: "this.value = this.value.toUpperCase();"
+                  },
+                  domProps: { value: _vm.descpagocuota },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.descpagocuota = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-12" }, [
+                _c("hr"),
+                _vm._v(" "),
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-9" }, [
+                    _vm.botoncuota
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success col-md-4",
+                            attrs: { type: "button" },
+                            on: { click: _vm.pagarCuota }
+                          },
+                          [_vm._v("Pagar Cuota")]
+                        )
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-3" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-outline-primary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            _vm.showpagoporcion = true
+                            _vm.botoncuota = false
+                          }
+                        }
+                      },
+                      [_vm._v("Pagar porción")]
+                    )
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.showpagoporcion
+                ? [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c("p", { staticClass: "font-weight-bold" }, [
+                        _vm._v("Ingresar Monto S/")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.montoporcion,
+                            expression: "montoporcion"
+                          }
+                        ],
+                        staticClass: "col-md-12",
+                        attrs: {
+                          required: "",
+                          type: "Number",
+                          max: _vm.montocuota,
+                          min: "0",
+                          placeholder: "Ingrese el monto a pagar"
+                        },
+                        domProps: { value: _vm.montoporcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.montoporcion = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-2" }, [
+                      _c("p", { staticClass: "font-weight-bold" }, [
+                        _vm._v("Otros Pagos S/")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.otroscostosporcion,
+                            expression: "otroscostosporcion"
+                          }
+                        ],
+                        attrs: {
+                          type: "Number",
+                          min: "0",
+                          placeholder: "Ingrese cantidad"
+                        },
+                        domProps: { value: _vm.otroscostosporcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.otroscostosporcion = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-8" }, [
+                      _c("p", { staticClass: "font-weight-bold" }, [
+                        _vm._v("Descripción")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.descpagoporcion,
+                            expression: "descpagoporcion"
+                          }
+                        ],
+                        staticClass: "col-md-12",
+                        attrs: {
+                          type: "text",
+                          oninput: "this.value = this.value.toUpperCase();"
+                        },
+                        domProps: { value: _vm.descpagoporcion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.descpagoporcion = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c("hr"),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.showpagoporcion = false
+                              _vm.botoncuota = true
+                            }
+                          }
+                        },
+                        [_vm._v("Cerrar")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          attrs: { type: "button" },
+                          on: { click: _vm.pagarPorcionCuota }
+                        },
+                        [_vm._v("Confirmar pago")]
+                      )
+                    ])
+                  ]
+                : _vm._e()
+            ],
+            2
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12 " }, [
+      _c("hr"),
+      _vm._v(" "),
+      _c("h5", { staticClass: " text-dark" }, [
+        _c("i", { staticClass: "fa fa-address-book-o " }),
+        _vm._v(" Datos del Cliente")
+      ]),
+      _vm._v(" "),
+      _c("hr")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("hr"),
+      _vm._v(" "),
+      _c("h5", { staticClass: "text-dark" }, [
+        _c("i", { staticClass: "fa fa-desktop " }),
+        _vm._v(" Datos del Credito")
+      ]),
+      _vm._v(" "),
+      _c("hr")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("hr"),
+      _vm._v(" "),
+      _c("h5", {}, [
+        _c("i", { staticClass: "fa fa-money  " }),
+        _vm._v(" Detalle del Pago")
+      ]),
+      _vm._v(" "),
+      _c("hr")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("hr"),
+      _vm._v(" "),
+      _c("h5", { staticClass: "font-weight-bold" }, [
+        _vm._v("Pagar Porción de Cuota")
+      ]),
+      _vm._v(" "),
+      _c("hr")
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -87247,6 +87475,7 @@ Vue.component('ayuda', __webpack_require__(/*! ./components/Ayuda.vue */ "./reso
 Vue.component('acerca', __webpack_require__(/*! ./components/Acerca.vue */ "./resources/js/components/Acerca.vue")["default"]);
 Vue.component('cuota', __webpack_require__(/*! ./components/Cuota.vue */ "./resources/js/components/Cuota.vue")["default"]);
 Vue.component('notificacion', __webpack_require__(/*! ./components/Notificacion.vue */ "./resources/js/components/Notificacion.vue")["default"]);
+Vue.component('pagarcuota', __webpack_require__(/*! ./components/PagarCuota.vue */ "./resources/js/components/PagarCuota.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -87946,6 +88175,76 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_template_id_3634d6f2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_template_id_3634d6f2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PagarCuota.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/PagarCuota.vue ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PagarCuota_vue_vue_type_template_id_0b3c4d8e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PagarCuota.vue?vue&type=template&id=0b3c4d8e& */ "./resources/js/components/PagarCuota.vue?vue&type=template&id=0b3c4d8e&");
+/* harmony import */ var _PagarCuota_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PagarCuota.vue?vue&type=script&lang=js& */ "./resources/js/components/PagarCuota.vue?vue&type=script&lang=js&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _PagarCuota_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _PagarCuota_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PagarCuota_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PagarCuota_vue_vue_type_template_id_0b3c4d8e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PagarCuota_vue_vue_type_template_id_0b3c4d8e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/PagarCuota.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/PagarCuota.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/PagarCuota.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PagarCuota_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./PagarCuota.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PagarCuota.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PagarCuota_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/PagarCuota.vue?vue&type=template&id=0b3c4d8e&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/PagarCuota.vue?vue&type=template&id=0b3c4d8e& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PagarCuota_vue_vue_type_template_id_0b3c4d8e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./PagarCuota.vue?vue&type=template&id=0b3c4d8e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/PagarCuota.vue?vue&type=template&id=0b3c4d8e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PagarCuota_vue_vue_type_template_id_0b3c4d8e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PagarCuota_vue_vue_type_template_id_0b3c4d8e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

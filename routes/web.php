@@ -58,6 +58,7 @@ Route::group(['middleware'=>['auth']],function(){
 
             
             Route::get('/cuota', 'CuotaController@index');
+            Route::get('/cuota/detallepagar', 'CuotaController@detalleCuota');
             Route::get('/cuota/cliente', 'CuotaController@cuotaPagoCliente');
             Route::put('/cuota/pagar', 'CuotaController@update');
             //Pago Porciones de cuota
@@ -99,7 +100,7 @@ Route::group(['middleware'=>['auth']],function(){
             Route::get('/bitacoracredito/cambiosRegistrados', 'CreditoBitacoraController@cambiosRegistrados');
           
             //notificaicones
-            Route::get('/notification/notificacionCuotas','NotificationController@notificacionCuotas');
+            Route::get('/notification/notificacionCuotas','CuotaController@notificacionCuotas');
         });
 
       

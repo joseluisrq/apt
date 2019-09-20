@@ -24,26 +24,5 @@ class NotificationController extends Controller
 
         return Auth::user()->unreadNotifications;
     }
-    public function notificacionCuotas()
-    {
-        $fechaActual=date('Y-m-d');
-        $cuotasatra = Cuota::join('creditos', 'creditos.id', '=', 'cuotas.idcredito')
-        ->join('personas', 'personas.id', '=', 'creditos.idcliente')
-        ->select(
-            
-            'cuotas.id',
-            'cuotas.fechapago',
-            'cuotas.estado',
-            'creditos.numeroprestamo')
-        ->where('cuotas.estado','=',0)
-        ->whereDate('cuotas.fechapago', '<', date('Y-m-d'))
-        ->orderBy('cuotas.fechapago')
-        ->get();
-
-        return[
-            'cuotasatrasadas'=>$cuotasatra
-        ];
-
-
-    }
+  
 }
