@@ -70,7 +70,7 @@
                                       
 
                                         <template v-if="persona.estadocredito==1">
-                                            <button type="button" class="btn btn-primary btn-sm" @click="obtenerCuotaDeCliente(persona.dni,persona.id)" title="PAGAR CUOTA">
+                                            <button type="button" class="btn btn-primary btn-sm" @click="showpagocuota=true;personacredito_id=persona.id" title="PAGAR CUOTA">
                                                <i class="fa fa-dollar"></i>
                                             </button>
                                         </template>
@@ -214,6 +214,10 @@
 
     <!-- INICIO PAGO DE CUOTA -->
         <template v-if="showpagocuota">
+            <button type="button" class="btn btn-outline-success btn-sm" @click="showpagocuota=false">
+                <i class="fa fa-mail-reply"></i>Lista de Clientes 
+            </button>
+           
         <pagarcuota :idcliente="personacredito_id"></pagarcuota>
             
         </template>
@@ -406,58 +410,7 @@
                 }); 
             },  
 
-            //CUOTA PAGAR
-            obtenerCuotaDeCliente(dni,idpersona){
-                let me=this;
-                this.personacredito_id=idpersona;
-                axios.get(this.ruta+'/cuota?dni='+dni)
-                    .then(res => {
-                    let cuotas = res.data.cuotas;
-                    let fechahoy = res.data.fechahoy;
-
-                    this.fechahoy = fechahoy;
-
-                    if(cuotas.length == 0)
-                        Swal.fire({
-                        title: 'El cliente no tiene cuotas a pagar',
-                        animation: true,
-                        customClass: {
-                            popup: 'animated tada'
-                        }
-                        })
-                    else if (cuotas.length == 1){
-                      this.idcuota = cuotas[0].id;
-                       this.numeroprestamo = cuotas[0].numeroprestamo;
-                        this.numerocuota = cuotas[0].numerocuota;
-                      this.idkiva = cuotas[0].idkiva;
-                     
-                      this.nombrecliente = cuotas[0].nombre + " " + cuotas[0].apellidopaterno + " " + cuotas[0].apellidomaterno;
-                      this.dni = cuotas[0].dni;
-                      this.fechapago = cuotas[0].fechapago;
-                       this.fechakiva = cuotas[0].fechakiva;
-                      this.montocuota = cuotas[0].monto;
-                    //  this.otroscostoscuota = cuotas[0].otroscostos;   
-                       this.tipocambio = cuotas[0].tipocambio;                   
-                      this.saldopendientecuota = cuotas[0].saldopendiente;
-
-                      this.interes=
-                          ((cuotas[0].montodesembolsado*(cuotas[0].tasa/100))
-                          )/cuotas[0].numerocuotas;
-
-                    this.totalpagar=(((parseFloat(this.montocuota)+parseFloat(this.interes))*this.tipocambio)).toFixed(2);
-                    
-                      //this.montodesembolsado=cuotas[0].montodesembolsado;
-                     //  this.tasa=cuotas[0].tasa;
-                      // this.cantidadcuotas=cuotas[0].numerocuotas
-
-                        this.showpagocuota = true;
-                         //this.showpagocuota = true;
-                    }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-                },
+          
 
             //SIMULA QUE UN CLIENTE HA SIDO ELIMINADO/ ESTADO CLIENTE  A 0
             desactivarCliente(id,estadocredito){
@@ -612,98 +565,7 @@
                 }
             },
 
-            //pagar cuota
-            pagarCuota: function(){
-                axios.put(this.ruta+'/cuota/pagar',{
-                    'id': this.idcuota,
-                    'descripcion': this.descpagocuota,
-                    'otrospagos': this.otroscostoscuota,
-                    'idpersona':this.personacredito_id
-                })
-                    .then(res => {
-                    Swal.fire({
-                        position: 'top-end',
-                        type: 'success',
-                        title: 'El pago se realizó correctamente',
-                        showConfirmButton: false,
-                        timer: 1500
-                        })
-
-                   // this.listarCuotasPendientes();
-                     let cuotaid = this.idcuota;
-
-                     this.generarboucher(cuotaid);
-                     this.listarPersona(1,this.buscar,this.criterio);
-                     this.showpagocuota = false;
-                  
-                    })
-                    .catch(err => {
-                        Swal.fire({
-                        position: 'top-end',
-                        type: 'error',
-                        title: 'Error, No se realizó el pago',
-                        showConfirmButton: false,
-                        timer: 1500
-                        })
-                    });
-
-                    
-                   // this.limpiarDatos();
-                },
-            generarboucher(idcuota){
-                window.open(this.ruta + '/credito/detallecuotapdf/'+idcuota+'','_blank');
-            },
-            //pagar porcion cuota
-             pagarPorcionCuota: function(){
-
-                if(this.montoporcion == 0){
-                    Swal.fire({
-                    title: 'Debe ingresar un monto mayor a cero',
-                    animation: true,
-                    customClass: {
-                        popup: 'animated tada'
-                    }
-                    })
-                    return;
-                }
-
-                let montopagardolares=this.montoporcion/this.tipocambio
-                axios.post(this.ruta+'/cuota/porcion',{
-                    'id': this.idcuota,
-                    'monto': montopagardolares,
-                    'otroscostos': this.otroscostosporcion,
-                    'descripcion': this.descpagoporcion
-                })
-                    .then(res => {
-                    Swal.fire({
-                        position: 'top-end',
-                        type: 'success',
-                        title: 'El pago se realizó correctamente',
-                        showConfirmButton: false,
-                        timer: 1500
-                        })
-                   // this.generarboucher(cuotaid);
-                    this.montoporcion=0.0,
-                    this.otroscostosporcion=0.0,
-                    this.descpagoporcion='',
-
-                    this.showpagocuota = false;
-                    this.showpagoporcion=false;
-                    this.botoncuota=true;
-                   
-                    })
-                    .catch(err => {
-                        Swal.fire({
-                        position: 'top-end',
-                        type: 'error',
-                        title: 'Error, No se completó el pago',
-                        showConfirmButton: false,
-                        timer: 1500
-                        })
-                    });
-
-                  
-                },
+            
         },
         mounted() {
             this.listarPersona(1,this.buscar,this.criterio);

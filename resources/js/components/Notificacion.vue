@@ -91,7 +91,7 @@
 </template>
 <script>
 export default {
-    props:['notificacion','ruta'],
+   // props:['notificacion','ruta'],
     data(){
         return{
             arrayNotifications:[],

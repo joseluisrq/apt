@@ -50,7 +50,7 @@ const app = new Vue({
         ruta: 'http://localhost/apt/public'
     },
     created() {
-        let me = this;
+    /*    let me = this;
         axios.post('notification/get').then(function(response) {
             //console.log(response.data);
             me.notificacion = response.data;
@@ -63,6 +63,6 @@ const app = new Vue({
             console.log(notification)
             me.notificacion.unshift(notification);
         });
-
+        */
     }
 });
