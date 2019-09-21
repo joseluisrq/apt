@@ -16494,12 +16494,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -16540,59 +16534,12 @@ __webpack_require__.r(__webpack_exports__);
       //alamcenar todas las cuotas
       arrayCliente: [],
       arrayCuotasnuevo: [],
-      modal: 0,
-      tituloModal: '',
-      tipoAccion: 0,
       errorCredito: 0,
-      errorMostrarMsjCredito: [],
-      pagination: {
-        'total': 0,
-        'current_page': 0,
-        'per_page': 0,
-        'last_page': 0,
-        'from': 0,
-        'to': 0
-      },
-      offset: 3,
-      criterio: 'numeroprestamo',
-      //inicializamos el criterio de busqueda
-      buscar: ''
+      errorMostrarMsjCredito: []
     };
   },
   components: {
     vSelect: vue_select__WEBPACK_IMPORTED_MODULE_0___default.a
-  },
-  computed: {
-    isActived: function isActived() {
-      return this.pagination.current_page;
-    },
-    //Calcula los elementos de la paginación
-    pagesNumber: function pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-
-      var from = this.pagination.current_page - this.offset;
-
-      if (from < 1) {
-        from = 1;
-      }
-
-      var to = from + this.offset * 2;
-
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-
-      var pagesArray = [];
-
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-
-      return pagesArray;
-    }
   },
   methods: {
     //MOSTRAR DETALLE DE CREDITO
@@ -16666,6 +16613,32 @@ __webpack_require__.r(__webpack_exports__);
       me.apellidopaterno = val1.apellidopaterno;
       me.apellidomaterno = val1.apellidomaterno;
     },
+    editar_fecha: function editar_fecha(fecha, intervalo, dma, separador) {
+      var separador = separador || "-";
+      var arrayFecha = fecha.split(separador);
+      var dia = arrayFecha[2];
+      var mes = arrayFecha[1];
+      var anio = arrayFecha[0];
+      var fechaInicial = new Date(anio, mes - 1, dia);
+      var fechaFinal = fechaInicial;
+
+      if (dma == "m" || dma == "M") {
+        fechaFinal.setMonth(fechaInicial.getMonth() + parseInt(intervalo));
+      } else if (dma == "y" || dma == "Y") {
+        fechaFinal.setFullYear(fechaInicial.getFullYear() + parseInt(intervalo));
+      } else if (dma == "d" || dma == "D") {
+        fechaFinal.setDate(fechaInicial.getDate() + parseInt(intervalo));
+      } else {
+        return fecha;
+      }
+
+      dia = fechaFinal.getDate();
+      mes = fechaFinal.getMonth() + 1;
+      anio = fechaFinal.getFullYear();
+      dia = dia.toString().length == 1 ? "0" + dia.toString() : dia;
+      mes = mes.toString().length == 1 ? "0" + mes.toString() : mes;
+      return anio + "-" + mes + "-" + dia;
+    },
     //GENERAR LAS CUOTAS
     agregarCuotas: function agregarCuotas() {
       this.arrayCuota.length = 0;
@@ -16688,16 +16661,14 @@ __webpack_require__.r(__webpack_exports__);
 
         var saldop = (parseFloat(this.montodesembolsado) - parseFloat(cuotaneta)).toFixed(2); //FECHA
 
-        var e = new Date(this.fechadesembolso);
-        var dia = e.getDate() + 1;
-        e.setMonth(e.getMonth() + parseInt(this.periodo));
-        var unmesmas = e.getFullYear() + "-" + ('0' + (e.getMonth() + 1)).slice(-2) + "-" + ('0' + dia).slice(-2);
+        var e = new Date(me.fechadesembolso);
+        var pe = me.periodo; // var dia=e.getDate();//
 
-        for (var i = 0; i < this.numerocuotas; i++) {
-          if (i + 1 == this.numerocuotas) {
-            saldop = 0;
-          }
+        var dia = me.fechadesembolso.substr(-2);
+        var unmesmas = this.editar_fecha(me.fechadesembolso, me.periodo, "m");
 
+        for (var i = 0; i < me.numerocuotas; i++) {
+          if (i + 1 == me.numerocuotas) saldop = 0;
           me.arrayCuota.push({
             //(monto total+tasa)/cantidadde cuotas
             monto: cuotaneta,
@@ -16709,10 +16680,8 @@ __webpack_require__.r(__webpack_exports__);
           });
           saldop = (parseFloat(saldop) - parseFloat(cuotaneta)).toFixed(2);
           contadoraux++;
-          e = new Date(unmesmas);
-          dia = e.getDate() + 1;
-          e.setMonth(e.getMonth() + parseInt(this.periodo));
-          unmesmas = e.getFullYear() + "-" + ('0' + (e.getMonth() + 1)).slice(-2) + "-" + ('0' + dia).slice(-2);
+          pe = parseInt(pe) + parseInt(me.periodo);
+          unmesmas = this.editar_fecha(me.fechadesembolso, pe, "m");
         }
 
         this.listacuotas = 1;
@@ -67624,78 +67593,25 @@ var render = function() {
                                     "tbody",
                                     _vm._l(_vm.arrayCuota, function(cuota) {
                                       return _c("tr", { key: cuota.id }, [
-                                        _c("td", [
-                                          _vm._v(
-                                            " \n                                              " +
-                                              _vm._s(cuota.contador) +
-                                              "\n                                           "
-                                          )
-                                        ]),
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(cuota.contador)
+                                          }
+                                        }),
                                         _vm._v(" "),
-                                        _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: cuota.monto,
-                                                expression: "cuota.monto"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              type: "number",
-                                              placeholder: "Número Cuotas"
-                                            },
-                                            domProps: { value: cuota.monto },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  cuota,
-                                                  "monto",
-                                                  $event.target.value
-                                                )
-                                              }
-                                            }
-                                          })
-                                        ]),
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(cuota.monto)
+                                          }
+                                        }),
                                         _vm._v(" "),
-                                        _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: cuota.saldopendiente,
-                                                expression:
-                                                  "cuota.saldopendiente"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              type: "number",
-                                              placeholder: "Número Cuotas"
-                                            },
-                                            domProps: {
-                                              value: cuota.saldopendiente
-                                            },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.$set(
-                                                  cuota,
-                                                  "saldopendiente",
-                                                  $event.target.value
-                                                )
-                                              }
-                                            }
-                                          })
-                                        ]),
+                                        _c("td", {
+                                          domProps: {
+                                            textContent: _vm._s(
+                                              cuota.saldopendiente
+                                            )
+                                          }
+                                        }),
                                         _vm._v(" "),
                                         _c("td", [
                                           _c("input", {
@@ -67710,7 +67626,7 @@ var render = function() {
                                             staticClass: "form-control",
                                             attrs: {
                                               type: "date",
-                                              placeholder: "Número Cuotas"
+                                              placeholder: "Fecha de Pago"
                                             },
                                             domProps: {
                                               value: cuota.fechapago
@@ -67743,7 +67659,7 @@ var render = function() {
                                             staticClass: "form-control",
                                             attrs: {
                                               type: "number",
-                                              placeholder: "Número Cuotas"
+                                              placeholder: "Otros Costos"
                                             },
                                             domProps: {
                                               value: cuota.otroscostos
@@ -67776,7 +67692,7 @@ var render = function() {
                                             staticClass: "form-control",
                                             attrs: {
                                               type: "text",
-                                              placeholder: "Número Cuotas"
+                                              placeholder: "Descripcion"
                                             },
                                             domProps: {
                                               value: cuota.descripcion
@@ -88262,7 +88178,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp2\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })

@@ -108,23 +108,17 @@
                                     </thead>
                                     <tbody v-if="arrayCuota.length">
                                         <tr v-for="cuota in arrayCuota" :key="cuota.id">
+                                            <td v-text="cuota.contador"></td>
+                                            <td v-text="cuota.monto"></td>
+                                            <td v-text="cuota.saldopendiente"></td>
                                             <td> 
-                                               {{cuota.contador}}
+                                                <input type="date" class="form-control"  v-model="cuota.fechapago"   placeholder="Fecha de Pago">
                                             </td>
                                             <td> 
-                                                <input type="number" class="form-control"   v-model="cuota.monto"  placeholder="Número Cuotas">
-                                            </td>
-                                           <td> 
-                                                <input type="number" class="form-control"  v-model="cuota.saldopendiente"   placeholder="Número Cuotas">
+                                                <input type="number" class="form-control"  v-model="cuota.otroscostos"   placeholder="Otros Costos">
                                             </td>
                                             <td> 
-                                                <input type="date" class="form-control"  v-model="cuota.fechapago"   placeholder="Número Cuotas">
-                                            </td>
-                                            <td> 
-                                                <input type="number" class="form-control"  v-model="cuota.otroscostos"   placeholder="Número Cuotas">
-                                            </td>
-                                            <td> 
-                                                <input type="text" class="form-control"  v-model="cuota.descripcion"   placeholder="Número Cuotas">
+                                                <input type="text" class="form-control"  v-model="cuota.descripcion"   placeholder="Descripcion">
                                             </td> 
                                         </tr>
                                         
@@ -378,55 +372,15 @@ import vSelect from 'vue-select'
                 arrayCuotasnuevo:[],
                 
                 
-                modal : 0,
-                tituloModal : '',
-                tipoAccion : 0,
+             
                 errorCredito : 0,
                 errorMostrarMsjCredito : [],
-                pagination : {
-                    'total' : 0,
-                    'current_page' : 0,
-                    'per_page' : 0,
-                    'last_page' : 0,
-                    'from' : 0,
-                    'to' : 0,
-                },
-                offset : 3,
-                criterio : 'numeroprestamo', //inicializamos el criterio de busqueda
-                buscar : ''
+            
             }
         },
         components:{
             vSelect
-        },
-        computed:{
-            isActived: function(){
-                return this.pagination.current_page;
-            },
-            //Calcula los elementos de la paginación
-            pagesNumber: function() {
-                if(!this.pagination.to) {
-                    return [];
-                }
-                
-                var from = this.pagination.current_page - this.offset; 
-                if(from < 1) {
-                    from = 1;
-                }
-
-                var to = from + (this.offset * 2); 
-                if(to >= this.pagination.last_page){
-                    to = this.pagination.last_page;
-                }  
-
-                var pagesArray = [];
-                while(from <= to) {
-                    pagesArray.push(from);
-                    from++;
-                }
-                return pagesArray;             
-
-            }
+        
         },
         methods : {
            
@@ -512,6 +466,35 @@ import vSelect from 'vue-select'
                 me.apellidopaterno=val1.apellidopaterno;
                 me.apellidomaterno=val1.apellidomaterno
             },
+            editar_fecha(fecha, intervalo, dma, separador){
+                
+                var separador = separador || "-";
+                var arrayFecha = fecha.split(separador);
+                var dia = arrayFecha[2];
+                var mes = arrayFecha[1];
+                var anio = arrayFecha[0];
+                
+                var fechaInicial = new Date(anio, mes - 1, dia);
+                var fechaFinal = fechaInicial;
+                if(dma=="m" || dma=="M"){
+                    fechaFinal.setMonth(fechaInicial.getMonth()+parseInt(intervalo));
+                }else if(dma=="y" || dma=="Y"){
+                    fechaFinal.setFullYear(fechaInicial.getFullYear()+parseInt(intervalo));
+                }else if(dma=="d" || dma=="D"){
+                    fechaFinal.setDate(fechaInicial.getDate()+parseInt(intervalo));
+                }else{
+                    return fecha;
+                }
+                dia = fechaFinal.getDate();
+                mes = fechaFinal.getMonth() + 1;
+                anio = fechaFinal.getFullYear();
+                
+                dia = (dia.toString().length == 1) ? "0" + dia.toString() : dia;
+                mes = (mes.toString().length == 1) ? "0" + mes.toString() : mes;
+                
+               return anio + "-" + mes + "-" + dia;
+            },
+
           
             //GENERAR LAS CUOTAS
             agregarCuotas(){
@@ -540,18 +523,16 @@ import vSelect from 'vue-select'
                     var saldop=(parseFloat(this.montodesembolsado)-parseFloat(cuotaneta)).toFixed(2);
                 
                      //FECHA
-                    var e = new Date(this.fechadesembolso);
-                    var dia=e.getDate()+1;
-                    e.setMonth(e.getMonth() + parseInt(this.periodo));
-                    
-                    var unmesmas = e.getFullYear() + "-" + ('0'+(e.getMonth() + 1)).slice(-2) + "-" + ('0'+dia).slice(-2);
-                    
+                    var e = new Date(me.fechadesembolso);
+                    var pe=me.periodo
+                   // var dia=e.getDate();//
+                    var dia=me.fechadesembolso.substr(-2)
+                    var unmesmas = this.editar_fecha(me.fechadesembolso, me.periodo, "m");
 
-                    for (let i = 0; i < this.numerocuotas; i++) { 
+                    for (let i = 0; i < me.numerocuotas; i++) { 
                     
-                    if((i+1)==this.numerocuotas){
-                        saldop=0;
-                    }
+                    if((i+1)==me.numerocuotas)saldop=0;
+                   
 
                     me.arrayCuota.push({
                         //(monto total+tasa)/cantidadde cuotas
@@ -568,14 +549,9 @@ import vSelect from 'vue-select'
 
                     saldop=(parseFloat(saldop)-parseFloat(cuotaneta)).toFixed(2);
                     contadoraux++;
-                    
-                    
+                    pe= parseInt(pe)+parseInt(me.periodo);
 
-                     e = new Date(unmesmas);
-                    dia=e.getDate()+1;
-                     e.setMonth(e.getMonth() + parseInt(this.periodo));
-                      unmesmas = e.getFullYear() + "-" + ('0'+(e.getMonth()+1)).slice(-2) + "-" + ('0'+dia).slice(-2);
-                   
+                    unmesmas = this.editar_fecha(me.fechadesembolso, pe, "m");
                     }
     
                     this.listacuotas=1;
@@ -583,6 +559,7 @@ import vSelect from 'vue-select'
                  }//fin del else
                
             },
+          
 
             //ENVIAR LOS DATOS A REGISTRAR AL CONTROLADOR
             registrarCredito(){
