@@ -45,7 +45,7 @@ class CreditoController extends Controller
                 'personas.nombre',
                 'personas.apellidopaterno',
                 'personas.apellidomaterno','users.usuario')
-            ->where('creditos.estado', '<>', '0')
+           // ->where('creditos.estado', '<>', '0')
             ->orderBy('creditos.id', 'desc')->paginate(10);
         }
         else{
@@ -69,7 +69,7 @@ class CreditoController extends Controller
                     'personas.apellidopaterno',
                     'personas.apellidomaterno','users.usuario')
                 ->where('personas.'.$criterio, 'like', '%'. $buscar . '%')
-                ->where('creditos.estado', '<>', '0')
+               // ->where('creditos.estado', '<>', '0')
                 ->orderBy('creditos.id', 'desc')->paginate(10);
 
             }else{
@@ -93,7 +93,7 @@ class CreditoController extends Controller
                     'personas.apellidopaterno',
                     'personas.apellidomaterno','users.usuario')
                 ->where('creditos.'.$criterio, 'like', '%'. $buscar . '%')
-                ->where('creditos.estado', '<>', '0')
+               // ->where('creditos.estado', '<>', '0')
                 ->orderBy('creditos.id', 'desc')->paginate(10);
             }
            

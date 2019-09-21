@@ -17605,6 +17605,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -69636,62 +69648,86 @@ var render = function() {
                           "tbody",
                           _vm._l(_vm.arrayCredito, function(credito) {
                             return _c("tr", { key: credito.id }, [
-                              _c("td", { staticClass: "py-1" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-warning btn-sm",
-                                    attrs: {
-                                      type: "button",
-                                      title: "EDITAR CREDITO"
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.editarCredito(credito.id)
+                              _c(
+                                "td",
+                                { staticClass: "py-1" },
+                                [
+                                  credito.estado == 0
+                                    ? [
+                                        _vm._m(1, true),
+                                        _vm._v(" "),
+                                        _vm._m(2, true)
+                                      ]
+                                    : [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-danger btn-sm",
+                                            attrs: {
+                                              type: "button",
+                                              title: "ELIMINAR CREDITO"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.eliminarCredito(
+                                                  credito.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "fa fa-trash-o"
+                                            })
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-warning btn-sm",
+                                            attrs: {
+                                              type: "button",
+                                              title: "EDITAR CREDITO"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.editarCredito(
+                                                  credito.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass:
+                                                "fa fa-pencil-square-o"
+                                            })
+                                          ]
+                                        )
+                                      ],
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-primary btn-sm",
+                                      attrs: {
+                                        type: "button",
+                                        title: "HISTORIAL DE CAMBIOS"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.bitacoracredito(credito.id)
+                                        }
                                       }
-                                    }
-                                  },
-                                  [
-                                    _c("i", {
-                                      staticClass: "fa fa-pencil-square-o"
-                                    })
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-danger btn-sm",
-                                    attrs: {
-                                      type: "button",
-                                      title: "ELIMINAR CREDITO"
                                     },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.eliminarCredito(credito.id)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-trash-o" })]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-primary btn-sm",
-                                    attrs: {
-                                      type: "button",
-                                      title: "HISTORIAL DE CAMBIOS"
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.bitacoracredito(credito.id)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: " fa fa-cubes" })]
-                                )
-                              ]),
+                                    [_c("i", { staticClass: " fa fa-cubes" })]
+                                  )
+                                ],
+                                2
+                              ),
                               _vm._v(" "),
                               _c("td", {
                                 domProps: {
@@ -69904,7 +69940,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "table-responsive" }, [
                       _c("table", { staticClass: "table  table-bordered " }, [
-                        _vm._m(1),
+                        _vm._m(3),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -70110,6 +70146,32 @@ var staticRenderFns = [
         _c("th", { staticClass: "font-weight-bold" }, [_vm._v("Estado")])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-outline-danger btn-sm",
+        attrs: { type: "button", title: "ELIMINAR CREDITO" }
+      },
+      [_c("i", { staticClass: "fa fa-trash-o" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-outline-warning btn-sm",
+        attrs: { type: "button", title: "EDITAR CREDITO" }
+      },
+      [_c("i", { staticClass: "fa fa-pencil-square-o" })]
+    )
   },
   function() {
     var _vm = this

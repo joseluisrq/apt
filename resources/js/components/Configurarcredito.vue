@@ -186,14 +186,26 @@
                                 <tbody>
                                     <tr v-for="credito in arrayCredito" :key="credito.id">
                                     <td class="py-1">
-                                                <button type="button" title="EDITAR CREDITO" @click="editarCredito(credito.id)" class="btn btn-warning btn-sm">
-                                               <i class="fa fa-pencil-square-o"></i>
-                                                </button>
-                                                <button type="button" title="ELIMINAR CREDITO" @click="eliminarCredito(credito.id)" class="btn btn-danger btn-sm">
-                                              <i class="fa fa-trash-o"></i>
-                                                </button>
+                                               
+                                                <template v-if="credito.estado==0">
+                                                     <button type="button" title="ELIMINAR CREDITO" class="btn btn-outline-danger btn-sm">
+                                                        <i class="fa fa-trash-o"></i>
+                                                     </button>
+                                                     <button type="button" title="EDITAR CREDITO"  class="btn btn-outline-warning btn-sm">
+                                                        <i class="fa fa-pencil-square-o"></i>
+                                                     </button>
+                                                </template>
+                                                 <template v-else>
+                                                     <button type="button" title="ELIMINAR CREDITO" @click="eliminarCredito(credito.id)" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </button>
+                                                    <button type="button" title="EDITAR CREDITO" @click="editarCredito(credito.id)" class="btn btn-warning btn-sm">
+                                                        <i class="fa fa-pencil-square-o"></i>
+                                                    </button>
+                                                </template>
+                                               
                                                 <button type="button" title="HISTORIAL DE CAMBIOS" @click="bitacoracredito(credito.id)" class="btn btn-primary btn-sm">
-                                             <i class=" fa fa-cubes"></i>
+                                                    <i class=" fa fa-cubes"></i>
                                                 </button>
                                                
                                     </td>
