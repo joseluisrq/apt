@@ -17562,61 +17562,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -17717,18 +17662,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    fechaactual: function fechaactual() {
-      var date = new Date();
-      var day = date.getDate();
-      var month = date.getMonth() + 1;
-      var year = date.getFullYear();
-
-      if (month < 10) {
-        this.hoy = year + '-0' + month + '-' + day;
-      } else {
-        this.hoy = year + '-' + month + '-' + day;
-      }
-    },
     bitacoracredito: function bitacoracredito(id) {
       this.listado = 3;
       this.arrayBitacoraCredito.length = 0;
@@ -17745,10 +17678,8 @@ __webpack_require__.r(__webpack_exports__);
       window.open(this.ruta + '/credito/listarpdf', '_blank');
     },
     cambiarPagina: function cambiarPagina(page, buscar, criterio) {
-      var me = this; //Actualiza la página actual
-
-      me.pagination.current_page = page; //Envia la petición para visualizar la data de esa página
-
+      var me = this;
+      me.pagination.current_page = page;
       me.historialcredito(page, buscar, criterio);
     },
     historialcredito: function historialcredito(page, buscar, criterio) {
@@ -17759,18 +17690,6 @@ __webpack_require__.r(__webpack_exports__);
         var respuesta = response.data;
         me.arrayCredito = respuesta.creditos.data;
         me.pagination = respuesta.pagination;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    //listar cuotas luego de EDITAR EL CREDITO
-    listarCuotas: function listarCuotas(id) {
-      this.arrayCuota.length = 0;
-      var me = this;
-      var url = this.ruta + '/credito/cuotasClientEdit?id=' + id;
-      axios.get(url).then(function (response) {
-        var respuesta = response.data;
-        me.arrayCuota = respuesta.cuotasedit;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -17787,30 +17706,22 @@ __webpack_require__.r(__webpack_exports__);
 
         me.credito_id = me.detalleCredito[0].id;
         me.numeroprestamo = me.detalleCredito[0].numeroprestamo;
-        me.idkiva = me.detalleCredito[0].idkiva;
-        me.montodesembolsado = me.detalleCredito[0].montodesembolsado;
-        me.fechadesembolso = me.detalleCredito[0].fechadesembolso;
-        me.numerocuotas = me.detalleCredito[0].numerocuotas;
-        me.tipocambio = me.detalleCredito[0].tipocambio;
-        me.tasa = me.detalleCredito[0].tasa;
-        me.periodo = me.detalleCredito[0].periodo; //datos del clientes
+        me.idkiva = me.detalleCredito[0].idkiva; //datos del clientes
 
         me.idcliente = me.detalleCredito[0].idcliente;
         me.nombrecliente = me.detalleCredito[0].nombre;
         me.dni = me.detalleCredito[0].dni;
         me.apellidopaterno = me.detalleCredito[0].apellidopaterno;
-        me.apellidomaterno = me.detalleCredito[0].apellidomaterno; // me.tipocambio=me.arrayCredito[0].tipocambio;
-        //LISTAR CUOTAS
-
-        me.listarCuotas(credito);
+        me.apellidomaterno = me.detalleCredito[0].apellidomaterno;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     //ELIMNAR credito
-    eliminarCredito: function eliminarCredito(id) {
+    eliminarCredito: function eliminarCredito(id, idpersona) {
       var _this = this;
 
+      // let me=this;
       var swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success',
@@ -17820,7 +17731,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       swalWithBootstrapButtons.fire({
         title: '¿Esta seguro de eliminar este crédito?',
-        // text: "You won't be able to revert this!",
+        text: "No podrá volver activar el credito",
         type: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
@@ -17832,25 +17743,18 @@ __webpack_require__.r(__webpack_exports__);
           var me = _this;
           axios.put(_this.ruta + '/credito/desactivar', {
             //hacemos referencia a la ruta que creamos
-            'id': me.arrayCredito[0].id
+            'id': id,
+            'idpersona': idpersona
           }).then(function (response) {
             //de una ves que se ejecuto mostramos le mensaje de desactivado
-            swalWithBootstrapButtons.fire('Eliminado!', 'El credito ha sido eliminado con éxito', 'success');
+            me.historialcredito(1, me.buscar, me.criterio);
+            swalWithBootstrapButtons.fire('Desactivado!', 'El credito ha sido desactivado con éxito', 'success');
           })["catch"](function () {
             console.log(error);
           });
-
-          _this.historialcredito(1, _this.buscar, _this.criterio);
         } else if (
         /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {// swalWithBootstrapButtons.fire(
-          //mensaje cuando cancelamos
-
-          /*'Cancelled',
-          /'Your imaginary file is safe :)',
-          'error'*/
-          //  )
-        }
+        result.dismiss === Swal.DismissReason.cancel) {}
       });
     },
     selectCliente: function selectCliente(search, loading) {
@@ -17877,12 +17781,6 @@ __webpack_require__.r(__webpack_exports__);
       me.apellidopaterno = val1.apellidopaterno;
       me.apellidomaterno = val1.apellidomaterno;
     },
-    mostrarCreditos: function mostrarCreditos() {
-      this.listado = 0;
-    },
-    ocultarCreditos: function ocultarCreditos() {
-      this.listado = 1;
-    },
     actualizarCredito: function actualizarCredito() {
       if (this.validarCredito()) {
         return;
@@ -17892,16 +17790,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.put(this.ruta + '/credito/actualizar', {
         'numeroprestamo': this.numeroprestamo,
         'idkiva': this.idkiva,
-
-        /* 'montodesembolsado': this.montodesembolsado,
-         'fechadesembolso' : this.fechadesembolso,
-         'numerocuotas' : this.numerocuotas,
-         'tipocambio' : this.tipocambio,
-         'tasa' : this.tasa,
-         'periodo' : this.periodo,*/
         'idcliente': this.idcliente,
-        'id': this.credito_id //'data':this.arrayCuota
-
+        'id': this.credito_id
       }).then(function (response) {
         me.listado = 2;
         me.historialcredito(1, me.buscar, me.criterio);
@@ -17922,30 +17812,12 @@ __webpack_require__.r(__webpack_exports__);
       if (this.idcliente == 0) this.errorMostrarMsjCredito.push("Seleccione un Cliente");
       if (!this.idkiva) this.errorMostrarMsjCredito.push("Ingrese el ID KIVA");
       if (!this.numeroprestamo) this.errorMostrarMsjCredito.push("Ingrese el número de prestamo");
-      /*if (this.montodesembolsado==0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
-      if (!this.fechadesembolso) this.errorMostrarMsjCredito.push("Seleccione una fecha de desembolso");
-      if (this.numerocuotas==0) this.errorMostrarMsjCredito.push("Ingrese el número de cuotas");
-      if (this.tipocambio==0) this.errorMostrarMsjCredito.push("Ingrese el tipo de cambio");
-      if (this.tasa==0) this.errorMostrarMsjCredito.push("La tasa de interes no puede ser 0");
-          */
-      //si al menos tenemosun error enotnces errorCredito=1
-
       if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
       return this.errorCredito;
-    },
-    detalleCuota: function detalleCuota() {},
-    cerrarModal: function cerrarModal() {
-      this.modal = 0;
-    },
-    abrirModal: function abrirModal(index) {
-      var me = this;
-      me.modal = 1;
-      me.arrayCuotaDetalle = me.arrayCuotasnuevo[index];
     }
   },
   mounted: function mounted() {
     this.historialcredito(1, this.buscar, this.criterio);
-    this.fechaactual();
   }
 });
 
@@ -69671,7 +69543,8 @@ var render = function() {
                                             on: {
                                               click: function($event) {
                                                 return _vm.eliminarCredito(
-                                                  credito.id
+                                                  credito.id,
+                                                  credito.idpersona
                                                 )
                                               }
                                             }
@@ -69956,7 +69829,7 @@ var render = function() {
                                 bit.numeroprestamo_n != bit.numeroprestamo_v
                                   ? _c("p", [
                                       _vm._v(
-                                        "\n                                            N° Credito : \n                                            "
+                                        "\n                                                    N° Credito : \n                                                    "
                                       ),
                                       _c(
                                         "label",
@@ -69985,7 +69858,7 @@ var render = function() {
                                 bit.idkiva_n != bit.idkiva_v
                                   ? _c("p", [
                                       _vm._v(
-                                        "\n                                            ID KIVA : \n                                            "
+                                        "\n                                                    ID KIVA : \n                                                    "
                                       ),
                                       _c(
                                         "label",
@@ -70010,7 +69883,7 @@ var render = function() {
                                 bit.estado_n != bit.estado_v
                                   ? _c("p", [
                                       _vm._v(
-                                        "\n                                            ESTADO: \n                                            "
+                                        "\n                                                    ESTADO: \n                                                    "
                                       ),
                                       bit.estado_n == 2
                                         ? _c(
@@ -70184,7 +70057,7 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "font-weight-bold" }, [
-          _vm._v("Cambios \n                                         "),
+          _vm._v("Cambios \n                                                "),
           _c("label", { staticClass: "badge badge-success" }, [
             _vm._v(" Nuevo")
           ]),
@@ -88240,7 +88113,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp2\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })

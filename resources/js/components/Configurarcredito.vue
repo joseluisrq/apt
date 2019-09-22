@@ -48,59 +48,8 @@
 
                                 <input type="text" class="form-control"   v-model="idkiva"  placeholder="Identificador KIVA">
                             </div>
-                            
-
-                             
-                            
                             <hr>
-                        <!--tabla de cuotas--> 
-                           <!-- <div class="col-12 mt-4">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Cuota</th>
-                                            <th>Monto</th>
-                                            <th>Saldo Pendiente</th>
-                                            <th>Fecha de Pago</th>
-                                            <th>Otros Pagos</th>
-                                            <th>Descripcion</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody v-if="arrayCuota.length">
-                                        <tr v-for="cuota in arrayCuota" :key="cuota.id">
-                                            <td v-text="cuota.numerocuota"> 
-                                               
-                                            </td>
-                                            <td> 
-                                                <input type="number" class="form-control"   v-model="cuota.monto"  placeholder="Número Cuotas">
-                                            </td>
-                                           <td> 
-                                                <input type="number" class="form-control"  v-model="cuota.saldopendiente"   placeholder="Número Cuotas">
-                                            </td>
-                                            <td> 
-                                                <input type="date" class="form-control"  v-model="cuota.fechapago"   placeholder="Número Cuotas">
-                                            </td>
-                                            <td> 
-                                                <input type="number" class="form-control"  v-model="cuota.otroscostos"   placeholder="Número Cuotas">
-                                            </td>
-                                            <td> 
-                                                <input type="text" class="form-control"  v-model="cuota.descripcion"   placeholder="Número Cuotas">
-                                            </td> 
-                                        </tr>
-                                        
-                                    </tbody>
-                                    <tbody v-else>
-                                        <tr>
-                                            <td colspan="6">
-                                                Indique la cantidad de cuotas
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    </table>
-                                </div>
-                            </div>-->
-                         <!--fin de tabla cuotas-->
+                      
                         </div>
 
                         <div  v-show="errorCredito" class=" form-group col-md-12 mt-2 bg-danger">
@@ -196,7 +145,7 @@
                                                      </button>
                                                 </template>
                                                  <template v-else>
-                                                     <button type="button" title="ELIMINAR CREDITO" @click="eliminarCredito(credito.id)" class="btn btn-danger btn-sm">
+                                                     <button type="button" title="ELIMINAR CREDITO" @click="eliminarCredito(credito.id,credito.idpersona)" class="btn btn-danger btn-sm">
                                                         <i class="fa fa-trash-o"></i>
                                                     </button>
                                                     <button type="button" title="EDITAR CREDITO" @click="editarCredito(credito.id)" class="btn btn-warning btn-sm">
@@ -249,83 +198,79 @@
                 </div>
             </div>
     </template>
-<!--finde lista de creditos-->
+    <!--finde lista de creditos-->
 
-<!--bitacora de credito-->
-<template v-if="listado==3">
-    <div class="row">
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <button type="button" class="btn btn-outline-success btn-sm"  @click="historialcredito(1,buscar,criterio)"><i class="fa fa-mail-reply"></i>Ver todos los Creditos </button>
-                    <hr>
-                    <h4 class="text-center"> Modificaciones de Creditos</h4> 
-                    <hr> 
-                   
-                    <div class="table-responsive">
-                        <table class="table  table-bordered ">
-                            <thead class="table-bordered ">
-                                <tr class="font-weight-bold">
-                                    <th class="font-weight-bold">Fecha de Registro</th>
-                                    <th class="font-weight-bold">Cambios 
-                                         <label class="badge badge-success"> Nuevo</label>
-                                          <label class="badge badge-warning">Antiguo</label>
-                                    </th>
-                                   
-                                    <th class="font-weight-bold">USUARIO</th>
-                                     <th class="font-weight-bold">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="bit in arrayBitacoraCredito" :key="bit.id">
-                                    <td v-text="bit.fechacambio"></td>
-                                    <td >
-                                         <p v-if="bit.numeroprestamo_n!=bit.numeroprestamo_v">
-                                            N° Credito : 
-                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.numeroprestamo_n}}</label>
-                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.numeroprestamo_v}}</label>
-                                        </p>
-                                        <p v-if="bit.idkiva_n!=bit.idkiva_v">
-                                            ID KIVA : 
-                                            <label class="badge badge-success" style="font-size:14px;"> {{bit.idkiva_n}}</label>
-                                            <label class="badge badge-warning" style="font-size:14px;">{{bit.idkiva_v}}</label>
-                                        </p>
-                                       
-                                       <p v-if="bit.estado_n!=bit.estado_v">
-                                            ESTADO: 
-                                            <label class="badge badge-success" style="font-size:14px;" v-if="bit.estado_n==2"> CREDITO TERMINADO</label>
-                                            <label class="badge badge-success" style="font-size:14px;" v-else-if="bit.estado_n==1"> EN PROCESO</label>
-                                            <label class="badge badge-danger" style="font-size:14px;" v-else-if="bit.estado_n==0"> CREDITO INACTIVO</label>
-
-                                            <label class="badge badge-warning" style="font-size:14px;" v-if="bit.estado_v==1">EN PROCESO</label>
-                                            <label class="badge badge-success" style="font-size:14px;" v-else-if="bit.estado_v==2"> CREDITO TERMINADO</label>
-                                             <label class="badge badge-danger" style="font-size:14px;" v-else-if="bit.estado_v==0"> CREDITO INACTIVO</label>
-                                        </p>
-
+        <!--bitacora de credito-->
+        <template v-if="listado==3">
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <button type="button" class="btn btn-outline-success btn-sm"  @click="historialcredito(1,buscar,criterio)"><i class="fa fa-mail-reply"></i>Ver todos los Creditos </button>
+                            <hr>
+                            <h4 class="text-center"> Modificaciones de Creditos</h4> 
+                            <hr> 
+                        
+                            <div class="table-responsive">
+                                <table class="table  table-bordered ">
+                                    <thead class="table-bordered ">
+                                        <tr class="font-weight-bold">
+                                            <th class="font-weight-bold">Fecha de Registro</th>
+                                            <th class="font-weight-bold">Cambios 
+                                                <label class="badge badge-success"> Nuevo</label>
+                                                <label class="badge badge-warning">Antiguo</label>
+                                            </th>
                                         
-                                        <span>**********************************************</span>
+                                            <th class="font-weight-bold">USUARIO</th>
+                                            <th class="font-weight-bold">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="bit in arrayBitacoraCredito" :key="bit.id">
+                                            <td v-text="bit.fechacambio"></td>
+                                            <td >
+                                                <p v-if="bit.numeroprestamo_n!=bit.numeroprestamo_v">
+                                                    N° Credito : 
+                                                    <label class="badge badge-success" style="font-size:14px;"> {{bit.numeroprestamo_n}}</label>
+                                                    <label class="badge badge-warning" style="font-size:14px;">{{bit.numeroprestamo_v}}</label>
+                                                </p>
+                                                <p v-if="bit.idkiva_n!=bit.idkiva_v">
+                                                    ID KIVA : 
+                                                    <label class="badge badge-success" style="font-size:14px;"> {{bit.idkiva_n}}</label>
+                                                    <label class="badge badge-warning" style="font-size:14px;">{{bit.idkiva_v}}</label>
+                                                </p>
+                                            
+                                            <p v-if="bit.estado_n!=bit.estado_v">
+                                                    ESTADO: 
+                                                    <label class="badge badge-success" style="font-size:14px;" v-if="bit.estado_n==2"> CREDITO TERMINADO</label>
+                                                    <label class="badge badge-success" style="font-size:14px;" v-else-if="bit.estado_n==1"> EN PROCESO</label>
+                                                    <label class="badge badge-danger" style="font-size:14px;" v-else-if="bit.estado_n==0"> CREDITO INACTIVO</label>
 
-                                        
-                                         
+                                                    <label class="badge badge-warning" style="font-size:14px;" v-if="bit.estado_v==1">EN PROCESO</label>
+                                                    <label class="badge badge-success" style="font-size:14px;" v-else-if="bit.estado_v==2"> CREDITO TERMINADO</label>
+                                                    <label class="badge badge-danger" style="font-size:14px;" v-else-if="bit.estado_v==0"> CREDITO INACTIVO</label>
+                                                </p>
 
-                                    
-                                    </td>
-                                    <td v-text="bit.nombre"></td>
-                                    <td v-text="bit.condicion"></td>
-                                    </tr>
-                                </tbody>
-                        </table> 
-                    </div>
+                                                
+                                                <span>**********************************************</span>
+
+                                                
+                                                
+
+                                            
+                                            </td>
+                                            <td v-text="bit.nombre"></td>
+                                            <td v-text="bit.condicion"></td>
+                                            </tr>
+                                        </tbody>
+                                </table> 
+                            </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    
-</template>
-
-
-
-
+            
+        </template>
 
    </main>
 </template>
@@ -437,23 +382,8 @@ import vSelect from 'vue-select'
             }
         },
         methods : {
-                fechaactual(){
-                    let date = new Date()
-
-                    let day = date.getDate()
-                    let month = date.getMonth() + 1
-                    let year = date.getFullYear()
-
-                    if(month < 10){
-                   
-                     this.hoy=year+'-0'+month+'-'+day
-                    }else{
-                    this.hoy=year+'-'+month+'-'+day
-                    }
-
-                   
-            },
-
+              
+         
             bitacoracredito(id){
                 this.listado=3;
                 this.arrayBitacoraCredito.length=0;
@@ -473,15 +403,15 @@ import vSelect from 'vue-select'
             cargarPdf(){
                 window.open(this.ruta+'/credito/listarpdf','_blank');
             },
-              cambiarPagina(page,buscar,criterio){
+            cambiarPagina(page,buscar,criterio)
+            {
                 let me = this;
-                //Actualiza la página actual
                 me.pagination.current_page = page;
-                //Envia la petición para visualizar la data de esa página
                 me.historialcredito(page,buscar,criterio);
             },
            
-            historialcredito (page,buscar,criterio){
+            historialcredito (page,buscar,criterio)
+            {
                 let me=this;
                 me.listado=2;
                 var url= this.ruta+'/credito?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
@@ -495,20 +425,6 @@ import vSelect from 'vue-select'
                 });
             },
            
-            //listar cuotas luego de EDITAR EL CREDITO
-            listarCuotas(id){
-                this.arrayCuota.length=0;
-                let me=this;
-                var url= this.ruta+'/credito/cuotasClientEdit?id='+id;
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data;
-                    me.arrayCuota = respuesta.cuotasedit;
-                  
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
 
             //editar credito
             editarCredito(credito){
@@ -527,24 +443,15 @@ import vSelect from 'vue-select'
                  me.credito_id=me.detalleCredito[0].id
                  me.numeroprestamo=me.detalleCredito[0].numeroprestamo
                  me.idkiva=me.detalleCredito[0].idkiva
-                 me.montodesembolsado=me.detalleCredito[0].montodesembolsado
-                 me.fechadesembolso=me.detalleCredito[0].fechadesembolso
-                 me.numerocuotas=me.detalleCredito[0].numerocuotas
-                 me.tipocambio=me.detalleCredito[0].tipocambio
-                 me.tasa=me.detalleCredito[0].tasa
-                 me.periodo=me.detalleCredito[0].periodo
 
-
+                
                 //datos del clientes
                 me.idcliente=me.detalleCredito[0].idcliente
                 me. nombrecliente=me.detalleCredito[0].nombre
                 me.dni=me.detalleCredito[0].dni
                 me.apellidopaterno=me.detalleCredito[0].apellidopaterno
                 me.apellidomaterno=me.detalleCredito[0].apellidomaterno
-                 
-                   // me.tipocambio=me.arrayCredito[0].tipocambio;
-                //LISTAR CUOTAS
-                me.listarCuotas(credito)
+              
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -553,7 +460,8 @@ import vSelect from 'vue-select'
               
             },
              //ELIMNAR credito
-            eliminarCredito(id){
+            eliminarCredito(id,idpersona){
+               // let me=this;
               
                  const swalWithBootstrapButtons = Swal.mixin({
                         customClass: {
@@ -565,7 +473,7 @@ import vSelect from 'vue-select'
 
                         swalWithBootstrapButtons.fire({
                         title: '¿Esta seguro de eliminar este crédito?',
-                       // text: "You won't be able to revert this!",
+                        text: "No podrá volver activar el credito",
                         type: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'Aceptar',
@@ -576,30 +484,26 @@ import vSelect from 'vue-select'
                             //usamos axios para desactivar
                               let me=this;
                                  axios.put(this.ruta+'/credito/desactivar',{ //hacemos referencia a la ruta que creamos
-                                    'id':me.arrayCredito[0].id
+                                    'id':id,
+                                    'idpersona':idpersona
                                 }).then(function(response){ //de una ves que se ejecuto mostramos le mensaje de desactivado
-                                  
-                                      swalWithBootstrapButtons.fire(
-                                    'Eliminado!',
-                                    'El credito ha sido eliminado con éxito',
+                                      me.historialcredito(1,me.buscar,me.criterio);
+                                    swalWithBootstrapButtons.fire(
+                                    'Desactivado!',
+                                    'El credito ha sido desactivado con éxito',
                                     'success'
                                     )
+                                   
                                 }).catch(function(){
                                     console.log(error);
                                 });
 
-                           this.historialcredito(1,this.buscar,this.criterio);
+                         
                         } else if (
                             /* Read more about handling dismissals below */
                             result.dismiss === Swal.DismissReason.cancel
 
                         ) {
-                           // swalWithBootstrapButtons.fire(
-                                //mensaje cuando cancelamos
-                            /*'Cancelled',
-                            /'Your imaginary file is safe :)',
-                            'error'*/
-                          //  )
                         }
                         })
 
@@ -630,15 +534,7 @@ import vSelect from 'vue-select'
                 me.apellidopaterno=val1.apellidopaterno;
                 me.apellidomaterno=val1.apellidomaterno
             },
-          
-
-       
-            mostrarCreditos(){
-                this.listado=0;
-            },
-            ocultarCreditos(){
-                this.listado=1;
-            },  
+           
             actualizarCredito(){
                 if (this.validarCredito()){
                     return;
@@ -650,28 +546,11 @@ import vSelect from 'vue-select'
 
                     'numeroprestamo': this.numeroprestamo,
                     'idkiva': this.idkiva,
-                   /* 'montodesembolsado': this.montodesembolsado,
-                    'fechadesembolso' : this.fechadesembolso,
-                    'numerocuotas' : this.numerocuotas,
-                    'tipocambio' : this.tipocambio,
-                    'tasa' : this.tasa,
-                    'periodo' : this.periodo,*/
                     'idcliente' : this.idcliente,
-
                      'id': this.credito_id,
-
-                    //'data':this.arrayCuota
-                   
-
                 }).then(function (response) {
-
-                   
-                   
-                 
-                    me.listado=2;
-                    
+                    me.listado=2;                    
                      me.historialcredito(1,me.buscar,me.criterio);
-
                     Swal.fire({
                     position: 'top-end',
                     type: 'success',
@@ -694,38 +573,18 @@ import vSelect from 'vue-select'
                 if (this.idcliente==0) this.errorMostrarMsjCredito.push("Seleccione un Cliente");
                 if (!this.idkiva) this.errorMostrarMsjCredito.push("Ingrese el ID KIVA");
                 if (!this.numeroprestamo) this.errorMostrarMsjCredito.push("Ingrese el número de prestamo");
-                /*if (this.montodesembolsado==0) this.errorMostrarMsjCredito.push("El monto a desembolsar no puede ser 0");
-                if (!this.fechadesembolso) this.errorMostrarMsjCredito.push("Seleccione una fecha de desembolso");
-                if (this.numerocuotas==0) this.errorMostrarMsjCredito.push("Ingrese el número de cuotas");
-                if (this.tipocambio==0) this.errorMostrarMsjCredito.push("Ingrese el tipo de cambio");
-                if (this.tasa==0) this.errorMostrarMsjCredito.push("La tasa de interes no puede ser 0");
-                    */
-                //si al menos tenemosun error enotnces errorCredito=1
-                if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
+                 if (this.errorMostrarMsjCredito.length) this.errorCredito = 1;
 
                 return this.errorCredito;
             },
 
-            detalleCuota(){
-
-            },
-             cerrarModal(){
-                this.modal=0;
-              
-            },
-            abrirModal(index){
-                let me= this;
-
-              me.modal=1;
-              me.arrayCuotaDetalle=me.arrayCuotasnuevo[index];
-              
-              
-              }
-         
+           
+          
+           
         },
         mounted() {
             this.historialcredito(1,this.buscar,this.criterio);
-             this.fechaactual()
+          
         }
     }
 </script>

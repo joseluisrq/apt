@@ -33,7 +33,7 @@ class CreditoController extends Controller
                 'creditos.id', 
                 'creditos.numeroprestamo',
                 'creditos.idkiva',
-                 'creditos.montodesembolsado',
+                'creditos.montodesembolsado',
                 'creditos.fechadesembolso',
                
                 'creditos.numerocuotas',
@@ -41,6 +41,7 @@ class CreditoController extends Controller
                 'creditos.tasa',
                 'creditos.estado',
                 'creditos.periodo',
+                'personas.id as idpersona',
                 'personas.dni',
                 'personas.nombre',
                 'personas.apellidopaterno',
@@ -64,6 +65,7 @@ class CreditoController extends Controller
                     'creditos.tasa',
                     'creditos.estado',
                     'creditos.periodo',
+                    'personas.id as idpersona',
                     'personas.nombre',
                     'personas.dni',
                     'personas.apellidopaterno',
@@ -89,6 +91,7 @@ class CreditoController extends Controller
                     'creditos.estado',
                     'creditos.periodo',
                     'personas.nombre',
+                    'personas.id as idpersona',
                     'personas.dni',
                     'personas.apellidopaterno',
                     'personas.apellidomaterno','users.usuario')
@@ -374,11 +377,7 @@ class CreditoController extends Controller
         }
     }
 
-    public function activarclienteCredito($id)
-    {
-       
-       
-    }
+  
  
     public function desactivar(Request $request)
     {
@@ -386,6 +385,10 @@ class CreditoController extends Controller
         $cuota = Credito::findOrFail($request->id);
         $cuota->estado = '0'; //anulado
         $cuota->save();
+
+        $persona = Cliente::findOrFail($request->idpersona);
+        $persona->estadocredito = '0'; //anulado
+        $persona->save();
     }
 
     public function actualizar(Request $request)
