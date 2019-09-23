@@ -19551,9 +19551,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    bienvenida: function bienvenida() {
-      return this.$store.getters.bienvenida;
-    },
+    //  bienvenida(){ return this.$store.getters.bienvenida },
     isActived: function isActived() {
       return this.pagination.current_page;
     },
@@ -72761,11 +72759,7 @@ var render = function() {
       _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
         _c("div", { staticClass: "card" }, [
           _c("div", { staticClass: "card-body" }, [
-            _c("h4", { staticClass: "text-center" }, [
-              _vm._v(
-                "Roles   " + _vm._s(_vm.bienvenida) + "\n                 "
-              )
-            ]),
+            _c("h4", { staticClass: "text-center" }, [_vm._v("Roles ")]),
             _vm._v(" "),
             _c("hr"),
             _vm._v(" "),
@@ -87180,7 +87174,7 @@ var app = new Vue({
   el: '#app',
   store: store,
   data: {
-    menu: 0,
+    menu: 1,
     notificacion: [],
     ruta: 'http://localhost/apt/public'
   },

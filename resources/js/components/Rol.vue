@@ -6,7 +6,7 @@
              <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                    <h4 class="text-center">Roles   {{bienvenida}}
+                    <h4 class="text-center">Roles <!-- {{$store.state.msj}}-->
                     </h4>
                     <hr>
                        
@@ -106,9 +106,7 @@
             }
         },
         computed:{
-             bienvenida(){
-                    return this.$store.getters.bienvenida
-            },
+           //  bienvenida(){ return this.$store.getters.bienvenida },
 
             isActived: function(){
                 return this.pagination.current_page;

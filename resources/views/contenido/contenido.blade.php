@@ -4,9 +4,7 @@
  @if(Auth::check()) <!--si el usuario esta autentificado-->
        @if (Auth::user()->idrol == 1)
              
-                     <template v-if="menu==0">
-                           <h1>Escritorio</h1>       
-                     </template>
+                   
 
                      <template v-if="menu==1">
                             <cuota :ruta="ruta"></cuota>

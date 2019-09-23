@@ -51,7 +51,7 @@ const app = new Vue({
     el: '#app',
     store,
     data: {
-        menu: 0,
+        menu: 1,
         notificacion: [],
         ruta: 'http://localhost/apt/public'
     },
