@@ -8,6 +8,10 @@ require('./bootstrap');
 
 window.$ = window.jQuery = require('jquery');
 window.Vue = require('vue');
+import Vuex from 'vuex';
+import StoreData from './store';
+
+Vue.use(Vuex);
 
 /**
  * The following block of code may be used to automatically register your
@@ -41,9 +45,11 @@ Vue.component('pagarcuota', require('./components/PagarCuota.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+const store=new Vuex.Store(StoreData);
 
 const app = new Vue({
     el: '#app',
+    store,
     data: {
         menu: 0,
         notificacion: [],

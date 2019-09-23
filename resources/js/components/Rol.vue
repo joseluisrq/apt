@@ -6,7 +6,7 @@
              <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                    <h4 class="text-center">Roles  
+                    <h4 class="text-center">Roles   {{bienvenida}}
                     </h4>
                     <hr>
                        
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-    import  {mapState } from "vuex";
+    ///import  {mapState } from "vuex";
  
     export default {
          props : ['ruta'],
@@ -106,6 +106,10 @@
             }
         },
         computed:{
+             bienvenida(){
+                    return this.$store.getters.bienvenida
+            },
+
             isActived: function(){
                 return this.pagination.current_page;
             },

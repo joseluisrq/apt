@@ -1,16 +1,13 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-
-Vue.use(Vuex);
-
-export const store = new Vuex.Store({
-    state: {
-        count: 0,
-        titulo: 'Roles'
+export default{
+    state:{
+        msj:'Store Vuex'
     },
-    mutations: {
-        increment: state => state.count++,
-        decrement: state => state.count--
-    }
-})
+    mutations:{},
+    getters:{
+        bienvenida(state){
+            return state.msj;
+        }
+    },
+    actions:{}
+
+}
