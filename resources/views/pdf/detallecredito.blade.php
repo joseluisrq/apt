@@ -3,217 +3,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
     <title>Reporte de Credito</title>
     <style>
-        body {
-        /*position: relative;*/
-        /*width: 16cm;  */
-        /*height: 29.7cm; */
-        /*margin: 0 auto; */
-        /*color: #555555;*/
-        /*background: #FFFFFF; */
-        font-family: Arial, sans-serif; 
-        font-size: 14px;
-        /*font-family: SourceSansPro;*/
-        }
-
-        #logo{
-        float: left;
-        margin-top: 1%;
-        margin-left: 2%;
-        margin-right: 2%;
-        }
-
-        #imagen{
-        width: 100px;
-        }
-
-        #datos{
-        float: left;
-        margin-top: 0%;
-        margin-left: 2%;
-        margin-right: 2%;
-        /*text-align: justify;*/
-        }
-
-        #encabezado{
-        text-align: center;
-        margin-left: 10%;
-        margin-right: 35%;
-        font-size: 15px;
-        }
-
-        #fact{
-        /*position: relative;*/
-        float: right;
-        margin-top: 2%;
-        margin-left: 2%;
-        margin-right: 2%;
-        font-size: 20px;
-        }
-
-        section{
-        clear: left;
-        }
-
-        #cliente{
-        text-align: left;
-        }
-
-        #datcliente{
+           body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #FAFAFA;
+        font: 12pt "Tahoma";
+    }
+    * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+    .book{
         width: 40%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        margin-bottom: 15px;
-        }
+    }
+    .page {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 20mm;
+        margin: 10mm auto;
+        border: 1px #D3D3D3 solid;
+        border-radius: 5px;
+        background: white;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .subpage {
+        padding: 1cm;
+        border: 5px red solid;
+        height: 257mm;
+        outline: 2cm #FFEAEA solid;
+    }
+    
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
-        #fac, #fv, #fa{
-        color: #FFFFFF;
-        font-size: 15px;
-        }
-
-        #datcliente thead{
-        padding: 20px;
-        background: #30b817;
-        text-align: left;
-        border-bottom: 1px solid #FFFFFF;  
-        }
-
-        #datanalista{
-        width: 100%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        margin-bottom: 15px;
-        }
-
-        #datanalista thead{
-        padding: 20px;
-        background: #30b817;
-        text-align: center;
-        border-bottom: 1px solid #FFFFFF;  
-        }
-
-        #detallecuotass{
-        width: 100%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        margin-bottom: 15px;
-        }
-
-        #detallecuotass thead{
-        padding: 20px;
-        background: #30b817;
-        text-align: center;
-        border-bottom: 1px solid #FFFFFF;  
-        }
-
-        #gracias{
-        text-align: center; 
-        }
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+    }
     </style>
     <body>
         @foreach ($credito as $c)
+       
+        <div class="book">
+         <div class="page">
+            <div align='center'><h4> Contrato de Credito/Pagaré</h4></div>
+            <p>
+                ID PRESTAMO :  {{$c->numeroprestamo}}<br><br>
+                ID CLIENTE:  {{$c->dni}}<br><br>
+                ID KIVA:  {{$c->idkiva}}<br><br>
+            </p>
+             <p>
+                  Yo,  {{$c->nombre}}  {{$c->apellidopaterno}} {{$c->apellidomaterno}} con DNI  N° 
+                   {{$c->dni}};entiendo y estoy de acuerdo realizar los pagos en acuerdo con los
+                    términos y condiciones 
+            </p>
+            <p> Firma de Acreditado ______________________________ Fecha {{date('d/m/Y')}}</p>
+            <p> [Representante de APT del Norte] </p>
+            <p>Firma ______________________________ Fecha {{date('d/m/Y')}} </p>
             
-        
-        <header>
-            <div id="logo">
-                <img src="img/logo.png" alt="incanatoIT" id="imagen">
-            </div>
-            <div id="datos">
-                <p id="encabezado">
-                    <b>Apt San Marcos</b><br>Direccion San Marcos<br>Telefono: 964923450 <br>Email: aprsanmarcos@gmail.com
-                </p>
-            </div>
-            <div id="fact">
-                <p>N° de Prestamo<br>
-               {{$c->numeroprestamo}}</p>
-            </div>
-        </header>
-        <br>
-        <section>
-            <div>
-                <table id="datcliente">
-                    <thead>                        
-                        <tr>
-                            <th id="fac">Cliente</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <th><p id="cliente">Sr(a). 
-                            {{$c->nombre}}  {{$c->apellidopaterno}} {{$c->apellidomaterno}}<br>
-                            Documento: {{$c->dni}}<br>
-                            Dirección:{{$c->direccion}}<br>
-                            Teléfono: {{$c->telefono}}<br>
-                            Email: {{$c->email}}</p></th>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-        <br>
-        <section>
-            <div>
-                <table id="datanalista">
-                    <thead>
-                        <tr id="fv">
-                            <th>ANALISTA</th>
-                            <th>FECHA DE DESEMBOLSO</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{$c->usuario}}</td>
-                            <td>{{$c->fechadesembolso}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-        @endforeach
-        <br>
-        <section>
-            <div>
-              
+
+            <h4> I.Términos de Préstamo</h4>
+            <table>
+                <tr>
+                    <td>Monto de Prestamo y moneda</td>
+                    <td>$ {{$c->montodesembolsado}}</td>
+                    <td>Fecha de desembolso</td>
+                    <td>{{$c->fechadesembolso}}</td>
+                </tr>
+                <tr>
+                    <td>Tasa de Interes (Especificar si es Fija/Sobre Saldo/No aplicable)</td>
+                    <td>Fija {{$c->tasa}} % anual</td>
+                    <td>Fecha de vencimiento</td>
+                    <td></td>
+                </tr>
+
+                <tr>  
+                    <td>Frecuencia de Pagos (Semana, Mensual,etc)</td>
+                    <td>{{$c->periodo}}</td>
+                    <td>Cargos y otroscostos</td>
+                    <td></td>                         
                     
-                
-                <table id="detallecuotass">
-                    <thead>
-                        <tr id="fa">
-                            <th>N°</th>
-                            <th>Monto</th>
-                            <th>Saldo pendiente</th>
-                            <th>Fecha de Pago</th>
-                            <th>Otros Pagos</th>
-                            <th>Descripcion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            @foreach ($cuotas as $cuot)
-                        <tr>
-                            <td>{{$cuot->numerocuota}}</td>
-                            <td>{{$cuot->monto}}</td>
-                            <td>{{$cuot->saldopendiente}}</td>
-                            
-                            <td>{{$cuot->fechapago}}</td>
-                            <td>{{$cuot->otroscostos}}</td>
-                            <td>{{$cuot->descripcion}}</td>
-                            
-                            
-                        </tr>
-                        @endforeach
-                    </tbody>
-                  
+                </tr>
+            </table>
+
+
+            <h4>II.Plan de Pagos </h4>
+                <table>
+                    <tr>
+                        <th>Fecha de Pago</th>
+                        <th>Saldo Pendiente</th>
+                        <th>Principal</th>
+                        <th>Interes</th>
+                        <th>Otros Costos(Comisiones,seguros,G.B.)</th>
+                        <th>Pago total</th>
+                    </tr>
+                    @foreach ($cuotas as $cuot)
+                   
+                    <tr>
+                        <td>{{$cuot->fechapago}}</td>
+                        <td>{{$cuot->saldopendiente}}</td>
+                        <td>{{$cuot->monto}}</td>
+                        <td>{{$c->tasa}}</td>
+                        <td>{{$cuot->otroscostos}}</td>
+                        <td>{{$cuot->monto}}</td>
+                    </tr>
+                    @endforeach
+
                 </table>
-             
-            </div>
-        </section>
-        <br>
-        <br>
-        <footer>
-            <div id="gracias">
-                <p><b>Gracias, Apt San Marcos siempre a tu servicio</b></p>
-            </div>
-        </footer>
-    </body>
+            <h4>
+            I.Plan de pagos
+            </h4>
+            <p>
+                Yo,  {{$c->nombre}}  {{$c->apellidopaterno}} {{$c->apellidomaterno}} con DNI  N°  {{$c->dni}};entiendo y estoy de acuerdo realizar los pagos en acuerdo con los términos y condiciones 
+            </p>
+        </div>
+        <div class="page">
+        
+        </div>
+    </div>
+    @endforeach
 </html>

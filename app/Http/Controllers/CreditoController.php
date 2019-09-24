@@ -118,8 +118,8 @@ class CreditoController extends Controller
     //mostrar el credito ingresado
     public function creditosCliente(Request $request)
     {
-        //if (!$request->ajax()) return redirect('/');
-       // if (!$request->ajax()) return redirect('/');
+     
+        if (!$request->ajax()) return redirect('/');
  
         $idkiva = $request->idkiva;
          $creditos = Credito::join('clientes','creditos.idcliente','=','clientes.id')
@@ -132,6 +132,7 @@ class CreditoController extends Controller
             'creditos.fechadesembolso',
             'creditos.numerocuotas',
             'creditos.tipocambio',
+            'creditos.FECHAKIVA',
             'creditos.tasa',
             'creditos.estado',
             'creditos.periodo',
@@ -140,8 +141,29 @@ class CreditoController extends Controller
             'personas.apellidomaterno')
         ->where('creditos.idkiva','=',$idkiva)
         ->orderBy('creditos.id', 'desc')->get();
+
+
+        $cuotas = Cuota::join('creditos','cuotas.idcredito','=','creditos.id')
+       ->select(
+           'cuotas.id', 
+           'cuotas.monto',
+           'cuotas.fechapago',
+           'cuotas.fechacancelacion',
+           'cuotas.saldopendiente',
+           'cuotas.otroscostos',
+           'cuotas.descripcion',
+           'cuotas.estado',
+           'cuotas.numerocuota',
+           )
+         ->where('creditos.idkiva','=',$idkiva)
+        ->orderBy('cuotas.id', 'asc')->get();
+
+
          
-        return ['creditos' => $creditos];
+        return [
+            'creditos' => $creditos,
+            'cuotas' => $cuotas
+        ];
 
     }
 
@@ -210,44 +232,7 @@ class CreditoController extends Controller
 
     }
 
-    //selecionar las cuotas de un credito determinado //cambiar luego po rl id de credito
-    public function cuotasClientenuevo(Request $request)
-    {
-        //if (!$request->ajax()) return redirect('/');
- 
-        $idkiva = $request->idkiva;
-         $cuotas = Cuota::join('creditos','cuotas.idcredito','=','creditos.id')
-         ->join('clientes','creditos.idcliente','=','clientes.id')
-         ->join('personas as cli','clientes.id','=','cli.id')
-        ->join('users','cuotas.idusuario','=','users.id')
-         ->join('personas as us','users.id','=','us.id')
-        ->select(
-            'cuotas.id', 
-            'cuotas.monto',
-            'cuotas.fechapago',
-            'cuotas.fechacancelacion',
-            'cuotas.saldopendiente',
-            'cuotas.otroscostos',
-            'cuotas.descripcion',
-            'cuotas.estado',
-            'cuotas.numerocuota',
-            'cli.nombre',
-            'cli.apellidopaterno',
-            'cli.apellidomaterno',
-            'us.nombre as usuarionombre',
-            'us.apellidopaterno as usuariopaterno',
-            'us.apellidomaterno as usuariomaterno'
-            //'us.nombre'
-           // 'usuario.apellidopaterno',
-           //'usuario.apellidomaterno'
-            
-            )
-          ->where('creditos.idkiva','=',$idkiva)
-         ->orderBy('cuotas.id', 'asc')->get();
-         
-         return ['cuotas' => $cuotas];
-
-    }
+    
     
     public function obtenerCabecera(Request $request){
         if (!$request->ajax()) return redirect('/');
@@ -352,7 +337,7 @@ class CreditoController extends Controller
             $cliente->save();
             
             //guardar notificacion
-            $fechaactual=date('Y-m-d');
+         /*   $fechaactual=date('Y-m-d');
             $numCredito=DB::table('creditos')->whereDate('created_at',$fechaactual)->count();
 
             $arregloDatos=[
@@ -365,7 +350,7 @@ class CreditoController extends Controller
             foreach($allUsers as $notificar){
                 User::findOrFail($notificar->id)->notify(new NotificacionAdmin($arregloDatos));
             }
-
+            */
 
 
 
@@ -404,14 +389,6 @@ class CreditoController extends Controller
             $credito->idkiva = $request->idkiva;
             $credito->idusuario = \Auth::user()->id;
             $credito->save();
-
-
-
-
-             
-           // $cliente->estado = '1';
-            
-            //$cliente->save();
  
             DB::commit();
  
@@ -488,6 +465,7 @@ class CreditoController extends Controller
             $numerocredito=Credito::select('numeroprestamo')
             ->where('id',$id)->get();
 
+          
             $pdf= \PDF::loadView('pdf.detallecredito',[
                 'credito'=>$credito,
                 'cuotas'=>$cuotas]);

@@ -16545,21 +16545,11 @@ __webpack_require__.r(__webpack_exports__);
     //MOSTRAR DETALLE DE CREDITO
     listarCredito: function listarCredito() {
       var me = this;
+      me.arrayCuota = [];
       var url = this.ruta + '/credito/creditosCliente?idkiva=' + me.idkiva;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayCredito = respuesta.creditos;
-        me.listarCuotas();
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    //MOSTRAR CUOTAS DE DETALLE DE CREDITO
-    listarCuotas: function listarCuotas() {
-      var me = this;
-      var url = this.ruta + '/credito/cuotasClientenuevo?idkiva=' + me.idkiva;
-      axios.get(url).then(function (response) {
-        var respuesta = response.data;
         me.arrayCuotasnuevo = respuesta.cuotas;
       })["catch"](function (error) {
         console.log(error);
@@ -16573,7 +16563,6 @@ __webpack_require__.r(__webpack_exports__);
     nuevoCredito: function nuevoCredito() {
       var me = this;
       me.idkiva = '';
-      this.listado = 1;
       me.idcliente = 0;
       me.numeroprestamo = ''; //me.idkiva='';
 
@@ -16581,11 +16570,11 @@ __webpack_require__.r(__webpack_exports__);
       me.fechadesembolso = '';
       me.numerocuotas = 0;
       me.tipocambio = 0.0;
+      me.fechakiva = 0;
       me.tasa = 0.0;
       me.periodo = '';
       me.arrayCuota = [];
       me.arrayCliente = [];
-      this.listacuotas = 0;
     },
     //SELECIONAR CLIENTE PARA CREDITO
     selectCliente: function selectCliente(search, loading) {
@@ -16724,6 +16713,7 @@ __webpack_require__.r(__webpack_exports__);
             Swal.fire('CREADO', 'El credito ha sido registrado en la base de datos', 'success');
             me.listado = 0;
             me.listarCredito();
+            me.nuevoCredito();
           })["catch"](function (error) {
             console.log(error);
           });
@@ -67715,7 +67705,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: {
                               click: function($event) {
-                                return _vm.nuevoCredito()
+                                _vm.listado = 1
                               }
                             }
                           },
@@ -88144,7 +88134,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp2\htdocs\apt\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })

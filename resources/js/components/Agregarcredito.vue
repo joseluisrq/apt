@@ -173,7 +173,7 @@
                         
                            
                              <button type="button" class="btn btn-info btn-sm"  @click="pdfDetallecuota(credito.id)"><i class="fa fa-file-pdf-o"></i></button>
-                              <button type="button" class="btn btn-success btn-sm"  @click="nuevoCredito()"><i class="fa fa-plus-circle">Nuevo Credito</i></button>
+                              <button type="button" class="btn btn-success btn-sm"  @click="listado=1;"><i class="fa fa-plus-circle">Nuevo Credito</i></button>
               
                      </div>
                     
@@ -386,32 +386,22 @@ import vSelect from 'vue-select'
            
             //MOSTRAR DETALLE DE CREDITO
             listarCredito (){
-                 
+                
                 let me=this;
+                 me.arrayCuota=[];
                 var url= this.ruta+'/credito/creditosCliente?idkiva='+me.idkiva;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCredito = respuesta.creditos;
-                    me.listarCuotas()
+                    me.arrayCuotasnuevo = respuesta.cuotas;
+
+                 
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
          
-            },
-            //MOSTRAR CUOTAS DE DETALLE DE CREDITO
-            listarCuotas(){
-                  let me=this;
-                var url= this.ruta+'/credito/cuotasClientenuevo?idkiva='+me.idkiva;
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data;
-                    me.arrayCuotasnuevo = respuesta.cuotas;
-                  
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
+            },         
 
             //GENERAR PDF DE CREDITO CREADO
              pdfDetallecuota(idcredito){
@@ -422,7 +412,7 @@ import vSelect from 'vue-select'
             nuevoCredito(){
                 let me=this;
                     me.idkiva='';
-                    this.listado=1;
+                   
                     me.idcliente=0;
                     me.numeroprestamo='';
                     //me.idkiva='';
@@ -430,13 +420,14 @@ import vSelect from 'vue-select'
                     me.fechadesembolso='';
                     me.numerocuotas=0;
                     me.tipocambio=0.0;
+                    me.fechakiva=0;
                     me.tasa=0.0;
                     me.periodo='';
 
                     me.arrayCuota=[];
                     me.arrayCliente=[];
 
-                      this.listacuotas=0;
+                   
             },
 
             //SELECIONAR CLIENTE PARA CREDITO
@@ -494,8 +485,6 @@ import vSelect from 'vue-select'
                 
                return anio + "-" + mes + "-" + dia;
             },
-
-          
             //GENERAR LAS CUOTAS
             agregarCuotas(){
                 
@@ -560,7 +549,6 @@ import vSelect from 'vue-select'
                
             },
           
-
             //ENVIAR LOS DATOS A REGISTRAR AL CONTROLADOR
             registrarCredito(){
                 if (this.validarCredito()){
@@ -580,10 +568,7 @@ import vSelect from 'vue-select'
                     confirmButtonText: 'Si'
                     }).then((result) => {
                     if (result.value) {
-                      
-
-
-                                    axios.post(this.ruta+'/credito/registrar',{
+                       axios.post(this.ruta+'/credito/registrar',{
 
                                 'numeroprestamo': this.numeroprestamo,
                                 'idkiva': this.idkiva,
@@ -610,6 +595,8 @@ import vSelect from 'vue-select'
                             
                                 me.listado=0;
                                 me.listarCredito();
+                                me.nuevoCredito();
+                              
 
                              
                                 
