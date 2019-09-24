@@ -124,7 +124,11 @@ td, th {
                     <td style="width:35%">Tasa de Interes (Especificar si es Fija/Sobre Saldo/No aplicable)</td>
                     <td style="width:15%">Fija {{$c->tasa}} % anual</td>
                     <td style="width:35%">Fecha de vencimiento</td>
-                    <td style="width:15%"></td>
+                    <td style="width:15%">  <?php
+                        echo $meses=($c->numerocuotas)*($c->periodo);
+
+                     ?>
+                </td>
                 </tr>
 
                 <tr>  
@@ -142,11 +146,7 @@ td, th {
                 </td>
                     <td style="width:35%">Cargos y otroscostos</td>
                     <td style="width:15%">
-                    <?php
-                        echo $meses=($c->numerocuotas)*($c->periodo);
-
-                     ?>
-                
+                  
                     </td>                         
                     
                 </tr>
