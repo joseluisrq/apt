@@ -19310,6 +19310,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['idcliente'],
   data: function data() {
@@ -19322,14 +19330,15 @@ __webpack_require__.r(__webpack_exports__);
       interes: 0.0,
       descpagocuota: '',
       //datos del cliente
-      showpagocuota: false,
       showpagoporcion: false,
       botoncuota: true,
       montoporcion: 0.0,
       otroscostosporcion: 0.0,
       descpagoporcion: '',
       mostrarpagar: true,
-      identificadorcuota: 0
+      identificadorcuota: 0,
+      btnboucher: 1 //1cuota //2 porcioncuota
+
     };
   },
   computed: {},
@@ -19341,7 +19350,7 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       axios.get(this.ruta + '/cuota/detallepagar?id=' + this.idcliente).then(function (res) {
         _this.dataC = res.data.cuotas;
-        me.interes = me.dataC[0].montodesembolsado * (me.dataC[0].tasa / 100) / me.dataC[0].numerocuotas;
+        me.interes = me.dataC[0].monto * (me.dataC[0].tasa / 100);
         me.totalpagar = ((parseFloat(me.dataC[0].monto) + parseFloat(me.interes)) * me.dataC[0].tipocambio).toFixed(2);
       })["catch"](function (err) {
         console.log(err);
@@ -19363,12 +19372,9 @@ __webpack_require__.r(__webpack_exports__);
           title: 'El pago se realizó correctamente',
           showConfirmButton: false,
           timer: 2000
-        }); // this.listarCuotasPendientes();
-
+        });
         _this2.mostrarpagar = false;
-        _this2.identificadorcuota = idcuota; //  this.generarboucher(idcuota);
-        // this.listarPersona(1,this.buscar,this.criterio);
-        // this.showpagocuota = false;
+        _this2.identificadorcuota = idcuota;
       })["catch"](function (err) {
         Swal.fire({
           position: 'top-end',
@@ -19377,13 +19383,16 @@ __webpack_require__.r(__webpack_exports__);
           showConfirmButton: false,
           timer: 1500
         });
-      }); // this.limpiarDatos();
+      });
     },
     generarboucher: function generarboucher() {
       window.open(this.ruta + '/credito/detallecuotapdf/' + this.identificadorcuota + '', '_blank');
     },
+    generarboucherPorcion: function generarboucherPorcion() {
+      window.open(this.ruta + '/credito/detalleporcioncuotapdf/' + this.identificadorcuota + '', '_blank');
+    },
     //pagar porcion cuota
-    pagarPorcionCuota: function pagarPorcionCuota() {
+    pagarPorcionCuota: function pagarPorcionCuota(idcuota, tipocambio, tasa) {
       var _this3 = this;
 
       if (this.montoporcion == 0) {
@@ -19395,12 +19404,17 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
         return;
-      }
+      } //adolares
 
-      var montopagardolares = this.montoporcion / this.tipocambio;
+
+      var montopagardolares = this.montoporcion / tipocambio; //monto de interes
+
+      var pagoInteresPorcion = montopagardolares * (tasa / 100); //monto de cuta
+
+      var pagoCuotaProcion = montopagardolares - pagoInteresPorcion;
       axios.post(this.ruta + '/cuota/porcion', {
-        'id': this.idcuota,
-        'monto': montopagardolares,
+        'id': idcuota,
+        'monto': pagoCuotaProcion,
         'otroscostos': this.otroscostosporcion,
         'descripcion': this.descpagoporcion
       }).then(function (res) {
@@ -19412,9 +19426,11 @@ __webpack_require__.r(__webpack_exports__);
           timer: 1500
         }); // this.generarboucher(cuotaid);
 
-        _this3.montoporcion = 0.0, _this3.otroscostosporcion = 0.0, _this3.descpagoporcion = '', _this3.showpagocuota = false;
+        _this3.montoporcion = 0.0, _this3.otroscostosporcion = 0.0, _this3.descpagoporcion = '', _this3.botoncuota = true;
         _this3.showpagoporcion = false;
-        _this3.botoncuota = true;
+        _this3.mostrarpagar = false;
+        _this3.identificadorcuota = idcuota;
+        _this3.btnboucher = 2;
       })["catch"](function (err) {
         Swal.fire({
           position: 'top-end',
@@ -72349,7 +72365,11 @@ var render = function() {
                             _vm._v(" "),
                             _c("p", {
                               staticClass: "font-weight-light",
-                              domProps: { textContent: _vm._s(c.tipocambio) }
+                              domProps: {
+                                textContent: _vm._s(
+                                  "S/ " + parseFloat(c.tipocambio).toFixed(2)
+                                )
+                              }
                             })
                           ]),
                           _vm._v(" "),
@@ -72569,7 +72589,7 @@ var render = function() {
                                 attrs: {
                                   required: "",
                                   type: "Number",
-                                  max: _vm.montocuota,
+                                  max: c.monto,
                                   min: "0",
                                   placeholder: "Ingrese el monto a pagar"
                                 },
@@ -72671,7 +72691,15 @@ var render = function() {
                                 {
                                   staticClass: "btn btn-success",
                                   attrs: { type: "button" },
-                                  on: { click: _vm.pagarPorcionCuota }
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.pagarPorcionCuota(
+                                        c.id,
+                                        c.tipocambio,
+                                        c.tasa
+                                      )
+                                    }
+                                  }
                                 },
                                 [_vm._v("Confirmar pago")]
                               )
@@ -72702,24 +72730,45 @@ var render = function() {
                   { staticClass: "wrapper d-flex justify-content-between" },
                   [
                     _c("div", { staticClass: "side-left" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.generarboucher()
-                            }
-                          }
-                        },
-                        [
-                          _c("i", { staticClass: "fa fa-file-pdf-o" }),
-                          _vm._v(
-                            "\n                                Descargar Boucher"
+                      _vm.btnboucher == 1
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.generarboucher()
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fa fa-file-pdf-o" }),
+                              _vm._v(
+                                "\n                                Descargar Boucher\n                                "
+                              )
+                            ]
                           )
-                        ]
-                      )
+                        : _vm.btnboucher == 2
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-warning",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.generarboucherPorcion()
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fa fa-file-pdf-o" }),
+                              _vm._v(
+                                "\n                                Descargar Boucher\n                                "
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ])
                   ]
                 )

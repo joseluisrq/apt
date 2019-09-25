@@ -9,7 +9,7 @@ class Porcion extends Model
     //
     protected $table='porciones';
     protected $fillable =[
-        'idusuario',
+        'idusuario','id',
         'fechapago',
         'fechacancelacion',
         'monto',

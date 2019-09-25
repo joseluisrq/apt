@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <p class="font-weight-bold ">Tipo cambio</p>
-                                        <p class="font-weight-light" v-text="c.tipocambio"></p>
+                                        <p class="font-weight-light" v-text="'S/ '+parseFloat(c.tipocambio).toFixed(2)"></p>
                                     </div>
                                     <div class="col-md-3">
                                             <p class="font-weight-bold">Fecha pago</p>
@@ -123,7 +123,7 @@
                             </div>
                             <div class="col-md-2">
                                 <p class="font-weight-bold">Ingresar Monto S/</p>
-                                <input required="" class="col-md-12" type="Number" :max="montocuota" min="0" v-model="montoporcion" placeholder="Ingrese el monto a pagar">                 
+                                <input required="" class="col-md-12" type="Number" :max="c.monto" min="0" v-model="montoporcion" placeholder="Ingrese el monto a pagar">                 
                             </div>
                             <div class="col-md-2">
                             <p class="font-weight-bold">Otros Pagos S/</p>
@@ -137,7 +137,7 @@
                             <div class="col-md-12">
                                 <hr>
                                     <button type="button" class="btn btn-danger" @click="showpagoporcion=false;botoncuota=true;">Cerrar</button>
-                                    <button type="button" class="btn btn-success" @click="pagarPorcionCuota">Confirmar pago</button>
+                                    <button type="button" class="btn btn-success" @click="pagarPorcionCuota(c.id,c.tipocambio,c.tasa)">Confirmar pago</button>
                             </div>
                             
                                 
@@ -162,9 +162,17 @@
                             <div class="wrapper d-flex justify-content-between">
                                 <div class="side-left">
                                
-                                <button type="button" class="btn btn-danger" @click="generarboucher()">
+                                    <button v-if="btnboucher==1" type="button" class="btn btn-danger" 
+                                    @click="generarboucher()">
                                     <i class="fa fa-file-pdf-o"></i>
-                                    Descargar Boucher</button>
+                                    Descargar Boucher
+                                    </button>
+
+                                    <button v-else-if="btnboucher==2" type="button" class="btn btn-warning" 
+                                    @click="generarboucherPorcion()">
+                                    <i class="fa fa-file-pdf-o"></i>
+                                    Descargar Boucher
+                                    </button>
 
                                     
                                 </div>
@@ -178,7 +186,7 @@
             </div>
         </main>
     <!-- FIN PAGO DE CUOTA -->
-</template>
+    </template>
 
 <script>
 export default {
@@ -196,7 +204,7 @@ export default {
                 descpagocuota:'',
 
                 //datos del cliente
-                 showpagocuota: false,
+                
                  showpagoporcion:false,
                  botoncuota:true,
 
@@ -206,7 +214,8 @@ export default {
                  descpagoporcion:'',
                  mostrarpagar:true,
                  
-                 identificadorcuota:0
+                 identificadorcuota:0,
+                 btnboucher:1, //1cuota //2 porcioncuota
 
             }
             
@@ -226,16 +235,9 @@ export default {
                 axios.get(this.ruta+'/cuota/detallepagar?id='+this.idcliente)
                     .then(res => {
                     this.dataC = res.data.cuotas;
-                    
-                 
-                    me.interes=
-                          ((me.dataC[0].montodesembolsado*(me.dataC[0].tasa/100))
-                          )/me.dataC[0].numerocuotas;
-
-                      me.totalpagar=(((parseFloat(me.dataC[0].monto)+parseFloat(me.interes))*me.dataC [0].tipocambio)).toFixed(2);
-        
-                   
-                    })
+                    me.interes=me.dataC[0].monto*(me.dataC[0].tasa/100);
+                    me.totalpagar=(((parseFloat(me.dataC[0].monto)+parseFloat(me.interes))*me.dataC [0].tipocambio)).toFixed(2);
+                     })
                     .catch(err => {
                         console.log(err);
                     });
@@ -257,16 +259,9 @@ export default {
                         showConfirmButton: false,
                         timer: 2000
                         })
-
-                   // this.listarCuotasPendientes();
                         this.mostrarpagar=false;
                         this.identificadorcuota=idcuota
-                    
-
-                   //  this.generarboucher(idcuota);
-                    // this.listarPersona(1,this.buscar,this.criterio);
-                    // this.showpagocuota = false;
-                  
+                
                     })
                     .catch(err => {
                         Swal.fire({
@@ -277,17 +272,17 @@ export default {
                         timer: 1500
                         })
                     });
-
-                    
-                   // this.limpiarDatos();
             },
 
             generarboucher(){
                 window.open(this.ruta + '/credito/detallecuotapdf/'+this.identificadorcuota+'','_blank');
             },
+            generarboucherPorcion(){
+                window.open(this.ruta + '/credito/detalleporcioncuotapdf/'+this.identificadorcuota+'','_blank');
+            },
 
             //pagar porcion cuota
-            pagarPorcionCuota: function(){
+            pagarPorcionCuota(idcuota,tipocambio,tasa){
 
                 if(this.montoporcion == 0){
                     Swal.fire({
@@ -299,11 +294,17 @@ export default {
                     })
                     return;
                 }
-
-                let montopagardolares=this.montoporcion/this.tipocambio
+                //adolares
+                 let montopagardolares=this.montoporcion/tipocambio
+                 //monto de interes
+                 let pagoInteresPorcion=montopagardolares*(tasa/100)
+                 //monto de cuta
+                 let pagoCuotaProcion=montopagardolares-pagoInteresPorcion;
+               
+               
                 axios.post(this.ruta+'/cuota/porcion',{
-                    'id': this.idcuota,
-                    'monto': montopagardolares,
+                    'id':idcuota,
+                    'monto': pagoCuotaProcion,
                     'otroscostos': this.otroscostosporcion,
                     'descripcion': this.descpagoporcion
                 })
@@ -319,10 +320,18 @@ export default {
                     this.montoporcion=0.0,
                     this.otroscostosporcion=0.0,
                     this.descpagoporcion='',
+                     this.botoncuota=true;
 
-                    this.showpagocuota = false;
+
+                   
                     this.showpagoporcion=false;
-                    this.botoncuota=true;
+
+                    this.mostrarpagar=false;
+                    this.identificadorcuota=idcuota
+                    this.btnboucher=2;
+
+
+                   
                    
                     })
                     .catch(err => {

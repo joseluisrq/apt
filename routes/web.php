@@ -63,6 +63,8 @@ Route::group(['middleware'=>['auth']],function(){
             Route::put('/cuota/pagar', 'CuotaController@update');
             //Pago Porciones de cuota
             Route::post('/cuota/porcion', 'CuotaController@registrarPorcionPago');
+
+        //Route::post('/credito/detalleporcioncuotapdf/{id}', 'CuotaController@detalleporcioncuotapdf')->name('detalleporcion');;
             
             
 
@@ -91,6 +93,7 @@ Route::group(['middleware'=>['auth']],function(){
             Route::get('/credito/listarpdf', 'CreditoController@listarPdf')->name('creditos_pdf');
             Route::get('/credito/detallecreditopdf/{id}', 'CreditoController@pdfDetallecredito')->name('detallecredito_pdf');
             Route::get('/credito/detallecuotapdf/{id}', 'CreditoController@pdfDetalleCuota')->name('detallecuota_pdf');
+            Route::get('/credito/detalleporcioncuotapdf/{id}', 'CreditoController@detalleporcioncuotapdf')->name('detalleporcion_pdf');
             
             Route::get('/credito/obtenerCabecera', 'CreditoController@obtenerCabecera');
             Route::get('/credito/obtenerCuotas', 'CreditoController@obtenerCuotas');

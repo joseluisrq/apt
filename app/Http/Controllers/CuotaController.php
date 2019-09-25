@@ -294,4 +294,57 @@ class CuotaController extends Controller
 
 
     }
+   
+    public function detalleporcioncuotapdf(Request $request, $id){
+        $cuotas = Porcion::join('cuotas','porciones.id','cuotas.id')
+        ->join('creditos','cuotas.idcredito','=','creditos.id')
+        ->join('clientes','creditos.idcliente','=','clientes.id')
+        ->join('personas','clientes.id','=','personas.id')
+        ->join('users','porciones.idusuario','=','users.id')
+        ->select(
+            'porciones.idporcion',
+            'porciones.fechacancelacion as pfechacancelacion',
+            'porciones.monto as pmonto',
+            'porciones.otroscostos as potroscostos',
+            'porciones.descripcion as pdescripcion',
+
+
+
+            'creditos.id', 
+            'creditos.numeroprestamo',
+            'creditos.idkiva',
+            'creditos.montodesembolsado',
+            'creditos.fechadesembolso',
+            'creditos.numerocuotas',
+            'creditos.tipocambio',
+            'creditos.tasa',
+            'creditos.estado',
+            'creditos.periodo',
+
+            'cuotas.id',
+            'cuotas.numerocuota',
+            'cuotas.saldopendiente',
+            'cuotas.monto',
+            'cuotas.estado',
+
+            'personas.nombre',
+            'personas.dni',
+            'personas.direccion',
+            'personas.telefono',
+            'personas.email',
+            'personas.apellidopaterno',
+            'personas.apellidomaterno','users.usuario')
+   
+        ->where('cuotas.id','=',$id)->get();
+       // ->orderBy('porciones.idporcion','desc')->get();
+            
+       
+
+           
+
+            $pdf= \PDF::loadView('pdf.detalleporcion',[
+                'cuotas'=>$cuotas]);
+            return $pdf->download('detalleporcion.pdf');
+        
+    }
 }

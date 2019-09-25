@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Credito;
 use App\User;
 use App\Cuota;
+use App\Porcion;
 
 use App\Exports\CreditoExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -521,5 +522,59 @@ class CreditoController extends Controller
     {
         return Excel::download(new CreditoExport, 'creditos.xlsx');
     
+    }
+    public function detalleporcioncuotapdf(Request $request, $id){
+      
+       $cuotas = Porcion::join('cuotas','porciones.id','=','cuotas.id')
+       ->join('creditos','cuotas.idcredito','=','creditos.id')
+        ->join('clientes','creditos.idcliente','=','clientes.id')
+        ->join('personas','clientes.id','=','personas.id')
+        ->join('users','porciones.idusuario','=','users.id')
+        ->select(
+            'porciones.idporcion',
+            'porciones.fechacancelacion as pfechacancelacion',
+            'porciones.monto as pmonto',
+            'porciones.otroscostos as potroscostos',
+            'porciones.descripcion as pdescripcion',
+
+            'creditos.id', 
+            'creditos.numeroprestamo',
+            'creditos.idkiva',
+            'creditos.montodesembolsado',
+            'creditos.fechadesembolso',
+            'creditos.numerocuotas',
+            'creditos.tipocambio',
+            'creditos.tasa',
+            'creditos.estado',
+            'creditos.periodo',
+
+            'cuotas.id',
+            'cuotas.numerocuota',
+            'cuotas.saldopendiente',
+            'cuotas.monto',
+            'cuotas.estado',
+
+            'personas.nombre',
+            'personas.dni',
+            'personas.direccion',
+            'personas.telefono',
+            'personas.email',
+            'personas.apellidopaterno',
+            'personas.apellidomaterno','users.usuario')
+   
+            ->where('cuotas.id','=',$id)
+            ->orderBy('porciones.idporcion','desc')->take(1)->get();
+            
+       
+
+           
+
+           $pdf= \PDF::loadView('pdf.detalleporcion',[
+                'cuotas'=>$cuotas]);
+            return $pdf->download('detalleporcion.pdf');
+          //  return [ 'cuotas'=>$cuotas];
+
+          
+        
     }
 }
