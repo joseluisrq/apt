@@ -42,7 +42,7 @@
                     <div class="container" style="background-color:white">
                             <p>APT SAN MARCOS RUC: 20453715</p>
                       
-                    <p>NRO OPERACIÓN: {{$c->id}}
+                    <p>NRO OPERACIÓN: {{$c->id}} -  {{$c->numerocuota}}
                     <br> {{$c->fechacancelacion}}
                      <br>DNI SOCIO  : {{$c->dni}}
                     <br>{{$c->nombre}} {{$c->apellidopaterno}} {{$c->apellidomaterno}}
@@ -50,11 +50,19 @@
                     <br>N° CRED: {{$c->numeroprestamo}}
                     <br>PROD.CRED:CREDITO CONGARANTIA LIQUIDA/PLAZO</p>
                     <p>SALDO ANTERIOR N: $  {{$c->saldopendiente + $c->monto}} 
-                    <br>MONTO A PAGAR N: S/ {{($c->monto)*($c->tipocambio)}}
-                    <br>INTERES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;: S/ {{(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)*($c->tipocambio)}}
-                    <br>OTROS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;: S/ {{$c->otroscostos}}
+                    <br>MONTO A PAGAR N: S/ {{round(($c->monto)*($c->tipocambio),2)}}
+                    <br>INTERES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                     S/ {{ round(
+                       (($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)*($c->tipocambio)
+                       ,2)
+                      }}
+                    <br>OTROS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/ {{$c->otroscostos}}
                      
-                    <br>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;&nbsp;: {{(($c->monto+(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas))*$c->tipocambio)+$c->otroscostos}} 
+                    <br>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/
+                    {{round(
+                      (($c->monto+(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas))*$c->tipocambio)+$c->otroscostos
+                      ,2)
+                    }} 
   
                       </p>
                       <p>
@@ -64,7 +72,7 @@
                           
                       </p>
                       <p>
-                        DOC.IDE ...............FIRMA................
+                        DOC.IDE ..........................FIRMA...............................
                                              
                       </p>
                     
@@ -73,7 +81,7 @@
                   
                   </div>
                   
-                  <br><br><br><br><br>
+                  <br><br>
                   <div class="coupon">
                    
                    
@@ -88,11 +96,19 @@
                    <br>N° CRED: {{$c->numeroprestamo}}
                    <br>PROD.CRED:CREDITO CONGARANTIA LIQUIDA/PLAZO</p>
                    <p>SALDO ANTERIOR N: $  {{$c->saldopendiente + $c->monto}} 
-                   <br>MONTO A PAGAR N: S/ {{($c->monto)*($c->tipocambio)}}
-                   <br>INTERES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/ {{(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)*($c->tipocambio)}}
-                   <br>OTROS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/ {{$c->otroscostos}}
+                   <br>MONTO A PAGAR N: S/ {{round(($c->monto)*($c->tipocambio),2)}}
+                   <br>INTERES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                    S/ {{ round(
+                      (($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas)*($c->tipocambio)
+                      ,2)
+                     }}
+                   <br>OTROS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/ {{$c->otroscostos}}
                     
-                   <br>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{(($c->monto+(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas))*$c->tipocambio)+$c->otroscostos}} 
+                   <br>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/
+                   {{round(
+                     (($c->monto+(($c->montodesembolsado*($c->tasa/100))/$c->numerocuotas))*$c->tipocambio)+$c->otroscostos
+                     ,2)
+                   }} 
  
                      </p>
                      <p>
@@ -102,7 +118,7 @@
                          
                      </p>
                      <p>
-                       DOC.IDE ...............FIRMA................
+                       DOC.IDE ..........................FIRMA...............................
                                             
                      </p>
                    

@@ -5,19 +5,11 @@ id kiva en el boucher del detalel de cuota
 editar creidto cliente, prestamos , kiva
 enbcre<r cuota solo puede ecitar fecha de pago, otros pagos, descripcion
 12 DE CADA MES FECHA DE VENCIMIENTO
+Redeondeo de decimales de las cuotas en el boucher
 _____________________________
 
 detalle de cretio baoucher de desembolso: tipo boleta
 2 hoas del detalle de las cuotas
-
-
-
-
-
-
-Redeondeo de decimales de las cuotas en el boucher
-
-
 
 
 verificar el pago de otros

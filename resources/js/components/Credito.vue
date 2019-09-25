@@ -566,21 +566,22 @@ import vSelect from 'vue-select'
                 });
          
             },
-            //detalle de cuotas
-            listarCuotas(idkiva){
-                 this.listado=0;
-                  let me=this;
-                var url= this.ruta + '/credito/cuotasClientenuevo?idkiva='+idkiva;
-                axios.get(url).then(function (response) {
-                    var respuesta= response.data;
-                    me.arrayCuotasnuevo = respuesta.cuotas;
-                  
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
 
+
+           
+             cerrarModal(){
+                this.modal=0;
+              
+            },
+            abrirModal(index){
+                let me= this;
+
+              me.modal=1;
+              me.arrayCuotaDetalle=me.arrayCuotasnuevo[index];
+              
+              
+              }
+         
         },
         mounted() {
             this.historialcredito(1,this.buscar,this.criterio);

@@ -133,7 +133,7 @@ class CuotaController extends Controller
 
 
         return [
-            'cuotas' => $cuotas,
+           /// 'cuotas' => $cuotas,
             'fechahoy' =>  $fechahoy
         ];
     }
