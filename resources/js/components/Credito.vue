@@ -556,8 +556,10 @@ import vSelect from 'vue-select'
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
                     me.arrayCredito = respuesta.creditos;
+                     me.arrayCuotasnuevo = respuesta.cuotas;
                     me.tipocambio=me.arrayCredito[0].tipocambio;
-                    me.listarCuotas(idkiva)
+                     me.listado=0;
+                   // me.listarCuotas(idkiva)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -579,28 +581,6 @@ import vSelect from 'vue-select'
                 });
             },
 
-
-            mostrarCreditos(){
-                this.listado=0;
-            },
-            ocultarCreditos(){
-                this.listado=1;
-            },  
-         
-           
-             cerrarModal(){
-                this.modal=0;
-              
-            },
-            abrirModal(index){
-                let me= this;
-
-              me.modal=1;
-              me.arrayCuotaDetalle=me.arrayCuotasnuevo[index];
-              
-              
-              }
-         
         },
         mounted() {
             this.historialcredito(1,this.buscar,this.criterio);

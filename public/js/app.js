@@ -18365,8 +18365,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.get(url).then(function (response) {
         var respuesta = response.data;
         me.arrayCredito = respuesta.creditos;
+        me.arrayCuotasnuevo = respuesta.cuotas;
         me.tipocambio = me.arrayCredito[0].tipocambio;
-        me.listarCuotas(idkiva);
+        me.listado = 0; // me.listarCuotas(idkiva)
       })["catch"](function (error) {
         console.log(error);
       });
@@ -18382,20 +18383,6 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
-    },
-    mostrarCreditos: function mostrarCreditos() {
-      this.listado = 0;
-    },
-    ocultarCreditos: function ocultarCreditos() {
-      this.listado = 1;
-    },
-    cerrarModal: function cerrarModal() {
-      this.modal = 0;
-    },
-    abrirModal: function abrirModal(index) {
-      var me = this;
-      me.modal = 1;
-      me.arrayCuotaDetalle = me.arrayCuotasnuevo[index];
     }
   },
   mounted: function mounted() {
@@ -19338,30 +19325,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     //pagar cuota
-    pagarCuota: function pagarCuota() {
+    pagarCuota: function pagarCuota(idcuota, otroscostoscuota, idpersona) {
       var _this2 = this;
 
       axios.put(this.ruta + '/cuota/pagar', {
-        'id': this.idcuota,
+        'id': idcuota,
         'descripcion': this.descpagocuota,
-        'otrospagos': this.otroscostoscuota,
-        'idpersona': this.personacredito_id
+        'otrospagos': otroscostoscuota,
+        'idpersona': idpersona
       }).then(function (res) {
         Swal.fire({
           position: 'top-end',
           type: 'success',
           title: 'El pago se realizó correctamente',
           showConfirmButton: false,
-          timer: 1500
+          timer: 2000
         }); // this.listarCuotasPendientes();
 
-        var cuotaid = _this2.idcuota;
+        _this2.generarboucher(idcuota); // this.listarPersona(1,this.buscar,this.criterio);
+        // this.showpagocuota = false;
 
-        _this2.generarboucher(cuotaid);
-
-        _this2.listarPersona(1, _this2.buscar, _this2.criterio);
-
-        _this2.showpagocuota = false;
       })["catch"](function (err) {
         Swal.fire({
           position: 'top-end',
@@ -72496,7 +72479,15 @@ var render = function() {
                             {
                               staticClass: "btn btn-success col-md-4",
                               attrs: { type: "button" },
-                              on: { click: _vm.pagarCuota }
+                              on: {
+                                click: function($event) {
+                                  return _vm.pagarCuota(
+                                    c.id,
+                                    c.otroscostos,
+                                    c.idpersona
+                                  )
+                                }
+                              }
                             },
                             [_vm._v("Pagar Cuota")]
                           )

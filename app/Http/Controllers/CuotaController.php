@@ -105,6 +105,7 @@ class CuotaController extends Controller
                 'cuotas.monto',
                 'cuotas.otroscostos',
                 'cuotas.saldopendiente',
+                'personas.id as idpersona',
                 'personas.nombre',
                 'personas.apellidopaterno',
                 'personas.apellidomaterno',

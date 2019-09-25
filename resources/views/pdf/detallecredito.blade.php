@@ -96,7 +96,10 @@ td, th {
        
         <div class="book">
          <div class="page">
-            <div align='center'><h4> Contrato de Credito/Pagaré</h4></div>
+            <div align='center'>
+                <img src="./images/logo.png" width="120px" alt="">
+                <h4> Contrato de Credito/Pagaré</h4>
+            </div>
             <p>
                 ID PRESTAMO :  {{$c->numeroprestamo}}<br><br>
                 ID CLIENTE:  {{$c->dni}}<br><br>
@@ -124,10 +127,12 @@ td, th {
                     <td style="width:35%">Tasa de Interes (Especificar si es Fija/Sobre Saldo/No aplicable)</td>
                     <td style="width:15%">Fija {{$c->tasa}} % anual</td>
                     <td style="width:35%">Fecha de vencimiento</td>
-                    <td style="width:15%">  <?php
-                        echo $meses=($c->numerocuotas)*($c->periodo);
-
-                     ?>
+                    <td style="width:15%"> 
+                    <?php $fecha='';?>
+                    @foreach ($cuotas as $cuot)
+                     <?php if($cuot->numerocuota==$c->numerocuotas) $fecha=$cuot->fechapago;?>
+                     @endforeach
+                     <?php echo $fecha;?>
                 </td>
                 </tr>
 
@@ -163,9 +168,16 @@ td, th {
                        <td style="width:17%">Otros Costos</th>
                        <td style="width:15%">Pago total</th>
                     </tr>
-                    <?php 
+                    <tr>
+                        <td style="width:17%">{{$c->fechadesembolso}}</td>
+                        <td style="width:17%">{{$c->montodesembolsado}}</td>
+                        <td style="width:17%">0.00</td>
+                        <td style="width:17%">0.00</td>
+                        <td style="width:17%">0.00</td>
+                        <td style="width:17%">0.00</td>
                         
-                        $sumaotros=0; ?>
+                    </tr>
+                    <?php $sumaotros=0; ?>
                     @foreach ($cuotas as $cuot)
                    
                     <tr>
@@ -189,35 +201,44 @@ td, th {
                         $sumaotros=($cuot->otroscostos)+$sumaotros?>
                     </tr>
                     @endforeach
-                    <td style="width:17%">TOTAL</td>
-                        <td style="width:17%">0</td>
-                        <td style="width:17%">{{$c->montodesembolsado}}</td>
-                        <td style="width:17%">{{
+                    <tr>
+                        <td style="width:17%"><strong>TOTAL</strong> </td>
+                        <td style="width:17%"><strong>0</strong></td>
+                        <td style="width:17%"><strong>{{$c->montodesembolsado}}</strong></td>
+                        <td style="width:17%"><strong>{{
                             round(
                             $c->montodesembolsado*($c->tasa / 100)
                             ,2)
                         
-                        }}</td>
-                        <td style="width:17%"><?php echo $sumaotros?></td>
-                        <td style="width:15%">{{
+                        }}</strong></td>
+                        <td style="width:17%"><strong><?php echo $sumaotros?></strong></td>
+                        <td style="width:15%"><strong>{{
                             round(
                             $c->montodesembolsado+$sumaotros+  ($c->montodesembolsado*($c->tasa / 100))
                             ,2)
                         
-                        }}</td>
+                        }}</strong></td>
                     </tr>
 
                 </table>
-            <h4>
-            I.Plan de pagos
-            </h4>
             <p>
-                Yo,  {{$c->nombre}}  {{$c->apellidopaterno}} {{$c->apellidomaterno}} con DNI  N°  {{$c->dni}};entiendo y estoy de acuerdo realizar los pagos en acuerdo con los términos y condiciones 
+            III.Política de Morosidad- Si no recibimos un pago dentro de la fecha programada en su cronograma
+            , entonces el acreditado estará en mora y [APT del norte] tiene el derecho de [ aplicar cargo de 
+            morisidad al acreditado del 5% mensual ].
+            </p>
+            <p>
+            IV.Política de Incumplimiento - Después de [60] días de morosidad [ APT del Norte] tiene el derecho
+            de [ iniciar acción legal por incumplimiento de contrato ].
+            </p>
+            <p>
+                Si tiene cualquier pregunta o queja acerca de un producto , nuestro servicio, o un empleado por 
+                favor llame [ APT del Norte : correo electrónico productorestayasanmarcos@gmail.com o teléfono fijo 076-558336]
+            </p><br>
+            <p>
+                Teléfono del Cliente : .... {{ $c->telefono}}
             </p>
         </div>
-        <div class="page">
         
-        </div>
     </div>
     @endforeach
 </html>

@@ -103,7 +103,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-9">
-                                    <button type="button" v-if="botoncuota" @click="pagarCuota" class="btn btn-success col-md-4" >Pagar Cuota</button>
+                                    <button type="button" v-if="botoncuota" @click="pagarCuota(c.id,c.otroscostos,c.idpersona)" class="btn btn-success col-md-4" >Pagar Cuota</button>
                                 </div>
                                 <div class="col-md-3">
                                     <button type="button" class="btn btn-outline-primary" @click="showpagoporcion=true;botoncuota=false;">Pagar porción</button>      
@@ -214,12 +214,12 @@ export default {
             },
 
             //pagar cuota
-            pagarCuota: function(){
+            pagarCuota: function(idcuota,otroscostoscuota,idpersona){
                 axios.put(this.ruta+'/cuota/pagar',{
-                    'id': this.idcuota,
+                    'id': idcuota,
                     'descripcion': this.descpagocuota,
-                    'otrospagos': this.otroscostoscuota,
-                    'idpersona':this.personacredito_id
+                    'otrospagos': otroscostoscuota,
+                    'idpersona':idpersona
                 })
                     .then(res => {
                     Swal.fire({
@@ -227,15 +227,15 @@ export default {
                         type: 'success',
                         title: 'El pago se realizó correctamente',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000
                         })
 
                    // this.listarCuotasPendientes();
-                     let cuotaid = this.idcuota;
+                    
 
-                     this.generarboucher(cuotaid);
-                     this.listarPersona(1,this.buscar,this.criterio);
-                     this.showpagocuota = false;
+                     this.generarboucher(idcuota);
+                    // this.listarPersona(1,this.buscar,this.criterio);
+                    // this.showpagocuota = false;
                   
                     })
                     .catch(err => {
