@@ -40,6 +40,9 @@
                      <template v-if="menu==9">
                             <configcredito :ruta="ruta"></configcredito>     
                      </template>
+                     <template v-if="menu==10">
+                             <pagarcuota :idcliente="personacredito_id"></pagarcuota>
+                     </template>
                          
                      </template>
        @elseif (Auth::user()->idrol == 2)
@@ -50,6 +53,7 @@
                      <template v-if="menu==3">
                             <cliente :ruta="ruta"></cliente>
                      </template>
+                     
        @else
        
        @endif

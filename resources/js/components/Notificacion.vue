@@ -1,4 +1,5 @@
 <template>
+
      <li class="nav-item dropdown">
        
             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown"  data-toggle="dropdown">
@@ -41,6 +42,7 @@
                      <div class="dropdown-divider"></div>
                      <span>No tiene notificaciones</span>
                 </div>-->
+                
                 <div v-if="fechareporte">
                 
                             <div class="dropdown-divider"></div>
@@ -62,7 +64,10 @@
                 <div v-if="arrayCuotas.length">
                     <li v-for="not in arrayCuotas" :key="not.id">
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item preview-item">
+                        <button type="button" class="
+                        btn btn-outline-primary
+                        dropdown-item preview-item" 
+                        data-toggle="modal" data-target="#exampleModal">
                             <div class="preview-thumbnail">
                                 <div class="preview-icon bg-danger">
                                
@@ -71,17 +76,41 @@
                             <div class="preview-item-content">
                                 <h6 class="preview-subject font-weight-medium text-dark"></h6>
                                 <p class="font-weight-light small-text">
-                                    Cuota atrasada {{not.fechapago}}
+                                    Cuota atrasada <br>{{not.fechapago}}
                                 </p>
                             </div>
-                        </a>
+                        </button >
                     </li>
                 </div>
                  <div v-else>
                      <div class="dropdown-divider"></div>
                      <span>No tiene notificaciones</span>
                 </div>
+
+                <main v-if="!mostrarmodal">
+                   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </main>
               
+
+
         
               <!--Fin lista de notificaciones-->
             
@@ -89,6 +118,8 @@
         </div>
     </li>
 </template>
+    
+
 <script>
 export default {
    // props:['notificacion','ruta'],
@@ -97,6 +128,9 @@ export default {
             arrayNotifications:[],
             fechareporte:'',
             arrayCuotas:[],
+
+            mostrarPago:'hola',
+            mostrarmodal:false,
             
         }
     },

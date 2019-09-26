@@ -19074,13 +19074,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props:['notificacion','ruta'],
   data: function data() {
     return {
       arrayNotifications: [],
       fechareporte: '',
-      arrayCuotas: []
+      arrayCuotas: [],
+      mostrarPago: 'hola',
+      mostrarmodal: false
     };
   },
   computed: {
@@ -72193,24 +72226,43 @@ var render = function() {
                 return _c("li", { key: not.id }, [
                   _c("div", { staticClass: "dropdown-divider" }),
                   _vm._v(" "),
-                  _c("a", { staticClass: "dropdown-item preview-item" }, [
-                    _vm._m(2, true),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "preview-item-content" }, [
-                      _c("h6", {
-                        staticClass:
-                          "preview-subject font-weight-medium text-dark"
-                      }),
+                  _c(
+                    "button",
+                    {
+                      staticClass:
+                        "\n                    btn btn-outline-primary\n                    dropdown-item preview-item",
+                      attrs: {
+                        type: "button",
+                        "data-toggle": "modal",
+                        "data-target": "#exampleModal"
+                      }
+                    },
+                    [
+                      _vm._m(2, true),
                       _vm._v(" "),
-                      _c("p", { staticClass: "font-weight-light small-text" }, [
-                        _vm._v(
-                          "\n                                Cuota atrasada " +
-                            _vm._s(not.fechapago) +
-                            "\n                            "
+                      _c("div", { staticClass: "preview-item-content" }, [
+                        _c("h6", {
+                          staticClass:
+                            "preview-subject font-weight-medium text-dark"
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "p",
+                          { staticClass: "font-weight-light small-text" },
+                          [
+                            _vm._v(
+                              "\n                                Cuota atrasada "
+                            ),
+                            _c("br"),
+                            _vm._v(
+                              _vm._s(not.fechapago) +
+                                "\n                            "
+                            )
+                          ]
                         )
                       ])
-                    ])
-                  ])
+                    ]
+                  )
                 ])
               }),
               0
@@ -72219,7 +72271,9 @@ var render = function() {
               _c("div", { staticClass: "dropdown-divider" }),
               _vm._v(" "),
               _c("span", [_vm._v("No tiene notificaciones")])
-            ])
+            ]),
+        _vm._v(" "),
+        !_vm.mostrarmodal ? _c("main", [_vm._m(3)]) : _vm._e()
       ]
     )
   ])
@@ -72252,6 +72306,82 @@ var staticRenderFns = [
     return _c("div", { staticClass: "preview-thumbnail" }, [
       _c("div", { staticClass: "preview-icon bg-danger" })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "exampleModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLabel" }
+                  },
+                  [_vm._v("Modal title")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _vm._v("\n                        ...\n                    ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Close")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  { staticClass: "btn btn-primary", attrs: { type: "button" } },
+                  [_vm._v("Save changes")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   }
 ]
 render._withStripped = true
