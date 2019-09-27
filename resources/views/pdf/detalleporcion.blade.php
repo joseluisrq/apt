@@ -98,12 +98,12 @@
                    <br>Obs: {{$c->pdescripcion}}
                    <br>N° CRED: {{$c->numeroprestamo}}
                    <br>PROD.CRED:CREDITO CONGARANTIA LIQUIDA/PLAZO</p>
-                   <p>SALDO ANTERIOR N: $  {{$c->saldopendiente + $c->pmonto}} 
+                   <p>SALDO ANTERIOR N: $  {{$c->saldopendiente + $c->monto+$c->pmonto}} 
                    <br>MONTO A PAGAR N: S/ {{round((($c->pmonto))*($c->tipocambio),2)}}
                   
-                   <br>INTERES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                   <br>INTERES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/
                    <?php
-                     $int=round(($c->pmonto*$c->tasa)/(100-$c->tasa),2);
+                     $int=round((($c->pmonto*$c->tasa)/(100-$c->tasa)*$c->tipocambio),2);
                      echo $int
                    ?>
                    <br>OTROS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -112,7 +112,7 @@
                     
                    <br>TOTAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: S/
                    {{round(
-                     $c->pmonto+$int+$c->otroscostos
+                    ($c->pmonto*$c->tipocambio)+($int)+$c->potroscostos
                      ,2)
                    }} 
  

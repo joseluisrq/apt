@@ -217,6 +217,8 @@ export default {
                  identificadorcuota:0,
                  btnboucher:1, //1cuota //2 porcioncuota
 
+                 montoanterior:0,
+
             }
             
         },
@@ -236,6 +238,7 @@ export default {
                     .then(res => {
                     this.dataC = res.data.cuotas;
                     me.interes=me.dataC[0].monto*(me.dataC[0].tasa/100);
+                   // me.montoanterior=me.dataC[0].montodesembolsado/me.dataC[0].numerocuotas
                     me.totalpagar=(((parseFloat(me.dataC[0].monto)+parseFloat(me.interes))*me.dataC [0].tipocambio)).toFixed(2);
                      })
                     .catch(err => {
@@ -249,7 +252,8 @@ export default {
                     'id': idcuota,
                     'descripcion': this.descpagocuota,
                     'otrospagos': otroscostoscuota,
-                    'idpersona':idpersona
+                    'idpersona':idpersona,
+                    //'montoant':this.montoanterior,
                 })
                     .then(res => {
                     Swal.fire({

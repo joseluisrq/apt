@@ -67,7 +67,7 @@
                         <button type="button" class="
                         btn btn-outline-primary
                         dropdown-item preview-item" 
-                        data-toggle="modal" data-target="#exampleModal">
+                        @click="abrirModal()">
                             <div class="preview-thumbnail">
                                 <div class="preview-icon bg-danger">
                                
@@ -86,38 +86,14 @@
                      <div class="dropdown-divider"></div>
                      <span>No tiene notificaciones</span>
                 </div>
-
-                <main v-if="!mostrarmodal">
-                   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </main>
-              
-
-
-        
               <!--Fin lista de notificaciones-->
             
           
         </div>
     </li>
+    
 </template>
+
     
 
 <script>
@@ -131,6 +107,9 @@ export default {
 
             mostrarPago:'hola',
             mostrarmodal:false,
+
+             tipoAccion : 0,
+              modal : 0,
             
         }
     },
@@ -156,7 +135,13 @@ export default {
                     .catch(err => {
                         console.log(err);
                 });
-            },  
+            },
+            abrirModal(){
+                 this.tipoAccion = 1,
+                 this.modal=1
+                 
+
+            },
             hoyFecha(){
                 var hoy = new Date();
                 var dd = hoy.getDate();
@@ -176,3 +161,27 @@ export default {
     
 }
 </script>
+<style >
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 500px;
+   
+    overflow-y: auto;
+}
+
+    
+   .modal-content{
+        width: 100% !important;
+        position: absolute !important;
+    }
+    .mostrar{
+       
+        display: list-item !important;
+        opacity: 1 !important;
+        position: fixed !important;
+        background-color: #3c29297a !important;}
+  
+
+</style>

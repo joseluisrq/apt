@@ -11,13 +11,14 @@
                 
 
                   <div class="row" v-for="credito in arrayCredito" :key="credito.id">
-                      <div class="col-md-9">
+                      <div class="col-md-8">
                             <h4 class="text-primary mb-5">Detalle de Credito</h4>
                       </div>
                     
-                     <div class="col-md-2">
+                     <div class="col-md-3">
                          
-                            <button type="button" class="btn btn-info btn-sm"  @click="pdfDetallecuota(credito.id)"><i class="fa fa-file-pdf-o"></i></button>
+                            <button type="button" class="btn btn-info btn-sm"  @click="pdfDetallecuota(credito.id)"><i class="fa fa-file-pdf-o"></i>Contrato</button>
+                             <button type="button" class="btn btn-primary btn-sm"  @click="pdfDetallecuotaBoleta(credito.id)"><i class="fa fa-file-pdf-o"></i>Boleta</button>
                              <button type="button" class="btn btn-success btn-sm"  @click="historialcredito(1,buscar,criterio)"><i class="fa fa-mail-reply"></i>Historial </button>
                            
                      </div>
@@ -64,6 +65,14 @@
                             <div class="side-left">
                                 <p class="mb-2 font-weight-bold">Fecha de desembolso</p>
                                 <h6 class="mb-4 font-weight-light" v-text="credito.fechadesembolso"></h6>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col-md-3">
+                        <div class="wrapper d-flex justify-content-between">
+                            <div class="side-left">
+                                <p class="mb-2 font-weight-bold">Fecha de Kiva</p>
+                                <h6 class="mb-4 font-weight-light" v-text="credito.FECHAKIVA"></h6>
                             </div>
                         </div>
                     </div>
@@ -265,7 +274,7 @@
                                                 <label class="badge badge-warning">En proceso</label>
                                             </td>
                                             <td v-if="credito.estado==0" >
-                                                <label class="badge badge-danger">Desactivador</label>
+                                                <label class="badge badge-danger">Desactivado</label>
                                             </td>
                                             <td v-if="credito.estado==2" >
                                                 <label class="badge badge-success">Completado</label>
@@ -534,6 +543,9 @@ import vSelect from 'vue-select'
             },
             pdfDetallecuota(idcredito){
                  window.open(this.ruta + '/credito/detallecreditopdf/'+idcredito,'_blank');
+            },
+            pdfDetallecuotaBoleta(idcredito){
+                 window.open(this.ruta + '/credito/boletacreditopdf/'+idcredito,'_blank');
             },
             historialcredito (page,buscar,criterio){
                 let me=this;

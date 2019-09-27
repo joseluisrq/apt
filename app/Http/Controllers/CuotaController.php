@@ -40,6 +40,7 @@ class CuotaController extends Controller
                 'cuotas.monto',
                 'cuotas.otroscostos',
                 'cuotas.saldopendiente',
+                'personas.id as idpersona',
                 'personas.nombre',
                 'personas.apellidopaterno',
                 'personas.apellidomaterno',
@@ -68,6 +69,7 @@ class CuotaController extends Controller
                     'cuotas.monto',
                     'cuotas.otroscostos',
                     'cuotas.saldopendiente',
+                    'personas.id as idpersona',
                     'personas.nombre',
                     'personas.apellidopaterno',
                     'personas.apellidomaterno',
@@ -198,10 +200,12 @@ class CuotaController extends Controller
             $cuota = Cuota::findOrFail($request->id);
 
             $descripcion = $request->descripcion;
+           // $montoant = $request->montoant;
            
             if($descripcion == null) $descripcion = "Cuota pagada";
 
             $cuota->descripcion = $descripcion;
+          //  $cuota->monto = $montoant;
             $cuota->otroscostos = $request->otrospagos;
             $cuota->fechacancelacion = Carbon::now('America/Lima');
             $cuota->estado = "1";

@@ -18251,6 +18251,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['ruta'],
@@ -18346,6 +18355,9 @@ __webpack_require__.r(__webpack_exports__);
     pdfDetallecuota: function pdfDetallecuota(idcredito) {
       window.open(this.ruta + '/credito/detallecreditopdf/' + idcredito, '_blank');
     },
+    pdfDetallecuotaBoleta: function pdfDetallecuotaBoleta(idcredito) {
+      window.open(this.ruta + '/credito/boletacreditopdf/' + idcredito, '_blank');
+    },
     historialcredito: function historialcredito(page, buscar, criterio) {
       var me = this;
       me.listado = 2;
@@ -18398,19 +18410,25 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _fullcalendar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @fullcalendar/vue */ "./node_modules/@fullcalendar/vue/main.esm.js");
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.js");
-/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.js");
-/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _fullcalendar_core_main_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/core/main.css */ "./node_modules/@fullcalendar/core/main.css");
-/* harmony import */ var _fullcalendar_core_main_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_main_css__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _fullcalendar_daygrid_main_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/daygrid/main.css */ "./node_modules/@fullcalendar/daygrid/main.css");
-/* harmony import */ var _fullcalendar_daygrid_main_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_daygrid_main_css__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _fullcalendar_timegrid_main_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/timegrid/main.css */ "./node_modules/@fullcalendar/timegrid/main.css");
-/* harmony import */ var _fullcalendar_timegrid_main_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_timegrid_main_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _fullcalendar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/vue */ "./node_modules/@fullcalendar/vue/main.esm.js");
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.js");
+/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/interaction */ "./node_modules/@fullcalendar/interaction/main.js");
+/* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _fullcalendar_core_main_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/core/main.css */ "./node_modules/@fullcalendar/core/main.css");
+/* harmony import */ var _fullcalendar_core_main_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_core_main_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _fullcalendar_daygrid_main_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/daygrid/main.css */ "./node_modules/@fullcalendar/daygrid/main.css");
+/* harmony import */ var _fullcalendar_daygrid_main_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_daygrid_main_css__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _fullcalendar_timegrid_main_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fullcalendar/timegrid/main.css */ "./node_modules/@fullcalendar/timegrid/main.css");
+/* harmony import */ var _fullcalendar_timegrid_main_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_timegrid_main_css__WEBPACK_IMPORTED_MODULE_7__);
+var _components$props$dat;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -18635,79 +18653,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -18716,23 +18662,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = (_components$props$dat = {
   components: {
-    FullCalendar: _fullcalendar_vue__WEBPACK_IMPORTED_MODULE_0__["default"] // make the <FullCalendar> tag available
+    FullCalendar: _fullcalendar_vue__WEBPACK_IMPORTED_MODULE_1__["default"] // make the <FullCalendar> tag available
 
   },
   props: ['ruta'],
   data: function data() {
     return {
       calendarPlugins: [// plugins must be defined in the JS
-      _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_1___default.a, _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_2___default.a],
+      _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2___default.a, _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3___default.a],
       lang: 'es',
       calendarWeekends: true,
       calendarEvents: [// initial event data
         // { title: "Event Now", start: new Date(), nuevaprop: 'NP' }
       ],
+      vistaPagar: false,
+      personacredito_id: 0,
       dniBuscar: '',
       idcuota: '',
+      numerocuota: '',
       idkiva: '',
       nombrecliente: '',
       dni: '',
@@ -18751,226 +18700,176 @@ __webpack_require__.r(__webpack_exports__);
       descpagoporcion: '',
       showdetalle: false,
       showpagocuota: false,
-      showpagoporcion: false
+      showpagoporcion: false,
+      arrayCliente: []
     };
+  }
+}, _defineProperty(_components$props$dat, "components", {
+  vSelect: vue_select__WEBPACK_IMPORTED_MODULE_0___default.a
+}), _defineProperty(_components$props$dat, "methods", {
+  //COGER DTOS DEL CLIENTE PARA VISTA DETALLE
+  getDatosCliente: function getDatosCliente(val1) {
+    var me = this;
+    me.loading = true;
+    me.personacredito_id = val1.id;
+    me.dni = val1.dni;
+    me.nombrecliente = val1.nombre + " " + val1.apellidopaterno + " " + val1.apellidomaterno;
   },
-  methods: {
-    toggleWeekends: function toggleWeekends() {
-      this.calendarWeekends = !this.calendarWeekends; // update a property
-    },
-    gotoPast: function gotoPast() {
-      var irfecha = document.getElementById('fecha').value;
-      var fechaelegida = Date.parse(irfecha);
+  selectCliente: function selectCliente(search, loading) {
+    var me = this;
+    loading(true);
+    var url = this.ruta + '/cliente/todosselectCliente?filtro=' + search;
+    axios.get(url).then(function (response) {
+      var respuesta = response.data;
 
-      if (Number.isNaN(fechaelegida)) {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Fecha No Válida',
-          showConfirmButton: false,
-          timer: 1500
-        });
-        return;
-      }
+      q: search;
 
-      ;
-      var fec = $('#fecha');
-      fec = fec.val();
+      me.arrayCliente = respuesta.clientes;
+      loading(false);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  },
+  toggleWeekends: function toggleWeekends() {
+    this.calendarWeekends = !this.calendarWeekends; // update a property
+  },
+  gotoPast: function gotoPast() {
+    var irfecha = document.getElementById('fecha').value;
+    var fechaelegida = Date.parse(irfecha);
 
-      if (fec.split('-').length > 0) {
-        var calendarApi = this.$refs.fullCalendar.getApi(); // from the ref="..."
-
-        calendarApi.gotoDate(fec); // call a method on the Calendar object
-      }
-    },
-    eventSelected: function eventSelected(event, jsEvent, view) {
-      var evento = event.event;
-      var idcuotaevent = evento.id;
-      if (this.idcuota == idcuotaevent) return;
-      var cuota = evento.extendedProps.cuota;
-      this.idcuota = cuota.id;
-      this.idkiva = cuota.idkiva;
-      this.nombrecliente = cuota.nombre + " " + cuota.apellidopaterno + " " + cuota.apellidomaterno;
-      this.dni = cuota.dni;
-      this.fechapago = cuota.fechapago;
-      this.montocuota = cuota.monto;
-      this.otroscostoscuota = cuota.otroscostos;
-      this.saldopendientecuota = cuota.saldopendiente;
-      this.tipocambio = cuota.tipocambio;
-      this.condicioncuota = evento.extendedProps.condicioncuota;
-      this.clasecolorcondicioncuota = evento.extendedProps.clasecolorcondicioncuota;
-      this.showdetalle = true;
-    },
-    pagarCuota: function pagarCuota() {
-      var _this = this;
-
-      axios.put(this.ruta + '/cuota/pagar', {
-        'id': this.idcuota,
-        'descripcion': this.descpagocuota
-      }).then(function (res) {
-        Swal.fire({
-          position: 'top-end',
-          type: 'success',
-          title: 'El pago se realizó correctamente',
-          showConfirmButton: false,
-          timer: 1500
-        });
-
-        _this.listarCuotasPendientes();
-
-        _this.showpagocuota = false;
-      })["catch"](function (err) {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Error, No se realizó el pago',
-          showConfirmButton: false,
-          timer: 1500
-        });
+    if (Number.isNaN(fechaelegida)) {
+      Swal.fire({
+        position: 'top-end',
+        type: 'error',
+        title: 'Fecha No Válida',
+        showConfirmButton: false,
+        timer: 1500
       });
-      var cuotaid = this.idcuota;
-      this.generarboucher(cuotaid);
-      this.limpiarDatos();
-    },
-    pagarPorcionCuota: function pagarPorcionCuota() {
-      var _this2 = this;
+      return;
+    }
 
-      if (this.montoporcion == 0) {
-        Swal.fire({
-          title: 'Debe ingresar un monto mayor a cero',
-          animation: true,
-          customClass: {
-            popup: 'animated tada'
-          }
-        });
-        return;
-      }
+    ;
+    var fec = $('#fecha');
+    fec = fec.val();
 
-      axios.post(this.ruta + '/cuota/porcion', {
-        'id': this.idcuota,
-        'monto': this.montoporcion,
-        'otroscostos': this.otroscostosporcion,
-        'descripcion': this.descpagoporcion
-      }).then(function (res) {
-        Swal.fire({
-          position: 'top-end',
-          type: 'success',
-          title: 'El pago se realizó correctamente',
-          showConfirmButton: false,
-          timer: 1500
-        });
+    if (fec.split('-').length > 0) {
+      var calendarApi = this.$refs.fullCalendar.getApi(); // from the ref="..."
 
-        _this2.listarCuotasPendientes();
-
-        _this2.showpagocuota = false;
-        _this2.showpagoporcion = false;
-      })["catch"](function (err) {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Error, No se completó el pago',
-          showConfirmButton: false,
-          timer: 1500
-        });
-      });
-      this.limpiarDatos();
-    },
-    generarboucher: function generarboucher(idcuota) {
-      window.open(this.ruta + '/credito/detallecuotapdf/' + idcuota + '', '_blank');
-    },
-    listarCuotasPendientes: function listarCuotasPendientes() {
-      var _this3 = this;
-
-      this.calendarEvents = [];
-      axios.get(this.ruta + '/cuota').then(function (res) {
-        var cuotas = res.data.cuotas;
-        var fechahoy = res.data.fechahoy;
-        _this3.fechahoy = fechahoy;
-
-        for (var i = 0; i < cuotas.length; i++) {
-          var backColor = '#25D201'; //Si aún no vence la fecha de cancelación 
-
-          var condicion = 'Cuota PENDIENTE DE PAGO';
-          var clasecolor = 'azul';
-
-          if (cuotas[i].fechapago < fechahoy) {
-            backColor = 'red'; //Si se ha vencido la fecha de cancelación de la cuota
-
-            condicion = 'Cuota ATRASADA';
-            clasecolor = 'rojo';
-          }
-
-          _this3.calendarEvents.push({
-            id: cuotas[i].id,
-            title: 'KIVA: ' + cuotas[i].idkiva,
-            start: cuotas[i].fechapago,
-            backgroundColor: backColor,
-            textColor: '#FFFFFF',
-            cuota: cuotas[i],
-            condicioncuota: condicion,
-            clasecolorcondicioncuota: clasecolor
-          });
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    obtenerCuotaDeCliente: function obtenerCuotaDeCliente() {
-      var _this4 = this;
-
-      axios.get(this.ruta + '/cuota?dni=' + this.dniBuscar).then(function (res) {
-        var cuotas = res.data.cuotas;
-        var fechahoy = res.data.fechahoy;
-        _this4.fechahoy = fechahoy;
-        if (cuotas.length == 0) Swal.fire({
-          title: 'El cliente no tiene cuotas a pagar',
-          animation: true,
-          customClass: {
-            popup: 'animated tada'
-          }
-        });else if (cuotas.length == 1) {
-          _this4.idcuota = cuotas[0].id;
-          _this4.idkiva = cuotas[0].idkiva;
-          _this4.nombrecliente = cuotas[0].nombre + " " + cuotas[0].apellidopaterno + " " + cuotas[0].apellidomaterno;
-          _this4.dni = cuotas[0].dni;
-          _this4.fechapago = cuotas[0].fechapago;
-          _this4.montocuota = cuotas[0].monto;
-          _this4.otroscostoscuota = cuotas[0].otroscostos;
-          _this4.saldopendientecuota = cuotas[0].saldopendiente;
-          _this4.tipocambio = cuotas[0].tipocambio;
-          _this4.showpagocuota = true;
-        }
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    limpiarDatos: function limpiarDatos() {
-      this.dniBuscar = '';
-      this.idcuota = '';
-      this.idkiva = '';
-      this.nombrecliente = '';
-      this.dni = '';
-      this.fechapago = '';
-      this.montocuota = '';
-      this.otroscostoscuota = '';
-      this.saldopendientecuota = '';
-      this.tipocambio = 1;
-      this.condicioncuota = '';
-      this.clasecolorcondicioncuota = '';
-      this.pagototal = '';
-      this.fechahoy = '';
-      this.montoporcion = 0;
-      this.otroscostosporcion = 0;
-      this.descpagocuota = '', this.descpagoporcion = '';
-      this.showdetalle = false;
-      this.showpagocuota = false;
-      this.showpagoporcion = false;
+      calendarApi.gotoDate(fec); // call a method on the Calendar object
     }
   },
-  mounted: function mounted() {
-    this.listarCuotasPendientes();
+  eventSelected: function eventSelected(event, jsEvent, view) {
+    var evento = event.event;
+    var idcuotaevent = evento.id;
+    if (this.idcuota == idcuotaevent) return;
+    var cuota = evento.extendedProps.cuota;
+    this.idcuota = cuota.id;
+    this.numerocuota = cuota.numerocuota;
+    this.personacredito_id = cuota.idpersona;
+    this.idkiva = cuota.idkiva;
+    this.nombrecliente = cuota.nombre + " " + cuota.apellidopaterno + " " + cuota.apellidomaterno;
+    this.dni = cuota.dni;
+    this.fechapago = cuota.fechapago;
+    this.montocuota = cuota.monto;
+    this.otroscostoscuota = cuota.otroscostos;
+    this.saldopendientecuota = cuota.saldopendiente;
+    this.tipocambio = cuota.tipocambio;
+    this.condicioncuota = evento.extendedProps.condicioncuota;
+    this.clasecolorcondicioncuota = evento.extendedProps.clasecolorcondicioncuota;
+    this.showdetalle = true;
+  },
+  listarCuotasPendientes: function listarCuotasPendientes() {
+    var _this = this;
+
+    this.calendarEvents = [];
+    axios.get(this.ruta + '/cuota').then(function (res) {
+      var cuotas = res.data.cuotas;
+      var fechahoy = res.data.fechahoy;
+      _this.fechahoy = fechahoy;
+
+      for (var i = 0; i < cuotas.length; i++) {
+        var backColor = '#25D201'; //Si aún no vence la fecha de cancelación 
+
+        var condicion = 'Cuota PENDIENTE DE PAGO';
+        var clasecolor = 'azul';
+
+        if (cuotas[i].fechapago < fechahoy) {
+          backColor = 'red'; //Si se ha vencido la fecha de cancelación de la cuota
+
+          condicion = 'Cuota ATRASADA';
+          clasecolor = 'rojo';
+        }
+
+        _this.calendarEvents.push({
+          id: cuotas[i].id,
+          title: 'KIVA: ' + cuotas[i].idkiva,
+          start: cuotas[i].fechapago,
+          backgroundColor: backColor,
+          textColor: '#FFFFFF',
+          cuota: cuotas[i],
+          condicioncuota: condicion,
+          clasecolorcondicioncuota: clasecolor
+        });
+      }
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  },
+  obtenerCuotaDeCliente: function obtenerCuotaDeCliente() {
+    var _this2 = this;
+
+    axios.get(this.ruta + '/cuota?dni=' + this.dniBuscar).then(function (res) {
+      var cuotas = res.data.cuotas;
+      var fechahoy = res.data.fechahoy;
+      _this2.fechahoy = fechahoy;
+      if (cuotas.length == 0) Swal.fire({
+        title: 'El cliente no tiene cuotas a pagar',
+        animation: true,
+        customClass: {
+          popup: 'animated tada'
+        }
+      });else if (cuotas.length == 1) {
+        _this2.idcuota = cuotas[0].id;
+        _this2.idkiva = cuotas[0].idkiva;
+        _this2.nombrecliente = cuotas[0].nombre + " " + cuotas[0].apellidopaterno + " " + cuotas[0].apellidomaterno;
+        _this2.dni = cuotas[0].dni;
+        _this2.fechapago = cuotas[0].fechapago;
+        _this2.montocuota = cuotas[0].monto;
+        _this2.otroscostoscuota = cuotas[0].otroscostos;
+        _this2.saldopendientecuota = cuotas[0].saldopendiente;
+        _this2.tipocambio = cuotas[0].tipocambio;
+        _this2.personacredito_id = cuotas[0].idpersona;
+        _this2.showpagocuota = true;
+      }
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  },
+  limpiarDatos: function limpiarDatos() {
+    this.dniBuscar = '';
+    this.idcuota = '';
+    this.idkiva = '';
+    this.nombrecliente = '';
+    this.dni = '';
+    this.fechapago = '';
+    this.montocuota = '';
+    this.otroscostoscuota = '';
+    this.saldopendientecuota = '';
+    this.tipocambio = 1;
+    this.condicioncuota = '';
+    this.clasecolorcondicioncuota = '';
+    this.pagototal = '';
+    this.fechahoy = '';
+    this.montoporcion = 0;
+    this.otroscostosporcion = 0;
+    this.descpagocuota = '', this.descpagoporcion = '';
+    this.showdetalle = false;
+    this.showpagocuota = false;
+    this.showpagoporcion = false;
   }
-});
+}), _defineProperty(_components$props$dat, "mounted", function mounted() {
+  this.listarCuotasPendientes();
+}), _components$props$dat);
 
 /***/ }),
 
@@ -19081,30 +18980,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   // props:['notificacion','ruta'],
   data: function data() {
@@ -19113,7 +18988,9 @@ __webpack_require__.r(__webpack_exports__);
       fechareporte: '',
       arrayCuotas: [],
       mostrarPago: 'hola',
-      mostrarmodal: false
+      mostrarmodal: false,
+      tipoAccion: 0,
+      modal: 0
     };
   },
   computed: {
@@ -19133,6 +19010,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         console.log(err);
       });
+    },
+    abrirModal: function abrirModal() {
+      this.tipoAccion = 1, this.modal = 1;
     },
     hoyFecha: function hoyFecha() {
       var hoy = new Date();
@@ -19370,8 +19250,9 @@ __webpack_require__.r(__webpack_exports__);
       descpagoporcion: '',
       mostrarpagar: true,
       identificadorcuota: 0,
-      btnboucher: 1 //1cuota //2 porcioncuota
-
+      btnboucher: 1,
+      //1cuota //2 porcioncuota
+      montoanterior: 0
     };
   },
   computed: {},
@@ -19383,7 +19264,8 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       axios.get(this.ruta + '/cuota/detallepagar?id=' + this.idcliente).then(function (res) {
         _this.dataC = res.data.cuotas;
-        me.interes = me.dataC[0].monto * (me.dataC[0].tasa / 100);
+        me.interes = me.dataC[0].monto * (me.dataC[0].tasa / 100); // me.montoanterior=me.dataC[0].montodesembolsado/me.dataC[0].numerocuotas
+
         me.totalpagar = ((parseFloat(me.dataC[0].monto) + parseFloat(me.interes)) * me.dataC[0].tipocambio).toFixed(2);
       })["catch"](function (err) {
         console.log(err);
@@ -19397,7 +19279,8 @@ __webpack_require__.r(__webpack_exports__);
         'id': idcuota,
         'descripcion': this.descpagocuota,
         'otrospagos': otroscostoscuota,
-        'idpersona': idpersona
+        'idpersona': idpersona //'montoant':this.montoanterior,
+
       }).then(function (res) {
         Swal.fire({
           position: 'top-end',
@@ -26760,6 +26643,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "\n.calendario {\n  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;\n  font-size: 11px;\n}\n.calendario-top {\n  margin: 0 0 3em;\n}\n.calendario-calendar {\n  margin: 0 auto;\n  max-width: 900px;\n}\n.fc-event-container{\n  cursor: pointer;\n}\n.fc-toolbar .fc-header-toolbar{\n  width: auto;\n}\n.fc-left, .fc-center, .fc-right{\n  width: 100%;\n  display: block;\n}\n.fc-center{\n  text-transform: uppercase;\n}\n.card{\n  margin-top: 20px;\n}\n.rojo{\n  color: #ac4232;\n}\n.azul{\n  color: #32a4ac;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Notificacion.vue?vue&type=style&index=0&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Notificacion.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.modal-dialog{\r\n    overflow-y: initial !important\n}\n.modal-body{\r\n    height: 500px;\r\n   \r\n    overflow-y: auto;\n}\n.modal-content{\r\n        width: 100% !important;\r\n        position: absolute !important;\n}\n.mostrar{\r\n       \r\n        display: list-item !important;\r\n        opacity: 1 !important;\r\n        position: fixed !important;\r\n        background-color: #3c29297a !important;}\r\n  \r\n\r\n", ""]);
 
 // exports
 
@@ -66258,6 +66160,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Notificacion.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Notificacion.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--5-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--5-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Notificacion.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Notificacion.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Rol.vue?vue&type=style&index=0&lang=css&":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--5-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--5-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Rol.vue?vue&type=style&index=0&lang=css& ***!
@@ -70156,7 +70088,7 @@ var render = function() {
                     return _c("div", { key: credito.id, staticClass: "row" }, [
                       _vm._m(0, true),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "col-md-3" }, [
                         _c(
                           "button",
                           {
@@ -70168,7 +70100,27 @@ var render = function() {
                               }
                             }
                           },
-                          [_c("i", { staticClass: "fa fa-file-pdf-o" })]
+                          [
+                            _c("i", { staticClass: "fa fa-file-pdf-o" }),
+                            _vm._v("Contrato")
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.pdfDetallecuotaBoleta(credito.id)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-file-pdf-o" }),
+                            _vm._v("Boleta")
+                          ]
                         ),
                         _vm._v(" "),
                         _c(
@@ -70326,6 +70278,32 @@ var render = function() {
                                 staticClass: "mb-4 font-weight-light",
                                 domProps: {
                                   textContent: _vm._s(credito.fechadesembolso)
+                                }
+                              })
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "wrapper d-flex justify-content-between"
+                          },
+                          [
+                            _c("div", { staticClass: "side-left" }, [
+                              _c(
+                                "p",
+                                { staticClass: "mb-2 font-weight-bold" },
+                                [_vm._v("Fecha de Kiva")]
+                              ),
+                              _vm._v(" "),
+                              _c("h6", {
+                                staticClass: "mb-4 font-weight-light",
+                                domProps: {
+                                  textContent: _vm._s(credito.FECHAKIVA)
                                 }
                               })
                             ])
@@ -70854,7 +70832,7 @@ var render = function() {
                                     _c(
                                       "label",
                                       { staticClass: "badge badge-danger" },
-                                      [_vm._v("Desactivador")]
+                                      [_vm._v("Desactivado")]
                                     )
                                   ])
                                 : _vm._e(),
@@ -71264,7 +71242,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-9" }, [
+    return _c("div", { staticClass: "col-md-8" }, [
       _c("h4", { staticClass: "text-primary mb-5" }, [
         _vm._v("Detalle de Credito")
       ])
@@ -71360,353 +71338,7 @@ var render = function() {
     "main",
     {},
     [
-      _vm.showpagocuota
-        ? [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("div", { staticClass: "card" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("h4", { staticClass: "card-title text-center" }, [
-                      _vm._v("PAGO DE CUOTA")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-dark",
-                        on: {
-                          click: function($event) {
-                            _vm.showpagocuota = false
-                            _vm.showpagoporcion = false
-                          }
-                        }
-                      },
-                      [_vm._v("Volver")]
-                    ),
-                    _vm._v(" "),
-                    _c("hr"),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-6" }, [
-                        _c("p", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Cliente")
-                        ]),
-                        _vm._v(" "),
-                        _c("p", {
-                          staticClass: "font-weight-light",
-                          domProps: { textContent: _vm._s(_vm.nombrecliente) }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-3" }, [
-                        _c("p", { staticClass: "font-weight-bold" }, [
-                          _vm._v("DNI")
-                        ]),
-                        _vm._v(" "),
-                        _c("p", {
-                          staticClass: "font-weight-light",
-                          domProps: { textContent: _vm._s(_vm.dni) }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-3" }, [
-                        _c("p", { staticClass: "font-weight-bold " }, [
-                          _vm._v("ID KIVA")
-                        ]),
-                        _vm._v(" "),
-                        _c("p", {
-                          staticClass: "font-weight-light",
-                          domProps: { textContent: _vm._s(_vm.idkiva) }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-6" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("p", { staticClass: "col-12 font-weight-bold" }, [
-                            _vm._v("Monto ")
-                          ]),
-                          _vm._v(" "),
-                          _c("p", {
-                            staticClass: "col-3 font-weight-light",
-                            domProps: {
-                              textContent: _vm._s("$ " + _vm.montocuota)
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("p", {
-                            staticClass: "col-3 font-weight-light",
-                            domProps: {
-                              textContent: _vm._s(
-                                "s/. " +
-                                  (_vm.montocuota * _vm.tipocambio).toFixed(2)
-                              )
-                            }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-3" }, [
-                        _c("p", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Otros costos ")
-                        ]),
-                        _vm._v(" "),
-                        _c("p", {
-                          staticClass: "font-weight-light",
-                          domProps: {
-                            textContent: _vm._s("S/. " + _vm.otroscostoscuota)
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-3" }, [
-                        _c("p", { staticClass: "font-weight-bold " }, [
-                          _vm._v("Tipo cambio")
-                        ]),
-                        _vm._v(" "),
-                        _c("p", {
-                          staticClass: "font-weight-light",
-                          domProps: { textContent: _vm._s(_vm.tipocambio) }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-3" }, [
-                        _c("p", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Saldo pendiente")
-                        ]),
-                        _vm._v(" "),
-                        _c("p", {
-                          staticClass: "font-weight-light",
-                          domProps: {
-                            textContent: _vm._s("$ " + _vm.saldopendientecuota)
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-6" }, [
-                            _c("p", { staticClass: "font-weight-bold" }, [
-                              _vm._v("Fecha pago")
-                            ]),
-                            _vm._v(" "),
-                            _c("p", {
-                              staticClass: "font-weight-light",
-                              domProps: { textContent: _vm._s(_vm.fechapago) }
-                            })
-                          ])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-12" }, [
-                        _c("p", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Descripción")
-                        ]),
-                        _vm._v(" "),
-                        _c("textarea", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.descpagocuota,
-                              expression: "descpagocuota"
-                            }
-                          ],
-                          attrs: {
-                            rows: "4",
-                            cols: "50",
-                            oninput: "this.value = this.value.toUpperCase();"
-                          },
-                          domProps: { value: _vm.descpagocuota },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.descpagocuota = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    !_vm.showpagoporcion
-                      ? _c("div", { staticClass: "col-12" }, [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-primary",
-                              attrs: { type: "button" },
-                              on: {
-                                click: function($event) {
-                                  _vm.showpagoporcion = true
-                                }
-                              }
-                            },
-                            [_vm._v("Pagar porción")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success",
-                              attrs: { type: "button" },
-                              on: { click: _vm.pagarCuota }
-                            },
-                            [_vm._v("Confirmar pago")]
-                          )
-                        ])
-                      : _vm._e()
-                  ])
-                ])
-              ])
-            ])
-          ]
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.showpagoporcion
-        ? [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-12" }, [
-                _c("div", { staticClass: "card" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("h4", { staticClass: "text-center" }, [
-                      _vm._v("PAGAR PORCIÓN DE CUOTA")
-                    ]),
-                    _vm._v(" "),
-                    _c("hr"),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-6" }, [
-                            _c("p", { staticClass: "font-weight-bold" }, [
-                              _vm._v("Ingresar Monto")
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.montoporcion,
-                                  expression: "montoporcion"
-                                }
-                              ],
-                              attrs: {
-                                required: "",
-                                type: "Number",
-                                max: _vm.montocuota,
-                                min: "0",
-                                placeholder: "Ingrese el monto a pagar"
-                              },
-                              domProps: { value: _vm.montoporcion },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.montoporcion = $event.target.value
-                                }
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-6" }, [
-                            _c("p", { staticClass: "font-weight-bold" }, [
-                              _vm._v("Otros costos")
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.otroscostosporcion,
-                                  expression: "otroscostosporcion"
-                                }
-                              ],
-                              attrs: {
-                                type: "Number",
-                                min: "0",
-                                placeholder: "Ingrese cantidad"
-                              },
-                              domProps: { value: _vm.otroscostosporcion },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.otroscostosporcion = $event.target.value
-                                }
-                              }
-                            })
-                          ])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-12" }, [
-                        _c("p", { staticClass: "font-weight-bold" }, [
-                          _vm._v("Descripción")
-                        ]),
-                        _vm._v(" "),
-                        _c("textarea", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.descpagoporcion,
-                              expression: "descpagoporcion"
-                            }
-                          ],
-                          attrs: {
-                            rows: "4",
-                            cols: "50",
-                            oninput: "this.value = this.value.toUpperCase();"
-                          },
-                          domProps: { value: _vm.descpagoporcion },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.descpagoporcion = $event.target.value
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-12" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                _vm.showpagoporcion = false
-                              }
-                            }
-                          },
-                          [_vm._v("Cerrar")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { type: "button" },
-                            on: { click: _vm.pagarPorcionCuota }
-                          },
-                          [_vm._v("Confirmar pago")]
-                        )
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ]
-        : _vm._e(),
+      _vm.showpagocuota ? void 0 : _vm._e(),
       _vm._v(" "),
       !_vm.showpagocuota
         ? [
@@ -71716,62 +71348,56 @@ var render = function() {
               _c("div", { staticClass: "col-lg-12 grid-margin stretch-card" }, [
                 _c("div", { staticClass: "col-md-4 form-group" }, [
                   _c("div", { staticClass: "row" }, [
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.dniBuscar,
-                            expression: "dniBuscar"
+                    _c(
+                      "div",
+                      { staticClass: "form-group col-md-8" },
+                      [
+                        _c("label", { attrs: { for: "exampleInputEmail1" } }, [
+                          _vm._v("DNI Cliente")
+                        ]),
+                        _vm._v(" "),
+                        _c("v-select", {
+                          attrs: {
+                            "on-search": _vm.selectCliente,
+                            label: "dni",
+                            options: _vm.arrayCliente,
+                            placeholder: "Ingrese DNI del cliente...",
+                            onChange: _vm.getDatosCliente
                           }
-                        ],
-                        staticClass:
-                          "form-control form-control border border-dark",
-                        attrs: {
-                          type: "text",
-                          placeholder: "Ingresar DNI del cliente"
-                        },
-                        domProps: { value: _vm.dniBuscar },
-                        on: {
-                          keyup: function($event) {
-                            if (
-                              !$event.type.indexOf("key") &&
-                              _vm._k(
-                                $event.keyCode,
-                                "enter",
-                                13,
-                                $event.key,
-                                "Enter"
-                              )
-                            ) {
-                              return null
-                            }
-                            return _vm.obtenerCuotaDeCliente()
-                          },
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.dniBuscar = $event.target.value
-                          }
-                        }
-                      })
-                    ]),
+                        }),
+                        _vm._v(" "),
+                        _vm.personacredito_id != 0
+                          ? _c("div", [
+                              _c("label", {
+                                staticClass: "badge badge-dark",
+                                domProps: {
+                                  textContent: _vm._s(_vm.nombrecliente)
+                                }
+                              })
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-2" }, [
+                    _c("div", { staticClass: "col-md-4 mt-4" }, [
                       _c(
                         "button",
                         {
                           staticClass: "btn btn-outline-dark btn-sm",
                           attrs: { type: "submit" },
-                          on: { click: _vm.obtenerCuotaDeCliente }
+                          on: {
+                            click: function($event) {
+                              _vm.vistaPagar = true
+                              _vm.showpagocuota = true
+                            }
+                          }
                         },
                         [
                           _c("i", { staticClass: "fa fa-search" }),
-                          _vm._v(" Buscar\n                                ")
+                          _vm._v(
+                            " Buscar Cuotas\n                                "
+                          )
                         ]
                       )
                     ])
@@ -71782,9 +71408,9 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-4 form-group" }, [
                   _c("div", { staticClass: "row" }, [
-                    _vm._m(2),
+                    _vm._m(1),
                     _vm._v(" "),
-                    _vm._m(3),
+                    _vm._m(2),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-2" }, [
                       _c(
@@ -71814,7 +71440,9 @@ var render = function() {
                         { staticClass: "card-header bg bg-primary text-white" },
                         [
                           _vm._v(
-                            "\n                                  Detalle de cuota\n                                  "
+                            "\n                                  Detalle de cuota " +
+                              _vm._s(_vm.numerocuota) +
+                              "\n                                  "
                           ),
                           _c(
                             "button",
@@ -71824,6 +71452,11 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   _vm.showdetalle = false
+                                  _vm.showpagocuota = false
+                                  _vm.showpagoporcion = false
+                                  _vm.vistaPagar = false
+                                  _vm.limpiarDatos()
+                                  _vm.listarCuotasPendientes()
                                 }
                               }
                             },
@@ -71926,15 +71559,8 @@ var render = function() {
                           _c(
                             "p",
                             { staticClass: "col-md-12 font-weight-bold" },
-                            [_vm._v("Monto ")]
+                            [_vm._v("Monto Neto ")]
                           ),
-                          _vm._v(" "),
-                          _c("p", {
-                            staticClass: "col-md-6",
-                            domProps: {
-                              textContent: _vm._s("$ " + _vm.montocuota)
-                            }
-                          }),
                           _vm._v(" "),
                           _c("p", {
                             staticClass: "col-md-6",
@@ -71974,34 +71600,6 @@ var render = function() {
                                 ])
                               ]
                             )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "wrapper d-flex justify-content-between"
-                              },
-                              [
-                                _c("div", { staticClass: "side-left" }, [
-                                  _c(
-                                    "p",
-                                    { staticClass: "mb-2 font-weight-bold" },
-                                    [_vm._v("Saldo pendiente")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("p", {
-                                    staticClass: "mb-4 font-weight-light",
-                                    domProps: {
-                                      textContent: _vm._s(
-                                        "S/. " + _vm.saldopendientecuota
-                                      )
-                                    }
-                                  })
-                                ])
-                              ]
-                            )
                           ])
                         ]),
                         _vm._v(" "),
@@ -72031,6 +71629,8 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
+                        _vm._m(3),
+                        _vm._v(" "),
                         _c("div", { staticClass: "row" }, [
                           _c("div", { staticClass: "col-md-12" }, [
                             _c(
@@ -72039,6 +71639,7 @@ var render = function() {
                                 staticClass: "btn btn-success col-md-12",
                                 on: {
                                   click: function($event) {
+                                    _vm.vistaPagar = true
                                     _vm.showpagocuota = true
                                   }
                                 }
@@ -72089,6 +71690,33 @@ var render = function() {
               )
             ])
           ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.vistaPagar
+        ? [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-outline-success btn-sm",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    _vm.showpagocuota = false
+                    _vm.showpagoporcion = false
+                    _vm.vistaPagar = false
+                    _vm.limpiarDatos()
+                    _vm.listarCuotasPendientes()
+                  }
+                }
+              },
+              [
+                _c("i", { staticClass: "fa fa-mail-reply" }),
+                _vm._v("Regresar a Pagos \n            ")
+              ]
+            ),
+            _vm._v(" "),
+            _c("pagarcuota", { attrs: { idcliente: _vm.personacredito_id } })
+          ]
         : _vm._e()
     ],
     2
@@ -72111,16 +71739,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-12" }, [
       _c("label", { attrs: { for: "exampleInputEmail1" } }, [
-        _vm._v("DNI Cliente")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("label", { attrs: { for: "exampleInputEmail1" } }, [
         _vm._v("Buscar Fecha")
       ])
     ])
@@ -72134,6 +71752,23 @@ var staticRenderFns = [
         staticClass: "form-control form-control border border-dark",
         attrs: { id: "fecha", type: "date" }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "wrapper d-flex justify-content-between" }, [
+        _c("div", { staticClass: "side-left" }, [
+          _c("p", { staticClass: "text-light bg-warning pl-1" }, [
+            _c("i", { staticClass: "fa fa-exclamation-triangle" }),
+            _vm._v(
+              "\n                                              EL ENLACE LE REDIRECCIONARÁ A LA ÚLTIMA CUOTA SIN PAGAR"
+            )
+          ])
+        ])
+      ])
     ])
   }
 ]
@@ -72231,10 +71866,11 @@ var render = function() {
                     {
                       staticClass:
                         "\n                    btn btn-outline-primary\n                    dropdown-item preview-item",
-                      attrs: {
-                        type: "button",
-                        "data-toggle": "modal",
-                        "data-target": "#exampleModal"
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.abrirModal()
+                        }
                       }
                     },
                     [
@@ -72271,9 +71907,7 @@ var render = function() {
               _c("div", { staticClass: "dropdown-divider" }),
               _vm._v(" "),
               _c("span", [_vm._v("No tiene notificaciones")])
-            ]),
-        _vm._v(" "),
-        !_vm.mostrarmodal ? _c("main", [_vm._m(3)]) : _vm._e()
+            ])
       ]
     )
   ])
@@ -72306,82 +71940,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "preview-thumbnail" }, [
       _c("div", { staticClass: "preview-icon bg-danger" })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c(
-                  "h5",
-                  {
-                    staticClass: "modal-title",
-                    attrs: { id: "exampleModalLabel" }
-                  },
-                  [_vm._v("Modal title")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _vm._v("\n                        ...\n                    ")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [_vm._v("Close")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                  [_vm._v("Save changes")]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -88048,7 +87606,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Notificacion_vue_vue_type_template_id_3634d6f2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Notificacion.vue?vue&type=template&id=3634d6f2& */ "./resources/js/components/Notificacion.vue?vue&type=template&id=3634d6f2&");
 /* harmony import */ var _Notificacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Notificacion.vue?vue&type=script&lang=js& */ "./resources/js/components/Notificacion.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _Notificacion_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Notificacion.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/Notificacion.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -88056,7 +87616,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _Notificacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _Notificacion_vue_vue_type_template_id_3634d6f2___WEBPACK_IMPORTED_MODULE_0__["render"],
   _Notificacion_vue_vue_type_template_id_3634d6f2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -88085,6 +87645,22 @@ component.options.__file = "resources/js/components/Notificacion.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Notificacion.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Notificacion.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Notificacion.vue?vue&type=style&index=0&lang=css&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/Notificacion.vue?vue&type=style&index=0&lang=css& ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--5-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--5-2!../../../node_modules/vue-loader/lib??vue-loader-options!./Notificacion.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Notificacion.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Notificacion_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

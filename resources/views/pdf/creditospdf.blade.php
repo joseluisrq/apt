@@ -82,8 +82,12 @@
     </style>
 </head>
 <body>
+    <div align='center'>
+        <img src="./images/logo.png" width="120px" alt="">
+       
+    </div>
     <div>
-        <h3>Lista de Creditos <span class="derecha">{{now()}}</span></h3>
+    <h3>Lista de Creditos <span class="derecha">{{now()}}</span></h3>
     </div>
     <div>
         <table class="table table-bordered table-striped table-sm">
@@ -106,8 +110,15 @@
                     <td>{{$c->montodesembolsado}}</td>
                     <td>{{$c->fechadesembolso}}</td>
                     <td>{{$c->numerocuotas}}</td>
-                    <td>{{$c->tasa}}</td>
-                    <td>{{$c->estado?'1':'Activo'}}</td>
+                    <td>{{$c->tasa}} %</td>
+                    <td>
+                       <?php
+                            if($c->estado==1)echo "En proceso";
+                            elseif ($c->estado==2) echo "Completo";
+                            elseif($c->estado==0)echo "Desactivado";
+                       
+                       ?> 
+                    </td>
                 </tr>
                 @endforeach                               
             </tbody>

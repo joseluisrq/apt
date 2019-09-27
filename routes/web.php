@@ -54,6 +54,7 @@ Route::group(['middleware'=>['auth']],function(){
             Route::post('/cliente/registrar', 'ClienteController@store');
             Route::put('/cliente/actualizar', 'ClienteController@update');
             Route::get('/cliente/selectCliente', 'ClienteController@selectCliente');
+            Route::get('/cliente/todosselectCliente', 'ClienteController@todosselectCliente');
             Route::put('/cliente/desactivar','ClienteController@desactivar'); 
 
             
@@ -92,6 +93,7 @@ Route::group(['middleware'=>['auth']],function(){
             Route::get('/credito/cuotasClientenuevo', 'CreditoController@cuotasClientenuevo');
             Route::get('/credito/listarpdf', 'CreditoController@listarPdf')->name('creditos_pdf');
             Route::get('/credito/detallecreditopdf/{id}', 'CreditoController@pdfDetallecredito')->name('detallecredito_pdf');
+            Route::get('/credito/boletacreditopdf/{id}', 'CreditoController@boletacreditopdf')->name('boletacreditopdf');
             Route::get('/credito/detallecuotapdf/{id}', 'CreditoController@pdfDetalleCuota')->name('detallecuota_pdf');
             Route::get('/credito/detalleporcioncuotapdf/{id}', 'CreditoController@detalleporcioncuotapdf')->name('detalleporcion_pdf');
             

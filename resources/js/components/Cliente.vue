@@ -218,7 +218,7 @@
                 <i class="fa fa-mail-reply"></i>Lista de Clientes 
             </button>
            
-        <pagarcuota :idcliente="personacredito_id"></pagarcuota>
+            <pagarcuota :idcliente="personacredito_id"></pagarcuota>
             
         </template>
     <!-- FIN PAGO DE CUOTA -->

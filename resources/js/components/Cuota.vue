@@ -3,111 +3,9 @@
 
 <!-- INICIO PAGO DE CUOTA -->
     <template v-if="showpagocuota">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title text-center">PAGO DE CUOTA</h4>
-              <button class="btn btn-dark" @click="showpagocuota=false;showpagoporcion=false;">Volver</button>
-              <hr>
-
-              <div class="row">
-                <div class="col-6">  
-                    <p class="font-weight-bold">Cliente</p>
-                    <p class="font-weight-light" v-text="nombrecliente"></p>
-                </div>
-                <div class="col-3">
-                    <p class="font-weight-bold">DNI</p>
-                    <p class="font-weight-light" v-text="dni"></p>
-                </div>
-                <div class="col-3">
-                    <p class="font-weight-bold ">ID KIVA</p>
-                    <p class="font-weight-light" v-text="idkiva"></p>
-                </div>
-                 <div class="col-6">
-                    <div class="row">
-                      <p class="col-12 font-weight-bold">Monto </p>
-                      <p class="col-3 font-weight-light" v-text="'$ '+montocuota"></p>
-                      <p class="col-3 font-weight-light" v-text="'s/. '+(montocuota*tipocambio).toFixed(2)"></p>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <p class="font-weight-bold">Otros costos </p>
-                    <p class="font-weight-light" v-text="'S/. '+otroscostoscuota"></p>
-                </div>
-                <div class="col-3">
-                    <p class="font-weight-bold ">Tipo cambio</p>
-                    <p class="font-weight-light" v-text="tipocambio"></p>
-                </div>
-                <div class="col-3">
-                    <p class="font-weight-bold">Saldo pendiente</p>
-                    <p class="font-weight-light" v-text="'$ '+saldopendientecuota"></p>
-                </div>
-                 <div class="col-12">
-                   <div class="row">
-                     <!--<div class="col-6">
-                      <p class="font-weight-bold">Fecha de desembolso</p>
-                      <p class="font-weight-light" v-text="fechahoy"></p>
-                    </div>-->
-                    <div class="col-6">
-                        <p class="font-weight-bold">Fecha pago</p>
-                        <p class="font-weight-light" v-text="fechapago"></p>
-                    </div>
-                   </div>
-                 </div>
-                <div class="col-12">
-                    <p class="font-weight-bold">Descripción</p>
-                    <textarea rows="4" cols="50" oninput="this.value = this.value.toUpperCase();" v-model="descpagocuota"></textarea>
-                </div>
-            </div>
-             <div v-if="!showpagoporcion" class="col-12">
-                <button type="button" class="btn btn-primary" @click="showpagoporcion=true;">Pagar porción</button>
-                <button type="button" class="btn btn-success" @click="pagarCuota">Confirmar pago</button>
-             </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </template>
 <!-- FIN PAGO DE CUOTA -->
 
-<!-- INICIO PAGO PORCION  -->
-    <template v-if="showpagoporcion">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="text-center">PAGAR PORCIÓN DE CUOTA</h4>
-              <hr>
-
-              <div class="row">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-6">
-                        <p class="font-weight-bold">Ingresar Monto</p>
-                        <input required="" type="Number" :max="montocuota" min="0" v-model="montoporcion" placeholder="Ingrese el monto a pagar">
-                      </div>
-                      <div class="col-6">
-                        <p class="font-weight-bold">Otros costos</p>
-                        <input type="Number" min="0" placeholder="Ingrese cantidad" v-model="otroscostosporcion">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <p class="font-weight-bold">Descripción</p>
-                    <textarea rows="4" cols="50" oninput="this.value = this.value.toUpperCase();" v-model="descpagoporcion"></textarea>
-                  </div>                  
-                  <div class="col-12">
-                    <button type="button" class="btn btn-danger" @click="showpagoporcion=false;">Cerrar</button>
-                    <button type="button" class="btn btn-success" @click="pagarPorcionCuota">Confirmar pago</button>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </template>
-<!-- FIN PAGO PORCION  -->
 
 <!-- INICIO CALENDARIO CUOTAS PENDIENTES -->
     <template v-if="!showpagocuota">
@@ -119,16 +17,25 @@
           <div class="col-lg-12 grid-margin stretch-card">
                   <div class="col-md-4 form-group">
                       <div class="row">
-                                <div class="col-md-12">
-                                  <label for="exampleInputEmail1">DNI Cliente</label>
-                                    </div>
-                                <div class="col-md-10">
-                                  <input type="text" v-model="dniBuscar" @keyup.enter="obtenerCuotaDeCliente()" class="form-control form-control border border-dark" placeholder="Ingresar DNI del cliente">
-                            
-                                </div>
-                                <div class="col-md-2">
-                                      <button type="submit" @click="obtenerCuotaDeCliente" class="btn btn-outline-dark btn-sm">
-                                  <i class="fa fa-search"></i> Buscar
+                          <div class="form-group col-md-8">
+                                <label for="exampleInputEmail1">DNI Cliente</label>
+                                <v-select
+                                    :on-search="selectCliente"
+                                          label="dni"
+                                          :options="arrayCliente"
+                                          placeholder="Ingrese DNI del cliente..."
+                                          :onChange="getDatosCliente"     
+                                    >
+                                  </v-select>
+                                <div v-if="personacredito_id!=0">
+                                    <label class="badge badge-dark" v-text="nombrecliente">
+
+                                    </label>
+                                </div>  
+                            </div>
+                                <div class="col-md-4 mt-4">
+                                  <button type="submit" @click="vistaPagar=true;showpagocuota=true;" class="btn btn-outline-dark btn-sm">
+                                  <i class="fa fa-search"></i> Buscar Cuotas
                                 </button>
                                 </div>
                                 
@@ -166,8 +73,14 @@
                             <div v-if="showdetalle" class="col-md-4">
                               <div class="card border border-light">
                                 <div class="card-header bg bg-primary text-white">
-                                  Detalle de cuota
-                                  <button @click="showdetalle=false" type="button" class="close" aria-label="Close">
+                                  Detalle de cuota {{numerocuota}}
+                                  <button @click="showdetalle=false
+                                   showpagocuota=false;
+                                  showpagoporcion=false;
+                                  vistaPagar=false;
+                                  limpiarDatos();
+                                  listarCuotasPendientes()" 
+                                  type="button" class="close" aria-label="Close">
                                     <span aria-hidden="true" class="text-white">&times;</span>
                                   </button>
                                 </div>
@@ -202,8 +115,7 @@
                                     </div>
                                   </div>
                                    <div class="row">
-                                      <p class="col-md-12 font-weight-bold">Monto </p>
-                                      <p class="col-md-6" v-text="'$ '+montocuota"></p>
+                                      <p class="col-md-12 font-weight-bold">Monto Neto </p>
                                       <p class="col-md-6" v-text="'s/. '+(montocuota*tipocambio).toFixed(2)"></p>
                                   </div>
                                   <div class="row">
@@ -215,14 +127,7 @@
                                           </div>
                                       </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="wrapper d-flex justify-content-between">
-                                            <div class="side-left">
-                                                <p class="mb-2 font-weight-bold">Saldo pendiente</p>
-                                                <p class="mb-4 font-weight-light" v-text="'S/. '+saldopendientecuota"></p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                
                                   </div>
                                   <div class="row">
                                         <div class="wrapper d-flex justify-content-between">
@@ -232,18 +137,20 @@
                                             </div>
                                         </div>
                                     </div>
-                                   <!--<div class="row">
+                                   <div class="row">
                                       <div class="wrapper d-flex justify-content-between">
                                           <div class="side-left">
-                                              <p class="mb-2 font-weight-bold">Fecha de desembolso</p>
-                                              <p class="mb-4 font-weight-light" v-text="fechahoy"></p>
+                                            <p class="text-light bg-warning pl-1">
+                                              <i class="fa fa-exclamation-triangle"></i>
+                                              EL ENLACE LE REDIRECCIONARÁ A LA ÚLTIMA CUOTA SIN PAGAR</p>
+                                          
                                           </div>
                                       </div>
-                                    </div>-->
+                                    </div>
                                   <div class="row">
                                       <div class="col-md-12">
                                          
-                                              <button class="btn btn-success col-md-12" @click="showpagocuota=true;">
+                                              <button class="btn btn-success col-md-12" @click="vistaPagar=true;showpagocuota=true;">
                                                <i class="fa fa-cash-register"></i>Ir a pagos</button>
                                           
                                       </div>
@@ -292,10 +199,31 @@
     </template>
 <!-- FIN CALENDARIO CUOTAS PENDIENTES -->
 
+  <!-- INICIO PAGO DE CUOTA -->
+    <template v-if="vistaPagar">
+            <button type="button" class="btn btn-outline-success btn-sm" 
+            @click="
+            showpagocuota=false;
+            showpagoporcion=false;
+            vistaPagar=false;
+            limpiarDatos();
+            listarCuotasPendientes()
+            
+            "
+            >
+                <i class="fa fa-mail-reply"></i>Regresar a Pagos 
+            </button>
+           
+            <pagarcuota :idcliente="personacredito_id" ></pagarcuota>
+            
+    </template>
+    <!-- FIN PAGO DE CUOTA -->
+
    </main>
 </template>
 
 <script>
+import vSelect from 'vue-select'
 import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -325,9 +253,12 @@ export default {
         // { title: "Event Now", start: new Date(), nuevaprop: 'NP' }
       ],
 
+      vistaPagar:false,
+      personacredito_id:0,
       dniBuscar: '',
 
       idcuota: '',
+      numerocuota:'',
       idkiva: '',
       nombrecliente: '',
       dni: '',
@@ -351,10 +282,42 @@ export default {
 
       showdetalle: false,
       showpagocuota: false,
-      showpagoporcion: false
+      showpagoporcion: false,
+
+        arrayCliente:[],
     };
   },
+  components:{
+            vSelect
+        
+        },
   methods: {
+
+       //COGER DTOS DEL CLIENTE PARA VISTA DETALLE
+            getDatosCliente(val1){
+                let me=this;
+                me.loading=true;
+                me.personacredito_id=val1.id;
+                me.dni=val1.dni;
+                me.nombrecliente=val1.nombre+" "+val1.apellidopaterno+" "+val1.apellidomaterno;
+               
+            },
+               selectCliente(search, loading){
+                 let me=this;
+                 loading(true)
+                var url= this.ruta+'/cliente/todosselectCliente?filtro='+search;
+                axios.get(url).then(function (response) {
+                    let respuesta= response.data;
+                    q:search;
+                    me.arrayCliente = respuesta.clientes;
+                    loading(false)
+                    
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+
     toggleWeekends() {
       this.calendarWeekends = !this.calendarWeekends; // update a property
     },
@@ -391,6 +354,8 @@ export default {
       let cuota = evento.extendedProps.cuota;
       
       this.idcuota = cuota.id;
+      this.numerocuota = cuota.numerocuota;
+       this.personacredito_id=cuota.idpersona;
       this.idkiva = cuota.idkiva;
       this.nombrecliente = cuota.nombre + " " + cuota.apellidopaterno + " " + cuota.apellidomaterno;
       this.dni = cuota.dni;
@@ -405,85 +370,8 @@ export default {
 
       this.showdetalle = true;
     },
-    pagarCuota: function(){
-      axios.put(this.ruta+'/cuota/pagar',{
-        'id': this.idcuota,
-        'descripcion': this.descpagocuota
-      })
-        .then(res => {
-          Swal.fire({
-              position: 'top-end',
-              type: 'success',
-              title: 'El pago se realizó correctamente',
-              showConfirmButton: false,
-              timer: 1500
-            })
-
-          this.listarCuotasPendientes();
-          this.showpagocuota = false;
-        })
-        .catch(err => {
-            Swal.fire({
-              position: 'top-end',
-              type: 'error',
-              title: 'Error, No se realizó el pago',
-              showConfirmButton: false,
-              timer: 1500
-            })
-        });
-
-        let cuotaid = this.idcuota;
-
-        this.generarboucher(cuotaid);
-        this.limpiarDatos();
-    },
-    pagarPorcionCuota: function(){
-
-      if(this.montoporcion == 0){
-        Swal.fire({
-          title: 'Debe ingresar un monto mayor a cero',
-          animation: true,
-          customClass: {
-            popup: 'animated tada'
-          }
-        })
-        return;
-      }
-
-      axios.post(this.ruta+'/cuota/porcion',{
-        'id': this.idcuota,
-        'monto': this.montoporcion,
-        'otroscostos': this.otroscostosporcion,
-        'descripcion': this.descpagoporcion
-      })
-        .then(res => {
-          Swal.fire({
-              position: 'top-end',
-              type: 'success',
-              title: 'El pago se realizó correctamente',
-              showConfirmButton: false,
-              timer: 1500
-            })
-
-          this.listarCuotasPendientes();
-          this.showpagocuota = false;
-          this.showpagoporcion = false;
-        })
-        .catch(err => {
-            Swal.fire({
-              position: 'top-end',
-              type: 'error',
-              title: 'Error, No se completó el pago',
-              showConfirmButton: false,
-              timer: 1500
-            })
-        });
-
-        this.limpiarDatos();
-    },
-    generarboucher: function(idcuota){
-        window.open(this.ruta+'/credito/detallecuotapdf/'+idcuota+'','_blank');
-    },
+   
+    
     listarCuotasPendientes: function(){
 
       this.calendarEvents = [];
@@ -550,6 +438,7 @@ export default {
             this.otroscostoscuota = cuotas[0].otroscostos;
             this.saldopendientecuota = cuotas[0].saldopendiente;
             this.tipocambio = cuotas[0].tipocambio;
+            this.personacredito_id=cuotas[0].idpersona;
 
             this.showpagocuota = true;
           }

@@ -156,6 +156,20 @@ class ClienteController extends Controller
 
         return ['clientes' => $clientes];
     }
+    public function todosselectCliente(Request $request){
+        //if (!$request->ajax()) return redirect('/');
+
+        $filtro = $request->filtro;
+
+        $clientes = Cliente::join('personas','clientes.id','=','personas.id')
+        ->where('clientes.estadocredito', '=', '1') //cclientes con credito
+        ->where('clientes.estado', '=', '1') //cliente activo
+        ->where('personas.dni', 'like', '%'. $filtro . '%')
+        ->select('personas.id','personas.nombre','personas.apellidopaterno','personas.apellidomaterno','personas.dni','clientes.estadocredito')
+        ->orderBy('personas.nombre', 'asc')->get();
+
+        return ['clientes' => $clientes];
+    }
     public function desactivar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');
